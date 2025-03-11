@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forbes India - Cache Clearing Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .container {
+            width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        h1 {
+            font-size: 22px;
+            text-align: center;
+        }
+
+        input, select, button, .external-link {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .external-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+            height: 50px;
+        }
+
+        .external-link:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Forbes India - Cache Tools</h1>
+    <div class="wrapper">
+        <div class="container">
+            <h2>Step 1: Clear Cache</h2>
+            <form onsubmit="clearCache(); return false;">
+                <label for="url">Enter URL:</label>
+                <input type="text" id="url" placeholder="https://example.com" required>
+
+                <label for="version">Select Version:</label>
+                <select id="version">
+                    <option value="1">Version 1</option>
+                    <option value="2">Version 2</option>
+                    <option value="3">Version 3</option>
+                    <option value="4">Version 4</option>
+                    <option value="5">Version 5</option>
+                    <option value="6">Version 6</option>
+                    <option value="7">Version 7</option>
+                    <option value="8">Version 8</option>
+                    <option value="9">Version 9</option>
+                    <option value="10">Version 10</option>
+                    <option value="11">Version 11</option>
+                    <option value="12">Version 12</option>
+                    <option value="13">Version 13</option>
+                    <option value="14">Version 14</option>
+                    <option value="15">Version 15</option>
+                </select>
+
+                <button type="submit">Clear Cache</button>
+            </form>
+        </div>
+        <div class="container">
+            <h2>Step 2: Purge URL API</h2>
+            <a class="external-link" href="https://cms.forbesindia.com/wp-admin/admin.php?page=purge_url_api" target="_blank">🔗 Go to Purge URL API</a>
+        </div>
+    </div>
+
+    <script>
+        function clearCache() {
+            var url = document.getElementById('url').value.trim();
+            var version = document.getElementById('version').value;
+            
+            if (url === "") {
+                alert("Please enter a valid URL");
+                return;
+            }
+
+            var modifiedUrl = url + '?rd=1&v=' + version;
+            
+            fetch(modifiedUrl, { method: 'GET' })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Cache cleared successfully for ' + modifiedUrl);
+                    } else {
+                        alert('Failed to clear cache for ' + modifiedUrl);
+                    }
+                })
+                .catch(() => alert('Error clearing cache. Please check the URL and try again.'));
+        }
+    </script>
+</body>
+</html>
