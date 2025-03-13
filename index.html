@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -118,6 +119,10 @@
                 </form>
             </div>
             <div class="container">
+                <h2>Daily Edit Meeting</h2>
+                <a class="external-link" href="https://meet.google.com/ctc-xtox-abs" target="_blank">Join Meeting</a>
+            </div>
+            <div class="container">
                 <h2>Frequently Used Platforms/Tools</h2>
                 <a class="external-link" href="https://cms.forbesindia.com/wp-admin/edit.php" target="_blank">Blog WordPress</a>
                 <a class="external-link" href="https://webstories.news18.com/wp-admin/edit.php?post_type=web-story&page=stories-dashboard" target="_blank">Webstories CMS</a>
@@ -132,10 +137,41 @@
                 <h2>Step 2: Purge URL API</h2>
                 <a class="external-link" href="https://cms.forbesindia.com/wp-admin/admin.php?page=purge_url_api" target="_blank">🔗 Go to Purge URL API</a>
             </div>
-            <div class="container">
-                <h2>Daily Edit Meeting</h2>
-                <a class="external-link" href="https://meet.google.com/ctc-xtox-abs" target="_blank">Join Meeting</a>
-            </div>
+<div class="container">
+    <h2>Generate Cache Purge URL for Preview Pages</h2>
+    <form onsubmit="generateURL(); return false;">
+        <label for="generate-url">Enter URL:</label>
+        <input type="text" id="generate-url" placeholder="https://www.forbesindia.com/showstory.php?flag=p&id=95542" required>
+        
+        <label for="generate-version">Select Version:</label>
+        <select id="generate-version">
+            <option value="1">Version 1</option>
+            <option value="2">Version 2</option>
+            <option value="3">Version 3</option>
+            <option value="4">Version 4</option>
+            <option value="5">Version 5</option>
+            <option value="6">Version 6</option>
+            <option value="7">Version 7</option>
+            <option value="8">Version 8</option>
+            <option value="9">Version 9</option>
+            <option value="10">Version 10</option>
+            <option value="11">Version 11</option>
+            <option value="12">Version 12</option>
+            <option value="13">Version 13</option>
+            <option value="14">Version 14</option>
+            <option value="15">Version 15</option>
+        </select>
+
+        <button type="submit">Generate URL</button>
+    </form>
+    <div id="output" style="display: none;">
+        <p><strong>Generated URL:</strong></p>
+        <div class="generated-url" id="generatedUrl"></div>
+        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
+    </div>
+</div>
+
+
             <div class="container">
                 <h2>Article CMS Password Policy to Remember</h2>
                 <ul>
@@ -172,6 +208,27 @@
                 })
                 .catch(() => alert('Error clearing cache. Please check the URL and try again.'));
         }
+function generateURL() {
+    const url = document.getElementById('generate-url').value.trim();
+    const version = document.getElementById('generate-version').value;
+    
+    if (url === "") {
+        alert("Please enter a valid URL.");
+        return;
+    }
+
+    const finalUrl = `${url}&rd=1&v=${version}`;
+    document.getElementById('generatedUrl').textContent = finalUrl;
+    document.getElementById('output').style.display = 'block';
+}
+
+function copyToClipboard() {
+    const generatedUrl = document.getElementById('generatedUrl').textContent;
+    navigator.clipboard.writeText(generatedUrl)
+        .then(() => alert("URL copied to clipboard!"))
+        .catch(() => alert("Failed to copy URL."));
+}
+
     </script>
 </body>
 </html>
