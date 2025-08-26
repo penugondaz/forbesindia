@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Forbes India - Cache Clearing Tool</title>
+    <title>Forbes India - Admin Panel</title>
     <link rel="shortcut icon" href="https://i.forbesimg.com/48X48-F.png" type="image/x-icon" />
     <style>
         body {
@@ -48,10 +47,10 @@
             text-align: center;
         }
 
-        input, select, button, .external-link {
+        input, select, button, .external-link, .copy-button, .open-link-button {
             width: 100%;
             padding: 10px;
-            margin: 10px -12px;
+            margin: 10px 0; /* Adjusted margin to prevent overlap */
             border-radius: 27px;
             border: 1px solid #ccc;
         }
@@ -65,6 +64,18 @@
 
         button:hover {
             background-color: #007BFF;
+        }
+        
+        .copy-button, .open-link-button {
+            width: 49%;
+            margin: 5px 0;
+            background-color: #555;
+            color: white;
+            border: none;
+        }
+        
+        .copy-button:hover, .open-link-button:hover {
+            background-color: #777;
         }
 
         .external-link {
@@ -83,19 +94,73 @@
         .external-link:hover {
             background-color: #7ea6e0;
         }
+        
+        .article-info {
+            padding: 15px;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+        .article-info h2 {
+            font-size: 18px;
+            margin-top: 0;
+            text-align: center;
+        }
+        .article-info p {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        .article-info strong {
+            color: #333;
+        }
+        .error-message {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .loading-message {
+            color: #3498db;
+            font-style: italic;
+            margin-top: 10px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        #output p {
+            margin: 0;
+        }
+        #output .generated-url {
+            word-wrap: break-word;
+            font-size: 14px;
+            color: #333;
+            background: #eef;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
     <img class="logo" src="https://images.forbesindia.com/media/image_uploads/footer-forbes-logo1.png" alt="Forbes India Logo">
-    <h1>Forbes India - Cache Tools</h1>
+    <h1>Forbes India - Admin Panel</h1>
     <div class="wrapper">
         <div class="column">
+            <div class="container">
+                <h2>Article Details Lookup</h2>
+                <div class="input-section">
+                    <label for="articleIdInput">Enter Article ID:</label>
+                    <input type="text" id="articleIdInput" placeholder="e.g., 96660">
+                    <button onclick="fetchArticle()">Get Article Info</button>
+                </div>
+                <div id="article-details">
+                    <p>Enter an article ID to view its details.</p>
+                </div>
+            </div>
+
             <div class="container">
                 <h2>Step 1: Clear Cache</h2>
                 <form onsubmit="clearCache(); return false;">
                     <label for="url">Enter URL:</label>
                     <input type="text" id="url" placeholder="https://www.forbesindia.com" required>
-
                     <label for="version">Select Version:</label>
                     <select id="version">
                     <option value="1">Version 1</option>
@@ -114,14 +179,24 @@
                     <option value="14">Version 14</option>
                     <option value="15">Version 15</option>
                     </select>
-
                     <button type="submit">Clear Cache</button>
                 </form>
             </div>
+            
+            <div class="container">
+                <h2>Hard Refresh Any Page</h2>
+                <label for="target-url">Enter Page URL:</label>
+                <input type="text" id="target-url" placeholder="https://www.forbesindia.com/some-page" required>
+                <button onclick="hardRefreshPage()">Hard Refresh</button>
+            </div>
+
             <div class="container">
                 <h2>Daily Edit Meeting</h2>
                 <a class="external-link" href="https://meet.google.com/ctc-xtox-abs" target="_blank">Join Meeting</a>
             </div>
+        </div>
+
+        <div class="column">
             <div class="container">
                 <h2>Frequently Used Platforms/Tools</h2>
                 <a class="external-link" href="https://cms.forbesindia.com/wp-admin/edit.php" target="_blank">Blog WordPress</a>
@@ -131,47 +206,44 @@
                 <a class="external-link" href="https://www.forbesindia.com/genindex.php?rd=1" target="_blank">Homepage Preview</a>
                 <a class="external-link" href="https://www.forbesindia.com/genhtml/gencron_all.php?id=0" target="_blank">Generate Homepage</a>
             </div>
-        </div>
-        <div class="column">
+
             <div class="container">
                 <h2>Step 2: Purge URL API</h2>
                 <a class="external-link" href="https://cms.forbesindia.com/wp-admin/admin.php?page=purge_url_api" target="_blank">🔗 Go to Purge URL API</a>
             </div>
-<div class="container">
-    <h2>Generate Cache Purge URL for Preview Pages</h2>
-    <form onsubmit="generateURL(); return false;">
-        <label for="generate-url">Enter URL:</label>
-        <input type="text" id="generate-url" placeholder="https://www.forbesindia.com/showstory.php?flag=p&id=95542" required>
-        
-        <label for="generate-version">Select Version:</label>
-        <select id="generate-version">
-            <option value="1">Version 1</option>
-            <option value="2">Version 2</option>
-            <option value="3">Version 3</option>
-            <option value="4">Version 4</option>
-            <option value="5">Version 5</option>
-            <option value="6">Version 6</option>
-            <option value="7">Version 7</option>
-            <option value="8">Version 8</option>
-            <option value="9">Version 9</option>
-            <option value="10">Version 10</option>
-            <option value="11">Version 11</option>
-            <option value="12">Version 12</option>
-            <option value="13">Version 13</option>
-            <option value="14">Version 14</option>
-            <option value="15">Version 15</option>
-        </select>
 
-        <button type="submit">Generate URL</button>
-    </form>
-    <div id="output" style="display: none;">
-        <p><strong>Generated URL:</strong></p>
-        <div class="generated-url" id="generatedUrl"></div>
-        <button class="copy-button" onclick="copyToClipboard()">Copy to Clipboard</button>
-        <button class="open-link-button" onclick="openPreviewUrl()">Open URL
-    </div>
-</div>
-
+            <div class="container">
+                <h2>Generate Cache Purge URL for Preview Pages</h2>
+                <form onsubmit="generateURL(); return false;">
+                    <label for="generate-url">Enter URL:</label>
+                    <input type="text" id="generate-url" placeholder="https://www.forbesindia.com/showstory.php?flag=p&id=95542" required>
+                    <label for="generate-version">Select Version:</label>
+                    <select id="generate-version">
+                        <option value="1">Version 1</option>
+                        <option value="2">Version 2</option>
+                        <option value="3">Version 3</option>
+                        <option value="4">Version 4</option>
+                        <option value="5">Version 5</option>
+                        <option value="6">Version 6</option>
+                        <option value="7">Version 7</option>
+                        <option value="8">Version 8</option>
+                        <option value="9">Version 9</option>
+                        <option value="10">Version 10</option>
+                        <option value="11">Version 11</option>
+                        <option value="12">Version 12</option>
+                        <option value="13">Version 13</option>
+                        <option value="14">Version 14</option>
+                        <option value="15">Version 15</option>
+                    </select>
+                    <button type="submit">Generate URL</button>
+                </form>
+                <div id="output" style="display: none;">
+                    <p><strong>Generated URL:</strong></p>
+                    <div class="generated-url" id="generatedUrl"></div>
+                    <button class="copy-button" onclick="copyToClipboard()">Copy</button>
+                    <button class="open-link-button" onclick="openPreviewUrl()">Open URL</button>
+                </div>
+            </div>
 
             <div class="container">
                 <h2>Article CMS Password Policy to Remember</h2>
@@ -186,8 +258,55 @@
             </div>
         </div>
     </div>
-
+    
     <script>
+        // Article Lookup JS
+        async function fetchArticle() {
+            const articleId = document.getElementById('articleIdInput').value;
+            const articleDetailsDiv = document.getElementById('article-details');
+
+            articleDetailsDiv.innerHTML = '<p class="loading-message">Fetching article data...</p>';
+
+            if (!articleId) {
+                articleDetailsDiv.innerHTML = '<p class="error-message">Please enter an Article ID.</p>';
+                return;
+            }
+
+            const apiUrl = `https://api.forbesindia.com/nodeapi/v1/frb/get-article?article_id=${articleId}`;
+
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                if (data.status === false) {
+                     articleDetailsDiv.innerHTML = `<p class="error-message">Error: ${data.message}</p>`;
+                     return;
+                }
+
+                const articleData = data.data;
+                const headline = articleData.headline;
+                const metaDescription = articleData.meta_description;
+                const articleUrl = articleData.weburl;
+
+                articleDetailsDiv.innerHTML = `
+                    <div class="article-info">
+                        <h2>Article Details for ID: ${articleId}</h2>
+                        <p><strong>Headline:</strong> ${headline}</p>
+                        <p><strong>Meta Description:</strong> ${metaDescription || 'No meta description provided.'}</p>
+                        <p><strong>Article URL:</strong> <a href="${articleUrl}" target="_blank">${articleUrl}</a></p>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Failed to fetch article:', error);
+                articleDetailsDiv.innerHTML = `<p class="error-message">Failed to fetch data. Please check the Article ID and your network connection.</p>`;
+            }
+        }
+
+        // Your existing JS functions
         function clearCache() {
             var url = document.getElementById('url').value.trim();
             var version = document.getElementById('version').value;
@@ -209,26 +328,28 @@
                 })
                 .catch(() => alert('Error clearing cache. Please check the URL and try again.'));
         }
-function generateURL() {
-    const url = document.getElementById('generate-url').value.trim();
-    const version = document.getElementById('generate-version').value;
-    
-    if (url === "") {
-        alert("Please enter a valid URL.");
-        return;
-    }
 
-    const finalUrl = `${url}&rd=1&v=${version}`;
-    document.getElementById('generatedUrl').textContent = finalUrl;
-    document.getElementById('output').style.display = 'block';
-}
+        function generateURL() {
+            const url = document.getElementById('generate-url').value.trim();
+            const version = document.getElementById('generate-version').value;
+            
+            if (url === "") {
+                alert("Please enter a valid URL.");
+                return;
+            }
 
-function copyToClipboard() {
-    const generatedUrl = document.getElementById('generatedUrl').textContent;
-    navigator.clipboard.writeText(generatedUrl)
-        .then(() => alert("URL copied to clipboard!"))
-        .catch(() => alert("Failed to copy URL."));
-}
+            const finalUrl = `${url}&rd=1&v=${version}`;
+            document.getElementById('generatedUrl').textContent = finalUrl;
+            document.getElementById('output').style.display = 'block';
+        }
+
+        function copyToClipboard() {
+            const generatedUrl = document.getElementById('generatedUrl').textContent;
+            navigator.clipboard.writeText(generatedUrl)
+                .then(() => alert("URL copied to clipboard!"))
+                .catch(() => alert("Failed to copy URL."));
+        }
+        
         function openPreviewUrl() {
             const generatedUrl = document.getElementById('generatedUrl').textContent;
             if (generatedUrl) {
@@ -238,6 +359,18 @@ function copyToClipboard() {
             }
         }
 
+        function hardRefreshPage() {
+            let urlInput = document.getElementById('target-url').value.trim();
+
+            if (urlInput === "") {
+                alert("Please enter a valid URL");
+                return;
+            }
+
+            let refreshedURL = urlInput + (urlInput.includes("?") ? "&" : "?") + "cache_bust=" + new Date().getTime();
+
+            window.open(refreshedURL, "_blank");
+        }
     </script>
 </body>
 </html>
