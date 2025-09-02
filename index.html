@@ -200,6 +200,38 @@
         .article-info a {
             word-break: break-all;
         }
+        .article-info .social-share-container {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Social Share Buttons */
+        .social-share-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .social-share-buttons a {
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: bold;
+        }
+        .social-share-buttons a:hover {
+            opacity: 0.8;
+        }
+        .btn-facebook { background-color: #1877F2; }
+        .btn-x { background-color: #000; }
+        .btn-linkedin { background-color: #0A66C2; }
+        .btn-whatsapp { background-color: #25D366; }
+        .btn-telegram { background-color: #0088CC; }
 
         /* Status & Info Messages */
         .info-message {
@@ -293,31 +325,6 @@
             <a class="external-link" href="https://cms.forbesindia.com/wp-admin/admin.php?page=purge_url_api" target="_blank">🔗 Go to Purge URL API</a>
         </div>
         <div class="container">
-            <h2>Generate Cache Purge URL for Preview Pages</h2>
-            <form onsubmit="generateURL(); return false;">
-                <label for="generate-url">Enter URL:</label>
-                <input type="text" id="generate-url" placeholder="https://www.forbesindia.com/showstory.php?flag=p&id=95542" required>
-                <label for="generate-version">Select Version:</label>
-                <select id="generate-version">
-                    <script>
-                        for (let i = 1; i <= 15; i++) {
-                            document.write(`<option value="${i}">Version ${i}</option>`);
-                        }
-                    </script>
-                </select>
-                <button type="submit" class="btn-primary">Generate URL</button>
-            </form>
-            <div id="output" style="display: none;">
-                <strong>Generated URL:</strong>
-                <div class="generated-url" id="generatedUrl"></div>
-                <div class="output-buttons">
-                    <button class="btn-secondary" onclick="copyToClipboard('generatedUrl', 'URL copied to clipboard!')">Copy URL</button>
-                    <button class="btn-secondary" onclick="openPreviewUrl()">Open URL</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
             <h2>Article Details Lookup</h2>
             <label for="articleIdInput">Enter Article ID:</label>
             <input type="text" id="articleIdInput" placeholder="e.g., 96660">
@@ -326,10 +333,7 @@
                 <p class="info-message">Enter an article ID to view its details.</p>
             </div>
         </div>
-        <div class="container">
-            <h2>Daily Edit Meeting</h2>
-            <a class="external-link" href="https://meet.google.com/ctc-xtox-abs" target="_blank">Join Meeting</a>
-        </div>
+
         <div class="container">
             <h2>Headline & Snippet Counter</h2>
             <textarea id="text-counter-input" placeholder="Paste your headline or text here..."></textarea>
@@ -338,7 +342,6 @@
                 <div><span id="word-count">0</span><p>Words</p></div>
             </div>
         </div>
-        
         <div class="container">
             <h2>Text Case Converter</h2>
             <textarea id="case-converter-input" placeholder="Paste text here to convert its case..."></textarea>
@@ -359,6 +362,7 @@
             <a class="external-link" href="https://www.forbesindia.com/genindex.php?rd=1" target="_blank">Homepage Preview</a>
             <a class="external-link" href="https://www.forbesindia.com/genhtml/gencron_all.php?id=0" target="_blank">Generate Homepage</a>
         </div>
+
         <div class="container">
             <h2>Article CMS Password Policy</h2>
             <ul class="policy-list">
@@ -370,16 +374,18 @@
                 <li>CMS access is restricted to nw18 domains only.</li>
             </ul>
         </div>
-        <div class="container">
-            <h2>Server Status Checker</h2>
-            <ul id="status-list" class="status-checker-list"></ul>
-            <button class="btn-primary" onclick="checkAllStatuses()">Check Server Status</button>
-        </div>
     </div>
 
     <div id="notification-container"></div>
 
     <script>
+        // Store article data globally for social sharing
+        let fetchedArticle = {
+            headline: '',
+            metaDescription: '',
+            url: ''
+        };
+
         // --- NOTIFICATION SYSTEM ---
         function showNotification(message, type = 'info') {
             const container = document.getElementById('notification-container');
@@ -422,7 +428,7 @@
         async function fetchArticle() {
             const articleId = document.getElementById('articleIdInput').value;
             const articleDetailsDiv = document.getElementById('article-details');
-
+            
             if (!articleId || isNaN(articleId)) {
                 articleDetailsDiv.innerHTML = '<p class="error-message">Please enter a valid Article ID.</p>';
                 return;
@@ -440,23 +446,33 @@
                 const data = await response.json();
 
                 if (data.status === false) {
-                     articleDetailsDiv.innerHTML = `<p class="error-message">Error: ${data.message}</p>`;
-                     return;
+                    articleDetailsDiv.innerHTML = `<p class="error-message">Error: ${data.message}</p>`;
+                    return;
                 }
 
                 const articleData = data.data;
-                const headline = articleData.headline || 'N/A';
-                const metaDescription = articleData.meta_description || 'No meta description provided.';
-                const articleUrl = articleData.weburl || '#';
+                fetchedArticle.headline = articleData.headline || 'N/A';
+                fetchedArticle.metaDescription = articleData.meta_description || 'No meta description provided.';
+                fetchedArticle.url = articleData.weburl || '#';
 
                 articleDetailsDiv.innerHTML = `
                     <div class="article-info">
                         <h3>Article Details for ID: ${articleId}</h3>
-                        <p><strong>Headline:</strong> ${headline}</p>
-                        <p><strong>Meta Description:</strong> ${metaDescription}</p>
-                        <p><strong>Article URL:</strong> <a href="${articleUrl}" target="_blank">${articleUrl}</a></p>
+                        <p><strong>Headline:</strong> ${fetchedArticle.headline}</p>
+                        <p><strong>Meta Description:</strong> ${fetchedArticle.metaDescription}</p>
+                        <p><strong>Article URL:</strong> <a href="${fetchedArticle.url}" target="_blank">${fetchedArticle.url}</a></p>
+                        <div class="social-share-container">
+                            <strong>Share this article:</strong>
+                            <div class="social-share-buttons">
+                                <a href="#" class="btn-facebook" onclick="shareOnFacebook(); return false;">Facebook</a>
+                                <a href="#" class="btn-linkedin" onclick="shareOnLinkedIn(); return false;">LinkedIn</a>
+                                <a href="#" class="btn-x" onclick="shareOnX(); return false;">X</a>
+                                <a href="#" class="btn-whatsapp" onclick="shareOnWhatsApp(); return false;">WhatsApp</a>
+                            </div>
+                        </div>
                     </div>
                 `;
+                
                 showNotification(`Details for article ID ${articleId} fetched.`, 'success');
 
             } catch (error) {
@@ -464,6 +480,33 @@
                 articleDetailsDiv.innerHTML = `<p class="error-message">Failed to fetch data. Please check the Article ID and your network connection.</p>`;
                 showNotification("Failed to fetch article data.", "error");
             }
+        }
+
+        // --- SOCIAL SHARING FUNCTIONS ---
+        function shareOnFacebook() {
+            if (!fetchedArticle.url) { showNotification("Please fetch an article first.", "error"); return; }
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(fetchedArticle.url)}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnX() {
+            if (!fetchedArticle.url) { showNotification("Please fetch an article first.", "error"); return; }
+            const shareText = encodeURIComponent(`${fetchedArticle.metaDescription} Read the full article:`);
+            const shareUrl = `https://x.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(fetchedArticle.url)}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnLinkedIn() {
+            if (!fetchedArticle.url) { showNotification("Please fetch an article first.", "error"); return; }
+            const shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(fetchedArticle.url)}&title=${encodeURIComponent(fetchedArticle.headline)}&summary=${encodeURIComponent(fetchedArticle.metaDescription)}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
+        }
+
+        function shareOnWhatsApp() {
+            if (!fetchedArticle.url) { showNotification("Please fetch an article first.", "error"); return; }
+            const shareText = encodeURIComponent(`${fetchedArticle.headline}\n${fetchedArticle.metaDescription}\n${fetchedArticle.url}`);
+            const shareUrl = `https://api.whatsapp.com/send?text=${shareText}`;
+            window.open(shareUrl, '_blank', 'width=600,height=400');
         }
 
         // --- UTILITY FUNCTIONS ---
@@ -482,41 +525,7 @@
             }
             document.body.removeChild(textArea);
         }
-
-        // --- SERVER STATUS CHECKER ---
-        const servers = [
-            { name: 'Forbes India Home', url: 'https://www.forbesindia.com/' },
-            { name: 'Article CMS', url: 'https://cms-article.forbesindia.com/' },
-            { name: 'Blog WordPress', url: 'https://cms.forbesindia.com/wp-admin' },
-            { name: 'Webstories CMS', url: 'https://webstories.news18.com/wp-admin' }
-        ];
-        function initializeStatusList() {
-            const list = document.getElementById('status-list');
-            list.innerHTML = '';
-            servers.forEach((server, index) => {
-                list.innerHTML += `<li class="status-item"><span>${server.name}</span><div class="status-indicator"><div class="status-dot" id="status-dot-${index}"></div><span id="status-text-${index}">Pending</span></div></li>`;
-            });
-        }
-        async function checkStatus(server, index) {
-            const dot = document.getElementById(`status-dot-${index}`);
-            const text = document.getElementById(`status-text-${index}`);
-            try {
-                await fetch(server.url, { mode: 'no-cors', cache: 'no-cache' });
-                dot.className = 'status-dot online';
-                text.textContent = 'Online';
-            } catch (error) {
-                dot.className = 'status-dot offline';
-                text.textContent = 'Offline';
-            }
-        }
-        function checkAllStatuses() {
-            showNotification("Checking server statuses...", "info");
-            servers.forEach((server, i) => {
-                document.getElementById(`status-text-${i}`).textContent = 'Checking...';
-                checkStatus(server, i);
-            });
-        }
-
+        
         // --- TEXT COUNTER ---
         document.getElementById('text-counter-input').addEventListener('input', (e) => {
             const text = e.target.value;
@@ -558,10 +567,6 @@
             copyToClipboard('case-converter-input', 'Converted text copied!');
         }
 
-        // --- INITIALIZE ON PAGE LOAD ---
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeStatusList();
-        });
     </script>
 </body>
 </html>
