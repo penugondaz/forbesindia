@@ -3,23 +3,31 @@ from bs4 import BeautifulSoup
 import json
 import os
 
-URL = "https://www.moneycontrol.com/earnings-calendar"
+URL = "https://www.bseindia.com/corporates/Forth_Results.html"
 DATA_FILE = "earnings_data.json"
 
 def fetch_data():
-    response = requests.get(URL, timeout=20)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    }
+
+    response = requests.get(URL, headers=headers, timeout=20)
     soup = BeautifulSoup(response.text, "html.parser")
 
-    rows = soup.select("table tbody tr")
+    rows = soup.select("table tr")
     results = []
 
     for row in rows:
         cols = [c.get_text(strip=True) for c in row.find_all("td")]
-        if len(cols) >= 3:
+
+        # BSE rows usually have 7 to 9 columns
+        if len(cols) >= 5:
             results.append({
-                "date": cols[0],
-                "company": cols[1],
-                "quarter": cols[2]
+                "company": cols[0],
+                "quarter": cols[1],
+                "date": cols[2],
+                "time": cols[3],
+                "exchange": "BSE"
             })
 
     return results
@@ -38,15 +46,17 @@ def main():
     new_data = fetch_data()
     old_data = load_old()
 
-    old_keys = {
-        f"{i['date']}|{i['company']}|{i['quarter']}"
-        for i in old_data
-    }
+   old_keys = {
+    f"{i['company']}|{i['quarter']}"
+    for i in old_data
+}
 
-    diff = [
-        i for i in new_data
-        if f"{i['date']}|{i['company']}|{i['quarter']}" not in old_keys
-    ]
+
+diff = [
+    i for i in new_data
+    if f"{i['company']}|{i['quarter']}" not in old_keys
+]
+
 
     if diff:
         print("NEW_ENTRIES_FOUND")
