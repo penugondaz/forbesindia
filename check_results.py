@@ -46,17 +46,15 @@ def main():
     new_data = fetch_data()
     old_data = load_old()
 
-   old_keys = {
-    f"{i['company']}|{i['quarter']}"
-    for i in old_data
-}
+    old_keys = set()
+    for i in old_data:
+        old_keys.add(f"{i['company']}|{i['quarter']}")
 
-
-diff = [
-    i for i in new_data
-    if f"{i['company']}|{i['quarter']}" not in old_keys
-]
-
+    diff = []
+    for i in new_data:
+        key = f"{i['company']}|{i['quarter']}"
+        if key not in old_keys:
+            diff.append(i)
 
     if diff:
         print("NEW_ENTRIES_FOUND")
@@ -64,6 +62,7 @@ diff = [
             print(d)
 
     save_new(new_data)
+
 
 if __name__ == "__main__":
     main()
