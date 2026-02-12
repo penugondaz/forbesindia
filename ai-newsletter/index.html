@@ -1,1 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forbes India Weekly BUSINESS DIGEST</title>
+    <style>
+        /* Global & Reset Styles */
+        body, table, td, a {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+            /* Ensures no extra space in Outlook */
+            border-collapse: collapse !important; 
+        }
+        img {
+            -ms-interpolation-mode: bicubic;
+            /* Prevents image borders in some clients */
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #F8F9FA; 
+            color: #333333;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Times New Roman', serif;
+            margin: 0;
+            line-height: 1.2;
+            color: #1a1a1a;
+        }
+        p {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin-bottom: 15px; 
+            color: #555555;
+        }
+        p:last-child {
+            margin-bottom: 0;
+        }
+        a {
+            text-decoration: none;
+            color: #0D3B66;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 16px; 
+            overflow: hidden;
+            background-color: #ffffff;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+        }
+        /* Important: Use specific classes for padding and background to avoid inline style conflicts */
+        .section {
+            padding: 40px 30px;
+        }
+        .divider {
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        /* Specific Component Styles */
+        .header {
+            padding: 24px 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .header-info {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #888888;
+            text-transform: uppercase;
+        }
+        .intro-text {
+            font-family: 'Times New Roman', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: #6c757d;
+        }
+        .story-block {
+            padding: 20px 30px; 
+            border-bottom: 1px solid #e9ecef;
+        }
+        .story-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .quote-section {
+            background-color: #E6EEF5;
+            color: #0D3B66;
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+            padding: 40px 30px;
+            border-radius: 0 0 16px 16px;
+        }
+        .footer {
+            padding: 40px 30px;
+            background-color: #ffffff;
+        }
+
+        /* Divider */
+        .stories-divider-container {
+            /*padding: 15px 30px 10px 30px; */
+            background-color: #ffffff; 
+        }
+        .stories-divider {
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #0D3B66; 
+            background-color: #F0F8FF; 
+            padding: 12px 20px;
+            text-align: center;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 8px; 
+            border-left: 5px solid #0D3B66; 
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Story Number Badge Styling */
+        .story-number-badge {
+            font-family: Arial, sans-serif; 
+            font-size: 20px; 
+            font-weight: 900;
+            color: #0D3B66; 
+            background-color: #E0EFFF; 
+            padding: 8px 12px;
+            line-height: 1;
+            border-radius: 6px; 
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        /* Table of Contents (In this edition) Styling */
+        .toc-box {
+            background-color: #F7F7F7; 
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-top: 15px; 
+            margin-bottom: 25px; /* Added spacing after TOC */
+            border-left: 4px solid #0D3B66; 
+        }
+
+        /* New: Magazine Widget Styles */
+        .magazine-widget-container {
+            padding: 20px 20px;
+            background-color: #F0F8FF; /* Light blue background for emphasis */
+            border-radius: 12px;
+            margin-bottom: 25px; 
+            border: 1px solid #C4DFFD;
+        }
+        .cover-letter-headline {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-family: 'Times New Roman', serif;
+            margin: 10px 0 5px 0;
+            line-height: 1.2;
+        }
+        .story-thumbnail {
+            width: 100%; 
+            height: auto; 
+            display: block;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+
+
+        /* Social Follow Styling */
+        .social-follow-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0D3B66;
+            margin-bottom: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Social Icon Styling (Shared) */
+        .social-icon {
+            display: block; /* Use block to ensure correct display in TD */
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        /* Specific Social Colors */
+        .icon-whatsapp { background-color: #25D366; }
+        .icon-linkedin { background-color: #0A66C2; }
+        .icon-twitter { background-color: #1DA1F2; }
+        .icon-facebook { background-color: #3b5998; }
+        .icon-instagram { background-color: #C13584; }
+
+        /* MARKET WIDGET: Replaced Flex with Table-based layout for robust compatibility */
+        .market-widget-table {
+            border: 1px solid #E9ECEF;
+            border-radius: 8px; /* May not render in all clients, but safe */
+            overflow: hidden; /* Safe wrapper */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Fails gracefully */
+            background-color: #ffffff; /* Container background */
+        }
+        .market-item-td {
+            text-align: center;
+            background-color: #F8F9FA;
+            padding: 15px 5px;
+            border-right: 1px solid #E9ECEF;
+        }
+        .market-item-td:last-child {
+            border-right: none;
+        }
+        .market-item-td .label {
+            font-size: 11px; 
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .market-item-td .value {
+            font-size: 16px; 
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+        .market-item-td .change {
+            font-size: 12px; 
+            font-weight: bold;
+            line-height: 1.2;
+        }
+        .change.positive {
+            color: #28a745; 
+        }
+        .change.negative {
+            color: #dc3545; 
+        }
+        
+        /* Mobile Responsive Styles */
+        @media only screen and (max-width: 480px) {
+            .container {
+                border-radius: 0;
+            }
+            .section {
+                padding: 20px 15px;
+            }
+            .story-block {
+                padding: 20px 15px;
+            }
+            /* --- CHANGE MADE HERE ---
+               Removed the mobile-specific styles that forced stacking 
+               for .story-img-col and .story-text-col in the Magazine Widget. 
+               This ensures the desktop side-by-side layout (image on left, text on right) 
+               persists on mobile, as requested.
+            */
+            /* .story-img-col {
+                display: block !important;
+                width: 100% !important;
+                padding-right: 0 !important; 
+                padding-bottom: 10px !important; 
+            }
+            .story-text-col {
+                display: block !important;
+                width: 100% !important;
+            }
+            .story-img-col img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+            } */
+            
+            /* IMPORTANT: On mobile, market items maintain column layout (safer for Outlook) */
+            .market-item-td {
+                width: 25% !important; /* Keep 4 columns across */
+                padding: 10px 5px !important;
+            }
+        }
+    </style>
+</head>
+
+<body style="margin:0; padding:0; background-color:#F8F9FA;">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F9FA">
+    <tr>
+        <td align="center" style="padding:20px 0;">
+            <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
+
+                <!-- Header -->
+                <tr>
+                    <td class="header" align="center">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                                <td align="left">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/11/ForbesIndiaLogo5-2025-11-8dd9c98df910d35f7144e2ab102cdacf.png"
+                                         alt="Forbes India Logo"
+                                         width="120" height="30"
+                                         style="display:block; border:0; outline:none; text-decoration:none;">
+                                </td>
+                                <td align="right" class="header-info">
+                                    <span style="font-size:12px; color:#6c757d;">
+                                        Friday, February 13, 2026                                    </span><br>
+                                    <span style="font-size:14px; font-weight:bold; color:#0D3B66; letter-spacing:1px;">
+                                        Inside.AI                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+                <!-- Story Blocks -->
+                <tr>
+                    <td class="story-block" style="padding-bottom:30px;">
+
+                        <!-- Email Summary -->
+                                                    
+
+
+<img style="width: 100%;max-width: 700px;height: auto" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/AI-2026-02-07d74991f23edcb77dd1d14154df3edf.jpg" alt="AI related image" />
+
+
+
+<p>Welcome to the very first edition of Inside.AI—Forbes India’s weekly newsletter designed to simplify one of the world’s fastest‑moving and most complex technologies. AI is evolving at a pace where what feels groundbreaking today may already be outdated tomorrow.</p>
+                                                    <p>Our goal is to help you make sense of it all. Each week, we’ll bring you the most important updates, breakthroughs, regulations, and innovations—explained in a way that’s easy to follow, even if you’re just starting your AI journey.</p>
+                                                    <p>Stay tuned as we track the shifts shaping our digital future, one week at a time.</p>
+                                                    <p>This week in AI shows how fast things are accelerating—from India cracking down on unlabeled AI content, to Addverb debuting its made‑in‑India humanoid built for real shopfloors. Healthcare takes a futuristic turn with SuperOS running an entire hospital’s operations, while Anthropic’s new Claude Opus 4.6 raises the bar in the AI model race. Alphabet’s rare 100‑year bond signals just how long‑term the AI bet really is, and Alibaba’s RynnBrain pushes the shift toward “physical AI,” where machines don’t just process information but act in the real world.</p>
+                        
+
+                        <!-- In This Edition -->
+                                                    <div class="toc-box" style="margin-bottom:20px;">
+                                <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-top:0; margin-bottom:10px;">
+                                    In this edition:
+                                </p>
+                                <ul style="list-style-type:none; padding:0; margin:0;">
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/article/news/explained-how-indias-new-it-rules-regulate-ai-content-and-deepfakes/2991279/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                1. India tightens rules on AI‑generated content                                            </a>
+                                        </li>
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                2. Addverb unveils Elixis‑W humanoid robot                                            </a>
+                                        </li>
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                3. Superhealth launches SuperOS for autonomous hospital operations                                            </a>
+                                        </li>
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                4. Anthropic releases Claude Opus 4.6                                            </a>
+                                        </li>
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                5. Alphabet issues rare 100‑year bond to fund AI expansion                                            </a>
+                                        </li>
+                                                                            <li style="margin-bottom:8px;">
+                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                                6. Alibaba launches RynnBrain for real‑world robotics                                            </a>
+                                        </li>
+                                                                    </ul>
+                            </div>
+                        
+                        
+                        <!-- Render sections in the preserved order -->
+
+                        
+                            <!-- If widgetKey is magazine_stories or similar, render magazine style -->
+                          
+
+
+
+                            </td></tr>
+    
+                                   <tr>
+                                        <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
+                                            <div class="stories-divider">TOP STORIES</div>
+                                        </td>
+                                    </tr>
+                                    
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            1. India tightens rules on AI‑generated content                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                India has introduced some of its strongest measures yet to tackle the spread of deepfakes and misleading AI content.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                Starting February 20, 2026, all AI‑generated material must carry prominent labels along with permanent metadata tags that cannot be removed. Platforms will also face stricter deadlines: any flagged synthetic or harmful content must be taken down within 2–3 hours, significantly faster than before.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                Companies are now required to use automated systems to detect manipulated or illegal material proactively. The government says these rules aim to protect citizens from misuse of AI while ensuring accountability across digital platforms.                            </p>
+                                                                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/shutterstock2594584807BG-2026-02-8898dc31f5977be93d613b6d53159593.jpg" alt="1. India tightens rules on AI‑generated content" class="story-image" width="600" style="display:block; max-width:100%; height:auto;">
+                                                        <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/article/news/explained-how-indias-new-it-rules-regulate-ai-content-and-deepfakes/2991279/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       Read More →                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=1.+India+tightens+rules+on+AI%E2%80%91generated+content%20https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fexplained-how-indias-new-it-rules-regulate-ai-content-and-deepfakes%2F2991279%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fexplained-how-indias-new-it-rules-regulate-ai-content-and-deepfakes%2F2991279%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=1.+India+tightens+rules+on+AI%E2%80%91generated+content" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            2. Addverb unveils Elixis‑W humanoid robot                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                The humanoid‑robot era is picking up speed, and this week Addverb pushed it forward with Elixis‑W, a Made‑in‑India humanoid built for the realities of industrial shopfloors. Instead of walking on legs, it moves on wheels for greater stability and speed, and comes equipped with dual arms, dexterous hands, and adaptive mobility for precise pick‑and‑place tasks.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                At LogiMAT India 2026, Addverb also showcased new pallet shuttles, forklifts, and quadruped robots—signalling its growing ambitions in India’s rapidly evolving robotics ecosystem.
+
+
+
+<img style="width: 100%;max-width: 600px;height: auto" src="https://addverb.com/wp-content/uploads/2026/02/addverb-humanoid-robot-elixis-w.webp" alt="Addverb Humanoid Robot Elixis" />
+
+
+                            </p>
+                                                                                    <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       More stories -&gt;                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=2.+Addverb+unveils+Elixis%E2%80%91W+humanoid+robot%20https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=2.+Addverb+unveils+Elixis%E2%80%91W+humanoid+robot" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            3. Superhealth launches SuperOS for autonomous hospital operations                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                Superhealth has launched SuperOS, an AI operating system that can run nearly every aspect of a hospital automatically. Deployed at the company’s Bengaluru facility, SuperOS oversees OPD flows, diagnostics, surgeries, patient monitoring, inventory, and discharge, coordinating tasks in real time through multilingual AI agents.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                The company claims it enables zero‑wait patient experiences, faster diagnosis, and smoother clinical workflows by reducing human bottlenecks. SuperOS represents a step toward fully agentic healthcare, where AI manages end‑to‑end operations while doctors focus on medical decisions. It’s one of India’s boldest attempts at building an autonomous hospital system.
+
+
+
+<img style="width: 100%;max-width: 700px;height: auto" src="https://static.businessworld.in/benefits-of-tech-in-healthcare-scaled_20250421195050_original_image_20.webp" alt="Benefits of Tech in Healthcare" />
+
+
+                            </p>
+                                                                                    <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       More stories -&gt;                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=3.+Superhealth+launches+SuperOS+for+autonomous+hospital+operations%20https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=3.+Superhealth+launches+SuperOS+for+autonomous+hospital+operations" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            4. Anthropic releases Claude Opus 4.6                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                Anthropic continues to push its model lineup forward with the launch of Claude Opus 4.6, its most advanced system yet.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                The model introduces a massive 1‑million‑token context window, allowing it to handle huge documents and complex, multi‑step workflows with ease. It brings major gains in planning, reasoning, and long‑horizon tasks, and now supports sophisticated multi‑agent execution for more coordinated automation.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                Early benchmarks show it outperforming rivals like OpenAI’s GPT‑5.2 on coding and reasoning tests. Despite the upgrades, Anthropic has kept pricing unchanged and made Opus 4.6 available across claude.ai, the API, and major cloud platforms—turning up the competition in the race for powerful, enterprise‑grade long‑context models.
+
+
+
+<img style="width: 100%;max-width: 700px;height: auto" src="https://images.indianexpress.com/2026/02/Claude-Opus-4.6.jpg?w=1200" alt="Claude Opus 4.6" />
+
+
+                            </p>
+                                                                                    <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       More stories -&gt;                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=4.+Anthropic+releases+Claude+Opus+4.6%20https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=4.+Anthropic+releases+Claude+Opus+4.6" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            5. Alphabet issues rare 100‑year bond to fund AI expansion                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                Interestingly, Alphabet has taken an unusual step to finance its growing AI ambitions by issuing a 100‑year bond—the tech industry’s first in nearly three decades. Part of a larger $31.51 billion global fundraising, the bond drew overwhelming investor interest, with the sterling tranche alone receiving nearly ten times demand.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                The move highlights how much capital major tech firms now need to build AI data centers, chips, and cloud infrastructure. By choosing an ultra‑long maturity, Alphabet signals confidence that AI will define its next century of growth, while giving itself room to aggressively expand without near‑term repayment pressures.
+
+
+
+<img style="width: 100%;max-width: 700px;height: auto" src="https://images.indianexpress.com/2026/02/IE-2026-02-11T094535.205.jpg?w=1200" alt="Indian Express Image" />
+
+
+                            </p>
+                                                                                    <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       More stories -&gt;                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=5.+Alphabet+issues+rare+100%E2%80%91year+bond+to+fund+AI+expansion%20https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=5.+Alphabet+issues+rare+100%E2%80%91year+bond+to+fund+AI+expansion" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                
+
+                                       <tr>
+                        <td class="story-block">
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                                <tr>
+                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                        <div class="story-number-badge"></div>
+                                    </td> -->
+                                    <td valign="top">
+                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                            6. Alibaba launches RynnBrain for real‑world robotics                                        </h2>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            
+                                                        <p style="font-size:16px; color:#555555;">
+                                Alibaba has announced RynnBrain, a new AI model designed to help robots understand and interact with the physical world more naturally. RynnBrain enables robots to identify objects, navigate spaces, manipulate items, and perform structured tasks, making it useful for factories, warehouses, and service environments.                            </p>
+                                                        <p style="font-size:16px; color:#555555;">
+                                As an open‑source model, it aims to accelerate China’s push into “physical AI,” an emerging category where AI systems control real‑world machines rather than just digital tasks. With RynnBrain, Alibaba joins global players like Google, Nvidia, and Tesla, all racing to build the foundational models that will power the next generation of smart robots.
+
+
+
+<img style="width: 100%;max-width: 700px;height: auto" src="https://assets.eweek.com/uploads/2026/02/unnamed-4.jpg?w=1024" alt="Newsletter Image" />
+
+
+                            </p>
+                                                                                    <p style="margin-top:10px;">
+                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                                                       More stories -&gt;                                                    </a>
+                                                </p>
+
+                            
+
+                            
+                            <!-- Share -->
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px; border-top:1px solid #f0f0f0; padding-top:15px;">
+                                <tbody><tr>
+                                    <td align="left" style="font-family:Arial, sans-serif; font-size:14px; color:#555555; font-weight:bold;">Share This Story:</td>
+                                                                        <td align="right">
+                                        <a target="_blank" href="https://wa.me/?text=6.+Alibaba+launches+RynnBrain+for+real%E2%80%91world+robotics%20https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter" target="_blank" class="social-icon icon-whatsapp" style="background-color:#25D366; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:16px; color:#ffffff;">📱</span>
+                                        </a>
+                                        <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=6.+Alibaba+launches+RynnBrain+for+real%E2%80%91world+robotics" target="_blank" class="social-icon icon-linkedin" style="background-color:#0A66C2; width:30px; height:30px; line-height:30px; border-radius:50%; margin-right:8px; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">in</span>
+                                        </a>
+                                        <a target="_blank" href="https://twitter.com/intent/tweet?text=Reading%20this%20story%20from%20@forbes_india:%20The%20Hybrid%20Retail%20Model&amp;url=[STORY%20LINK]" target="_blank" class="social-icon icon-twitter" style="background-color:#1DA1F2; width:30px; height:30px; line-height:30px; border-radius:50%; display:inline-block;">
+                                            <span style="font-family:Arial, sans-serif; font-size:14px; font-weight:bold; color:#ffffff;">X</span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody></table>
+                        </td>
+                    </tr>
+                                           
+                                               
+                                                
+                                   
+                                
+                                                                           
+                                    
+
+                                    
+
+
+                                
+
+                                
+
+                        <!-- Subscriber widget (unchanged) -->
+                        <tr>
+                            <td align="center" style="padding: 10px 30px 30px 30px;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E6EEF5; border-radius: 12px; padding: 15px; border: 1px solid #C4DFFD;">
+                                    <tr>
+                                        <td valign="middle" style="padding-right: 15px; width: 70px;">
+                                            <img src="https://images.forbesindia.com/blog/wp-content/uploads/assets/images/V18I1ForbesIndiaCoverFinal384X512.jpg"
+                                                 alt="Forbes India Magazine Cover"
+                                                 width="70" height="auto"
+                                                 style="display:block; border:1px solid #ffffff; outline:none; text-decoration:none; border-radius: 4px;">
+                                        </td>
+                                        <td valign="middle">
+                                            <p style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #0D3B66; margin: 0 0 5px 0; line-height: 1.2;">
+                                                Become a Subscriber
+                                            </p>
+                                            <p style="font-family: Arial, sans-serif; font-size: 14px; color: #444444; margin: 0 0 10px 0;">
+                                                Get your hands on our fortnightly editions for as less as Rs 1,129 a year!
+                                            </p>
+                                            <table border="0" cellpadding="0" cellspacing="0">
+                                                <tr>
+                                                    <td align="center" bgcolor="#0D3B66" style="border-radius: 6px;">
+                                                        <a target="_blank" href="https://www.forbesindia.com/subscription" target="_blank" style="font-size: 14px; font-family: Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; padding: 8px 15px; display: block; border: 1px solid #0D3B66; border-radius: 6px; mso-padding-alt: 0; text-transform: uppercase; font-weight: bold;">
+                                                            <span style="mso-text-raise: 15pt; color: #ffffff;">Subscribe Now &rarr;</span>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <!-- Footer -->
+                        <tr>
+                            <td class="footer" align="center">
+                                <div style="padding-bottom: 25px;">
+                                    <div class="social-follow-title" style="font-size: 18px; font-weight: bold; color: #0D3B66; margin-bottom: 15px; font-family: Arial, sans-serif;">
+                                        Follow Forbes India
+                                    </div>
+                                    <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                                        <tr>
+                                            <td align="center" style="padding: 0 4px;">
+                                                <a target="_blank" href="https://twitter.com/ForbesIndia" target="_blank" style="background-color: #1DA1F2; display: block; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; color: #ffffff; font-size: 14px; font-weight: bold; text-decoration: none;">
+                                                    <span style="font-family: Arial, sans-serif; font-size: 14px; color: #ffffff;">X</span>
+                                                </a>
+                                            </td>
+                                            <td align="center" style="padding: 0 4px;">
+                                                <a target="_blank" href="https://www.linkedin.com/company/forbes-india/" target="_blank" style="background-color: #0A66C2; display: block; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; color: #ffffff; font-size: 14px; font-weight: bold; text-decoration: none;">
+                                                    <span style="font-family: Arial, sans-serif; font-size: 14px; color: #ffffff;">in</span>
+                                                </a>
+                                            </td>
+                                            <td align="center" style="padding: 0 4px;">
+                                                <a target="_blank" href="https://www.facebook.com/ForbesIndia/" target="_blank" style="background-color: #3b5998; display: block; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; color: #ffffff; font-size: 14px; font-weight: bold; text-decoration: none;">
+                                                    <span style="font-family: Arial, sans-serif; font-size: 14px; color: #ffffff;">f</span>
+                                                </a>
+                                            </td>
+                                            <td align="center" style="padding: 0 4px;">
+                                                <a target="_blank" href="https://www.instagram.com/forbesindia/" target="_blank" style="background-color: #C13584; display: block; width: 30px; height: 30px; line-height: 30px; border-radius: 50%; color: #ffffff; font-size: 16px; font-weight: bold; text-decoration: none;">
+                                                    <span style="font-family: Arial, sans-serif; font-size: 16px; color: #ffffff;">&#x1F4F8;</span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td align="center" style="font-family: Arial, sans-serif; font-size: 12px; color: #888888; line-height: 1.5; border-top: 1px solid #e9ecef; padding-top: 20px;">
+                                            <p style="margin: 0;">
+                                                You received this email because you signed up for the Forbes India Weekly Roundup newsletter. <br>
+                                                <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #0D3B66; text-decoration: underline;">Unsubscribe</a>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
 
