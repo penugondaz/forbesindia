@@ -1,170 +1,742 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Geopolitics Timeline</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #00558c; /* Forbes-esque Blue */
-            --accent: #e81d2d;  /* Alert/War Dept Red */
-            --bg: #f4f7f9;
-            --text: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI & Defence: Timeline of Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #1a1d26;
+    --border: #2a2d3a;
+    --accent-gold: #c9a84c;
+    --accent-gold-light: #f0d080;
+    --accent-red: #e05252;
+    --accent-blue: #4c8ec9;
+    --accent-green: #52c97e;
+    --text-primary: #eef0f6;
+    --text-secondary: #8b90a0;
+    --text-muted: #555a6e;
+  }
 
-        .timeline {
-            position: relative;
-            max-width: 800px;
-            width: 100%;
-            padding: 20px 0;
-        }
+  body {
+    background: var(--bg);
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        /* The vertical line */
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 4px;
-            background-color: #d1d8e0;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
 
-        .container {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-            box-sizing: border-box;
-        }
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
 
-        /* Circles on the timeline */
-        .container::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: white;
-            border: 4px solid var(--primary);
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
 
-        .left { left: 0; text-align: right; }
-        .right { left: 50%; }
+  .header-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
 
-        .right::after { left: -10px; }
+  .header-eyebrow::before,
+  .header-eyebrow::after {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--accent-gold);
+    opacity: 0.5;
+  }
 
-        .content {
-            padding: 20px;
-            background-color: white;
-            position: relative;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #eef0f6 30%, var(--accent-gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+  }
 
-        .content:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
+  .header-subtitle {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
 
-        .date {
-            font-weight: bold;
-            color: var(--primary);
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-        }
+  .header-date-range {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 20px;
+    letter-spacing: 0.1em;
+  }
 
-        .icon {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
+  /* FILTER BAR */
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
+  }
 
-        .placeholder-img {
-            width: 100%;
-            height: 120px;
-            background: #eee;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-size: 0.8rem;
-            border-radius: 4px;
-        }
+  .filter-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
 
-        h3 { margin: 10px 0; font-size: 1.2rem; }
-        p { font-size: 0.9rem; line-height: 1.4; color: #666; }
+  .filter-btn:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+  }
 
-        /* Responsive adjustment */
-        @media screen and (max-width: 600px) {
-            .timeline::after { left: 31px; }
-            .container { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
-            .container::after { left: 21px; }
-            .right { left: 0%; }
-        }
-    </style>
+  .filter-btn.active {
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  /* TIMELINE TRACK */
+  .timeline {
+    position: relative;
+  }
+
+  .timeline-track {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--border) 5%, var(--border) 95%, transparent);
+    transform: translateX(-50%);
+  }
+
+  /* EVENT CARD */
+  .event {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    gap: 0;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .event.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .event:nth-child(odd) .event-content {
+    grid-column: 1;
+    text-align: right;
+    padding-right: 36px;
+  }
+
+  .event:nth-child(odd) .event-empty {
+    grid-column: 3;
+  }
+
+  .event:nth-child(even) .event-content {
+    grid-column: 3;
+    text-align: left;
+    padding-left: 36px;
+    order: 3;
+  }
+
+  .event:nth-child(even) .event-node-col {
+    order: 2;
+  }
+
+  .event:nth-child(even) .event-empty {
+    grid-column: 1;
+    order: 1;
+  }
+
+  .event-node-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .event-node {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .event-node::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .event-node:hover::before,
+  .event.active .event-node::before {
+    border-color: var(--node-color, var(--accent-gold));
+    opacity: 0.5;
+  }
+
+  .event.active .event-node {
+    border-color: var(--node-color, var(--accent-gold));
+    box-shadow: 0 0 20px var(--node-color, var(--accent-gold)), 0 0 40px color-mix(in srgb, var(--node-color, var(--accent-gold)) 30%, transparent);
+    transform: scale(1.1);
+  }
+
+  .event-content {
+    cursor: pointer;
+  }
+
+  /* Event card */
+  .event-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 20px 22px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 2px;
+    left: 0;
+    right: 0;
+    background: var(--node-color, var(--accent-gold));
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+  }
+
+  .event:nth-child(even) .event-card::before {
+    transform-origin: left;
+  }
+
+  .event:nth-child(odd) .event-card::before {
+    transform-origin: right;
+  }
+
+  .event.active .event-card::before,
+  .event-card:hover::before {
+    transform: scaleX(1);
+  }
+
+  .event-card:hover,
+  .event.active .event-card {
+    border-color: color-mix(in srgb, var(--node-color, var(--accent-gold)) 40%, transparent);
+    background: var(--surface2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .event-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--node-color, var(--accent-gold));
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .event:nth-child(odd) .event-date {
+    justify-content: flex-end;
+  }
+
+  .event-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--node-color, var(--accent-gold)) 15%, transparent);
+    color: var(--node-color, var(--accent-gold));
+    border: 1px solid color-mix(in srgb, var(--node-color, var(--accent-gold)) 30%, transparent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .event-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+  }
+
+  /* Expandable section */
+  .event-expand {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  .event.active .event-expand {
+    max-height: 400px;
+    opacity: 1;
+  }
+
+  /* Image placeholder */
+  .event-image-placeholder {
+    width: 100%;
+    height: 120px;
+    background: var(--surface2);
+    border: 1px dashed var(--border);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    margin-top: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-image-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--node-color, var(--accent-gold)) 5%, transparent), transparent);
+  }
+
+  .placeholder-icon {
+    font-size: 24px;
+    opacity: 0.4;
+  }
+
+  .placeholder-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .event-description {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+
+  .event-source {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .event:nth-child(odd) .event-source {
+    justify-content: flex-end;
+  }
+
+  .event-source::before {
+    content: '↗';
+    color: var(--node-color, var(--accent-gold));
+  }
+
+  .read-more {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--node-color, var(--accent-gold));
+    margin-top: 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+
+  .event:nth-child(odd) .read-more {
+    text-align: right;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .timeline-track { left: 22px; transform: none; }
+
+    .event {
+      grid-template-columns: 44px 1fr;
+      grid-template-rows: auto;
+    }
+
+    .event:nth-child(odd) .event-content,
+    .event:nth-child(even) .event-content {
+      grid-column: 2;
+      text-align: left;
+      padding-right: 0;
+      padding-left: 20px;
+      order: unset;
+    }
+
+    .event:nth-child(odd) .event-node-col,
+    .event:nth-child(even) .event-node-col {
+      grid-column: 1;
+      grid-row: 1;
+      order: unset;
+    }
+
+    .event:nth-child(odd) .event-date,
+    .event:nth-child(even) .event-date { justify-content: flex-start; }
+
+    .event:nth-child(odd) .event-source,
+    .event:nth-child(even) .event-source { justify-content: flex-start; }
+
+    .event:nth-child(odd) .read-more { text-align: left; }
+
+    .event-empty { display: none !important; }
+
+    .event:nth-child(even) .event-content { order: unset; }
+    .event:nth-child(even) .event-node-col { order: unset; }
+    .event:nth-child(even) .event-empty { order: unset; }
+  }
+
+  /* Pulse animation for nodes */
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.8); opacity: 0; }
+  }
+
+  .event-node.pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--node-color, var(--accent-gold));
+    animation: pulse-ring 1.5s ease-out infinite;
+  }
+
+  /* Scan line header effect */
+  @keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.1), transparent);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+</style>
 </head>
 <body>
+<div class="scanline"></div>
 
-<div class="timeline">
-    <div class="container left">
-        <div class="content">
-            <i class="fa-solid fa-handshake icon"></i>
-            <span class="date">Feb 23, 2026</span>
-            <h3>Anthropic Negotiation</h3>
-            <div class="placeholder-img">[Image: Department of War HQ]</div>
-            <p>Placeholder: Describe the initial meeting between the DoW and Anthropic leadership regarding safety alignment and model deployment.</p>
+<div class="wrapper">
+
+  <header class="header">
+    <div class="header-eyebrow">Forbes India · Exclusive Coverage</div>
+    <h1>AI Giants &amp; The<br>Department of War</h1>
+    <p class="header-subtitle">A rapidly evolving story of deals, blacklists, and billion-dollar pivots as Washington reshapes the future of artificial intelligence in defence.</p>
+    <div class="header-date-range">Feb 23 — Mar 3, 2026 &nbsp;·&nbsp; 9 Days That Shook Silicon Valley</div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-blue); background: color-mix(in srgb, var(--accent-blue) 20%, transparent)"></div>
+      Anthropic
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-red); background: color-mix(in srgb, var(--accent-red) 20%, transparent)"></div>
+      Dept. of War
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-green); background: color-mix(in srgb, var(--accent-green) 20%, transparent)"></div>
+      OpenAI
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-gold); background: color-mix(in srgb, var(--accent-gold) 20%, transparent)"></div>
+      Industry
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Events</button>
+    <button class="filter-btn" data-filter="anthropic">Anthropic</button>
+    <button class="filter-btn" data-filter="dow">Dept. of War</button>
+    <button class="filter-btn" data-filter="openai">OpenAI</button>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-track"></div>
+
+    <!-- Event 1 -->
+    <div class="event" data-tags="anthropic,dow" style="--node-color: var(--accent-blue)">
+      <div class="event-content">
+        <div class="event-card">
+          <div class="event-date">
+            Feb 23, 2026
+            <span class="event-tag">Anthropic</span>
+          </div>
+          <div class="event-title">Department of War Discusses Deal with Anthropic</div>
+          <div class="read-more">Click to expand ↓</div>
+          <div class="event-expand">
+            <div class="event-image-placeholder">
+              <div class="placeholder-icon">🖼</div>
+              <div class="placeholder-text">Image placeholder · 1200 × 630px recommended</div>
+            </div>
+            <div class="event-description">
+              Placeholder: Add your detailed description here. Describe the nature of the discussions between the Department of War and Anthropic, who was involved, what terms were reportedly on the table, and the broader context of AI adoption in defence. Include any statements from spokespeople or officials.
+            </div>
+            <div class="event-source">Source placeholder · e.g. Reuters, WSJ</div>
+          </div>
         </div>
+      </div>
+      <div class="event-node-col">
+        <div class="event-node pulse">🤝</div>
+      </div>
+      <div class="event-empty"></div>
     </div>
 
-    <div class="container right">
-        <div class="content">
-            <i class="fa-solid fa-shield-halved icon" style="color: var(--accent);"></i>
-            <span class="date">Feb 26, 2026</span>
-            <h3 style="color: var(--accent);">Blacklist Issued</h3>
-            <div class="placeholder-img">[Image: Security Redacted Document]</div>
-            <p>Placeholder: Explain the specific supply chain risk identified that led to the sudden blacklisting of Anthropic by the DoW.</p>
+    <!-- Event 2 -->
+    <div class="event" data-tags="dow,anthropic" style="--node-color: var(--accent-red)">
+      <div class="event-empty"></div>
+      <div class="event-node-col">
+        <div class="event-node">⛔</div>
+      </div>
+      <div class="event-content">
+        <div class="event-card">
+          <div class="event-date">
+            Feb 26, 2026
+            <span class="event-tag">Dept. of War</span>
+          </div>
+          <div class="event-title">DoW Marks Anthropic a Supply Chain Risk — Blacklists the Company</div>
+          <div class="read-more">Click to expand ↓</div>
+          <div class="event-expand">
+            <div class="event-image-placeholder">
+              <div class="placeholder-icon">🖼</div>
+              <div class="placeholder-text">Image placeholder · 1200 × 630px recommended</div>
+            </div>
+            <div class="event-description">
+              Placeholder: Add your detailed description here. Explain what led to the blacklisting decision, the official classification of Anthropic as a supply chain risk, what this designation means legally and operationally, and how it reverses the trajectory from just three days earlier. Include any industry reaction.
+            </div>
+            <div class="event-source">Source placeholder · e.g. Bloomberg, FT</div>
+          </div>
         </div>
+      </div>
     </div>
 
-    <div class="container left">
-        <div class="content">
-            <i class="fa-solid fa-file-contract icon"></i>
-            <span class="date">Feb 28, 2026</span>
-            <h3>OpenAI Partnership</h3>
-            <div class="placeholder-img">[Image: OpenAI Logo / DoW Seal]</div>
-            <p>Placeholder: Detail the announcement of the multi-billion dollar deal between OpenAI and the Department of War.</p>
+    <!-- Event 3 -->
+    <div class="event" data-tags="openai,dow" style="--node-color: var(--accent-green)">
+      <div class="event-content">
+        <div class="event-card">
+          <div class="event-date">
+            Feb 28, 2026
+            <span class="event-tag">OpenAI</span>
+          </div>
+          <div class="event-title">OpenAI Announces Deal with Department of War</div>
+          <div class="read-more">Click to expand ↓</div>
+          <div class="event-expand">
+            <div class="event-image-placeholder">
+              <div class="placeholder-icon">🖼</div>
+              <div class="placeholder-text">Image placeholder · 1200 × 630px recommended</div>
+            </div>
+            <div class="event-description">
+              Placeholder: Add your detailed description here. Cover the specifics of the agreement between OpenAI and the Department of War — the deal value, scope of AI deployment, what technologies are involved, and how this announcement is being read in the context of Anthropic's simultaneous blacklisting. What does this signal about the Pentagon's AI vendor preferences?
+            </div>
+            <div class="event-source">Source placeholder · e.g. NYT, The Information</div>
+          </div>
         </div>
+      </div>
+      <div class="event-node-col">
+        <div class="event-node">📋</div>
+      </div>
+      <div class="event-empty"></div>
     </div>
 
-    <div class="container right">
-        <div class="content">
-            <i class="fa-solid fa-rotate icon"></i>
-            <span class="date">March 3, 2026</span>
-            <h3>Terms Renegotiated</h3>
-            <div class="placeholder-img">[Image: Market Reaction Chart]</div>
-            <p>Placeholder: Analyze why OpenAI moved to renegotiate the deal just days after the initial announcement.</p>
+    <!-- Event 4 -->
+    <div class="event" data-tags="openai" style="--node-color: var(--accent-gold)">
+      <div class="event-empty"></div>
+      <div class="event-node-col">
+        <div class="event-node">🔄</div>
+      </div>
+      <div class="event-content">
+        <div class="event-card">
+          <div class="event-date">
+            Mar 3, 2026
+            <span class="event-tag">OpenAI</span>
+          </div>
+          <div class="event-title">OpenAI Says It Is Renegotiating Deal with Department of War</div>
+          <div class="read-more">Click to expand ↓</div>
+          <div class="event-expand">
+            <div class="event-image-placeholder">
+              <div class="placeholder-icon">🖼</div>
+              <div class="placeholder-text">Image placeholder · 1200 × 630px recommended</div>
+            </div>
+            <div class="event-description">
+              Placeholder: Add your detailed description here. Explain what prompted the renegotiation just days after the initial deal was announced, what terms are reportedly being contested, whether this reflects internal pushback within OpenAI or external pressure, and what this means for the broader Pentagon–Big Tech AI relationship. Include analyst commentary.
+            </div>
+            <div class="event-source">Source placeholder · e.g. Axios, TechCrunch</div>
+          </div>
         </div>
+      </div>
     </div>
+
+  </div><!-- /timeline -->
+
+  <footer class="footer">
+    <div class="footer-label">Forbes India &nbsp;·&nbsp; Interactive Timeline &nbsp;·&nbsp; AI &amp; Defence Coverage 2026</div>
+  </footer>
+
 </div>
 
+<script>
+  // Toggle expand on click
+  document.querySelectorAll('.event-card, .event-node').forEach(el => {
+    el.addEventListener('click', () => {
+      const event = el.closest('.event');
+      const isActive = event.classList.contains('active');
+      document.querySelectorAll('.event').forEach(e => e.classList.remove('active'));
+      if (!isActive) event.classList.add('active');
+    });
+  });
+
+  // Filter
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+      document.querySelectorAll('.event').forEach(event => {
+        const tags = event.dataset.tags || '';
+        if (filter === 'all' || tags.includes(filter)) {
+          event.style.display = 'grid';
+          setTimeout(() => event.classList.add('visible'), 50);
+        } else {
+          event.classList.remove('visible');
+          setTimeout(() => { event.style.display = 'none'; }, 500);
+        }
+      });
+    });
+  });
+
+  // Intersection Observer for scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.event').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
