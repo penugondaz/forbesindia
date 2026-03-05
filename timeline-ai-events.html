@@ -1,166 +1,170 @@
-<style>
-.timeline-container {
-  max-width: 750px;
-  margin: 40px auto;
-  font-family: Arial, sans-serif;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Geopolitics Timeline</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00558c; /* Forbes-esque Blue */
+            --accent: #e81d2d;  /* Alert/War Dept Red */
+            --bg: #f4f7f9;
+            --text: #333;
+        }
 
-.timeline-title {
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 25px;
-  text-align: center;
-}
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
 
-.timeline {
-  position: relative;
-  padding-left: 40px;
-}
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            width: 100%;
+            padding: 20px 0;
+        }
 
-.timeline::before {
-  content: "";
-  position: absolute;
-  left: 15px;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background: #d0d7de;
-}
+        /* The vertical line */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #d1d8e0;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
 
-.timeline-event {
-  position: relative;
-  margin-bottom: 35px;
-  transition: transform 0.25s ease;
-}
+        .container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+        }
 
-.timeline-event:hover {
-  transform: translateX(6px);
-}
+        /* Circles on the timeline */
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: white;
+            border: 4px solid var(--primary);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
 
-.timeline-icon {
-  position: absolute;
-  left: -2px;
-  top: 3px;
-  width: 32px;
-  height: 32px;
-  background: #2b7cff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-}
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; }
 
-.timeline-card {
-  background: #f8fafc;
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-}
+        .right::after { left: -10px; }
 
-.timeline-date {
-  font-weight: 700;
-  color: #2563eb;
-  margin-bottom: 6px;
-}
+        .content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
 
-.timeline-headline {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
+        .content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+        }
 
-.timeline-description {
-  font-size: 14px;
-  color: #4b5563;
-  margin-bottom: 10px;
-}
+        .date {
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
 
-.timeline-image {
-  width: 100%;
-  height: 140px;
-  background: #e5e7eb;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #6b7280;
-  font-size: 13px;
-}
+        .icon {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
 
-@media (max-width: 600px) {
-  .timeline-container {
-    padding: 10px;
-  }
-}
-</style>
+        .placeholder-img {
+            width: 100%;
+            height: 120px;
+            background: #eee;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
 
-<div class="timeline-container">
+        h3 { margin: 10px 0; font-size: 1.2rem; }
+        p { font-size: 0.9rem; line-height: 1.4; color: #666; }
 
-<div class="timeline-title">Key Timeline of Events</div>
+        /* Responsive adjustment */
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .container::after { left: 21px; }
+            .right { left: 0%; }
+        }
+    </style>
+</head>
+<body>
 
 <div class="timeline">
+    <div class="container left">
+        <div class="content">
+            <i class="fa-solid fa-handshake icon"></i>
+            <span class="date">Feb 23, 2026</span>
+            <h3>Anthropic Negotiation</h3>
+            <div class="placeholder-img">[Image: Department of War HQ]</div>
+            <p>Placeholder: Describe the initial meeting between the DoW and Anthropic leadership regarding safety alignment and model deployment.</p>
+        </div>
+    </div>
 
-<!-- EVENT 1 -->
-<div class="timeline-event">
-<div class="timeline-icon">📄</div>
-<div class="timeline-card">
-<div class="timeline-date">Feb 23</div>
-<div class="timeline-headline">
-Department of War discusses deal with Anthropic
-</div>
-<div class="timeline-description">
-Lorem ipsum placeholder text for description. Add context about the discussions, policy implications, or negotiations here.
-</div>
-<div class="timeline-image">Image Placeholder</div>
-</div>
-</div>
+    <div class="container right">
+        <div class="content">
+            <i class="fa-solid fa-shield-halved icon" style="color: var(--accent);"></i>
+            <span class="date">Feb 26, 2026</span>
+            <h3 style="color: var(--accent);">Blacklist Issued</h3>
+            <div class="placeholder-img">[Image: Security Redacted Document]</div>
+            <p>Placeholder: Explain the specific supply chain risk identified that led to the sudden blacklisting of Anthropic by the DoW.</p>
+        </div>
+    </div>
 
-<!-- EVENT 2 -->
-<div class="timeline-event">
-<div class="timeline-icon">⚠️</div>
-<div class="timeline-card">
-<div class="timeline-date">Feb 26</div>
-<div class="timeline-headline">
-DoW marks Anthropic a supply chain risk and blacklists it
-</div>
-<div class="timeline-description">
-Placeholder text explaining the supply chain concerns and why the decision was taken.
-</div>
-<div class="timeline-image">Image Placeholder</div>
-</div>
-</div>
+    <div class="container left">
+        <div class="content">
+            <i class="fa-solid fa-file-contract icon"></i>
+            <span class="date">Feb 28, 2026</span>
+            <h3>OpenAI Partnership</h3>
+            <div class="placeholder-img">[Image: OpenAI Logo / DoW Seal]</div>
+            <p>Placeholder: Detail the announcement of the multi-billion dollar deal between OpenAI and the Department of War.</p>
+        </div>
+    </div>
 
-<!-- EVENT 3 -->
-<div class="timeline-event">
-<div class="timeline-icon">🤝</div>
-<div class="timeline-card">
-<div class="timeline-date">Feb 28</div>
-<div class="timeline-headline">
-OpenAI announces deal with DoW
-</div>
-<div class="timeline-description">
-Placeholder text describing the agreement, the scope of the deal, and industry reaction.
-</div>
-<div class="timeline-image">Image Placeholder</div>
-</div>
+    <div class="container right">
+        <div class="content">
+            <i class="fa-solid fa-rotate icon"></i>
+            <span class="date">March 3, 2026</span>
+            <h3>Terms Renegotiated</h3>
+            <div class="placeholder-img">[Image: Market Reaction Chart]</div>
+            <p>Placeholder: Analyze why OpenAI moved to renegotiate the deal just days after the initial announcement.</p>
+        </div>
+    </div>
 </div>
 
-<!-- EVENT 4 -->
-<div class="timeline-event">
-<div class="timeline-icon">🔄</div>
-<div class="timeline-card">
-<div class="timeline-date">March 3</div>
-<div class="timeline-headline">
-OpenAI says renegotiating deal with DoW
-</div>
-<div class="timeline-description">
-Placeholder text about renegotiation details and the potential implications.
-</div>
-<div class="timeline-image">Image Placeholder</div>
-</div>
-</div>
-
-</div>
-</div>
+</body>
+</html>
