@@ -1,1 +1,166 @@
+<style>
+.timeline-container {
+  max-width: 750px;
+  margin: 40px auto;
+  font-family: Arial, sans-serif;
+}
 
+.timeline-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: #d0d7de;
+}
+
+.timeline-event {
+  position: relative;
+  margin-bottom: 35px;
+  transition: transform 0.25s ease;
+}
+
+.timeline-event:hover {
+  transform: translateX(6px);
+}
+
+.timeline-icon {
+  position: absolute;
+  left: -2px;
+  top: 3px;
+  width: 32px;
+  height: 32px;
+  background: #2b7cff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.timeline-card {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.timeline-date {
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.timeline-headline {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.timeline-description {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 10px;
+}
+
+.timeline-image {
+  width: 100%;
+  height: 140px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .timeline-container {
+    padding: 10px;
+  }
+}
+</style>
+
+<div class="timeline-container">
+
+<div class="timeline-title">Key Timeline of Events</div>
+
+<div class="timeline">
+
+<!-- EVENT 1 -->
+<div class="timeline-event">
+<div class="timeline-icon">📄</div>
+<div class="timeline-card">
+<div class="timeline-date">Feb 23</div>
+<div class="timeline-headline">
+Department of War discusses deal with Anthropic
+</div>
+<div class="timeline-description">
+Lorem ipsum placeholder text for description. Add context about the discussions, policy implications, or negotiations here.
+</div>
+<div class="timeline-image">Image Placeholder</div>
+</div>
+</div>
+
+<!-- EVENT 2 -->
+<div class="timeline-event">
+<div class="timeline-icon">⚠️</div>
+<div class="timeline-card">
+<div class="timeline-date">Feb 26</div>
+<div class="timeline-headline">
+DoW marks Anthropic a supply chain risk and blacklists it
+</div>
+<div class="timeline-description">
+Placeholder text explaining the supply chain concerns and why the decision was taken.
+</div>
+<div class="timeline-image">Image Placeholder</div>
+</div>
+</div>
+
+<!-- EVENT 3 -->
+<div class="timeline-event">
+<div class="timeline-icon">🤝</div>
+<div class="timeline-card">
+<div class="timeline-date">Feb 28</div>
+<div class="timeline-headline">
+OpenAI announces deal with DoW
+</div>
+<div class="timeline-description">
+Placeholder text describing the agreement, the scope of the deal, and industry reaction.
+</div>
+<div class="timeline-image">Image Placeholder</div>
+</div>
+</div>
+
+<!-- EVENT 4 -->
+<div class="timeline-event">
+<div class="timeline-icon">🔄</div>
+<div class="timeline-card">
+<div class="timeline-date">March 3</div>
+<div class="timeline-headline">
+OpenAI says renegotiating deal with DoW
+</div>
+<div class="timeline-description">
+Placeholder text about renegotiation details and the potential implications.
+</div>
+<div class="timeline-image">Image Placeholder</div>
+</div>
+</div>
+
+</div>
+</div>
