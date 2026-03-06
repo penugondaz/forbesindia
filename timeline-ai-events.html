@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,17 +42,6 @@
     opacity: 0.4;
   }
 
-  /* ── SCROLL PROGRESS BAR ── */
-  .progress-bar {
-    position: fixed;
-    top: 0; left: 0;
-    height: 2px;
-    width: 0%;
-    background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold), var(--accent-green));
-    z-index: 100;
-    transition: width 0.1s linear;
-  }
-
   .wrapper {
     position: relative;
     z-index: 1;
@@ -60,8 +50,7 @@
     padding: 48px 24px 80px;
   }
 
-  /* ── HEADER ── */
-  .header { text-align: center; margin-bottom: 48px; }
+  .header { text-align: center; margin-bottom: 64px; }
 
   .header-eyebrow {
     font-family: 'IBM Plex Mono', monospace;
@@ -79,7 +68,8 @@
   .header-eyebrow::before,
   .header-eyebrow::after {
     content: '';
-    width: 40px; height: 1px;
+    width: 40px;
+    height: 1px;
     background: var(--accent-gold);
     opacity: 0.5;
   }
@@ -114,148 +104,37 @@
     letter-spacing: 0.1em;
   }
 
-  /* ── STAT STRIP ── */
-  .stat-strip {
-    display: flex;
-    justify-content: center;
-    gap: 0;
-    margin: 28px auto 0;
-    max-width: 480px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .stat-item {
-    flex: 1;
-    padding: 10px 12px;
-    text-align: center;
-    border-right: 1px solid var(--border);
-    position: relative;
-  }
-
-  .stat-item:last-child { border-right: none; }
-
-  .stat-item::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--stat-color, var(--accent-gold));
-  }
-
-  .stat-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--stat-color, var(--accent-gold));
-    line-height: 1;
-    display: block;
-  }
-
-  .stat-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    color: var(--text-muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 4px;
-    display: block;
-  }
-
-  /* ── FILTER BAR ── */
-  .filter-wrap {
-    margin-bottom: 16px;
-  }
-
   .filter-bar {
     display: flex;
-    gap: 0;
+    gap: 8px;
     justify-content: center;
-    flex-wrap: nowrap;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-    max-width: 560px;
-    margin: 0 auto;
+    flex-wrap: wrap;
+    margin-bottom: 56px;
   }
 
   .filter-btn {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    font-size: 11px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    padding: 10px 0;
-    flex: 1;
-    border: none;
-    border-right: 1px solid var(--border);
+    padding: 7px 18px;
+    border-radius: 2px;
+    border: 1px solid var(--border);
     background: transparent;
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    position: relative;
   }
 
-  .filter-btn:last-child { border-right: none; }
-
-  .filter-btn:hover { background: var(--surface2); color: var(--text-secondary); }
+  .filter-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
 
   .filter-btn.active {
-    background: var(--btn-active-bg, var(--surface2));
-    color: var(--btn-active-color, var(--text-primary));
+    background: var(--accent-gold);
+    border-color: var(--accent-gold);
+    color: var(--bg);
     font-weight: 600;
   }
 
-  .filter-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: var(--btn-active-color, var(--accent-gold));
-  }
-
-  .filter-dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .filter-count {
-    font-size: 9px;
-    padding: 1px 5px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.07);
-    color: var(--text-muted);
-    font-weight: 400;
-    letter-spacing: 0;
-  }
-
-  .filter-btn.active .filter-count {
-    background: rgba(255,255,255,0.12);
-    color: var(--btn-active-color, var(--text-primary));
-  }
-
-  /* ── EVENT COUNTER ── */
-  .event-counter {
-    text-align: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.12em;
-    margin-bottom: 44px;
-    margin-top: 10px;
-  }
-
-  .event-counter span {
-    color: var(--accent-gold);
-    font-weight: 600;
-  }
-
-  /* ── TIMELINE ── */
   .timeline { position: relative; }
 
   .timeline-track {
@@ -267,7 +146,6 @@
     transform: translateX(-50%);
   }
 
-  /* ── EVENT ── */
   .event {
     display: grid;
     grid-template-columns: 1fr 48px 1fr;
@@ -294,9 +172,9 @@
     z-index: 2;
   }
 
-  /* ── NODE ── */
   .event-node {
-    width: 44px; height: 44px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: 2px solid var(--border);
     background: var(--surface);
@@ -308,25 +186,6 @@
     transition: all 0.3s ease;
     position: relative;
     flex-shrink: 0;
-  }
-
-  /* Step number badge */
-  .event-node .step-num {
-    position: absolute;
-    top: -6px; right: -6px;
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: var(--node-color, var(--accent-gold));
-    color: var(--bg);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 8px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    line-height: 1;
-    border: 1px solid var(--bg);
-    letter-spacing: 0;
   }
 
   .event-node::before {
@@ -349,7 +208,6 @@
 
   .event-content { cursor: pointer; }
 
-  /* ── CARD ── */
   .event-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -360,26 +218,6 @@
     overflow: hidden;
   }
 
-  /* Permanent left/right colour accent line */
-  .event:nth-child(odd) .event-card {
-    border-right: 3px solid color-mix(in srgb, var(--node-color, var(--accent-gold)) 35%, transparent);
-  }
-
-  .event:nth-child(even) .event-card {
-    border-left: 3px solid color-mix(in srgb, var(--node-color, var(--accent-gold)) 35%, transparent);
-  }
-
-  .event:nth-child(odd) .event-card:hover,
-  .event:nth-child(odd).active .event-card {
-    border-right-color: var(--node-color, var(--accent-gold));
-  }
-
-  .event:nth-child(even) .event-card:hover,
-  .event:nth-child(even).active .event-card {
-    border-left-color: var(--node-color, var(--accent-gold));
-  }
-
-  /* Top sweep line */
   .event-card::before {
     content: '';
     position: absolute;
@@ -435,7 +273,6 @@
     margin-bottom: 10px;
   }
 
-  /* ── EXPAND ── */
   .event-expand {
     overflow: hidden;
     max-height: 0;
@@ -483,50 +320,17 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     opacity: 0.8;
-    display: flex;
-    align-items: center;
-    gap: 5px;
   }
 
-  .read-more::before {
-    content: '';
-    display: inline-block;
-    width: 12px; height: 1px;
-    background: var(--node-color, var(--accent-gold));
-    opacity: 0.6;
-  }
+  .event:nth-child(odd) .read-more { text-align: right; }
 
-  .event:nth-child(odd) .read-more {
-    justify-content: flex-end;
-    flex-direction: row-reverse;
-  }
+  .footer { text-align: center; margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .footer-label { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.15em; text-transform: uppercase; }
 
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center;
-    margin-top: 64px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
+  .legend { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; }
 
-  .footer-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent-gold); opacity: 0.4; }
-
-  .footer-label {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--text-muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-  }
-
-  /* ── LEGEND (removed, replaced by filter bar) ── */
-  .legend { display: none; }
-
-  /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .timeline-track { left: 22px; transform: none; }
     .event { grid-template-columns: 44px 1fr; grid-template-rows: auto; }
@@ -538,19 +342,13 @@
     .event:nth-child(even) .event-date { justify-content: flex-start; }
     .event:nth-child(odd) .event-source,
     .event:nth-child(even) .event-source { justify-content: flex-start; }
-    .event:nth-child(odd) .read-more { justify-content: flex-start; flex-direction: row; }
+    .event:nth-child(odd) .read-more { text-align: left; }
     .event-empty { display: none !important; }
     .event:nth-child(even) .event-content,
     .event:nth-child(even) .event-node-col,
     .event:nth-child(even) .event-empty { order: unset; }
-    .event:nth-child(odd) .event-card,
-    .event:nth-child(even) .event-card { border-right: 1px solid var(--border); border-left: 3px solid color-mix(in srgb, var(--node-color, var(--accent-gold)) 35%, transparent); }
-    .stat-strip { max-width: 100%; }
-    .filter-btn { font-size: 9px; padding: 10px 4px; }
-    .filter-count { display: none; }
   }
 
-  /* ── ANIMATIONS ── */
   @keyframes pulse-ring {
     0% { transform: scale(1); opacity: 0.6; }
     100% { transform: scale(1.8); opacity: 0; }
@@ -582,7 +380,6 @@
 </style>
 </head>
 <body>
-<div class="progress-bar" id="progressBar"></div>
 <div class="scanline"></div>
 
 <div class="wrapper">
@@ -592,49 +389,26 @@
     <h1>War and peace: Anthropic Vs OpenAI</h1>
     <p class="header-subtitle">The use of AI tools by the US Department of War for national security purposes has seen opposition from frontier labs for use in mass surveillance and autonomous weapons</p>
     <div class="header-date-range">Feb 24 — Mar 5, 2026 &nbsp;·&nbsp; 10 Days That Shook Silicon Valley</div>
-    <div class="stat-strip">
-      <div class="stat-item" style="--stat-color: var(--accent-blue)">
-        <span class="stat-num">5</span>
-        <span class="stat-label">Anthropic</span>
-      </div>
-      <div class="stat-item" style="--stat-color: var(--accent-red)">
-        <span class="stat-num">4</span>
-        <span class="stat-label">Dept. of War</span>
-      </div>
-      <div class="stat-item" style="--stat-color: var(--accent-green)">
-        <span class="stat-num">4</span>
-        <span class="stat-label">OpenAI</span>
-      </div>
-      <div class="stat-item" style="--stat-color: var(--accent-gold)">
-        <span class="stat-num">8</span>
-        <span class="stat-label">Total Events</span>
-      </div>
-    </div>
   </header>
 
-  <div class="legend"></div>
-
-  <div class="filter-wrap">
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all" style="--btn-active-color: var(--accent-gold)">
-        All <span class="filter-count" id="count-all">8</span>
-      </button>
-      <button class="filter-btn" data-filter="anthropic" style="--btn-active-color: var(--accent-blue)">
-        <span class="filter-dot" style="background:var(--accent-blue)"></span>Anthropic
-        <span class="filter-count" id="count-anthropic">5</span>
-      </button>
-      <button class="filter-btn" data-filter="dow" style="--btn-active-color: var(--accent-red)">
-        <span class="filter-dot" style="background:var(--accent-red)"></span>Dept. of War
-        <span class="filter-count" id="count-dow">4</span>
-      </button>
-      <button class="filter-btn" data-filter="openai" style="--btn-active-color: var(--accent-green)">
-        <span class="filter-dot" style="background:var(--accent-green)"></span>OpenAI
-        <span class="filter-count" id="count-openai">4</span>
-      </button>
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-blue); background: color-mix(in srgb, var(--accent-blue) 20%, transparent)"></div>Anthropic
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-red); background: color-mix(in srgb, var(--accent-red) 20%, transparent)"></div>Dept. of War
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color: var(--accent-green); background: color-mix(in srgb, var(--accent-green) 20%, transparent)"></div>OpenAI
     </div>
   </div>
 
-  <div class="event-counter" id="eventCounter">Showing <span id="visibleCount">8</span> of 8 events</div>
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">All Events</button>
+    <button class="filter-btn" data-filter="anthropic">Anthropic</button>
+    <button class="filter-btn" data-filter="dow">Dept. of War</button>
+    <button class="filter-btn" data-filter="openai">OpenAI</button>
+  </div>
 
   <div class="timeline">
     <div class="timeline-track"></div>
@@ -653,14 +427,14 @@
           </div>
         </div>
       </div>
-      <div class="event-node-col"><div class="event-node pulse">🤝<span class="step-num">1</span></div></div>
+      <div class="event-node-col"><div class="event-node pulse">🤝</div></div>
       <div class="event-empty"></div>
     </div>
 
     <!-- Event 2 -->
     <div class="event" data-tags="dow,anthropic" style="--node-color: var(--accent-red)">
       <div class="event-empty"></div>
-      <div class="event-node-col"><div class="event-node">⛔<span class="step-num">2</span></div></div>
+      <div class="event-node-col"><div class="event-node">⛔</div></div>
       <div class="event-content">
         <div class="event-card">
           <div class="event-date">Feb 25, 2026 <span class="event-tag">Dept. of War; Anthropic</span></div>
@@ -689,14 +463,14 @@
           </div>
         </div>
       </div>
-      <div class="event-node-col"><div class="event-node">📋<span class="step-num">3</span></div></div>
+      <div class="event-node-col"><div class="event-node">📋</div></div>
       <div class="event-empty"></div>
     </div>
 
     <!-- Event 4 -->
     <div class="event" data-tags="dow,anthropic" style="--node-color: var(--accent-red)">
       <div class="event-empty"></div>
-      <div class="event-node-col"><div class="event-node">🚫<span class="step-num">4</span></div></div>
+      <div class="event-node-col"><div class="event-node">🚫</div></div>
       <div class="event-content">
         <div class="event-card">
           <div class="event-date">Feb 27, 2026 <span class="event-tag">Anthropic</span></div>
@@ -725,21 +499,21 @@
           </div>
         </div>
       </div>
-      <div class="event-node-col"><div class="event-node">🤖<span class="step-num">5</span></div></div>
+      <div class="event-node-col"><div class="event-node">🤖</div></div>
       <div class="event-empty"></div>
     </div>
 
     <!-- Event 6 -->
     <div class="event" data-tags="openai" style="--node-color: var(--accent-green)">
       <div class="event-empty"></div>
-      <div class="event-node-col"><div class="event-node">📉<span class="step-num">6</span></div></div>
+      <div class="event-node-col"><div class="event-node">📉</div></div>
       <div class="event-content">
         <div class="event-card">
           <div class="event-date">Mar 4, 2026 <span class="event-tag">OpenAI</span></div>
           <div class="event-title">OpenAI loses customers</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/520250508T141848Z42953543RC2QDEA5J4SGRTRMADP3TECHAIUSACONGRESS-2026-03-b4d7a60b9e1bf55219bb57aa85f4d835.jpg" alt="OpenAI loses customers" loading="lazy">
+            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/620150401T120000Z937077448GF10000046473RTRMADP3UKRAINECRISISLATVIAMEDUZABG-2026-03-d4e4d0af87e31f4792ae0c0c8fdb9789.jpg" alt="OpenAI loses customers" loading="lazy">
             <div class="event-description">Campaign urging quit ChatGPT gains momentum after deal announcement. The online movement called QuitGPT claims 1.5 million subscribers uninstalled ChatGPT following the deal with DoW.</div>
             <div class="event-source">Photo by Ints Kalnins / Reuters</div>
           </div>
@@ -761,21 +535,21 @@
           </div>
         </div>
       </div>
-      <div class="event-node-col"><div class="event-node">🔄<span class="step-num">7</span></div></div>
+      <div class="event-node-col"><div class="event-node">🔄</div></div>
       <div class="event-empty"></div>
     </div>
 
     <!-- Event 8 -->
     <div class="event" data-tags="anthropic,dow" style="--node-color: var(--accent-blue)">
       <div class="event-empty"></div>
-      <div class="event-node-col"><div class="event-node">🕊️<span class="step-num">8</span></div></div>
+      <div class="event-node-col"><div class="event-node">🕊️</div></div>
       <div class="event-content">
         <div class="event-card">
           <div class="event-date">Mar 5, 2026 <span class="event-tag">Dept. of War</span></div>
           <div class="event-title">Amodei back to negotiating with DoW</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/520250508T141848Z42953543RC2QDEA5J4SGRTRMADP3TECHAIUSACONGRESS-2026-03-b4d7a60b9e1bf55219bb57aa85f4d835.jpg" alt="Amodei back to negotiating" loading="lazy">
+            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Collage1200X675-2026-03-614b49b09e43f7a1e85f193b083683bf.jpg" alt="Amodei back to negotiating" loading="lazy">
             <div class="event-description">According to reports, Anthropic's Amodei was back to negotiating its contract with officials at DoW after the week-long spat on safeguards around use of its technology. Amodei also apologised for a leaked memo criticising Trump in light of the boycott.</div>
             <div class="event-source">Photo by Bhawika Chhabra / Reuters</div>
           </div>
@@ -786,23 +560,12 @@
   </div><!-- /timeline -->
 
   <footer class="footer">
-    <div class="footer-dot"></div>
-    <div class="footer-label">Forbes India &nbsp;·&nbsp; Interactive Timeline &nbsp;·&nbsp; AI &amp; Defence Coverage 2026</div>
-    <div class="footer-dot"></div>
+    <div class="footer-label">Forbes India &nbsp;·&nbsp; Interactive Timeline &nbsp;·&nbsp; AI Tracker 2026</div>
   </footer>
 
 </div>
 
 <script>
-  // Scroll progress bar
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.body.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    document.getElementById('progressBar').style.width = pct + '%';
-  });
-
-  // Expand/collapse
   document.querySelectorAll('.event-card, .event-node').forEach(el => {
     el.addEventListener('click', () => {
       const event = el.closest('.event');
@@ -813,30 +576,25 @@
     });
   });
 
-  // Filter with counter update
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter;
-      let visible = 0;
       document.querySelectorAll('.event').forEach(event => {
         const tags = event.dataset.tags || '';
         if (filter === 'all' || tags.includes(filter)) {
           event.style.display = 'grid';
           setTimeout(() => event.classList.add('visible'), 50);
-          visible++;
         } else {
           event.classList.remove('visible');
           setTimeout(() => { event.style.display = 'none'; }, 500);
         }
       });
-      document.getElementById('visibleCount').textContent = visible;
-      setTimeout(sendHeight, 600);
+      setTimeout(sendHeight, 100);
     });
   });
 
-  // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) setTimeout(() => entry.target.classList.add('visible'), i * 100);
@@ -845,7 +603,6 @@
 
   document.querySelectorAll('.event').forEach(el => observer.observe(el));
 
-  // Datawrapper-style height messaging
   function sendHeight() {
     window.parent.postMessage({ 'datawrapper-height': { 'timeline': document.body.scrollHeight } }, '*');
   }
