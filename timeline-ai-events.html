@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -76,7 +75,7 @@
 
   .header h1 {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(28px, 5vw, 48px);
+    font-size: clamp(24px, 5vw, 48px);
     font-weight: 900;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -280,16 +279,24 @@
     opacity: 0;
   }
 
-  .event.active .event-expand { max-height: 600px; opacity: 1; }
+  .event.active .event-expand { max-height: 800px; opacity: 1; }
+
+  /* ── IMAGE: always 16:9, never cropped ── */
+  .event-image-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 12px 0 14px;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
 
   .event-image {
     width: 100%;
-    height: 160px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 3px;
+    object-position: center;
     display: block;
-    margin: 12px 0 14px;
-    border: 1px solid var(--border);
   }
 
   .event-description {
@@ -329,26 +336,91 @@
 
   .legend { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
   .legend-item { display: flex; align-items: center; gap: 8px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: 0.08em; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid; flex-shrink: 0; }
 
+  /* ─────────────────────────────────────────
+     MOBILE  ≤ 640px
+  ───────────────────────────────────────── */
   @media (max-width: 640px) {
-    .timeline-track { left: 22px; transform: none; }
-    .event { grid-template-columns: 44px 1fr; grid-template-rows: auto; }
+    .wrapper { padding: 32px 16px 60px; }
+
+    /* Header */
+    .header { margin-bottom: 40px; }
+    .header-subtitle { font-size: 13px; }
+    .header-date-range { font-size: 10px; letter-spacing: 0.06em; }
+    .header-eyebrow { font-size: 10px; letter-spacing: 0.18em; }
+    .header-eyebrow::before, .header-eyebrow::after { width: 24px; }
+
+    /* Filter bar */
+    .filter-bar { gap: 6px; margin-bottom: 36px; }
+    .filter-btn { font-size: 10px; padding: 6px 12px; letter-spacing: 0.08em; }
+
+    /* Legend */
+    .legend { gap: 12px; margin-bottom: 32px; }
+    .legend-item { font-size: 10px; }
+
+    /* Timeline track — flush left */
+    .timeline-track { left: 21px; transform: none; }
+
+    /* Events — single column, node on the left */
+    .event {
+      grid-template-columns: 44px 1fr;
+      grid-template-rows: auto;
+      margin-bottom: 32px;
+    }
+
+    /* Reset all odd/even overrides */
     .event:nth-child(odd) .event-content,
-    .event:nth-child(even) .event-content { grid-column: 2; text-align: left; padding-right: 0; padding-left: 20px; order: unset; }
+    .event:nth-child(even) .event-content {
+      grid-column: 2;
+      grid-row: 1;
+      text-align: left;
+      padding-right: 0;
+      padding-left: 16px;
+      order: unset;
+    }
+
     .event:nth-child(odd) .event-node-col,
-    .event:nth-child(even) .event-node-col { grid-column: 1; grid-row: 1; order: unset; }
+    .event:nth-child(even) .event-node-col {
+      grid-column: 1;
+      grid-row: 1;
+      order: unset;
+    }
+
+    .event-empty { display: none !important; }
+
+    /* Text alignment resets */
     .event:nth-child(odd) .event-date,
     .event:nth-child(even) .event-date { justify-content: flex-start; }
+
     .event:nth-child(odd) .event-source,
     .event:nth-child(even) .event-source { justify-content: flex-start; }
+
     .event:nth-child(odd) .read-more { text-align: left; }
-    .event-empty { display: none !important; }
-    .event:nth-child(even) .event-content,
-    .event:nth-child(even) .event-node-col,
-    .event:nth-child(even) .event-empty { order: unset; }
+
+    /* Card padding */
+    .event-card { padding: 14px 16px; }
+
+    /* Title */
+    .event-title { font-size: 15px; }
+
+    /* Image: full 16:9, no cropping on mobile */
+    .event-image-wrap {
+      aspect-ratio: 16 / 9;
+      margin: 10px 0 12px;
+    }
+
+    /* Description */
+    .event-description { font-size: 12px; }
+
+    /* Node size slightly smaller */
+    .event-node { width: 40px; height: 40px; font-size: 16px; }
+
+    /* Card top-bar always from left on mobile */
+    .event:nth-child(odd) .event-card::before { transform-origin: left; }
   }
 
+  /* ── Animations ── */
   @keyframes pulse-ring {
     0% { transform: scale(1); opacity: 0.6; }
     100% { transform: scale(1.8); opacity: 0; }
@@ -421,7 +493,9 @@
           <div class="event-title">Amodei meets DoW</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/1AFP2026022799847T3v1HighResAnthropicAtLoggerheadsWithUsMilitaryOverAiUse-2026-03-924bca50cd4fba1a82337133dc8cc454.jpg" alt="Amodei meets DoW" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/1AFP2026022799847T3v1HighResAnthropicAtLoggerheadsWithUsMilitaryOverAiUse-2026-03-924bca50cd4fba1a82337133dc8cc454.jpg" alt="Amodei meets DoW" loading="lazy">
+            </div>
             <div class="event-description">Anthropic CEO Dario Amodei meets US Defense Secretary Pete Hegseth at the Pentagon for assurance on preventing use of its models for mass surveillance and controlling autonomous weapons as part of an existing deal worth $200 million.</div>
             <div class="event-source">Photo by Ludovic MARIN / AFP</div>
           </div>
@@ -441,7 +515,9 @@
           <div class="event-title">DoW threatens Anthropic to 'comply'</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/2AFP2026020294VK9T4v1HighResUsSpaceDefense-2026-03-5cae60a9cfbe730f76ad2eef16a30e2c.jpg" alt="DoW threatens Anthropic" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/2AFP2026020294VK9T4v1HighResUsSpaceDefense-2026-03-5cae60a9cfbe730f76ad2eef16a30e2c.jpg" alt="DoW threatens Anthropic" loading="lazy">
+            </div>
             <div class="event-description">US Defense Secretary Pete Hegseth gives Anthropic until February 27 to comply with its demands for "all lawful use" of the company's tools by the military, failing which it would be banned.</div>
             <div class="event-source">Photo by Miguel J. Rodriguez Carrillo / AFP</div>
           </div>
@@ -457,7 +533,9 @@
           <div class="event-title">Amodei refuses to back down</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/3GettyImages2235571293-2026-03-e12f5d64e30c5203b702b860676b294d.jpg" alt="Amodei refuses to back down" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/3GettyImages2235571293-2026-03-e12f5d64e30c5203b702b860676b294d.jpg" alt="Amodei refuses to back down" loading="lazy">
+            </div>
             <div class="event-description">Amodei in a statement says the use of Anthropic's technology for autonomous weapons and mass surveillance was not a part of the original contract with DoW and shouldn't be included now. He says the company, acting in good faith, cannot agree to the request.</div>
             <div class="event-source">Photo by Allen J. Schaben / LA Times via Getty Images</div>
           </div>
@@ -477,7 +555,9 @@
           <div class="event-title">US President bans Anthropic from federal use</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/4AFP2026030399T28Q4v1HighResGermanChancellorMerzVisits-2026-03-e10acee25415ad4b9e698bf0376b97dd.jpg" alt="US President bans Anthropic" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/4AFP2026030399T28Q4v1HighResGermanChancellorMerzVisits-2026-03-e10acee25415ad4b9e698bf0376b97dd.jpg" alt="US President bans Anthropic" loading="lazy">
+            </div>
             <div class="event-description">US President Donald Trump orders US federal agencies to phase out the use of Anthropic's technology within six months from critical military and intelligence work. Anthropic labelled as "supply chain risk to national security" by Hegseth.</div>
             <div class="event-source">Photo by Andrew Caballero-Reynolds / AFP</div>
           </div>
@@ -493,7 +573,9 @@
           <div class="event-title">OpenAI announces deal with DoW</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/520250508T141848Z42953543RC2QDEA5J4SGRTRMADP3TECHAIUSACONGRESS-2026-03-b4d7a60b9e1bf55219bb57aa85f4d835.jpg" alt="OpenAI announces deal with DoW" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/520250508T141848Z42953543RC2QDEA5J4SGRTRMADP3TECHAIUSACONGRESS-2026-03-b4d7a60b9e1bf55219bb57aa85f4d835.jpg" alt="OpenAI announces deal with DoW" loading="lazy">
+            </div>
             <div class="event-description">Sam Altman says OpenAI reached a deal with DoW to deploy its models on a classified network. He adds the DoW agreed to safety principles, including bans on domestic mass surveillance and ensuring human responsibility for autonomous weapons.</div>
             <div class="event-source">Photo by Jonathan Ernst / Reuters</div>
           </div>
@@ -513,7 +595,9 @@
           <div class="event-title">OpenAI loses customers</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/620150401T120000Z937077448GF10000046473RTRMADP3UKRAINECRISISLATVIAMEDUZABG-2026-03-d4e4d0af87e31f4792ae0c0c8fdb9789.jpg" alt="OpenAI loses customers" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/620150401T120000Z937077448GF10000046473RTRMADP3UKRAINECRISISLATVIAMEDUZABG-2026-03-d4e4d0af87e31f4792ae0c0c8fdb9789.jpg" alt="OpenAI loses customers" loading="lazy">
+            </div>
             <div class="event-description">Campaign urging quit ChatGPT gains momentum after deal announcement. The online movement called QuitGPT claims 1.5 million subscribers uninstalled ChatGPT following the deal with DoW.</div>
             <div class="event-source">Photo by Ints Kalnins / Reuters</div>
           </div>
@@ -529,7 +613,9 @@
           <div class="event-title">Sam Altman says reworking deal with DoW</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/720260304T194808Z2028067113RC2UXJA3K120RTRMADP3USAPENTAGON-2026-03-c688aaa2ee2076ba8333ac12da8acfb6.jpg" alt="Sam Altman reworking deal" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/720260304T194808Z2028067113RC2UXJA3K120RTRMADP3USAPENTAGON-2026-03-c688aaa2ee2076ba8333ac12da8acfb6.jpg" alt="Sam Altman reworking deal" loading="lazy">
+            </div>
             <div class="event-description">Days after announcing its DoW deal, OpenAI CEO Sam Altman says the company is reworking the agreement to add security updates preventing use for mass surveillance and autonomous weapons. DoW will form a working group with frontier labs on safeguards.</div>
             <div class="event-source">Photo by Jason Reed / Reuters</div>
           </div>
@@ -549,7 +635,9 @@
           <div class="event-title">Amodei back to negotiating with DoW</div>
           <div class="read-more">Click to expand ↓</div>
           <div class="event-expand">
-            <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Collage1200X675-2026-03-614b49b09e43f7a1e85f193b083683bf.jpg" alt="Amodei back to negotiating" loading="lazy">
+            <div class="event-image-wrap">
+              <img class="event-image" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Collage1200X675-2026-03-614b49b09e43f7a1e85f193b083683bf.jpg" alt="Amodei back to negotiating" loading="lazy">
+            </div>
             <div class="event-description">According to reports, Anthropic's Amodei was back to negotiating its contract with officials at DoW after the week-long spat on safeguards around use of its technology. Amodei also apologised for a leaked memo criticising Trump in light of the boycott.</div>
             <div class="event-source">Photo by Bhawika Chhabra / Reuters</div>
           </div>
