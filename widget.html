@@ -64,7 +64,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 28px 12px;
+    padding: 9px 20px;
     border-bottom: 1px solid var(--fi-rule);
     background: var(--fi-white);
     gap: 12px;
@@ -151,8 +151,8 @@
   /* ── BODY LAYOUT ── */
   .fi-body {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    min-height: 420px;
+    grid-template-columns: 220px 1fr;
+    min-height: unset;
   }
 
   /* ── LEFT: COVER ── */
@@ -164,7 +164,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 28px 24px 24px;
+    padding: 16px 18px 12px;
   }
 
   .fi-cover-col::before {
@@ -193,7 +193,7 @@
     color: var(--fi-gold);
     border: 1px solid rgba(255,255,255,.3);
     padding: 3px 10px;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
     align-self: flex-start;
   }
 
@@ -227,9 +227,7 @@
   .fi-cover-img {
     position: relative;
     z-index: 2;
-    width: 185px;
-    display: block;
-    box-shadow: var(--shadow-cover);
+    width: 160px;
     cursor: pointer;
     transition: transform .5s var(--ease-out);
   }
@@ -284,7 +282,7 @@
   .fi-issue-badge {
     position: relative;
     z-index: 2;
-    margin-top: 14px;
+    margin-top: 8px;
     font-family: var(--ff-cond);
     font-weight: 400;
     font-size: 11px;
@@ -299,7 +297,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 36px 36px 36px;
+    padding: 20px 24px 20px;
     position: relative;
     background: var(--fi-white);
   }
@@ -308,8 +306,8 @@
     content: '';
     position: absolute;
     left: 0;
-    top: 32px;
-    bottom: 32px;
+    top: 20px;
+    bottom: 20px;
     width: 3px;
     background: linear-gradient(180deg, var(--fi-ink) 0%, transparent 100%);
   }
@@ -321,7 +319,7 @@
     letter-spacing: .22em;
     text-transform: uppercase;
     color: var(--fi-red);
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -337,34 +335,34 @@
 
   .fi-headline {
     font-family: var(--ff-display);
-    font-size: clamp(24px, 3.5vw, 34px);
+    font-size: clamp(20px, 3vw, 28px);
     font-weight: 900;
     line-height: 1.15;
     color: var(--fi-ink);
     letter-spacing: -.02em;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
     text-decoration: none;
     display: block;
   }
 
   .fi-deck {
     font-family: var(--ff-serif);
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 300;
-    line-height: 1.6;
+    line-height: 1.55;
     color: #3A3A3A;
-    margin-bottom: 28px;
+    margin-bottom: 14px;
   }
 
   .fi-byline {
     font-family: var(--ff-sans);
-    font-size: 13px;
+    font-size: 12px;
     color: var(--fi-muted);
     border-top: 1px solid var(--fi-rule);
-    padding-top: 16px;
+    padding-top: 12px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .fi-avatar {
@@ -409,11 +407,11 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 700px) {
     .fi-body { grid-template-columns: 1fr; }
-    .fi-cover-col { padding: 24px 20px 20px; }
+    .fi-cover-col { padding: 14px 16px 10px; }
     .fi-cover-col::before { display: none; }
-    .fi-story-col { padding: 24px 20px 24px; }
+    .fi-story-col { padding: 14px 16px 16px; }
     .fi-story-col::before { display: none; }
-    .fi-header { padding: 12px 16px; }
+    .fi-header { padding: 8px 14px; }
     .fi-section-label { display: none; }
   }
 </style>
