@@ -51,7 +51,7 @@
   /* ── TOP LABEL BAR ── */
   .fi-label-bar {
     background: var(--ink);
-    padding: 10px 20px;
+    padding: 8px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -80,20 +80,20 @@
   /* ── BODY: side-by-side on desktop ── */
   .fi-body {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 280px 1fr;
   }
 
   /* ── LEFT: FEATURED IMAGE ── */
   .fi-img-col {
     overflow: hidden;
     position: relative;
+    aspect-ratio: 4 / 3;
   }
 
   .fi-featured-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    aspect-ratio: 4 / 3;
     display: block;
     transition: transform .55s var(--ease-out);
   }
@@ -118,7 +118,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 24px 28px;
+    padding: 16px 22px;
     border-left: 1px solid var(--rule);
     position: relative;
   }
@@ -146,7 +146,7 @@
 
   .fi-headline {
     font-family: var(--ff-display);
-    font-size: clamp(18px, 2.4vw, 26px);
+    font-size: clamp(16px, 2vw, 22px);
     font-weight: 900;
     line-height: 1.18;
     color: var(--ink);
