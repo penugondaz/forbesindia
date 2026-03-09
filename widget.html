@@ -3,54 +3,193 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Forbes India – Cover Story of the Day</title>
-
+<title>Forbes India – Homepage Preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:wght@300;400&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" />
-
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet" />
 <style>
-  :root {
-    --ink:      #1A1A1A;
-    --muted:    #5A5A5A;
-    --rule:     #D4D0C8;
-    --white:    #FFFFFF;
-    --ff-display: 'Playfair Display', Georgia, serif;
-    --ff-serif:   'Source Serif 4', Georgia, serif;
-    --ff-cond:    'Barlow Condensed', sans-serif;
-    --ff-sans:    'Barlow', sans-serif;
-    --ease-out:   cubic-bezier(.22,1,.36,1);
-  }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background: #EEEAE3;
-    font-family: var(--ff-sans);
+    font-family: 'Barlow', Arial, sans-serif;
+    background: #fff;
+    color: #111;
+  }
+
+  /* ── AD BANNER ── */
+  .ad-banner {
+    background: #f5f5f5;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+
+  .ad-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 32px 16px;
+    gap: 16px;
   }
 
-  /* ── WIDGET ── */
+  .ad-slot {
+    background: #e8e8e8;
+    height: 72px;
+    width: 600px;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: #bbb;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 16px;
+  }
+
+  .topbar-logo {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: #111;
+    letter-spacing: -.02em;
+    line-height: 1;
+  }
+
+  .topbar-logo span {
+    font-size: 10px;
+    display: block;
+    letter-spacing: .25em;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 2px;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-signin {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    color: #111;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-subscribe {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #111;
+    border: none;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+
+  /* ── NAV ── */
+  .nav-wrap {
+    border-bottom: 2px solid #111;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #333;
+    padding: 14px 16px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: border-color .15s, color .15s;
+    text-decoration: none;
+  }
+
+  .nav-item:hover { color: #111; }
+  .nav-item.active { color: #111; border-bottom-color: #C8102E; }
+
+  .nav-explore {
+    margin-left: auto;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    background: #111;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ══════════════════════════════════════════
+     COVER STORY WIDGET
+  ══════════════════════════════════════════ */
+  .widget-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 20px 0;
+  }
+
   .fi-widget {
     width: 100%;
-    max-width: 780px;
-    background: var(--white);
-    box-shadow: 0 8px 40px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06);
-    animation: widget-in .7s var(--ease-out) both;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(0,0,0,.1), 0 1px 6px rgba(0,0,0,.05);
   }
 
-  @keyframes widget-in {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── TOP LABEL BAR ── */
   .fi-label-bar {
-    background: var(--ink);
+    background: #1A1A1A;
     padding: 8px 20px;
     display: flex;
     align-items: center;
@@ -59,16 +198,16 @@
   }
 
   .fi-section-title {
-    font-family: var(--ff-cond);
+    font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 14px;
     letter-spacing: .22em;
     text-transform: uppercase;
-    color: var(--white);
+    color: #fff;
   }
 
-  .fi-date {
-    font-family: var(--ff-cond);
+  .fi-issue {
+    font-family: 'Barlow Condensed', sans-serif;
     font-weight: 400;
     font-size: 11px;
     letter-spacing: .12em;
@@ -77,13 +216,11 @@
     white-space: nowrap;
   }
 
-  /* ── BODY: side-by-side on desktop ── */
   .fi-body {
     display: grid;
     grid-template-columns: 280px 1fr;
   }
 
-  /* ── LEFT: FEATURED IMAGE ── */
   .fi-img-col {
     overflow: hidden;
     position: relative;
@@ -94,61 +231,57 @@
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform .55s var(--ease-out);
+    transition: transform .55s cubic-bezier(.22,1,.36,1);
   }
 
-  .fi-img-col:hover .fi-featured-img {
-    transform: scale(1.04);
-  }
+  .fi-img-col:hover .fi-featured-img { transform: scale(1.04); }
 
   .fi-photo-credit {
     position: absolute;
     bottom: 8px;
     right: 10px;
-    font-family: var(--ff-cond);
+    font-family: 'Barlow Condensed', sans-serif;
     font-size: 9px;
     letter-spacing: .1em;
     text-transform: uppercase;
     color: rgba(255,255,255,.6);
   }
 
-  /* ── RIGHT: STORY ── */
   .fi-story-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 16px 22px;
-    border-left: 1px solid var(--rule);
+    border-left: 1px solid #D4D0C8;
     position: relative;
   }
 
-  /* left accent rule */
   .fi-story-col::before {
     content: '';
     position: absolute;
     left: -1px;
-    top: 24px;
-    bottom: 24px;
+    top: 16px;
+    bottom: 16px;
     width: 3px;
-    background: linear-gradient(180deg, var(--ink) 0%, transparent 100%);
+    background: linear-gradient(180deg, #1A1A1A 0%, transparent 100%);
   }
 
   .fi-kicker {
-    font-family: var(--ff-cond);
+    font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 10px;
     letter-spacing: .22em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: #5A5A5A;
     margin-bottom: 10px;
   }
 
   .fi-headline {
-    font-family: var(--ff-display);
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(16px, 2vw, 22px);
     font-weight: 900;
     line-height: 1.18;
-    color: var(--ink);
+    color: #1A1A1A;
     letter-spacing: -.01em;
     margin-bottom: 12px;
     text-decoration: none;
@@ -159,20 +292,20 @@
   .fi-headline:hover { opacity: .75; }
 
   .fi-deck {
-    font-family: var(--ff-serif);
+    font-family: 'Source Serif 4', Georgia, serif;
     font-size: 13.5px;
     font-weight: 300;
     line-height: 1.6;
     color: #3A3A3A;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
   }
 
   .fi-byline {
     display: flex;
     align-items: center;
     gap: 9px;
-    border-top: 1px solid var(--rule);
-    padding-top: 14px;
+    border-top: 1px solid #D4D0C8;
+    padding-top: 10px;
   }
 
   .fi-avatar {
@@ -183,104 +316,330 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--ff-cond);
+    font-family: 'Barlow Condensed', sans-serif;
     font-weight: 700;
     font-size: 11px;
-    color: var(--white);
+    color: #fff;
     flex-shrink: 0;
   }
 
   .fi-byline-text {
-    font-family: var(--ff-sans);
+    font-family: 'Barlow', sans-serif;
     font-size: 12px;
-    color: var(--muted);
+    color: #5A5A5A;
     line-height: 1.4;
   }
 
   .fi-byline-name {
     font-weight: 500;
-    color: var(--ink);
+    color: #1A1A1A;
+  }
+
+  /* ══════════════════════════════════════════
+     BELOW WIDGET: CAROUSEL + TOP STORIES
+  ══════════════════════════════════════════ */
+  .homepage-below {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 20px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+  }
+
+  /* Carousel placeholder */
+  .carousel-placeholder {
+    background: #111;
+    aspect-ratio: 16/9;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .carousel-img {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #1a1a2e, #2d1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* fake two-panel image like the screenshot */
+  .carousel-panel {
+    width: 50%;
+    height: 100%;
+    background: #333;
+    flex-shrink: 0;
+  }
+  .carousel-panel:first-child { background: #2a2a3e; }
+  .carousel-panel:last-child  { background: #1e1e2e; }
+
+  .carousel-caption {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0,0,0,.8));
+    z-index: 2;
+  }
+
+  .carousel-tag {
+    display: inline-block;
+    background: #22c2a0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+  }
+
+  .carousel-tag.news { background: #888; }
+
+  .carousel-hl {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    max-width: 480px;
+  }
+
+  .carousel-dots {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    gap: 5px;
+    z-index: 3;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.4);
+  }
+  .dot.active { background: #fff; }
+
+  /* Top Stories */
+  .top-stories { }
+
+  .top-stories-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #111;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 0;
+  }
+
+  .story-item {
+    padding: 14px 0;
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .story-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .badge {
+    font-size: 9px;
+    letter-spacing: .1em;
+    padding: 2px 7px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .badge-pink    { background: #e91e8c; }
+  .badge-blue    { background: #1565C0; }
+
+  .story-hl {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+    color: #111;
+    margin-bottom: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+
+  .story-hl:hover { color: #C8102E; }
+
+  .story-by {
+    font-size: 11px;
+    color: #888;
+    font-family: 'Barlow', sans-serif;
   }
 
   /* ── RESPONSIVE ── */
-  @media (max-width: 640px) {
-    .fi-body {
+  @media (max-width: 768px) {
+    .homepage-below {
       grid-template-columns: 1fr;
+      padding: 16px;
     }
+    .topbar-logo { font-size: 22px; }
+    .ad-slot { display: none; }
+  }
 
-    .fi-img-col {
-      /* enforce 4:3 on mobile too */
-    }
-
-    .fi-featured-img {
-      aspect-ratio: 4 / 3;
-      height: auto;
-    }
-
+  @media (max-width: 640px) {
+    .fi-body { grid-template-columns: 1fr; }
+    .fi-featured-img { aspect-ratio: 4 / 3; height: auto; }
     .fi-story-col {
       padding: 18px 16px 20px;
       border-left: none;
-      border-top: 1px solid var(--rule);
+      border-top: 1px solid #D4D0C8;
     }
-
-    .fi-story-col::before {
-      top: 18px;
-      bottom: 18px;
-      left: 0;
-    }
-
-    .fi-label-bar {
-      padding: 9px 16px;
-    }
-
-    .fi-section-title {
-      font-size: 13px;
-    }
+    .fi-story-col::before { top: 18px; bottom: 18px; left: 0; }
+    .fi-label-bar { padding: 9px 16px; }
+    .widget-wrap { padding: 12px 12px 0; }
+    .nav-item { padding: 12px 12px; font-size: 12px; }
   }
 </style>
 </head>
 <body>
 
-<article class="fi-widget" role="article" aria-label="Cover Story of the Day">
-
-  <!-- LABEL BAR -->
-  <div class="fi-label-bar">
-    <span class="fi-section-title">Cover Story of the Day</span>
-    <span class="fi-date">Issue 05 · 2026</span>
+<!-- AD BANNER -->
+<div class="ad-banner">
+  <div class="ad-inner">
+    <div class="ad-slot">Advertisement</div>
   </div>
+</div>
 
-  <!-- BODY -->
-  <div class="fi-body">
+<!-- TOP BAR -->
+<div style="border-bottom:1px solid #e5e5e5;">
+  <div class="topbar">
+    <div class="topbar-logo">
+      <span>India</span>Forbes
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-signin">Sign In</button>
+      <button class="btn-subscribe">Subscribe</button>
+    </div>
+  </div>
+</div>
 
-    <!-- LEFT: FEATURED IMAGE -->
-    <div class="fi-img-col">
-      <img
-        class="fi-featured-img"
-        src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Kalyan-KrishnamurthyJan26NR0042-2026-02-ce9249947e7400aae46b69ecff22eae9.jpg?im=Resize,width=600,aspect=fit,type=normal"
-        alt="What happens after an IPO is more important: Flipkart CEO"
-      />
-      <span class="fi-photo-credit">Photo: NR Vishnu</span>
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav class="nav">
+    <a class="nav-item active">Home</a>
+    <a class="nav-item">Leadership</a>
+    <a class="nav-item">Innovation</a>
+    <a class="nav-item">Billionaires</a>
+    <a class="nav-item">Startups</a>
+    <a class="nav-item">AI Tracker</a>
+    <a class="nav-item">News</a>
+    <a class="nav-item">Lists ▾</a>
+    <a class="nav-item">Multimedia ▾</a>
+    <a class="nav-item">More ▾</a>
+    <button class="nav-explore">✦ Explore</button>
+  </nav>
+</div>
+
+<!-- ══ COVER STORY WIDGET ══ -->
+<div class="widget-wrap">
+  <article class="fi-widget" role="article" aria-label="Cover Story of the Day">
+
+    <div class="fi-label-bar">
+      <span class="fi-section-title">Cover Story of the Day</span>
+      <span class="fi-issue">Issue 05 · 2026</span>
     </div>
 
-    <!-- RIGHT: STORY -->
-    <div class="fi-story-col">
-      <div class="fi-kicker">Leadership</div>
-
-      <a href="#" class="fi-headline">What happens after an IPO is more important: Flipkart CEO</a>
-
-      <p class="fi-deck">Kalyan Krishnamurthy says the initial public offering isn't tied to personal timelines; the focus is on building a stable, long‑term business as the company plans its India domicile.</p>
-
-      <div class="fi-byline">
-        <div class="fi-avatar">PG</div>
-        <div class="fi-byline-text">
-          By <span class="fi-byline-name">Payal Ganguly</span>
+    <div class="fi-body">
+      <div class="fi-img-col">
+        <img
+          class="fi-featured-img"
+          src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Kalyan-KrishnamurthyJan26NR0042-2026-02-ce9249947e7400aae46b69ecff22eae9.jpg?im=Resize,width=600,aspect=fit,type=normal"
+          alt="What happens after an IPO is more important: Flipkart CEO"
+        />
+        <span class="fi-photo-credit">Photo: NR Vishnu</span>
+      </div>
+      <div class="fi-story-col">
+        <div class="fi-kicker">Leadership</div>
+        <a href="#" class="fi-headline">What happens after an IPO is more important: Flipkart CEO</a>
+        <p class="fi-deck">Kalyan Krishnamurthy says the initial public offering isn't tied to personal timelines; the focus is on building a stable, long‑term business as the company plans its India domicile.</p>
+        <div class="fi-byline">
+          <div class="fi-avatar">PG</div>
+          <div class="fi-byline-text">
+            By <span class="fi-byline-name">Payal Ganguly</span>
+          </div>
         </div>
       </div>
     </div>
 
+  </article>
+</div>
+
+<!-- ══ CAROUSEL + TOP STORIES ══ -->
+<div class="homepage-below">
+
+  <!-- Carousel -->
+  <div class="carousel-placeholder">
+    <div class="carousel-img">
+      <div class="carousel-panel"></div>
+      <div class="carousel-panel"></div>
+    </div>
+    <div class="carousel-caption">
+      <div><span class="carousel-tag news">News</span> <span class="carousel-tag">Explainer</span></div>
+      <div class="carousel-hl">Where does Anthropic stand in the OpenAI era?</div>
+    </div>
+    <div class="carousel-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
   </div>
 
-</article>
+  <!-- Top Stories -->
+  <div class="top-stories">
+    <div class="top-stories-title">Top Stories</div>
+
+    <div class="story-item">
+      <div class="story-cat">News</div>
+      <a class="story-hl">US opens a window for Russian oil import. India says door was never closed</a>
+      <div class="story-by">By Himani Kothari</div>
+    </div>
+
+    <div class="story-item">
+      <div class="story-cat">AI Tracker <span class="badge badge-pink">Weekly Wrap</span></div>
+      <a class="story-hl">This week in AI: AI on the battlefield, AI in your glasses</a>
+      <div class="story-by">By Naini Thaker</div>
+    </div>
+
+    <div class="story-item">
+      <div class="story-cat">Column <span class="badge badge-blue">Editor's Note</span></div>
+      <a class="story-hl">The case for human wisdom over artificial intelligence</a>
+      <div class="story-by">By Suveen Sinha</div>
+    </div>
+
+    <div class="story-item">
+      <div class="story-cat">News</div>
+      <a class="story-hl">Farhan Akhtar and the big Boong theory</a>
+      <div class="story-by">By Himani Kothari</div>
+    </div>
+  </div>
+
+</div>
 
 </body>
 </html>
