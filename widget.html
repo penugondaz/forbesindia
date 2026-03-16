@@ -205,26 +205,28 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .fi-body {
-      grid-template-columns: 120px 1fr;
+      grid-template-columns: 130px 1fr;
+      align-items: stretch;
     }
 
     .fi-img-col {
-      width: 120px;
-      aspect-ratio: 3 / 2;
+      width: 130px;
       flex-shrink: 0;
+      align-self: stretch;
     }
 
     .fi-featured-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
     }
 
     .fi-story-col {
-      padding: 10px 12px 10px;
+      padding: 10px 12px;
       border-left: 1px solid var(--rule);
       border-top: none;
-      justify-content: space-between;
+      justify-content: center;
     }
 
     .fi-story-col::before { display: none; }
@@ -232,9 +234,13 @@
     .fi-kicker { display: none; }
 
     .fi-headline {
-      font-size: 13px;
-      line-height: 1.25;
+      font-size: 14px;
+      line-height: 1.3;
       margin-bottom: 10px;
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .fi-byline {
