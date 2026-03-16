@@ -205,10 +205,16 @@
   /* ── RESPONSIVE ── */
   @media (max-width: 640px) {
     .fi-body {
-      grid-template-columns: 120px 1fr;
+      grid-template-columns: auto 1fr;
+    }
+
+    .fi-img-col {
+      aspect-ratio: 3 / 2;
+      flex-shrink: 0;
     }
 
     .fi-featured-img {
+      width: 100%;
       height: 100%;
       object-fit: cover;
     }
