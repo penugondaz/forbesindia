@@ -208,38 +208,38 @@
       grid-template-columns: 120px 1fr;
     }
 
+    .fi-img-col {
+      width: 120px;
+      aspect-ratio: 3 / 2;
+      flex-shrink: 0;
+    }
+
     .fi-featured-img {
+      width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
     .fi-story-col {
-      padding: 10px 12px;
+      padding: 10px 12px 10px;
+      border-left: 1px solid var(--rule);
+      border-top: none;
+      justify-content: space-between;
     }
 
-    .fi-story-col::before {
-      top: 10px;
-      bottom: 10px;
-    }
-
-    .fi-kicker {
-      font-size: 9px;
-      margin-bottom: 5px;
-    }
+    .fi-story-col::before { display: none; }
+    .fi-deck { display: none; }
+    .fi-kicker { display: none; }
 
     .fi-headline {
       font-size: 13px;
-      line-height: 1.2;
-      margin-bottom: 0;
-    }
-
-    .fi-deck {
-      display: none;
+      line-height: 1.25;
+      margin-bottom: 10px;
     }
 
     .fi-byline {
+      border-top: 1px solid var(--rule);
       padding-top: 8px;
-      margin-top: 8px;
     }
 
     .fi-avatar {
@@ -248,22 +248,16 @@
       font-size: 8px;
     }
 
-    .fi-byline-text {
-      font-size: 11px;
-    }
+    .fi-byline-text { font-size: 11px; }
 
-    .fi-label-bar {
-      padding: 7px 12px;
-    }
+    .fi-label-bar { padding: 7px 12px; }
 
     .fi-section-title {
       font-size: 11px;
       letter-spacing: .16em;
     }
 
-    .fi-date {
-      font-size: 9px;
-    }
+    .fi-date { font-size: 9px; }
   }
 </style>
 </head>
