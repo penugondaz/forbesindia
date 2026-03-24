@@ -1,1 +1,99 @@
 
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap');
+.fi-w{font-family:'Source Sans 3',sans-serif;display:flex;align-items:stretch;height:150px;border:1px solid #222;background:#fff;overflow:hidden;max-width:860px;margin:0 auto;position:relative}
+.fi-w-accent{width:5px;min-width:5px;background:#000}
+.fi-w-logo-wrap{width:110px;min-width:110px;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;position:relative}
+.fi-w-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 7px;white-space:nowrap}
+.fi-w-badge-new{background:#c8102e;color:#fff}
+.fi-w-badge-upcoming{background:#555;color:#fff}
+.fi-w-logo-box{width:58px;height:58px;border:1px solid #333;background:#111;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
+.fi-w-logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;line-height:1}
+.fi-w-logo-sub{font-size:7px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#aaa}
+.fi-w-body{flex:1;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid #e5e5e5}
+.fi-w-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.fi-w-meta{flex:1}
+.fi-w-tag{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#888;margin-bottom:4px}
+.fi-w-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#000;line-height:1.2}
+.fi-w-edition{font-size:10px;font-weight:600;background:#000;color:#fff;padding:2px 7px;display:inline-block;margin-top:5px;letter-spacing:0.5px}
+.fi-w-count-block{text-align:right;line-height:1;flex-shrink:0}
+.fi-w-count-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:#ededed;display:block;line-height:1}
+.fi-w-count-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ccc;display:block;margin-top:2px}
+.fi-w-desc{font-size:12.5px;color:#555;line-height:1.45;max-width:400px}
+.fi-w-bottom{display:flex;align-items:center;justify-content:space-between}
+.fi-w-date{font-size:10px;color:#999;letter-spacing:0.3px}
+.fi-w-cta{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#000;text-decoration:none;border-bottom:1.5px solid #000;padding-bottom:1px;white-space:nowrap;flex-shrink:0}
+.fi-w-cta-arrow{font-size:13px;transition:transform 0.2s}
+.fi-w-cta:hover .fi-w-cta-arrow{transform:translate(3px,-2px)}
+.fi-w-coming{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;white-space:nowrap;flex-shrink:0}
+.state-label{font-family:'Source Sans 3',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin:0 0 8px;max-width:860px}
+</style>
+
+<div style="display:flex;flex-direction:column;gap:20px;padding:2px 0">
+
+  <div>
+    <p class="state-label">Published</p>
+    <div class="fi-w">
+      <div class="fi-w-accent"></div>
+      <div class="fi-w-logo-wrap">
+        <div class="fi-w-badge fi-w-badge-new">New</div>
+        <div class="fi-w-logo-box">
+          <div class="fi-w-logo-text">30</div>
+          <div class="fi-w-logo-sub">Under 30</div>
+        </div>
+      </div>
+      <div class="fi-w-body">
+        <div class="fi-w-top">
+          <div class="fi-w-meta">
+            <div class="fi-w-tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-w-title">30 Under 30</div>
+            <div class="fi-w-edition">2025 Edition</div>
+          </div>
+          <div class="fi-w-count-block">
+            <span class="fi-w-count-num">30</span>
+            <span class="fi-w-count-label">in the list</span>
+          </div>
+        </div>
+        <div class="fi-w-desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-w-bottom">
+          <span class="fi-w-date">Published Mar 24, 2025</span>
+          <a class="fi-w-cta" href="https://www.forbesindia.com/lists/" target="_blank">View Full List <span class="fi-w-cta-arrow">↗</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="state-label">Upcoming</p>
+    <div class="fi-w">
+      <div class="fi-w-accent"></div>
+      <div class="fi-w-logo-wrap">
+        <div class="fi-w-badge fi-w-badge-upcoming">Upcoming</div>
+        <div class="fi-w-logo-box">
+          <div class="fi-w-logo-text">30</div>
+          <div class="fi-w-logo-sub">Under 30</div>
+        </div>
+      </div>
+      <div class="fi-w-body">
+        <div class="fi-w-top">
+          <div class="fi-w-meta">
+            <div class="fi-w-tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-w-title">30 Under 30</div>
+            <div class="fi-w-edition">2025 Edition</div>
+          </div>
+          <div class="fi-w-count-block">
+            <span class="fi-w-count-num">30</span>
+            <span class="fi-w-count-label">in the list</span>
+          </div>
+        </div>
+        <div class="fi-w-desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-w-bottom">
+          <span class="fi-w-date">Launches Apr 15, 2025</span>
+          <span class="fi-w-coming">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
