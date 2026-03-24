@@ -1,111 +1,488 @@
-
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forbes India – Listing Page Widget</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap');
-.fi-w{font-family:'Source Sans 3',sans-serif;display:flex;align-items:stretch;height:150px;border:1px solid #222;background:#fff;overflow:hidden;width:100%;position:relative}
-.fi-w-accent{width:5px;min-width:5px;background:#000}
-.fi-w-logo-wrap{width:110px;min-width:110px;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;position:relative}
-.fi-w-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 7px;white-space:nowrap}
-.fi-w-badge-new{background:#c8102e;color:#fff}
-.fi-w-badge-upcoming{background:#555;color:#fff}
-.fi-w-logo-box{width:58px;height:58px;border:1px solid #333;background:#111;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2px}
-.fi-w-logo-text{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#fff;line-height:1}
-.fi-w-logo-sub{font-size:7px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#aaa}
-.fi-w-body{flex:1;padding:14px 18px;display:flex;flex-direction:column;justify-content:space-between;border-left:1px solid #e5e5e5}
-.fi-w-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.fi-w-meta{flex:1}
-.fi-w-tag{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:#888;margin-bottom:4px}
-.fi-w-title{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:#000;line-height:1.2}
-.fi-w-edition{font-size:10px;font-weight:600;background:#000;color:#fff;padding:2px 7px;display:inline-block;margin-top:5px;letter-spacing:0.5px}
-.fi-w-count-block{text-align:right;line-height:1;flex-shrink:0}
-.fi-w-count-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:#ededed;display:block;line-height:1}
-.fi-w-count-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ccc;display:block;margin-top:2px}
-.fi-w-desc{font-size:12.5px;color:#555;line-height:1.45}
-.fi-w-bottom{display:flex;align-items:center;justify-content:space-between}
-.fi-w-date{font-size:10px;color:#999;letter-spacing:0.3px}
-.fi-w-cta{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#000;text-decoration:none;border-bottom:1.5px solid #000;padding-bottom:1px;white-space:nowrap;flex-shrink:0}
-.fi-w-cta-arrow{font-size:13px;transition:transform 0.2s}
-.fi-w-cta:hover .fi-w-cta-arrow{transform:translate(3px,-2px)}
-.fi-w-coming{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;white-space:nowrap;flex-shrink:0}
-.state-label{font-family:'Source Sans 3',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin:0 0 8px}
 
-@media(max-width:600px){
-  .fi-w{height:auto;min-height:190px;flex-direction:row;align-items:stretch}
-  .fi-w-logo-wrap{width:90px;min-width:90px;padding:14px 10px}
-  .fi-w-logo-box{width:52px;height:52px}
-  .fi-w-logo-text{font-size:15px}
-  .fi-w-body{padding:14px 14px;gap:10px}
-  .fi-w-title{font-size:17px}
-  .fi-w-count-num{font-size:38px}
-  .fi-w-desc{font-size:12px}
-  .fi-w-tag{font-size:8.5px}
-}
+  /* ─────────────────────────────────────────
+     WIDGET: Forbes India Listing Page Widget
+     States: published | upcoming
+     Usage: Drop .fi-listing-widget anywhere.
+            Toggle state by swapping
+            data-state="published" / "upcoming"
+            on the root element.
+  ───────────────────────────────────────── */
+
+  .fi-listing-widget {
+    font-family: 'Source Sans 3', sans-serif;
+    display: flex;
+    align-items: stretch;
+    height: 150px;
+    border: 1px solid #222;
+    background: #fff;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  /* Left accent bar */
+  .fi-listing-widget__accent {
+    width: 5px;
+    min-width: 5px;
+    background: #000;
+    flex-shrink: 0;
+  }
+
+  /* Logo panel */
+  .fi-listing-widget__logo-panel {
+    width: 110px;
+    min-width: 110px;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* Badge — New / Upcoming */
+  .fi-listing-widget__badge {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 7px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+
+  .fi-listing-widget__badge--new {
+    background: #c8102e;
+    color: #fff;
+  }
+
+  .fi-listing-widget__badge--upcoming {
+    background: #555;
+    color: #fff;
+  }
+
+  /* Logo box */
+  .fi-listing-widget__logo-box {
+    width: 58px;
+    height: 58px;
+    border: 1px solid #333;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .fi-listing-widget__logo-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .fi-listing-widget__logo-sub {
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #aaa;
+  }
+
+  /* Body */
+  .fi-listing-widget__body {
+    flex: 1;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 1px solid #e5e5e5;
+    min-width: 0;
+  }
+
+  /* Top row */
+  .fi-listing-widget__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .fi-listing-widget__meta {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fi-listing-widget__tag {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .fi-listing-widget__title {
+    font-family: 'Playfair Display', serif;
+    font-size: 19px;
+    font-weight: 700;
+    color: #000;
+    line-height: 1.2;
+  }
+
+  .fi-listing-widget__edition {
+    font-size: 10px;
+    font-weight: 600;
+    background: #000;
+    color: #fff;
+    padding: 2px 7px;
+    display: inline-block;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Count */
+  .fi-listing-widget__count {
+    text-align: right;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .fi-listing-widget__count-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #ededed;
+    display: block;
+    line-height: 1;
+  }
+
+  .fi-listing-widget__count-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #ccc;
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* Description */
+  .fi-listing-widget__desc {
+    font-size: 12.5px;
+    color: #555;
+    line-height: 1.45;
+  }
+
+  /* Bottom row */
+  .fi-listing-widget__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .fi-listing-widget__date {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  /* CTA — published state */
+  .fi-listing-widget__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 1px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+
+  .fi-listing-widget__cta:hover {
+    opacity: 0.7;
+  }
+
+  .fi-listing-widget__cta-arrow {
+    font-size: 13px;
+    transition: transform 0.2s;
+    display: inline-block;
+  }
+
+  .fi-listing-widget__cta:hover .fi-listing-widget__cta-arrow {
+    transform: translate(3px, -2px);
+  }
+
+  /* Coming soon — upcoming state */
+  .fi-listing-widget__coming-soon {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 600px) {
+    .fi-listing-widget {
+      height: auto;
+      min-height: 190px;
+    }
+
+    .fi-listing-widget__logo-panel {
+      width: 90px;
+      min-width: 90px;
+      padding: 14px 10px;
+    }
+
+    .fi-listing-widget__logo-box {
+      width: 52px;
+      height: 52px;
+    }
+
+    .fi-listing-widget__logo-name {
+      font-size: 15px;
+    }
+
+    .fi-listing-widget__body {
+      padding: 14px 14px;
+      gap: 10px;
+    }
+
+    .fi-listing-widget__tag {
+      font-size: 8.5px;
+    }
+
+    .fi-listing-widget__title {
+      font-size: 17px;
+    }
+
+    .fi-listing-widget__count-num {
+      font-size: 38px;
+    }
+
+    .fi-listing-widget__desc {
+      font-size: 12px;
+    }
+  }
+
+  /* ─────────────────────────────────────────
+     DEMO PAGE STYLES (remove in production)
+  ───────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #f4f2ee;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    min-height: 100vh;
+  }
+
+  .demo-block {
+    width: 100%;
+    max-width: 860px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .demo-label {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #bbb;
+  }
+
+  .demo-block--mobile {
+    max-width: 375px;
+  }
+
 </style>
+</head>
+<body>
 
-<div style="display:flex;flex-direction:column;gap:24px;padding:2px 0">
+  <!-- ─── DESKTOP: Published ─── -->
+  <div class="demo-block">
+    <p class="demo-label">Desktop — Published</p>
 
-  <div>
-    <p class="state-label">Published</p>
-    <div class="fi-w">
-      <div class="fi-w-accent"></div>
-      <div class="fi-w-logo-wrap">
-        <div class="fi-w-badge fi-w-badge-new">New</div>
-        <div class="fi-w-logo-box">
-          <div class="fi-w-logo-text">30</div>
-          <div class="fi-w-logo-sub">Under 30</div>
+    <div class="fi-listing-widget" data-state="published">
+      <div class="fi-listing-widget__accent"></div>
+
+      <div class="fi-listing-widget__logo-panel">
+        <span class="fi-listing-widget__badge fi-listing-widget__badge--new">New</span>
+        <div class="fi-listing-widget__logo-box">
+          <span class="fi-listing-widget__logo-name">30</span>
+          <span class="fi-listing-widget__logo-sub">Under 30</span>
         </div>
       </div>
-      <div class="fi-w-body">
-        <div class="fi-w-top">
-          <div class="fi-w-meta">
-            <div class="fi-w-tag">Forbes India Lists &amp; Rankings</div>
-            <div class="fi-w-title">30 Under 30</div>
-            <div class="fi-w-edition">2025 Edition</div>
-          </div>
-          <div class="fi-w-count-block">
-            <span class="fi-w-count-num">30</span>
-            <span class="fi-w-count-label">in the list</span>
-          </div>
-        </div>
-        <div class="fi-w-desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
-        <div class="fi-w-bottom">
-          <span class="fi-w-date">Published Mar 24, 2025</span>
-          <a class="fi-w-cta" href="https://www.forbesindia.com/lists/" target="_blank">View Full List <span class="fi-w-cta-arrow">↗</span></a>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div>
-    <p class="state-label">Upcoming</p>
-    <div class="fi-w">
-      <div class="fi-w-accent"></div>
-      <div class="fi-w-logo-wrap">
-        <div class="fi-w-badge fi-w-badge-upcoming">Upcoming</div>
-        <div class="fi-w-logo-box">
-          <div class="fi-w-logo-text">30</div>
-          <div class="fi-w-logo-sub">Under 30</div>
-        </div>
-      </div>
-      <div class="fi-w-body">
-        <div class="fi-w-top">
-          <div class="fi-w-meta">
-            <div class="fi-w-tag">Forbes India Lists &amp; Rankings</div>
-            <div class="fi-w-title">30 Under 30</div>
-            <div class="fi-w-edition">2025 Edition</div>
+      <div class="fi-listing-widget__body">
+        <div class="fi-listing-widget__top">
+          <div class="fi-listing-widget__meta">
+            <div class="fi-listing-widget__tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-listing-widget__title">30 Under 30</div>
+            <div class="fi-listing-widget__edition">2025 Edition</div>
           </div>
-          <div class="fi-w-count-block">
-            <span class="fi-w-count-num">30</span>
-            <span class="fi-w-count-label">in the list</span>
+          <div class="fi-listing-widget__count">
+            <span class="fi-listing-widget__count-num">30</span>
+            <span class="fi-listing-widget__count-label">in the list</span>
           </div>
         </div>
-        <div class="fi-w-desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
-        <div class="fi-w-bottom">
-          <span class="fi-w-date">Launches Apr 15, 2025</span>
-          <span class="fi-w-coming">Coming Soon</span>
+        <div class="fi-listing-widget__desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-listing-widget__bottom">
+          <span class="fi-listing-widget__date">Published Mar 24, 2025</span>
+          <a class="fi-listing-widget__cta" href="https://www.forbesindia.com/lists/30-under-30/2025/" target="_blank">
+            View Full List <span class="fi-listing-widget__cta-arrow">↗</span>
+          </a>
         </div>
       </div>
     </div>
   </div>
 
-</div>
+  <!-- ─── DESKTOP: Upcoming ─── -->
+  <div class="demo-block">
+    <p class="demo-label">Desktop — Upcoming</p>
+
+    <div class="fi-listing-widget" data-state="upcoming">
+      <div class="fi-listing-widget__accent"></div>
+
+      <div class="fi-listing-widget__logo-panel">
+        <span class="fi-listing-widget__badge fi-listing-widget__badge--upcoming">Upcoming</span>
+        <div class="fi-listing-widget__logo-box">
+          <span class="fi-listing-widget__logo-name">30</span>
+          <span class="fi-listing-widget__logo-sub">Under 30</span>
+        </div>
+      </div>
+
+      <div class="fi-listing-widget__body">
+        <div class="fi-listing-widget__top">
+          <div class="fi-listing-widget__meta">
+            <div class="fi-listing-widget__tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-listing-widget__title">30 Under 30</div>
+            <div class="fi-listing-widget__edition">2025 Edition</div>
+          </div>
+          <div class="fi-listing-widget__count">
+            <span class="fi-listing-widget__count-num">30</span>
+            <span class="fi-listing-widget__count-label">in the list</span>
+          </div>
+        </div>
+        <div class="fi-listing-widget__desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-listing-widget__bottom">
+          <span class="fi-listing-widget__date">Launches Apr 15, 2025</span>
+          <span class="fi-listing-widget__coming-soon">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MOBILE: Published ─── -->
+  <div class="demo-block demo-block--mobile">
+    <p class="demo-label">Mobile — Published</p>
+
+    <div class="fi-listing-widget" data-state="published">
+      <div class="fi-listing-widget__accent"></div>
+
+      <div class="fi-listing-widget__logo-panel">
+        <span class="fi-listing-widget__badge fi-listing-widget__badge--new">New</span>
+        <div class="fi-listing-widget__logo-box">
+          <span class="fi-listing-widget__logo-name">30</span>
+          <span class="fi-listing-widget__logo-sub">Under 30</span>
+        </div>
+      </div>
+
+      <div class="fi-listing-widget__body">
+        <div class="fi-listing-widget__top">
+          <div class="fi-listing-widget__meta">
+            <div class="fi-listing-widget__tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-listing-widget__title">30 Under 30</div>
+            <div class="fi-listing-widget__edition">2025 Edition</div>
+          </div>
+          <div class="fi-listing-widget__count">
+            <span class="fi-listing-widget__count-num">30</span>
+            <span class="fi-listing-widget__count-label">in the list</span>
+          </div>
+        </div>
+        <div class="fi-listing-widget__desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-listing-widget__bottom">
+          <span class="fi-listing-widget__date">Published Mar 24, 2025</span>
+          <a class="fi-listing-widget__cta" href="https://www.forbesindia.com/lists/30-under-30/2025/" target="_blank">
+            View Full List <span class="fi-listing-widget__cta-arrow">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MOBILE: Upcoming ─── -->
+  <div class="demo-block demo-block--mobile">
+    <p class="demo-label">Mobile — Upcoming</p>
+
+    <div class="fi-listing-widget" data-state="upcoming">
+      <div class="fi-listing-widget__accent"></div>
+
+      <div class="fi-listing-widget__logo-panel">
+        <span class="fi-listing-widget__badge fi-listing-widget__badge--upcoming">Upcoming</span>
+        <div class="fi-listing-widget__logo-box">
+          <span class="fi-listing-widget__logo-name">30</span>
+          <span class="fi-listing-widget__logo-sub">Under 30</span>
+        </div>
+      </div>
+
+      <div class="fi-listing-widget__body">
+        <div class="fi-listing-widget__top">
+          <div class="fi-listing-widget__meta">
+            <div class="fi-listing-widget__tag">Forbes India Lists &amp; Rankings</div>
+            <div class="fi-listing-widget__title">30 Under 30</div>
+            <div class="fi-listing-widget__edition">2025 Edition</div>
+          </div>
+          <div class="fi-listing-widget__count">
+            <span class="fi-listing-widget__count-num">30</span>
+            <span class="fi-listing-widget__count-label">in the list</span>
+          </div>
+        </div>
+        <div class="fi-listing-widget__desc">India's most exceptional young innovators, founders, and leaders shaping the future across business, tech, and culture.</div>
+        <div class="fi-listing-widget__bottom">
+          <span class="fi-listing-widget__date">Launches Apr 15, 2025</span>
+          <span class="fi-listing-widget__coming-soon">Coming Soon</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
