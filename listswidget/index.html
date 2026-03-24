@@ -2,7 +2,7 @@
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Source+Sans+3:wght@400;600&display=swap');
-.fi-w{font-family:'Source Sans 3',sans-serif;display:flex;align-items:stretch;height:150px;border:1px solid #222;background:#fff;overflow:hidden;max-width:860px;margin:0 auto;position:relative}
+.fi-w{font-family:'Source Sans 3',sans-serif;display:flex;align-items:stretch;height:150px;border:1px solid #222;background:#fff;overflow:hidden;width:100%;position:relative}
 .fi-w-accent{width:5px;min-width:5px;background:#000}
 .fi-w-logo-wrap{width:110px;min-width:110px;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px;position:relative}
 .fi-w-badge{position:absolute;top:10px;left:50%;transform:translateX(-50%);font-size:7px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:2px 7px;white-space:nowrap}
@@ -20,17 +20,29 @@
 .fi-w-count-block{text-align:right;line-height:1;flex-shrink:0}
 .fi-w-count-num{font-family:'Playfair Display',serif;font-size:48px;font-weight:700;color:#ededed;display:block;line-height:1}
 .fi-w-count-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#ccc;display:block;margin-top:2px}
-.fi-w-desc{font-size:12.5px;color:#555;line-height:1.45;max-width:400px}
+.fi-w-desc{font-size:12.5px;color:#555;line-height:1.45}
 .fi-w-bottom{display:flex;align-items:center;justify-content:space-between}
 .fi-w-date{font-size:10px;color:#999;letter-spacing:0.3px}
 .fi-w-cta{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#000;text-decoration:none;border-bottom:1.5px solid #000;padding-bottom:1px;white-space:nowrap;flex-shrink:0}
 .fi-w-cta-arrow{font-size:13px;transition:transform 0.2s}
 .fi-w-cta:hover .fi-w-cta-arrow{transform:translate(3px,-2px)}
 .fi-w-coming{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#888;white-space:nowrap;flex-shrink:0}
-.state-label{font-family:'Source Sans 3',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin:0 0 8px;max-width:860px}
+.state-label{font-family:'Source Sans 3',sans-serif;font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin:0 0 8px}
+
+@media(max-width:600px){
+  .fi-w{height:auto;min-height:190px;flex-direction:row;align-items:stretch}
+  .fi-w-logo-wrap{width:90px;min-width:90px;padding:14px 10px}
+  .fi-w-logo-box{width:52px;height:52px}
+  .fi-w-logo-text{font-size:15px}
+  .fi-w-body{padding:14px 14px;gap:10px}
+  .fi-w-title{font-size:17px}
+  .fi-w-count-num{font-size:38px}
+  .fi-w-desc{font-size:12px}
+  .fi-w-tag{font-size:8.5px}
+}
 </style>
 
-<div style="display:flex;flex-direction:column;gap:20px;padding:2px 0">
+<div style="display:flex;flex-direction:column;gap:24px;padding:2px 0">
 
   <div>
     <p class="state-label">Published</p>
