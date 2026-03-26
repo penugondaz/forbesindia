@@ -1,1 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forbes India 30 Under 30 — All Years</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
+<style>
+  :root {
+    --fi-red:    #CC0000;
+    --fi-red-dk: #990000;
+    --fi-gold:   #B8962E;
+    --fi-gold-lt:#D4AF37;
+    --fi-black:  #0F0F0F;
+    --fi-ink:    #1A1A1A;
+    --fi-ash:    #3A3A3A;
+    --fi-mid:    #6B6B6B;
+    --fi-rule:   #D9D0C4;
+    --fi-cream:  #FAF8F4;
+    --fi-white:  #FFFFFF;
+    --fi-card:   #FFFFFF;
+    --serif: 'Playfair Display', Georgia, serif;
+    --body: 'Source Serif 4', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --max: 1240px;
+    --pad: clamp(16px, 4vw, 48px);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--fi-cream);
+    color: var(--fi-ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; }
+
+  /* ─── MASTHEAD ─── */
+  .masthead {
+    background: var(--fi-black);
+    border-bottom: 3px solid var(--fi-red);
+    padding: 0 var(--pad);
+  }
+  .masthead-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+    gap: 16px;
+  }
+  .masthead-logo {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: 22px;
+    color: var(--fi-white);
+    letter-spacing: -0.5px;
+  }
+  .masthead-logo span { color: var(--fi-red); }
+  .masthead-nav {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+  }
+  .masthead-nav a {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #aaa;
+    transition: color .2s;
+  }
+  .masthead-nav a:hover { color: var(--fi-white); }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--fi-black);
+    padding: clamp(40px, 7vw, 80px) var(--pad) clamp(32px, 5vw, 60px);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(204,0,0,.12), transparent),
+                radial-gradient(ellipse 40% 40% at 10% 80%, rgba(184,150,46,.07), transparent);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fi-red);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 2px;
+    background: var(--fi-red);
+  }
+  /* List badge / logo area */
+  .list-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .list-badge-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--fi-red);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .list-badge-icon svg { width: 36px; height: 36px; fill: white; }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(38px, 6vw, 72px);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--fi-white);
+    letter-spacing: -1px;
+  }
+  .hero-title em { color: var(--fi-gold-lt); font-style: italic; }
+  .hero-meta {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+  }
+  .hero-desc {
+    font-family: var(--body);
+    font-size: clamp(14px, 1.8vw, 17px);
+    color: #bbb;
+    max-width: 620px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin-top: 32px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .hero-stat-item { text-align: left; }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    color: var(--fi-gold-lt);
+    line-height: 1;
+  }
+  .hero-stat-lbl {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 4px;
+  }
+
+  /* ─── FILTERS / YEAR NAV ─── */
+  .year-nav-bar {
+    background: var(--fi-white);
+    border-bottom: 1px solid var(--fi-rule);
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  }
+  .year-nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .year-nav-inner::-webkit-scrollbar { display: none; }
+  .year-nav-label {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fi-mid);
+    white-space: nowrap;
+    padding: 14px 20px 14px 0;
+    border-right: 1px solid var(--fi-rule);
+    margin-right: 4px;
+    flex-shrink: 0;
+  }
+  .year-btn {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fi-ash);
+    padding: 14px 14px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .year-btn:hover { color: var(--fi-red); }
+  .year-btn.active { color: var(--fi-red); border-bottom-color: var(--fi-red); font-weight: 600; }
+
+  /* ─── MAIN CONTENT ─── */
+  .content {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 48px var(--pad) 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--fi-rule);
+  }
+  .section-header h2 {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fi-mid);
+  }
+
+  /* ─── YEAR CARDS ─── */
+  .years-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .year-card {
+    background: var(--fi-card);
+    border: 1px solid var(--fi-rule);
+    border-top: 4px solid var(--fi-red);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: box-shadow .25s;
+  }
+  .year-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,.1); }
+
+  .year-card-header {
+    padding: 28px 32px 20px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 24px;
+    border-bottom: 1px solid var(--fi-rule);
+  }
+  .year-badge {
+    background: var(--fi-red);
+    color: white;
+    font-family: var(--serif);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1;
+    padding: 10px 16px 12px;
+    border-radius: 2px;
+    letter-spacing: -1px;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .year-header-meta h3 {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 700;
+    color: var(--fi-ink);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .year-header-meta p {
+    font-family: var(--body);
+    font-size: 14px;
+    color: var(--fi-mid);
+    line-height: 1.55;
+    font-weight: 300;
+    max-width: 580px;
+  }
+  .year-header-cta {
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--fi-red);
+    color: white;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border-radius: 2px;
+    border: none;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: var(--fi-red-dk); transform: translateY(-1px); }
+  .btn-primary svg { width: 14px; height: 14px; }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--fi-red);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 9px 0;
+    border: none;
+    cursor: pointer;
+    transition: gap .2s;
+  }
+  .btn-ghost:hover { gap: 10px; }
+  .btn-ghost svg { width: 14px; height: 14px; }
+
+  .year-card-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media(max-width: 760px) {
+    .year-card-body { grid-template-columns: 1fr; }
+  }
+
+  /* Honorees panel */
+  .honorees-panel {
+    padding: 24px 32px;
+    border-right: 1px solid var(--fi-rule);
+  }
+  @media(max-width: 760px) {
+    .honorees-panel { border-right: none; border-bottom: 1px solid var(--fi-rule); }
+  }
+  .panel-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fi-mid);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .entry-count {
+    background: var(--fi-cream);
+    border: 1px solid var(--fi-rule);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fi-ash);
+    padding: 2px 10px;
+    font-family: var(--sans);
+    letter-spacing: 0;
+  }
+  .honorees-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .honoree-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 2px;
+    transition: background .15s;
+  }
+  .honoree-item:hover { background: var(--fi-cream); }
+  .honoree-rank {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--fi-red);
+    width: 18px;
+    flex-shrink: 0;
+    letter-spacing: 0;
+  }
+  .honoree-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--fi-rule) 0%, #e0d8ce 100%);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fi-mid);
+    overflow: hidden;
+  }
+  .honoree-info { flex: 1; min-width: 0; }
+  .honoree-name {
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fi-ink);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .honoree-role {
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--fi-mid);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 1px;
+  }
+  .honoree-sector {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fi-gold);
+    background: rgba(184,150,46,.08);
+    border: 1px solid rgba(184,150,46,.2);
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Articles panel */
+  .articles-panel {
+    padding: 24px 32px;
+  }
+  .article-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .article-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .article-img {
+    width: 72px;
+    height: 54px;
+    border-radius: 2px;
+    background: linear-gradient(135deg, #e0d8ce 0%, var(--fi-rule) 100%);
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .article-img-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .article-img-placeholder svg { width: 20px; height: 20px; opacity: .3; }
+  .article-info { flex: 1; min-width: 0; }
+  .article-cat {
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fi-red);
+    margin-bottom: 4px;
+  }
+  .article-title {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fi-ink);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .article-item:hover .article-title { color: var(--fi-red); }
+  .article-date {
+    font-family: var(--sans);
+    font-size: 10px;
+    color: var(--fi-mid);
+    margin-top: 4px;
+  }
+
+  /* Card footer */
+  .year-card-footer {
+    padding: 16px 32px;
+    background: var(--fi-cream);
+    border-top: 1px solid var(--fi-rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--fi-mid);
+  }
+  .footer-stat strong {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fi-ash);
+  }
+  .footer-stat svg { width: 13px; height: 13px; opacity: .5; }
+
+  /* Sectors strip */
+  .sectors-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 14px 32px;
+    border-top: 1px solid var(--fi-rule);
+    background: var(--fi-white);
+  }
+  .sector-tag {
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fi-ash);
+    background: var(--fi-cream);
+    border: 1px solid var(--fi-rule);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+  .sector-tag.highlighted { background: rgba(204,0,0,.06); border-color: rgba(204,0,0,.2); color: var(--fi-red); }
+
+  /* ─── BREADCRUMB ─── */
+  .breadcrumb {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 14px var(--pad) 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--fi-mid);
+  }
+  .breadcrumb a { color: var(--fi-mid); transition: color .15s; }
+  .breadcrumb a:hover { color: var(--fi-red); }
+  .breadcrumb-sep { color: var(--fi-rule); }
+
+  /* ─── LOAD MORE ─── */
+  .load-more-wrap {
+    text-align: center;
+    margin-top: 48px;
+  }
+  .btn-load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--fi-white);
+    color: var(--fi-ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    border: 2px solid var(--fi-ink);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+  }
+  .btn-load-more:hover { background: var(--fi-ink); color: var(--fi-white); }
+
+  /* ─── RESPONSIVE ─── */
+  @media(max-width: 900px) {
+    .year-card-header { grid-template-columns: auto 1fr; }
+    .year-header-cta { grid-column: 1 / -1; }
+  }
+  @media(max-width: 640px) {
+    .year-card-header { padding: 20px; }
+    .honorees-panel, .articles-panel { padding: 18px 20px; }
+    .year-card-footer { padding: 14px 20px; }
+    .sectors-strip { padding: 12px 20px; }
+    .hero-stats { gap: 20px; }
+    .year-badge { font-size: 22px; padding: 8px 12px; }
+  }
+  @media(max-width: 400px) {
+    .masthead-nav { display: none; }
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .year-card {
+    animation: fadeUp .5s ease both;
+  }
+  .year-card:nth-child(1) { animation-delay: .05s; }
+  .year-card:nth-child(2) { animation-delay: .12s; }
+  .year-card:nth-child(3) { animation-delay: .19s; }
+  .year-card:nth-child(4) { animation-delay: .26s; }
+
+  /* ─── SCROLL TO TOP ─── */
+  #scrollTop {
+    position: fixed;
+    bottom: 28px;
+    right: 24px;
+    width: 42px;
+    height: 42px;
+    background: var(--fi-red);
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    box-shadow: 0 4px 12px rgba(204,0,0,.35);
+    z-index: 200;
+  }
+  #scrollTop.show { opacity: 1; pointer-events: all; }
+  #scrollTop:hover { transform: translateY(-2px); }
+  #scrollTop svg { width: 18px; height: 18px; }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="https://www.forbesindia.com" class="masthead-logo">Forbes <span>India</span></a>
+    <nav>
+      <ul class="masthead-nav">
+        <li><a href="#">Lists</a></li>
+        <li><a href="#">Magazine</a></li>
+        <li><a href="#">Business</a></li>
+        <li><a href="#">Technology</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="https://www.forbesindia.com">Home</a>
+  <span class="breadcrumb-sep">›</span>
+  <a href="https://www.forbesindia.com/lists">Lists</a>
+  <span class="breadcrumb-sep">›</span>
+  <span>30 Under 30</span>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Forbes India Lists</div>
+    <div class="list-badge">
+      <div class="list-badge-icon">
+        <!-- Star / award icon -->
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2l2.9 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l7.1-1.01L12 2z"/>
+        </svg>
+      </div>
+      <h1 class="hero-title">30 <em>Under</em> 30</h1>
+    </div>
+    <p class="hero-desc">
+      Forbes India's definitive annual ranking of the most disruptive young entrepreneurs, innovators, and leaders under the age of 30 who are reshaping India's economic, cultural, and technological landscape.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">12</div>
+        <div class="hero-stat-lbl">Editions</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">3,600+</div>
+        <div class="hero-stat-lbl">Honorees</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">2015</div>
+        <div class="hero-stat-lbl">Inaugural Year</div>
+      </div>
+      <div class="hero-stat-item">
+        <div class="hero-stat-num">20+</div>
+        <div class="hero-stat-lbl">Industry Categories</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STICKY YEAR NAV -->
+<nav class="year-nav-bar" id="yearNav">
+  <div class="year-nav-inner">
+    <span class="year-nav-label">Jump to year</span>
+    <button class="year-btn active" onclick="scrollToYear('2026', this)">2026</button>
+    <button class="year-btn" onclick="scrollToYear('2025', this)">2025</button>
+    <button class="year-btn" onclick="scrollToYear('2024', this)">2024</button>
+    <button class="year-btn" onclick="scrollToYear('2023', this)">2023</button>
+    <button class="year-btn" onclick="scrollToYear('2022', this)">2022</button>
+    <button class="year-btn" onclick="scrollToYear('2021', this)">2021</button>
+    <button class="year-btn" onclick="scrollToYear('2020', this)">2020</button>
+    <button class="year-btn" onclick="scrollToYear('2019', this)">2019</button>
+    <button class="year-btn" onclick="scrollToYear('2018', this)">2018</button>
+    <button class="year-btn" onclick="scrollToYear('2017', this)">2017</button>
+    <button class="year-btn" onclick="scrollToYear('2016', this)">2016</button>
+    <button class="year-btn" onclick="scrollToYear('2015', this)">2015</button>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="content">
+  <div class="section-header">
+    <h2>All Editions — 2015 to 2026</h2>
+  </div>
+
+  <div class="years-grid" id="yearsGrid">
+
+    <!-- ═══ 2026 ═══ -->
+    <article class="year-card" id="year-2026">
+      <div class="year-card-header">
+        <div class="year-badge">2026</div>
+        <div class="year-header-meta">
+          <h3>Class of 2026 — Builders of the Next Bharat</h3>
+          <p>This year's cohort redefines ambition — from AI founders and climate-tech pioneers to new-age storytellers — drawn from 300+ nominations across every corner of India.</p>
+        </div>
+        <div class="year-header-cta">
+          <a href="https://www.forbesindia.com/lists/30-under-30/2026" class="btn-primary">
+            View Full List
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="year-card-body">
+        <!-- Honorees -->
+        <div class="honorees-panel">
+          <div class="panel-label">
+            Top Honorees
+            <span class="entry-count">300 total</span>
+          </div>
+          <ul class="honorees-list">
+            <li class="honoree-item">
+              <span class="honoree-rank">#1</span>
+              <div class="honoree-avatar">AK</div>
+              <div class="honoree-info">
+                <div class="honoree-name">Aryan Kapoor</div>
+                <div class="honoree-role">Co-founder, NeuralSeed AI</div>
+              </div>
+              <span class="honoree-sector">AI & Tech</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#2</span>
+              <div class="honoree-avatar">PS</div>
+              <div class="honoree-info">
+                <div class="honoree-name">Priya Sharma</div>
+                <div class="honoree-role">Founder, GreenRoots</div>
+              </div>
+              <span class="honoree-sector">Climate</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#3</span>
+              <div class="honoree-avatar">RN</div>
+              <div class="honoree-info">
+                <div class="honoree-name">Rohan Nair</div>
+                <div class="honoree-role">CEO, FinStack</div>
+              </div>
+              <span class="honoree-sector">Fintech</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#4</span>
+              <div class="honoree-avatar">SM</div>
+              <div class="honoree-info">
+                <div class="honoree-name">Sneha Mehta</div>
+                <div class="honoree-role">Director, CureX Bio</div>
+              </div>
+              <span class="honoree-sector">Biotech</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#5</span>
+              <div class="honoree-avatar">VG</div>
+              <div class="honoree-info">
+                <div class="honoree-name">Vikram Gupta</div>
+                <div class="honoree-role">Founder, EduVerse</div>
+              </div>
+              <span class="honoree-sector">Edtech</span>
+            </li>
+          </ul>
+        </div>
+        <!-- Articles -->
+        <div class="articles-panel">
+          <div class="panel-label">Related Coverage</div>
+          <ul class="article-list">
+            <li class="article-item">
+              <div class="article-img">
+                <div class="article-img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9" stroke="white" stroke-width="1.5" fill="none"/></svg>
+                </div>
+              </div>
+              <div class="article-info">
+                <div class="article-cat">Cover Story</div>
+                <div class="article-title">Meet the 30 Under 30 Class of 2026: India's Most Ambitious Young Leaders</div>
+                <div class="article-date">March 2026</div>
+              </div>
+            </li>
+            <li class="article-item">
+              <div class="article-img">
+                <div class="article-img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9" stroke="white" stroke-width="1.5" fill="none"/></svg>
+                </div>
+              </div>
+              <div class="article-info">
+                <div class="article-cat">Interview</div>
+                <div class="article-title">Aryan Kapoor on Building India's First AI Foundation Model at 26</div>
+                <div class="article-date">March 2026</div>
+              </div>
+            </li>
+            <li class="article-item">
+              <div class="article-img">
+                <div class="article-img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9" stroke="white" stroke-width="1.5" fill="none"/></svg>
+                </div>
+              </div>
+              <div class="article-info">
+                <div class="article-cat">Analysis</div>
+                <div class="article-title">Gen Z Founders Are Changing India's Startup Playbook</div>
+                <div class="article-date">February 2026</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Sectors -->
+      <div class="sectors-strip">
+        <span class="sector-tag highlighted">AI & Tech</span>
+        <span class="sector-tag highlighted">Climate</span>
+        <span class="sector-tag highlighted">Fintech</span>
+        <span class="sector-tag">Biotech</span>
+        <span class="sector-tag">Edtech</span>
+        <span class="sector-tag">Media</span>
+        <span class="sector-tag">Healthcare</span>
+        <span class="sector-tag">Consumer</span>
+        <span class="sector-tag">Sports</span>
+        <span class="sector-tag">Social Impact</span>
+      </div>
+      <!-- Footer stats -->
+      <div class="year-card-footer">
+        <div class="footer-stats">
+          <div class="footer-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <strong>300</strong> Honorees
+          </div>
+          <div class="footer-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            <strong>10</strong> Categories
+          </div>
+          <div class="footer-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            <strong>₹12,400 Cr</strong> Combined Valuation
+          </div>
+          <div class="footer-stat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <strong>16</strong> States Represented
+          </div>
+        </div>
+        <a href="https://www.forbesindia.com/lists/30-under-30/2026" class="btn-ghost">
+          Explore All 300 Honorees
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- ═══ 2025 ═══ -->
+    <article class="year-card" id="year-2025">
+      <div class="year-card-header">
+        <div class="year-badge">2025</div>
+        <div class="year-header-meta">
+          <h3>Class of 2025 — Resilience Redefined</h3>
+          <p>Against a backdrop of global uncertainty, India's young achievers doubled down — with more deeptech founders, women leaders, and Tier-2 city entrepreneurs than any previous edition.</p>
+        </div>
+        <div class="year-header-cta">
+          <a href="https://www.forbesindia.com/lists/30-under-30/2025" class="btn-primary">
+            View Full List
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="year-card-body">
+        <div class="honorees-panel">
+          <div class="panel-label">Top Honorees <span class="entry-count">300 total</span></div>
+          <ul class="honorees-list">
+            <li class="honoree-item">
+              <span class="honoree-rank">#1</span>
+              <div class="honoree-avatar">DM</div>
+              <div class="honoree-info"><div class="honoree-name">Diya Mehrotra</div><div class="honoree-role">Founder, SpaceX India Partner</div></div>
+              <span class="honoree-sector">Space</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#2</span>
+              <div class="honoree-avatar">KA</div>
+              <div class="honoree-info"><div class="honoree-name">Kiran Anand</div><div class="honoree-role">CTO, HealthAI</div></div>
+              <span class="honoree-sector">Healthtech</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#3</span>
+              <div class="honoree-avatar">MS</div>
+              <div class="honoree-info"><div class="honoree-name">Mohit Singh</div><div class="honoree-role">Founder, AgriStack</div></div>
+              <span class="honoree-sector">Agritech</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#4</span>
+              <div class="honoree-avatar">NP</div>
+              <div class="honoree-info"><div class="honoree-name">Nisha Patel</div><div class="honoree-role">Co-founder, MoodAI</div></div>
+              <span class="honoree-sector">Mental Health</span>
+            </li>
+            <li class="honoree-item">
+              <span class="honoree-rank">#5</span>
+              <div class="honoree-avatar">TR</div>
+              <div class="honoree-info"><div class="honoree-name">Tanvir Rao</div><div class="honoree-role">Founder, LogiCore</div></div>
+              <span class="honoree-sector">Logistics</span>
+            </li>
+          </ul>
+        </div>
+        <div class="articles-panel">
+          <div class="panel-label">Related Coverage</div>
+          <ul class="article-list">
+            <li class="article-item">
+              <div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div>
+              <div class="article-info">
+                <div class="article-cat">Cover Story</div>
+                <div class="article-title">30 Under 30 Class of 2025: The Post-Pandemic Generation Takes Charge</div>
+                <div class="article-date">March 2025</div>
+              </div>
+            </li>
+            <li class="article-item">
+              <div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div>
+              <div class="article-info">
+                <div class="article-cat">Special Report</div>
+                <div class="article-title">Women in the Class of 2025: A Record 44% of This Year's Honorees</div>
+                <div class="article-date">March 2025</div>
+              </div>
+            </li>
+            <li class="article-item">
+              <div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div>
+              <div class="article-info">
+                <div class="article-cat">Voices</div>
+                <div class="article-title">From Jaipur to Jamshedpur: Tier-2 India's Rising Startup Moment</div>
+                <div class="article-date">February 2025</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="sectors-strip">
+        <span class="sector-tag highlighted">Space</span>
+        <span class="sector-tag highlighted">Healthtech</span>
+        <span class="sector-tag">Agritech</span>
+        <span class="sector-tag">Mental Health</span>
+        <span class="sector-tag">Logistics</span>
+        <span class="sector-tag">Gaming</span>
+        <span class="sector-tag">D2C</span>
+        <span class="sector-tag">EV & Mobility</span>
+      </div>
+      <div class="year-card-footer">
+        <div class="footer-stats">
+          <div class="footer-stat"><strong>300</strong>&nbsp;Honorees</div>
+          <div class="footer-stat"><strong>44%</strong>&nbsp;Women</div>
+          <div class="footer-stat"><strong>₹9,800 Cr</strong>&nbsp;Combined Valuation</div>
+          <div class="footer-stat"><strong>22</strong>&nbsp;States</div>
+        </div>
+        <a href="https://www.forbesindia.com/lists/30-under-30/2025" class="btn-ghost">
+          Explore All 300 Honorees
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- ═══ 2024 ═══ -->
+    <article class="year-card" id="year-2024">
+      <div class="year-card-header">
+        <div class="year-badge">2024</div>
+        <div class="year-header-meta">
+          <h3>Class of 2024 — The AI-Native Generation</h3>
+          <p>For the first time, AI and deeptech accounted for more than a third of all honorees, signalling a seismic shift in the ambitions of India's youngest entrepreneurs.</p>
+        </div>
+        <div class="year-header-cta">
+          <a href="https://www.forbesindia.com/lists/30-under-30/2024" class="btn-primary">
+            View Full List
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="year-card-body">
+        <div class="honorees-panel">
+          <div class="panel-label">Top Honorees <span class="entry-count">300 total</span></div>
+          <ul class="honorees-list">
+            <li class="honoree-item"><span class="honoree-rank">#1</span><div class="honoree-avatar">SC</div><div class="honoree-info"><div class="honoree-name">Sahil Chopra</div><div class="honoree-role">Founder, Botify</div></div><span class="honoree-sector">AI</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#2</span><div class="honoree-avatar">AV</div><div class="honoree-info"><div class="honoree-name">Asha Verma</div><div class="honoree-role">CEO, ClimateX</div></div><span class="honoree-sector">Cleantech</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#3</span><div class="honoree-avatar">RK</div><div class="honoree-info"><div class="honoree-name">Raj Kumar</div><div class="honoree-role">Co-founder, Rupee+</div></div><span class="honoree-sector">Fintech</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#4</span><div class="honoree-avatar">MP</div><div class="honoree-info"><div class="honoree-name">Meera Pillai</div><div class="honoree-role">Founder, SciGen</div></div><span class="honoree-sector">Biotech</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#5</span><div class="honoree-avatar">ZK</div><div class="honoree-info"><div class="honoree-name">Zaid Khan</div><div class="honoree-role">Creator, ZeroWaste</div></div><span class="honoree-sector">Social</span></li>
+          </ul>
+        </div>
+        <div class="articles-panel">
+          <div class="panel-label">Related Coverage</div>
+          <ul class="article-list">
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Cover Story</div><div class="article-title">AI-Native India: The Class of 2024 Is Writing Tomorrow's Playbook Today</div><div class="article-date">March 2024</div></div></li>
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Deep Dive</div><div class="article-title">Why India's Deeptech Scene Is Having Its Breakthrough Year</div><div class="article-date">March 2024</div></div></li>
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Interview</div><div class="article-title">Sahil Chopra: Building India's OpenAI Moment, One Token at a Time</div><div class="article-date">April 2024</div></div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sectors-strip">
+        <span class="sector-tag highlighted">AI & Deeptech</span>
+        <span class="sector-tag highlighted">Cleantech</span>
+        <span class="sector-tag">Fintech</span>
+        <span class="sector-tag">Biotech</span>
+        <span class="sector-tag">Social Impact</span>
+        <span class="sector-tag">Media</span>
+        <span class="sector-tag">Sports</span>
+      </div>
+      <div class="year-card-footer">
+        <div class="footer-stats">
+          <div class="footer-stat"><strong>300</strong>&nbsp;Honorees</div>
+          <div class="footer-stat"><strong>33%</strong>&nbsp;AI/Deeptech</div>
+          <div class="footer-stat"><strong>₹8,200 Cr</strong>&nbsp;Combined Valuation</div>
+        </div>
+        <a href="https://www.forbesindia.com/lists/30-under-30/2024" class="btn-ghost">Explore All 300 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>
+
+    <!-- ═══ 2015 (oldest / archival style) ═══ -->
+    <article class="year-card" id="year-2015" style="border-top-color: var(--fi-gold);">
+      <div class="year-card-header">
+        <div class="year-badge" style="background: var(--fi-gold);">2015</div>
+        <div class="year-header-meta">
+          <h3>Class of 2015 — The Inaugural Edition</h3>
+          <p>The first Forbes India 30 Under 30 list, launched at a moment when the Indian startup ecosystem was barely a decade old. Many of this class went on to build India's most recognisable companies.</p>
+        </div>
+        <div class="year-header-cta">
+          <a href="https://www.forbesindia.com/lists/30-under-30/2015" class="btn-primary" style="background:var(--fi-gold);">
+            View Archive
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="year-card-body">
+        <div class="honorees-panel">
+          <div class="panel-label">Top Honorees <span class="entry-count">30 total</span></div>
+          <ul class="honorees-list">
+            <li class="honoree-item"><span class="honoree-rank">#1</span><div class="honoree-avatar">BB</div><div class="honoree-info"><div class="honoree-name">Bhavish Bagla</div><div class="honoree-role">Co-founder, RapidCart</div></div><span class="honoree-sector">E-Commerce</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#2</span><div class="honoree-avatar">SJ</div><div class="honoree-info"><div class="honoree-name">Shreya Jain</div><div class="honoree-role">Founder, HealthFirst</div></div><span class="honoree-sector">Healthcare</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#3</span><div class="honoree-avatar">AM</div><div class="honoree-info"><div class="honoree-name">Aditya Malhotra</div><div class="honoree-role">CEO, PayNow</div></div><span class="honoree-sector">Payments</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#4</span><div class="honoree-avatar">PR</div><div class="honoree-info"><div class="honoree-name">Pooja Reddy</div><div class="honoree-role">Founder, KidsFirst</div></div><span class="honoree-sector">Edtech</span></li>
+            <li class="honoree-item"><span class="honoree-rank">#5</span><div class="honoree-avatar">NK</div><div class="honoree-info"><div class="honoree-name">Nikhil Khanna</div><div class="honoree-role">Founder, CloudBase</div></div><span class="honoree-sector">SaaS</span></li>
+          </ul>
+        </div>
+        <div class="articles-panel">
+          <div class="panel-label">Related Coverage</div>
+          <ul class="article-list">
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Cover Story</div><div class="article-title">Introducing the Forbes India 30 Under 30 — Celebrating India's Boldest Young Minds</div><div class="article-date">March 2015</div></div></li>
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Special Report</div><div class="article-title">Where Are They Now? A Decade of 30 Under 30 Alumni</div><div class="article-date">March 2025</div></div></li>
+            <li class="article-item"><div class="article-img"><div class="article-img-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div></div><div class="article-info"><div class="article-cat">Flashback</div><div class="article-title">How the Inaugural 2015 Class Shaped a Generation of Indian Startups</div><div class="article-date">March 2025</div></div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sectors-strip">
+        <span class="sector-tag highlighted">E-Commerce</span>
+        <span class="sector-tag highlighted">Payments</span>
+        <span class="sector-tag">Healthcare</span>
+        <span class="sector-tag">Edtech</span>
+        <span class="sector-tag">SaaS</span>
+        <span class="sector-tag">Media</span>
+      </div>
+      <div class="year-card-footer">
+        <div class="footer-stats">
+          <div class="footer-stat"><strong>30</strong>&nbsp;Honorees</div>
+          <div class="footer-stat"><strong>Inaugural</strong>&nbsp;Edition</div>
+        </div>
+        <a href="https://www.forbesindia.com/lists/30-under-30/2015" class="btn-ghost" style="color:var(--fi-gold);">
+          View Archival List
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </article>
+
+  </div><!-- /years-grid -->
+
+  <div class="load-more-wrap">
+    <button class="btn-load-more">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Show Earlier Editions (2016–2023)
+    </button>
+  </div>
+</main>
+
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+  // Year nav scroll
+  function scrollToYear(yr, btn) {
+    document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const el = document.getElementById('year-' + yr);
+    if (el) {
+      const offset = document.getElementById('yearNav').offsetHeight + 12;
+      const top = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  }
+
+  // Scroll-to-top button
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollBtn.classList.toggle('show', window.scrollY > 400);
+  });
+
+  // Highlight year in nav on scroll
+  const cards = document.querySelectorAll('.year-card[id]');
+  const btns  = document.querySelectorAll('.year-btn');
+  const navH  = document.getElementById('yearNav').offsetHeight;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const yr = e.target.id.replace('year-','');
+        btns.forEach(b => b.classList.toggle('active', b.textContent.trim() === yr));
+      }
+    });
+  }, { rootMargin: `-${navH + 20}px 0px -60% 0px`, threshold: 0 });
+
+  cards.forEach(c => obs.observe(c));
+</script>
+
+</body>
+</html>
