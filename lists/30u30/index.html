@@ -4,12 +4,332 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Forbes India 30 Under 30 — All Years</title>
+
+<!-- Forbes India global font stack -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
+<!-- ═══════════════════════════════════════════════════════════════
+     GLOBAL HEADER STYLES — extracted verbatim from forbesindia.com
+     (Work Sans font + header/nav/sidebar/search tokens)
+     ═══════════════════════════════════════════════════════════════ -->
 <style>
-  /* ─── TOKENS ─── */
+@font-face {
+  font-family: "Work Sans";
+  src: url(https://images.forbesindia.com/assets/fonts/Worksans.woff2) format("woff2");
+}
+/* CSS custom properties used by global header */
+:root {
+  --color-primary: #000;
+  --color-secondary: #fff;
+}
+
+/* ── Reset only what the header needs ── */
+*,*::before,*::after { box-sizing: border-box; }
+
+/* ── Sticky header wrapper ── */
+.stckyhdr { position: sticky; top: 0; background: #fff; z-index: 100; }
+
+/* ── Top header bar ── */
+.fbhdr { position: relative; }
+.mxwdth { max-width: 1160px; margin: 0 auto; }
+
+.tphdr {
+  padding: 10px 16px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  border-bottom: 1px solid #ebebef;
+  position: relative;
+}
+@media screen and (min-width: 1024px) {
+  .tphdr { padding: 20px 0; border-bottom: none; }
+}
+
+.fblogo svg { display: block; }
+@media screen and (min-width: 1024px) {
+  .fblogo svg { width: 159px; height: 40px; }
+}
+
+/* ── Right side of top bar ── */
+.rhshdr { display: flex; align-items: center; gap: 20px; }
+
+/* Subscribe button */
+.btn {
+  padding: 4px 8px;
+  color: white;
+  background: black;
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+}
+.btn a { color: white; text-decoration: none; }
+@media screen and (min-width: 1024px) {
+  .btn { font-size: 18px; padding: 9px 15px; }
+}
+
+/* ── Hamburger icon (mobile) ── */
+.hmicon {
+  width: 16px; height: 2px;
+  background: #000; position: relative; display: inline-block;
+}
+.hmicon:after, .hmicon:before {
+  content: ""; display: inline-block;
+  width: 16px; height: 2px; background: #000; position: absolute;
+}
+.hmicon:before { top: -5px; }
+.hmicon:after  { top:  5px; }
+.hmopt { position: relative; cursor: pointer; width: 16px; height: 22px; }
+
+/* ── L1 nav bar (desktop) ── */
+.l1wrp {
+  background: #f6f6f6;
+  box-shadow: 0 2px 5px rgba(0,0,0,.16);
+}
+.l1inwrp {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 3;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.mnunav {
+  display: flex;
+  list-style: none;
+  gap: 27.5px;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+.mnunav li { position: relative; }
+.mnunav li a {
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16px;
+  text-decoration: none;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 14px 0;
+  border-bottom: 4px solid transparent;
+  transition: border-color .15s;
+}
+.mnunav li a:hover,
+.mnunav li a.active { border-bottom-color: #dc0000; padding-bottom: 10px; }
+.mnunav li.mnactve > a { border-bottom-color: #dc0000; padding-bottom: 10px; }
+
+/* Sub-menu (desktop) */
+.l1submnu {
+  position: absolute; top: 57px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.13);
+  background: #fff;
+  border-radius: 4px;
+  min-width: 200px;
+  display: none;
+  z-index: 99;
+  padding: 8px 16px;
+}
+.mnunav li:hover .l1submnu { display: block; }
+.l1submnu a {
+  font-family: "Work Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  display: block;
+  padding: 9px 0;
+  border-bottom: 1px solid #ebebef;
+  text-transform: capitalize;
+}
+.l1submnu a:last-child { border-bottom: none; }
+.l1submnu a:hover { color: #dc0000; }
+
+/* RHS of L1 nav */
+.rhsl1 { display: flex; align-items: center; gap: 24px; }
+
+/* ── Mobile sidebar overlay ── */
+.sdrout {
+  position: fixed; top: 0; left: -100%; width: 100%; height: 100%;
+  transition: all ease 500ms; opacity: 0; visibility: hidden; z-index: 999;
+}
+.sdrout.active { opacity: 1; visibility: visible; left: 0; }
+.sdoutin { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1; }
+.sdbr {
+  background: #fff; width: 80%; position: relative; z-index: 2;
+  height: 100%; overflow-y: auto;
+}
+.sdtop { background: #000; padding: 12px 16px; }
+.lgcross {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px;
+}
+.clssdbr {
+  cursor: pointer; width: 28px; height: 28px;
+  background: url(https://images.forbesindia.com/media/image_uploads/iconspritevcomp.svg) no-repeat -441px -131px transparent;
+  filter: invert(100%);
+  display: inline-block;
+}
+
+/* Mobile nav menu */
+.sdmenu { padding: 16px; list-style: none; margin: 0; }
+.sdmenu li {
+  border-bottom: 1px solid #ebebef;
+  padding: 0;
+}
+.sdmenu li:last-child { border: none; }
+.sdmenu li a {
+  font-family: "Work Sans", sans-serif;
+  font-size: 14px; font-weight: 600;
+  text-decoration: none; color: #000;
+  padding: 14px 0; display: block;
+  text-transform: capitalize;
+}
+.sbinmnu { list-style: none; max-height: 0; overflow: hidden; background: #f6f6f6; padding: 0; transition: all ease 300ms; }
+.sbmnuli.active .sbinmnu { max-height: 500px; padding: 10px 20px; margin: 0 -16px; }
+.sbinmnu li a { font-size: 12px; font-weight: 500; color: #757575; padding: 10px 0; border: none; }
+
+/* hide desktop-only elements on mobile */
+.mobhide  { display: none; }
+.mobshow  { display: block; }
+.dskhide  { display: block; }
+.dskshow  { display: none; }
+@media screen and (min-width: 1024px) {
+  .mobhide { display: block; }
+  .mobshow { display: none; }
+  .dskhide { display: none; }
+  .dskshow { display: block; }
+}
+
+/* ── breadcrumb (global site style) ── */
+.ms-breadcrumb-w {
+  background: #f6f6f6;
+  border-bottom: 1px solid #e0e0e0;
+}
+.ms-breadcrumb {
+  list-style: none; padding: 12px 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: 4px;
+  max-width: 1160px; margin: 0 auto;
+  padding: 10px 16px;
+}
+.ms-breadcrumb li {
+  font-family: "Work Sans", sans-serif;
+  font-size: 12px; font-weight: 500;
+  color: #757575;
+}
+.ms-breadcrumb li a { color: #757575; text-decoration: none; }
+.ms-breadcrumb li a:hover { color: #dc0000; }
+.ms-breadcrumb li + li::before { content: "›"; padding: 0 4px; color: #bbb; }
+
+/* ── GLOBAL FOOTER ── */
+.fbftr {
+  background: #000;
+  padding: 36px 20px 24px;
+}
+.ft-inner { max-width: 1160px; margin: 0 auto; }
+.ftgrid {
+  display: flex; flex-direction: column; gap: 0;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #757575;
+  margin-bottom: 24px;
+}
+@media screen and (min-width: 1024px) {
+  .ftgrid { flex-direction: row; gap: 160px; }
+  .fbftr { padding: 40px 40px 30px; }
+}
+.fleft { flex-shrink: 0; }
+.ftlgo { margin-bottom: 16px; }
+.cpytxt {
+  font-family: "Work Sans", sans-serif;
+  font-size: 10px; font-weight: 400;
+  line-height: 18px; color: #ccc;
+  text-transform: uppercase;
+  margin: 14px 0 18px;
+}
+@media screen and (min-width: 1024px) { .cpytxt { font-size: 12px; } }
+
+/* Social icons strip */
+.fshrwrp {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  padding-bottom: 18px; margin-bottom: 18px;
+  border-bottom: 1px solid #757575;
+}
+@media screen and (min-width: 1024px) { .fshrwrp { border-bottom: none; padding-bottom: 0; margin-bottom: 0; } }
+.fshrwrp a {
+  width: 32px; height: 32px; display: block;
+  background: url(https://images.forbesindia.com/media/image_uploads/iconspritevcomp.svg) no-repeat transparent;
+}
+.ic-fb      { background-position: -126px -10px !important; }
+.ic-twit    { background-position: -590px -10px !important; }
+.ic-insta   { background-position: -395px -68px !important; }
+.ic-linkedin{ background-position: -474px -10px !important; }
+.ic-spotify { background-position: -46px  -46px !important; }
+.ic-ytube   { background-position: -5px   -87px !important; }
+.ic-telegram{ background-position: -87px  -46px !important; }
+
+/* Footer category grid */
+.fright { flex: 1; }
+.ftcatgrd {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  justify-content: flex-start;
+}
+@media screen and (min-width: 1024px) {
+  .ftcatgrd { gap: 48px; justify-content: flex-start; }
+}
+.ftcell { min-width: 100px; }
+.ftcattl {
+  font-family: "Work Sans", sans-serif;
+  font-size: 12px; font-weight: 700;
+  line-height: 18px; color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+@media screen and (min-width: 1024px) { .ftcattl { font-size: 14px; margin-bottom: 14px; } }
+.ftctlist { list-style: none; padding: 0; margin: 0; }
+.ftctlist li { margin-bottom: 8px; }
+.ftctlist li a {
+  font-family: "Work Sans", sans-serif;
+  font-size: 11px; font-weight: 500;
+  color: #ccc; text-decoration: none;
+  display: inline-block; line-height: 18px;
+  text-transform: uppercase;
+}
+.ftctlist li a:hover { color: #fff; }
+@media screen and (min-width: 1024px) { .ftctlist li a { font-size: 13px; } }
+
+/* Footer bottom row — NW18 logo */
+.ftbottom {
+  display: flex; align-items: center;
+  justify-content: center; padding-top: 20px;
+}
+.ftbottom img { height: 28px; width: auto; }
+
+/* Footer links bar */
+.ft-links-bar {
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+  padding: 14px 0 0;
+  border-top: 1px solid #333;
+  margin-top: 16px;
+}
+.ft-links-bar a {
+  font-family: "Work Sans", sans-serif;
+  font-size: 10px; font-weight: 500;
+  color: #888; text-decoration: underline;
+}
+.ft-links-bar a:hover { color: #fff; }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LIST LANDING PAGE — custom styles
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
   :root {
     --fi-red:    #CC0000;
     --fi-red-dk: #990000;
@@ -25,306 +345,174 @@
     --serif:     'Playfair Display', Georgia, serif;
     --body:      'Source Serif 4', Georgia, serif;
     --sans:      'DM Sans', sans-serif;
-    --max:       1240px;
-    --pad:       clamp(16px, 4vw, 48px);
+    --max:       1160px;
+    --pad:       clamp(16px, 3vw, 40px);
   }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; margin: 0; padding: 0; }
   body {
     font-family: var(--body);
     background: var(--fi-cream);
     color: var(--fi-ink);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    margin: 0; padding: 0;
   }
   a { color: inherit; text-decoration: none; }
   img { display: block; max-width: 100%; }
 
-  /* ─── MASTHEAD ─── */
-  .masthead {
-    background: var(--fi-black);
-    border-bottom: 3px solid var(--fi-red);
-    padding: 0 var(--pad);
-  }
-  .masthead-inner {
-    max-width: var(--max);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 54px;
-    gap: 16px;
-  }
-  .masthead-brand {
-    font-family: var(--serif);
-    font-weight: 900;
-    font-size: 22px;
-    color: var(--fi-white);
-    letter-spacing: -0.5px;
-  }
-  .masthead-brand span { color: var(--fi-red); }
-  .masthead-nav { display: flex; gap: 20px; list-style: none; }
-  .masthead-nav a {
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #aaa;
-    transition: color .2s;
-  }
-  .masthead-nav a:hover { color: var(--fi-white); }
-  @media (max-width: 480px) { .masthead-nav { display: none; } }
-
-  /* ─── BREADCRUMB ─── */
-  .breadcrumb {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 14px var(--pad) 0;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--sans);
-    font-size: 11px;
-    color: var(--fi-mid);
-    flex-wrap: wrap;
-  }
-  .breadcrumb a { color: var(--fi-mid); transition: color .15s; }
-  .breadcrumb a:hover { color: var(--fi-red); }
-  .breadcrumb-sep { color: var(--fi-rule); }
-
   /* ─── HERO ─── */
-  .hero {
+  .lp-hero {
     background: var(--fi-black);
-    padding: clamp(36px, 6vw, 72px) var(--pad) clamp(28px, 4vw, 56px);
-    position: relative;
-    overflow: hidden;
+    padding: clamp(36px, 6vw, 68px) var(--pad) clamp(28px, 4vw, 52px);
+    position: relative; overflow: hidden;
   }
-  .hero::before {
+  .lp-hero::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: absolute; inset: 0; pointer-events: none;
     background:
       radial-gradient(ellipse 70% 60% at 80% 50%, rgba(204,0,0,.12), transparent),
       radial-gradient(ellipse 40% 40% at 10% 80%, rgba(184,150,46,.07), transparent);
-    pointer-events: none;
   }
-  .hero-inner {
-    max-width: var(--max);
-    margin: 0 auto;
-    position: relative;
-  }
+  .lp-hero-inner { max-width: var(--max); margin: 0 auto; position: relative; }
 
-  /* eyebrow */
-  .hero-eyebrow {
+  .lp-eyebrow {
     font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--fi-red);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 18px;
   }
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 28px;
-    height: 2px;
-    background: var(--fi-red);
-    flex-shrink: 0;
+  .lp-eyebrow::before {
+    content: ''; display: block;
+    width: 24px; height: 2px; background: var(--fi-red); flex-shrink: 0;
   }
 
-  /*
-   * LOGO + TITLE BLOCK
-   * —————————————————————————————————————
-   * Logo slot: accepts either an <img> or is hidden if absent.
-   * Title is always Playfair Display 900 — consistent across all list types.
-   */
-  .hero-identity {
-    display: flex;
-    align-items: flex-end;
-    gap: 24px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+  /* Logo + Title */
+  .lp-identity {
+    display: flex; align-items: flex-end; gap: 20px;
+    margin-bottom: 18px; flex-wrap: wrap;
   }
-  .hero-logo-wrap {
-    flex-shrink: 0;
-    /* Hide entirely when no logo is provided — set display:none on the element */
+  .lp-logo-wrap { flex-shrink: 0; }
+  .lp-logo-placeholder {
+    height: clamp(48px, 7vw, 72px);
+    width:  clamp(48px, 7vw, 72px);
+    background: var(--fi-red); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
   }
-  .hero-logo-wrap img {
-    height: clamp(52px, 7vw, 80px);
-    width: auto;
-    object-fit: contain;
-    display: block;
+  .lp-logo-placeholder svg { width: 44%; height: 44%; fill: white; }
+  .lp-logo-wrap img {
+    height: clamp(48px, 7vw, 72px);
+    width: auto; object-fit: contain;
   }
-  /* Fallback logo placeholder (shown when no real image is available) */
-  .hero-logo-placeholder {
-    height: clamp(52px, 7vw, 80px);
-    width: clamp(52px, 7vw, 80px);
-    background: var(--fi-red);
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hero-logo-placeholder svg { width: 44%; height: 44%; fill: white; }
 
-  .hero-title {
+  .lp-title {
     font-family: var(--serif);
     font-weight: 900;
-    font-size: clamp(40px, 6.5vw, 76px);
-    line-height: 1.0;
-    letter-spacing: -1.5px;
+    font-size: clamp(38px, 6vw, 72px);
+    line-height: 1.0; letter-spacing: -1.5px;
     color: var(--fi-white);
   }
-  /* No italic styling on the title itself — consistent plain treatment.
-     Use the .hero-title-accent class on a word if a list needs a highlight. */
-  .hero-title-accent { color: var(--fi-gold-lt); }
 
-  .hero-desc {
+  .lp-desc {
     font-family: var(--body);
     font-size: clamp(14px, 1.8vw, 17px);
     color: #bbb;
-    max-width: 600px;
-    line-height: 1.7;
-    font-weight: 300;
+    max-width: 600px; line-height: 1.7; font-weight: 300;
     margin-bottom: 28px;
   }
 
-  .hero-stats {
-    display: flex;
-    gap: 28px;
-    flex-wrap: wrap;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255,255,255,.1);
+  .lp-stats {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1);
   }
-  .hero-stat { text-align: left; }
-  .hero-stat-num {
+  .lp-stat-num {
     font-family: var(--serif);
-    font-size: clamp(22px, 3vw, 34px);
-    font-weight: 700;
-    color: var(--fi-gold-lt);
-    line-height: 1;
+    font-size: clamp(22px, 3vw, 32px);
+    font-weight: 700; color: var(--fi-gold-lt); line-height: 1;
   }
-  .hero-stat-lbl {
+  .lp-stat-lbl {
     font-family: var(--sans);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #777;
-    margin-top: 4px;
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: #777; margin-top: 4px;
   }
 
   /* ─── STICKY YEAR NAV ─── */
   .year-nav-bar {
     background: var(--fi-white);
     border-bottom: 1px solid var(--fi-rule);
-    position: sticky;
-    top: 0;
-    z-index: 80;
+    position: sticky; top: 0; z-index: 80;
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
   }
   .year-nav-inner {
-    max-width: var(--max);
-    margin: 0 auto;
+    max-width: var(--max); margin: 0 auto;
     padding: 0 var(--pad);
-    display: flex;
-    align-items: stretch;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    display: flex; align-items: stretch;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
   .year-nav-inner::-webkit-scrollbar { display: none; }
   .year-nav-label {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fi-mid);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    padding-right: 16px;
-    border-right: 1px solid var(--fi-rule);
-    margin-right: 4px;
-    flex-shrink: 0;
+    font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fi-mid); white-space: nowrap;
+    display: flex; align-items: center;
+    padding-right: 14px; border-right: 1px solid var(--fi-rule);
+    margin-right: 4px; flex-shrink: 0;
   }
   .year-btn {
-    font-family: var(--sans);
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--fi-ash);
-    padding: 0 13px;
-    height: 46px;
-    white-space: nowrap;
-    flex-shrink: 0;
-    cursor: pointer;
-    border: none;
-    background: none;
+    font-family: var(--sans); font-size: 13px; font-weight: 500;
+    color: var(--fi-ash); padding: 0 13px; height: 44px;
+    white-space: nowrap; flex-shrink: 0;
+    cursor: pointer; border: none; background: none;
     border-bottom: 3px solid transparent;
     transition: color .18s, border-color .18s;
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
   }
   .year-btn:hover { color: var(--fi-red); }
   .year-btn.active { color: var(--fi-red); border-bottom-color: var(--fi-red); font-weight: 600; }
 
   /* ─── MAIN ─── */
-  .content {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 44px var(--pad) 80px;
+  .lp-content {
+    max-width: var(--max); margin: 0 auto;
+    padding: 40px var(--pad) 72px;
   }
   .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 28px;
-    padding-bottom: 12px;
+    display: flex; gap: 16px;
+    margin-bottom: 26px; padding-bottom: 12px;
     border-bottom: 2px solid var(--fi-rule);
   }
   .section-header h2 {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--fi-mid);
+    font-family: var(--sans); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fi-mid);
   }
 
   /* ─── YEAR CARDS ─── */
-  .years-grid { display: flex; flex-direction: column; gap: 36px; }
+  .years-grid { display: flex; flex-direction: column; gap: 34px; }
 
   .year-card {
     background: var(--fi-white);
     border: 1px solid var(--fi-rule);
     border-top: 4px solid var(--fi-red);
-    border-radius: 2px;
-    overflow: hidden;
+    border-radius: 2px; overflow: hidden;
     animation: fadeUp .45s ease both;
   }
   .year-card:nth-child(1) { animation-delay: .04s; }
   .year-card:nth-child(2) { animation-delay: .10s; }
   .year-card:nth-child(3) { animation-delay: .16s; }
   .year-card:nth-child(4) { animation-delay: .22s; }
-
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Card header — 3-col grid: badge | meta | CTA */
+  /* Card header */
   .year-card-header {
-    padding: 26px 28px 20px;
+    padding: 24px 28px 18px;
     display: grid;
     grid-template-columns: auto 1fr auto;
-    align-items: start;
-    gap: 20px;
+    align-items: start; gap: 18px;
     border-bottom: 1px solid var(--fi-rule);
   }
   @media (max-width: 860px) {
@@ -332,339 +520,181 @@
     .year-header-cta  { grid-column: 1 / -1; }
   }
   @media (max-width: 540px) {
-    .year-card-header { padding: 18px 18px 16px; gap: 14px; }
+    .year-card-header { padding: 16px 18px 14px; gap: 12px; }
   }
 
   .year-badge {
-    background: var(--fi-red);
-    color: white;
-    font-family: var(--serif);
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 1;
-    letter-spacing: -1px;
-    padding: 9px 14px 11px;
-    border-radius: 2px;
-    flex-shrink: 0;
-    align-self: flex-start;
-    white-space: nowrap;
+    background: var(--fi-red); color: white;
+    font-family: var(--serif); font-weight: 700;
+    font-size: 24px; line-height: 1; letter-spacing: -1px;
+    padding: 8px 12px 10px; border-radius: 2px;
+    flex-shrink: 0; align-self: flex-start; white-space: nowrap;
   }
-
   .year-header-meta h3 {
     font-family: var(--serif);
-    font-size: clamp(17px, 2.2vw, 22px);
-    font-weight: 700;
-    color: var(--fi-ink);
-    line-height: 1.25;
-    margin-bottom: 6px;
+    font-size: clamp(16px, 2.2vw, 20px);
+    font-weight: 700; color: var(--fi-ink); line-height: 1.25; margin-bottom: 5px;
   }
   .year-header-meta p {
-    font-family: var(--body);
-    font-size: 13.5px;
-    color: var(--fi-mid);
-    line-height: 1.6;
-    font-weight: 300;
-    max-width: 560px;
+    font-family: var(--body); font-size: 13px;
+    color: var(--fi-mid); line-height: 1.6; font-weight: 300; max-width: 560px;
   }
-
   .year-header-cta { flex-shrink: 0; align-self: flex-start; }
 
-  /* ─── BUTTONS ─── */
   .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--fi-red);
-    color: white;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    padding: 10px 18px;
-    border-radius: 2px;
-    border: none;
-    cursor: pointer;
-    transition: background .18s, transform .15s;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--fi-red); color: white;
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    padding: 10px 16px; border-radius: 2px;
+    border: none; cursor: pointer;
+    transition: background .18s, transform .15s; white-space: nowrap;
   }
   .btn-primary:hover { background: var(--fi-red-dk); transform: translateY(-1px); }
   .btn-primary svg { width: 13px; height: 13px; flex-shrink: 0; }
 
-  /* ─── CARD BODY — two panels side by side ─── */
-  .year-card-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  @media (max-width: 720px) {
-    .year-card-body { grid-template-columns: 1fr; }
-  }
+  /* Card body — two panels */
+  .year-card-body { display: grid; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 720px) { .year-card-body { grid-template-columns: 1fr; } }
 
-  /* ── Honorees panel ── */
+  /* Honorees panel */
   .honorees-panel {
-    padding: 22px 28px;
+    padding: 20px 26px;
     border-right: 1px solid var(--fi-rule);
   }
   @media (max-width: 720px) {
     .honorees-panel { border-right: none; border-bottom: 1px solid var(--fi-rule); }
   }
   @media (max-width: 540px) {
-    .honorees-panel, .articles-panel { padding: 16px 18px; }
+    .honorees-panel, .articles-panel { padding: 14px 18px; }
   }
 
   .panel-label {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--fi-mid);
-    margin-bottom: 14px;
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--fi-mid); margin-bottom: 12px;
   }
-
   .honorees-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
 
   .honoree-item {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    padding: 7px 8px;
-    border-radius: 2px;
-    transition: background .15s;
-    cursor: default;
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 6px; border-radius: 2px; transition: background .15s;
   }
   .honoree-item:hover { background: var(--fi-cream); }
 
-  /*
-   * Rank number — optional.
-   * Add class .no-rank to .honorees-list to hide all rank numbers.
-   * For unranked lists (30 Under 30), use .honorees-list.no-rank
-   */
+  /* Rank — hidden when .no-rank on the list */
   .honoree-rank {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--fi-red);
-    width: 18px;
-    flex-shrink: 0;
-    text-align: right;
+    font-family: var(--sans); font-size: 10px; font-weight: 700;
+    color: var(--fi-red); width: 18px; flex-shrink: 0; text-align: right;
   }
   .honorees-list.no-rank .honoree-rank { display: none; }
 
   .honoree-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
+    width: 34px; height: 34px; border-radius: 50%;
     background: linear-gradient(135deg, #e8e1d8 0%, var(--fi-rule) 100%);
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--sans);
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--fi-mid);
-    overflow: hidden;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-family: var(--sans); font-size: 11px; font-weight: 600;
+    color: var(--fi-mid); overflow: hidden;
   }
   .honoree-avatar img { width: 100%; height: 100%; object-fit: cover; }
-
   .honoree-info { flex: 1; min-width: 0; }
   .honoree-name {
-    font-family: var(--body);
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--fi-ink);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-family: var(--body); font-size: 13px; font-weight: 600;
+    color: var(--fi-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .honoree-role {
-    font-family: var(--sans);
-    font-size: 11px;
-    color: var(--fi-mid);
-    margin-top: 1px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    font-family: var(--sans); font-size: 11px; color: var(--fi-mid);
+    margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
 
-  /* ── Articles panel ── */
-  .articles-panel { padding: 22px 28px; }
-
-  .article-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
-
+  /* Articles panel */
+  .articles-panel { padding: 20px 26px; }
+  .article-list { list-style: none; display: flex; flex-direction: column; gap: 13px; }
   .article-item {
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    cursor: pointer;
+    display: flex; gap: 11px; align-items: flex-start; cursor: pointer;
   }
   .article-item:hover .article-title { color: var(--fi-red); }
 
   .article-thumb {
-    width: 70px;
-    height: 52px;
-    border-radius: 2px;
+    width: 68px; height: 50px; border-radius: 2px;
     background: linear-gradient(135deg, #e8e1d8 0%, var(--fi-rule) 100%);
-    flex-shrink: 0;
-    overflow: hidden;
-    position: relative;
+    flex-shrink: 0; overflow: hidden; position: relative;
   }
   .article-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  /* placeholder icon inside thumb when no image */
   .article-thumb-placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: .25;
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center; opacity: .22;
   }
-  .article-thumb-placeholder svg { width: 22px; height: 22px; }
+  .article-thumb-placeholder svg { width: 20px; height: 20px; }
 
   .article-meta { flex: 1; min-width: 0; }
   .article-cat {
-    font-family: var(--sans);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fi-red);
-    margin-bottom: 3px;
+    font-family: var(--sans); font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fi-red); margin-bottom: 3px;
   }
   .article-title {
-    font-family: var(--body);
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fi-ink);
-    line-height: 1.4;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    transition: color .15s;
+    font-family: var(--body); font-size: 12.5px; font-weight: 600;
+    color: var(--fi-ink); line-height: 1.4; transition: color .15s;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
   }
   .article-date {
-    font-family: var(--sans);
-    font-size: 10px;
-    color: var(--fi-mid);
-    margin-top: 4px;
+    font-family: var(--sans); font-size: 10px; color: var(--fi-mid); margin-top: 4px;
   }
 
-  /* ─── CARD FOOTER ─── */
-  /*
-   * Footer shows lightweight stats: entries count + optional categories count.
-   * No CTA link here — the primary CTA is in the header.
-   * Stats that don't apply to a list type simply aren't rendered.
-   */
-  .year-card-footer {
-    padding: 13px 28px;
-    background: var(--fi-cream);
-    border-top: 1px solid var(--fi-rule);
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-  }
-  @media (max-width: 540px) { .year-card-footer { padding: 12px 18px; } }
-
-  .footer-stat {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--sans);
-    font-size: 12px;
-    color: var(--fi-mid);
-  }
-  .footer-stat strong {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--fi-ash);
-  }
-  .footer-stat-divider {
-    width: 1px;
-    height: 14px;
-    background: var(--fi-rule);
-    flex-shrink: 0;
-  }
-
-  /*
-   * SECTORS STRIP — optional.
-   * Renders only when sector tags are provided.
-   * Hide the entire .sectors-strip element when no categories exist.
-   */
+  /* Sectors strip — optional */
   .sectors-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 6px;
-    padding: 11px 28px;
-    border-top: 1px solid var(--fi-rule);
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    padding: 10px 26px; border-top: 1px solid var(--fi-rule);
     background: var(--fi-white);
   }
-  @media (max-width: 540px) { .sectors-strip { padding: 10px 18px; } }
+  @media (max-width: 540px) { .sectors-strip { padding: 9px 18px; } }
   .sectors-strip-label {
-    font-family: var(--sans);
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--fi-mid);
-    margin-right: 4px;
-    flex-shrink: 0;
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fi-mid); margin-right: 4px; flex-shrink: 0;
   }
   .sector-tag {
-    font-family: var(--sans);
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--fi-ash);
-    background: var(--fi-cream);
-    border: 1px solid var(--fi-rule);
-    padding: 3px 10px;
-    border-radius: 20px;
+    font-family: var(--sans); font-size: 10px; font-weight: 500;
+    color: var(--fi-ash); background: var(--fi-cream);
+    border: 1px solid var(--fi-rule); padding: 3px 10px; border-radius: 20px;
   }
 
-  /* ─── LOAD MORE ─── */
-  .load-more-wrap { text-align: center; margin-top: 44px; }
+  /* Card footer */
+  .year-card-footer {
+    padding: 11px 26px; background: var(--fi-cream);
+    border-top: 1px solid var(--fi-rule);
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  @media (max-width: 540px) { .year-card-footer { padding: 10px 18px; } }
+  .footer-stat {
+    display: flex; align-items: center; gap: 5px;
+    font-family: var(--sans); font-size: 12px; color: var(--fi-mid);
+  }
+  .footer-stat strong { font-size: 13px; font-weight: 600; color: var(--fi-ash); }
+  .footer-stat-divider { width: 1px; height: 13px; background: var(--fi-rule); flex-shrink: 0; }
+
+  /* Load more */
+  .load-more-wrap { text-align: center; margin-top: 42px; }
   .btn-load-more {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--fi-white);
-    color: var(--fi-ink);
-    font-family: var(--sans);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 13px 28px;
-    border: 2px solid var(--fi-ink);
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background .2s, color .2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--fi-white); color: var(--fi-ink);
+    font-family: var(--sans); font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 12px 28px; border: 2px solid var(--fi-ink);
+    border-radius: 2px; cursor: pointer; transition: background .2s, color .2s;
   }
   .btn-load-more:hover { background: var(--fi-ink); color: var(--fi-white); }
 
-  /* ─── SCROLL TO TOP ─── */
+  /* Scroll to top */
   #scrollTop {
-    position: fixed;
-    bottom: 26px;
-    right: 22px;
-    width: 40px;
-    height: 40px;
-    background: var(--fi-red);
-    color: white;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
+    position: fixed; bottom: 26px; right: 22px;
+    width: 40px; height: 40px; background: var(--fi-red); color: white;
+    border: none; border-radius: 2px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
     transition: opacity .25s, transform .2s;
-    box-shadow: 0 4px 12px rgba(204,0,0,.3);
-    z-index: 200;
+    box-shadow: 0 4px 12px rgba(204,0,0,.3); z-index: 200;
   }
   #scrollTop.show { opacity: 1; pointer-events: all; }
   #scrollTop:hover { transform: translateY(-2px); }
@@ -673,86 +703,135 @@
 </head>
 <body>
 
-<!-- ═══ MASTHEAD ═══ -->
-<header class="masthead">
-  <div class="masthead-inner">
-    <a href="https://www.forbesindia.com" class="masthead-brand">Forbes <span>India</span></a>
-    <nav><ul class="masthead-nav">
-      <li><a href="#">Lists</a></li>
-      <li><a href="#">Magazine</a></li>
-      <li><a href="#">Business</a></li>
-      <li><a href="#">Technology</a></li>
-    </ul></nav>
+<!-- ═══════════════════════════════════════════════════
+     GLOBAL HEADER — extracted from forbesindia.com
+     ═══════════════════════════════════════════════════ -->
+<div class="stckyhdr">
+<header class="fbhdr">
+  <div class="mxwdth tphdr">
+
+    <!-- Forbes India wordmark logo (inline SVG, identical to site) -->
+    <a href="https://www.forbesindia.com" title="Forbes India" class="fblogo">
+      <svg width="120" height="30" viewBox="0 0 159 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_hdr)">
+          <path d="M40.45 39.94C36.23 39.60 32.88 37.89 30.80 35.02C29.76 33.58 29.09 32.05 28.64 30.06C28.39 28.99 28.37 28.72 28.36 26.68C28.36 24.13 28.47 23.35 29.12 21.50C29.84 19.41 30.80 17.95 32.46 16.41C34.05 14.92 35.68 13.99 37.76 13.37C41.42 12.29 45.93 12.51 49.17 13.93C52.04 15.18 54.29 17.57 55.45 20.58C56.12 22.35 56.47 24.69 56.39 26.85C56.29 29.17 55.82 31.05 54.87 32.88C54.17 34.24 53.46 35.19 52.39 36.21C49.90 38.59 46.70 39.82 42.61 39.97C41.92 40.00 40.95 39.99 40.45 39.94ZM43.46 38.32C45.81 37.76 47.12 35.20 47.62 30.24C47.78 28.71 47.78 24.46 47.63 23.12C47.09 18.41 45.79 15.67 43.62 14.68C43.03 14.41 42.88 14.38 42.11 14.39C41.40 14.39 41.16 14.44 40.64 14.65C39.92 14.95 39.12 15.68 38.63 16.47C37.93 17.61 37.37 19.65 37.09 22.10C36.89 23.86 36.92 28.77 37.14 30.28C37.82 34.96 39.41 37.76 41.70 38.34C42.33 38.49 42.76 38.49 43.46 38.32ZM90.51 39.94C88.34 39.81 85.58 39.44 83.37 38.99L82.37 38.78L82.38 37.95C82.59 21.78 82.50 9.62 82.16 8.14C81.75 6.29 80.98 5.59 79.19 5.42L78.52 5.35V4.91C78.52 4.56 78.56 4.45 78.69 4.41C79.08 4.30 90.53 2.30 90.56 2.33C90.58 2.35 90.56 3.88 90.51 5.74C90.43 9.36 90.40 14.61 90.46 14.61C90.48 14.61 90.87 14.45 91.34 14.25C93.27 13.41 95.05 13.04 97.12 13.04C101.59 13.05 105.08 15.32 107.03 19.50C107.84 21.22 108.23 23.17 108.23 25.46C108.23 33.41 103.53 38.75 95.62 39.79C94.25 39.97 92.09 40.04 90.51 39.94ZM94.66 37.83C97.69 36.45 99.74 31.76 99.75 26.17C99.76 21.44 98.19 17.61 95.70 16.29C94.50 15.66 92.81 15.55 91.22 16.02L90.47 16.24L90.44 19.38C90.41 22.67 90.60 35.19 90.71 36.94L90.77 37.96L91.22 38.07C91.48 38.13 92.16 38.17 92.83 38.16C93.91 38.14 94.02 38.12 94.66 37.83ZM123.16 39.94C116.63 39.44 111.72 35.31 110.64 29.39C109.89 25.33 110.72 21.35 112.98 18.17C115.03 15.28 118.14 13.47 122.13 12.84C123.25 12.67 126.00 12.69 127.04 12.88C131.62 13.73 134.57 16.69 135.62 21.51C135.82 22.40 136.03 24.11 136.03 24.80L136.03 25.15H127.38C120.17 25.15 118.73 25.17 118.73 25.28C118.73 25.92 118.98 27.96 119.14 28.66C120.11 32.79 122.81 35.42 126.79 36.11C128.00 36.32 130.25 36.26 131.37 35.98C132.24 35.76 133.52 35.21 134.26 34.71C134.53 34.53 134.81 34.40 134.88 34.43C134.95 34.45 135.14 34.63 135.31 34.83L135.62 35.19L135.00 35.86C133.24 37.75 130.55 39.16 127.68 39.70C126.10 40.00 124.83 40.07 123.16 39.94ZM123.48 23.26C125.19 23.23 126.80 23.18 127.07 23.15L127.56 23.10L127.50 21.28C127.42 18.81 127.12 17.42 126.36 16.07C125.70 14.90 124.93 14.38 123.83 14.39C122.76 14.40 121.78 14.98 120.10 16.07C119.91 17.58 119.18 19.91 118.98 22.51L118.90 23.42L119.64 23.36C120.05 23.33 121.78 23.28 123.48 23.26ZM145.49 39.94C144.06 39.85 142.37 39.62 140.99 39.33C139.76 39.08 137.67 38.50 137.60 38.39C137.57 38.35 137.50 37.05 137.44 35.50C137.39 33.95 137.31 32.27 137.28 31.76L137.22 30.82L137.89 30.71C138.26 30.65 138.57 30.61 138.58 30.62C138.60 30.64 138.74 30.94 138.89 31.30C139.95 33.79 141.49 35.79 143.08 36.75C144.87 37.83 147.41 38.03 149.15 37.21C150.96 36.36 151.89 34.01 151.12 32.22C150.58 30.96 148.79 29.87 145.29 28.66C142.69 27.77 141.35 27.09 140.20 26.09C138.63 24.72 137.96 23.03 138.06 20.68C138.10 19.63 138.15 19.35 138.42 18.59C138.84 17.45 139.39 16.61 140.27 15.75C141.44 14.61 142.73 13.87 144.52 13.32C147.25 12.48 151.27 12.48 154.94 13.33C155.79 13.53 157.01 13.93 157.18 14.07C157.26 14.14 157.66 20.62 157.59 20.69C157.58 20.71 157.27 20.80 156.91 20.89L156.26 21.07L155.89 20.09C154.72 16.95 152.91 15.12 150.57 14.70C149.56 14.52 148.20 14.62 147.49 14.92C146.35 15.40 145.66 16.25 145.37 17.51C144.79 20.09 146.34 21.51 152.19 23.79C154.83 24.81 156.24 25.60 157.24 26.60C158.59 27.97 159.19 29.88 158.95 32.05C158.72 34.11 158.06 35.51 156.70 36.86C155.57 37.99 154.26 38.74 152.45 39.30C150.66 39.85 147.89 40.11 145.49 39.94ZM0 38.62V37.95L1.22 37.79C4.21 37.42 5.16 36.18 5.50 32.18C5.93 27.00 5.93 15.19 5.49 10.13C5.30 7.90 4.86 6.51 4.11 5.71C3.61 5.19 2.74 4.85 1.34 4.63C0.67 4.53 0.10 4.44 0.06 4.44C0.03 4.44 0.00 4.13 0.00 3.75V3.06H16.25H32.51V8.12V13.19L31.68 13.42C31.23 13.54 30.82 13.64 30.77 13.64C30.72 13.64 30.47 13.08 30.21 12.39C28.88 8.85 26.97 6.72 24.36 5.84C23.08 5.41 22.33 5.36 18.40 5.39L14.85 5.41L14.79 6.15C14.58 8.48 14.47 11.67 14.47 15.70C14.47 18.20 14.49 20.27 14.52 20.29C14.60 20.37 19.61 20.07 20.04 19.97C20.71 19.80 21.39 19.41 21.87 18.92C22.42 18.35 23.11 17.05 23.42 15.98L23.66 15.17L24.43 15.17L25.21 15.17V21.32V27.46H24.41C23.79 27.46 23.61 27.43 23.61 27.33C23.61 27.02 23.06 25.50 22.70 24.81C22.02 23.51 20.93 22.65 19.65 22.40C19.38 22.34 18.11 22.27 16.83 22.24L14.50 22.18L14.51 24.29C14.51 28.88 14.80 33.28 15.20 34.72C15.58 36.09 16.28 36.97 17.32 37.40C17.81 37.60 18.25 37.69 19.42 37.81L20.91 37.95V38.62V39.30H10.45H0L0 38.62ZM56.41 38.62V37.94L57.44 37.78C59.00 37.54 59.59 37.12 59.91 35.99C60.30 34.64 60.58 27.86 60.42 23.90C60.31 21.12 60.10 18.68 59.91 17.89C59.78 17.32 59.40 16.72 59.04 16.48C58.69 16.25 57.86 16.03 57.03 15.95L56.40 15.89L56.43 15.42L56.46 14.94L62.55 13.82L68.64 12.69L68.58 15.71L68.51 18.73L69.06 17.78C70.53 15.21 72.33 13.69 74.73 12.96C76.39 12.45 78.58 12.57 79.95 13.24L80.20 13.36L78.81 16.79C78.04 18.67 77.38 20.28 77.34 20.36C77.28 20.50 77.19 20.47 76.63 20.16C76.28 19.97 75.56 19.67 75.03 19.51C74.21 19.25 73.89 19.20 72.87 19.16C71.07 19.10 69.80 19.44 68.98 20.20L68.64 20.52L68.55 21.98C68.43 24.16 68.46 31.32 68.60 33.19C68.81 35.81 69.04 36.58 69.82 37.20C70.31 37.58 70.71 37.69 72.30 37.83L73.52 37.94V38.62V39.30H64.97H56.41V38.62Z" fill="black"/>
+        </g>
+        <defs><clipPath id="clip0_hdr"><rect width="159" height="40" fill="white"/></clipPath></defs>
+      </svg>
+    </a>
+
+    <!-- Right: subscribe + hamburger -->
+    <div class="rhshdr">
+      <a href="https://subscription.forbesindia.com/" class="btn">Subscribe</a>
+      <!-- Hamburger (mobile) -->
+      <div class="hmopt dskhide" id="hamburgerBtn" onclick="openSidebar()">
+        <span class="hmicon"></span>
+      </div>
+    </div>
   </div>
 </header>
 
-<!-- ═══ BREADCRUMB ═══ -->
-<nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="https://www.forbesindia.com">Home</a>
-  <span class="breadcrumb-sep" aria-hidden="true">›</span>
-  <a href="https://www.forbesindia.com/lists">Lists</a>
-  <span class="breadcrumb-sep" aria-hidden="true">›</span>
-  <span aria-current="page">30 Under 30</span>
+<!-- L1 nav bar — desktop only -->
+<nav class="l1wrp mobhide">
+  <div class="l1inwrp">
+    <ul class="mnunav">
+      <li><a href="https://www.forbesindia.com/" class="active">Home</a></li>
+      <li>
+        <a href="https://www.forbesindia.com/leadership">Leadership</a>
+        <div class="l1submnu">
+          <a href="https://www.forbesindia.com/leadership/mentors-and-mavens">Mentors &amp; Mavens</a>
+        </div>
+      </li>
+      <li><a href="https://www.forbesindia.com/news/innovation">Innovation</a></li>
+      <li><a href="https://www.forbesindia.com/billionaires">Billionaires</a></li>
+      <li><a href="https://www.forbesindia.com/enterprise/startups">Startups</a></li>
+      <li><a href="https://www.forbesindia.com/lists">Lists</a></li>
+    </ul>
+  </div>
 </nav>
+</div><!-- /stckyhdr -->
 
-<!-- ═══ HERO ═══ -->
-<!--
-  TEMPLATE NOTE
-  ─────────────────────────────────────────────────────────────────────────────
-  .hero-logo-wrap  → replace the placeholder SVG with an <img> tag pointing to
-                     the actual list logo. Remove .hero-logo-placeholder and use:
-                     <img src="/path/to/logo.png" alt="30 Under 30">
-                     Or hide .hero-logo-wrap entirely if no logo is supplied.
+<!-- Mobile sidebar -->
+<div class="sdrout" id="sidebar">
+  <div class="sdoutin" onclick="closeSidebar()"></div>
+  <div class="sdbr">
+    <div class="sdtop">
+      <div class="lgcross">
+        <a href="https://www.forbesindia.com">
+          <svg width="87" height="22" viewBox="0 0 159 40" fill="none"><use href="#clip0_hdr"/><path d="M0 38.62V37.95L1.22 37.79C4.21 37.42 5.16 36.18 5.50 32.18C5.93 27.00 5.93 15.19 5.49 10.13C5.30 7.90 4.86 6.51 4.11 5.71C3.61 5.19 2.74 4.85 1.34 4.63C0.67 4.53 0.10 4.44 0.06 4.44C0.03 4.44 0.00 4.13 0.00 3.75V3.06H16.25H32.51V8.12V13.19L31.68 13.42C31.23 13.54 30.82 13.64 30.77 13.64C30.72 13.64 30.47 13.08 30.21 12.39C28.88 8.85 26.97 6.72 24.36 5.84C23.08 5.41 22.33 5.36 18.40 5.39L14.85 5.41L14.79 6.15C14.58 8.48 14.47 11.67 14.47 15.70L14.52 20.29C14.60 20.37 19.61 20.07 20.04 19.97C20.71 19.80 21.39 19.41 21.87 18.92C22.42 18.35 23.11 17.05 23.42 15.98L23.66 15.17H24.43H25.21V21.32V27.46H24.41C23.79 27.46 23.61 27.43 23.61 27.33C23.61 27.02 23.06 25.50 22.70 24.81C22.02 23.51 20.93 22.65 19.65 22.40C19.38 22.34 18.11 22.27 16.83 22.24L14.50 22.18L14.51 24.29C14.51 28.88 14.80 33.28 15.20 34.72C15.58 36.09 16.28 36.97 17.32 37.40C17.81 37.60 18.25 37.69 19.42 37.81L20.91 37.95V38.62V39.30H10.45H0L0 38.62Z" fill="white"/></svg>
+        </a>
+        <span class="clssdbr" onclick="closeSidebar()" title="Close"></span>
+      </div>
+    </div>
+    <ul class="sdmenu">
+      <li><a href="https://www.forbesindia.com/">Home</a></li>
+      <li class="sbmnuli isActive"><a>Leadership</a>
+        <ul class="sbinmnu"><li><a href="https://www.forbesindia.com/leadership/mentors-and-mavens">Mentors &amp; Mavens</a></li></ul>
+      </li>
+      <li><a href="https://www.forbesindia.com/news/innovation">Innovation</a></li>
+      <li><a href="https://www.forbesindia.com/billionaires">Billionaires</a></li>
+      <li><a href="https://www.forbesindia.com/enterprise/startups">Startups</a></li>
+      <li><a href="https://www.forbesindia.com/lists">Lists</a></li>
+    </ul>
+  </div>
+</div>
 
-  .hero-title      → Always Playfair Display 900 — same for ALL list types.
-                     No italics or colour accents on the title itself.
+<!-- ═══════════════════════════════════════════════════
+     BREADCRUMB — global site style
+     ═══════════════════════════════════════════════════ -->
+<div class="ms-breadcrumb-w">
+  <ol class="ms-breadcrumb" aria-label="Breadcrumb">
+    <li><a href="https://www.forbesindia.com/">Home</a></li>
+    <li><a href="https://www.forbesindia.com/lists">Lists</a></li>
+    <li aria-current="page">30 Under 30</li>
+  </ol>
+</div>
 
-  .hero-stats      → Show/hide individual stat items based on what's relevant
-                     to each list type.
-  ─────────────────────────────────────────────────────────────────────────────
--->
-<section class="hero">
-  <div class="hero-inner">
-    <div class="hero-eyebrow">Forbes India Lists</div>
+<!-- ═══════════════════════════════════════════════════
+     LIST LANDING HERO
+     ═══════════════════════════════════════════════════ -->
+<section class="lp-hero">
+  <div class="lp-hero-inner">
+    <div class="lp-eyebrow">Forbes India Lists</div>
 
-    <!-- Logo + Title -->
-    <div class="hero-identity">
-      <!-- Logo slot -->
-      <div class="hero-logo-wrap">
-        <div class="hero-logo-placeholder" title="Replace with list logo">
-          <!-- Placeholder icon — swap with <img src="..." alt="..."> -->
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l7.1-1.01L12 2z"/>
-          </svg>
+    <!-- Logo + Title — consistent treatment for all list types -->
+    <div class="lp-identity">
+      <div class="lp-logo-wrap">
+        <!--
+          TEMPLATE: Replace this placeholder with the list's actual logo.
+          <img src="/path/to/30u30-logo.png" alt="30 Under 30">
+        -->
+        <div class="lp-logo-placeholder" title="Replace with list logo">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.86L12 17.77l-6.18 3.23L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>
         </div>
       </div>
-      <!-- Title — consistent treatment for all lists -->
-      <h1 class="hero-title">30 Under 30</h1>
+      <h1 class="lp-title">30 Under 30</h1>
     </div>
 
-    <p class="hero-desc">
+    <p class="lp-desc">
       Forbes India's definitive annual list of the most disruptive young entrepreneurs, innovators, and leaders under 30 who are reshaping India's economic, cultural, and technological landscape.
     </p>
 
-    <!-- Hero aggregate stats -->
-    <div class="hero-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-num">12</div>
-        <div class="hero-stat-lbl">Editions</div>
+    <div class="lp-stats">
+      <div class="lp-stat">
+        <div class="lp-stat-num">12</div>
+        <div class="lp-stat-lbl">Editions</div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">360+</div>
-        <div class="hero-stat-lbl">Honorees</div>
+      <div class="lp-stat">
+        <div class="lp-stat-num">360+</div>
+        <div class="lp-stat-lbl">Honorees</div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-num">2015</div>
-        <div class="hero-stat-lbl">Inaugural Year</div>
+      <div class="lp-stat">
+        <div class="lp-stat-num">2015</div>
+        <div class="lp-stat-lbl">Inaugural Year</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ STICKY YEAR NAV ═══ -->
+<!-- ═══════════════════════════════════════════════════
+     STICKY YEAR NAV
+     ═══════════════════════════════════════════════════ -->
 <nav class="year-nav-bar" id="yearNav" aria-label="Jump to edition year">
   <div class="year-nav-inner">
     <span class="year-nav-label">Edition</span>
@@ -771,26 +850,18 @@
   </div>
 </nav>
 
-<!-- ═══ MAIN CONTENT ═══ -->
-<main class="content">
+<!-- ═══════════════════════════════════════════════════
+     MAIN CONTENT
+     ═══════════════════════════════════════════════════ -->
+<main class="lp-content">
   <div class="section-header">
     <h2>All Editions — 2015 to 2026</h2>
   </div>
 
   <div class="years-grid" id="yearsGrid">
 
-    <!-- ══════════════════════════════════════════════════════
-         2026
-         ══════════════════════════════════════════════════════
-         TEMPLATE NOTES:
-         • .honorees-list.no-rank  → hides the rank numbers (unranked lists)
-         • .sectors-strip          → remove this block entirely if no categories
-         • footer stats            → include only entries count & category count
-         • No secondary CTA link in footer
-    ══════════════════════════════════════════════════════════ -->
+    <!-- ══ 2026 ══ -->
     <article class="year-card" id="year-2026">
-
-      <!-- Header -->
       <div class="year-card-header">
         <div class="year-badge">2026</div>
         <div class="year-header-meta">
@@ -798,137 +869,67 @@
           <p>This year's cohort redefines ambition — from AI founders and climate-tech pioneers to new-age storytellers, drawn from over 300 nominations across every corner of India.</p>
         </div>
         <div class="year-header-cta">
-          <a href="https://www.forbesindia.com/lists/30-under-30/2026" class="btn-primary">
+          <a href="https://www.forbesindia.com/lists/30-under-30-2026" class="btn-primary">
             View Full List
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
-
-      <!-- Body: Honorees + Articles -->
       <div class="year-card-body">
-
-        <!-- Honorees — unranked (no-rank class) -->
         <div class="honorees-panel">
           <div class="panel-label">Featured Honorees</div>
           <ul class="honorees-list no-rank">
-            <li class="honoree-item">
-              <span class="honoree-rank" aria-hidden="true"></span>
-              <div class="honoree-avatar">AK</div>
-              <div class="honoree-info">
-                <div class="honoree-name">Aryan Kapoor</div>
-                <div class="honoree-role">Co-founder, NeuralSeed AI</div>
-              </div>
-            </li>
-            <li class="honoree-item">
-              <span class="honoree-rank" aria-hidden="true"></span>
-              <div class="honoree-avatar">PS</div>
-              <div class="honoree-info">
-                <div class="honoree-name">Priya Sharma</div>
-                <div class="honoree-role">Founder, GreenRoots</div>
-              </div>
-            </li>
-            <li class="honoree-item">
-              <span class="honoree-rank" aria-hidden="true"></span>
-              <div class="honoree-avatar">RN</div>
-              <div class="honoree-info">
-                <div class="honoree-name">Rohan Nair</div>
-                <div class="honoree-role">CEO, FinStack</div>
-              </div>
-            </li>
-            <li class="honoree-item">
-              <span class="honoree-rank" aria-hidden="true"></span>
-              <div class="honoree-avatar">SM</div>
-              <div class="honoree-info">
-                <div class="honoree-name">Sneha Mehta</div>
-                <div class="honoree-role">Director, CureX Bio</div>
-              </div>
-            </li>
-            <li class="honoree-item">
-              <span class="honoree-rank" aria-hidden="true"></span>
-              <div class="honoree-avatar">VG</div>
-              <div class="honoree-info">
-                <div class="honoree-name">Vikram Gupta</div>
-                <div class="honoree-role">Founder, EduVerse</div>
-              </div>
-            </li>
+            <li class="honoree-item"><span class="honoree-rank"></span><div class="honoree-avatar">KB</div><div class="honoree-info"><div class="honoree-name">Kajol Bheda</div><div class="honoree-role">Founder, Scribbld</div></div></li>
+            <li class="honoree-item"><span class="honoree-rank"></span><div class="honoree-avatar">SG</div><div class="honoree-info"><div class="honoree-name">Soham Ganatra</div><div class="honoree-role">Co-founder, Composio</div></div></li>
+            <li class="honoree-item"><span class="honoree-rank"></span><div class="honoree-avatar">DD</div><div class="honoree-info"><div class="honoree-name">Divya Deshmukh</div><div class="honoree-role">Chess player, Grandmaster</div></div></li>
+            <li class="honoree-item"><span class="honoree-rank"></span><div class="honoree-avatar">AS</div><div class="honoree-info"><div class="honoree-name">Abhishek Sharma</div><div class="honoree-role">Cricketer, ICC No. 1 T20</div></div></li>
+            <li class="honoree-item"><span class="honoree-rank"></span><div class="honoree-avatar">JA</div><div class="honoree-info"><div class="honoree-name">Jainul Abedin</div><div class="honoree-role">Founder &amp; CEO, Abyom SpaceTech</div></div></li>
           </ul>
         </div>
-
-        <!-- Articles -->
         <div class="articles-panel">
           <div class="panel-label">Related Coverage</div>
           <ul class="article-list">
             <li class="article-item">
-              <div class="article-thumb">
-                <div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div>
-              </div>
-              <div class="article-meta">
-                <div class="article-cat">Cover Story</div>
-                <div class="article-title">Meet the 30 Under 30 Class of 2026: India's Most Ambitious Young Leaders</div>
-                <div class="article-date">15 March 2026</div>
-              </div>
+              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
+              <div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">Forbes India 30 Under 30 2026: Meet Our Young Groundbreakers and Trendsetters</div><div class="article-date">15 March 2026</div></div>
             </li>
             <li class="article-item">
-              <div class="article-thumb">
-                <div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div>
-              </div>
-              <div class="article-meta">
-                <div class="article-cat">Interview</div>
-                <div class="article-title">Aryan Kapoor on Building India's First AI Foundation Model at 26</div>
-                <div class="article-date">18 March 2026</div>
-              </div>
+              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
+              <div class="article-meta"><div class="article-cat">Interview</div><div class="article-title">Soham Ganatra on Building the Memory Layer for Enterprise AI at 29</div><div class="article-date">18 March 2026</div></div>
             </li>
             <li class="article-item">
-              <div class="article-thumb">
-                <div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div>
-              </div>
-              <div class="article-meta">
-                <div class="article-cat">Analysis</div>
-                <div class="article-title">Gen Z Founders Are Changing India's Startup Playbook</div>
-                <div class="article-date">22 February 2026</div>
-              </div>
+              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
+              <div class="article-meta"><div class="article-cat">Analysis</div><div class="article-title">Forbes India 30 Under 30: A Class Apart</div><div class="article-date">12 March 2026</div></div>
             </li>
           </ul>
         </div>
       </div>
-
-      <!--
-        SECTORS STRIP — include only when category data is available.
-        Remove this block entirely when no categories exist for an edition.
-        The count in the footer stat should match the number of tags rendered here.
-      -->
       <div class="sectors-strip">
         <span class="sectors-strip-label">Categories</span>
-        <span class="sector-tag">AI &amp; Tech</span>
-        <span class="sector-tag">Climate</span>
-        <span class="sector-tag">Fintech</span>
-        <span class="sector-tag">Biotech</span>
-        <span class="sector-tag">Edtech</span>
-        <span class="sector-tag">Media</span>
+        <span class="sector-tag">Advertising &amp; Marketing</span>
+        <span class="sector-tag">Art</span>
+        <span class="sector-tag">AI</span>
+        <span class="sector-tag">Clean Energy</span>
+        <span class="sector-tag">Defence &amp; Space</span>
+        <span class="sector-tag">Design</span>
+        <span class="sector-tag">D2C</span>
+        <span class="sector-tag">Entertainment</span>
+        <span class="sector-tag">Fashion</span>
+        <span class="sector-tag">Finance &amp; Fintech</span>
+        <span class="sector-tag">Food &amp; Hospitality</span>
         <span class="sector-tag">Healthcare</span>
-        <span class="sector-tag">Consumer</span>
-        <span class="sector-tag">Sports</span>
+        <span class="sector-tag">Music</span>
         <span class="sector-tag">Social Impact</span>
+        <span class="sector-tag">Sports</span>
       </div>
-
-      <!-- Footer — entries count + category count only -->
       <div class="year-card-footer">
-        <div class="footer-stat">
-          <strong>30</strong>&nbsp;Honorees
-        </div>
+        <div class="footer-stat"><strong>30</strong>&nbsp;Honorees</div>
         <div class="footer-stat-divider"></div>
-        <div class="footer-stat">
-          <strong>10</strong>&nbsp;Categories
-        </div>
+        <div class="footer-stat"><strong>15</strong>&nbsp;Categories</div>
       </div>
+    </article>
 
-    </article><!-- /2026 -->
-
-
-    <!-- ══════════════════════════════════════════════════════
-         2025
-    ══════════════════════════════════════════════════════ -->
+    <!-- ══ 2025 ══ -->
     <article class="year-card" id="year-2025">
       <div class="year-card-header">
         <div class="year-badge">2025</div>
@@ -937,13 +938,12 @@
           <p>Against a backdrop of global uncertainty, India's young achievers doubled down — with more deeptech founders, women leaders, and Tier-2 city entrepreneurs than any previous edition.</p>
         </div>
         <div class="year-header-cta">
-          <a href="https://www.forbesindia.com/lists/30-under-30/2025" class="btn-primary">
+          <a href="https://www.forbesindia.com/lists/30-under-30-2025" class="btn-primary">
             View Full List
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>
-
       <div class="year-card-body">
         <div class="honorees-panel">
           <div class="panel-label">Featured Honorees</div>
@@ -958,23 +958,12 @@
         <div class="articles-panel">
           <div class="panel-label">Related Coverage</div>
           <ul class="article-list">
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">30 Under 30 Class of 2025: The Post-Pandemic Generation Takes Charge</div><div class="article-date">12 March 2025</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Special Report</div><div class="article-title">Women in the Class of 2025: A Record 44% of This Year's Honorees</div><div class="article-date">14 March 2025</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Voices</div><div class="article-title">From Jaipur to Jamshedpur: Tier-2 India's Rising Startup Moment</div><div class="article-date">6 February 2025</div></div>
-            </li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">30 Under 30 Class of 2025: The Post-Pandemic Generation Takes Charge</div><div class="article-date">12 March 2025</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Special Report</div><div class="article-title">Women in the Class of 2025: A Record 44% of This Year's Honorees</div><div class="article-date">14 March 2025</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Voices</div><div class="article-title">From Jaipur to Jamshedpur: Tier-2 India's Rising Startup Moment</div><div class="article-date">6 February 2025</div></div></li>
           </ul>
         </div>
       </div>
-
-      <!-- Sectors strip — present for 2025 -->
       <div class="sectors-strip">
         <span class="sectors-strip-label">Categories</span>
         <span class="sector-tag">Space</span>
@@ -986,19 +975,14 @@
         <span class="sector-tag">D2C</span>
         <span class="sector-tag">EV &amp; Mobility</span>
       </div>
-
       <div class="year-card-footer">
         <div class="footer-stat"><strong>30</strong>&nbsp;Honorees</div>
         <div class="footer-stat-divider"></div>
         <div class="footer-stat"><strong>8</strong>&nbsp;Categories</div>
       </div>
-    </article><!-- /2025 -->
+    </article>
 
-
-    <!-- ══════════════════════════════════════════════════════
-         2024 — example with NO sectors strip
-         (categories data unavailable for this edition)
-    ══════════════════════════════════════════════════════ -->
+    <!-- ══ 2024 — no sectors data ══ -->
     <article class="year-card" id="year-2024">
       <div class="year-card-header">
         <div class="year-badge">2024</div>
@@ -1007,7 +991,7 @@
           <p>For the first time, AI and deeptech accounted for more than a third of all honorees, signalling a seismic shift in the ambitions of India's youngest entrepreneurs.</p>
         </div>
         <div class="year-header-cta">
-          <a href="https://www.forbesindia.com/lists/30-under-30/2024" class="btn-primary">
+          <a href="https://www.forbesindia.com/lists/30-under-30-2024" class="btn-primary">
             View Full List
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -1027,37 +1011,19 @@
         <div class="articles-panel">
           <div class="panel-label">Related Coverage</div>
           <ul class="article-list">
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">AI-Native India: The Class of 2024 Is Writing Tomorrow's Playbook Today</div><div class="article-date">8 March 2024</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Deep Dive</div><div class="article-title">Why India's Deeptech Scene Is Having Its Breakthrough Year</div><div class="article-date">11 March 2024</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Interview</div><div class="article-title">Sahil Chopra: Building India's OpenAI Moment, One Token at a Time</div><div class="article-date">2 April 2024</div></div>
-            </li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">AI-Native India: The Class of 2024 Is Writing Tomorrow's Playbook Today</div><div class="article-date">8 March 2024</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Deep Dive</div><div class="article-title">Why India's Deeptech Scene Is Having Its Breakthrough Year</div><div class="article-date">11 March 2024</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Interview</div><div class="article-title">Sahil Chopra: Building India's OpenAI Moment, One Token at a Time</div><div class="article-date">2 April 2024</div></div></li>
           </ul>
         </div>
       </div>
-
-      <!--
-        NO .sectors-strip block here — categories not available for this edition.
-        The footer shows only entry count; categories stat is omitted too.
-      -->
-
+      <!-- No sectors strip — data not available for this edition -->
       <div class="year-card-footer">
         <div class="footer-stat"><strong>30</strong>&nbsp;Honorees</div>
-        <!-- categories stat omitted — no data for this year -->
       </div>
-    </article><!-- /2024 -->
+    </article>
 
-
-    <!-- ══════════════════════════════════════════════════════
-         2015 — Inaugural / archival (gold accent)
-    ══════════════════════════════════════════════════════ -->
+    <!-- ══ 2015 — Inaugural, gold accent ══ -->
     <article class="year-card" id="year-2015" style="border-top-color: var(--fi-gold);">
       <div class="year-card-header">
         <div class="year-badge" style="background: var(--fi-gold);">2015</div>
@@ -1066,7 +1032,7 @@
           <p>The inaugural Forbes India 30 Under 30, launched when India's startup ecosystem was barely a decade old. Many from this class went on to build the country's most recognised companies.</p>
         </div>
         <div class="year-header-cta">
-          <a href="https://www.forbesindia.com/lists/30-under-30/2015" class="btn-primary" style="background: var(--fi-gold);">
+          <a href="https://www.forbesindia.com/lists/30-under-30-2015" class="btn-primary" style="background: var(--fi-gold);">
             View Archive
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
@@ -1086,22 +1052,12 @@
         <div class="articles-panel">
           <div class="panel-label">Related Coverage</div>
           <ul class="article-list">
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">Introducing the Forbes India 30 Under 30 — Celebrating India's Boldest Young Minds</div><div class="article-date">20 March 2015</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Special Report</div><div class="article-title">Where Are They Now? A Decade of 30 Under 30 Alumni</div><div class="article-date">20 March 2025</div></div>
-            </li>
-            <li class="article-item">
-              <div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div>
-              <div class="article-meta"><div class="article-cat">Flashback</div><div class="article-title">How the Inaugural 2015 Class Shaped a Generation of Indian Startups</div><div class="article-date">22 March 2025</div></div>
-            </li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Cover Story</div><div class="article-title">Introducing the Forbes India 30 Under 30 — Celebrating India's Boldest Young Minds</div><div class="article-date">20 March 2015</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Special Report</div><div class="article-title">Where Are They Now? A Decade of 30 Under 30 Alumni</div><div class="article-date">20 March 2025</div></div></li>
+            <li class="article-item"><div class="article-thumb"><div class="article-thumb-placeholder"><svg viewBox="0 0 24 24" fill="var(--fi-ash)"><rect x="2" y="2" width="20" height="20" rx="2"/></svg></div></div><div class="article-meta"><div class="article-cat">Flashback</div><div class="article-title">How the Inaugural 2015 Class Shaped a Generation of Indian Startups</div><div class="article-date">22 March 2025</div></div></li>
           </ul>
         </div>
       </div>
-
       <div class="sectors-strip">
         <span class="sectors-strip-label">Categories</span>
         <span class="sector-tag">E-Commerce</span>
@@ -1111,23 +1067,107 @@
         <span class="sector-tag">SaaS</span>
         <span class="sector-tag">Media</span>
       </div>
-
       <div class="year-card-footer">
         <div class="footer-stat"><strong>30</strong>&nbsp;Honorees</div>
         <div class="footer-stat-divider"></div>
         <div class="footer-stat"><strong>6</strong>&nbsp;Categories</div>
       </div>
-    </article><!-- /2015 -->
+    </article>
 
   </div><!-- /years-grid -->
 
   <div class="load-more-wrap">
     <button class="btn-load-more">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
       Show Earlier Editions (2016–2023)
     </button>
   </div>
 </main>
+
+<!-- ═══════════════════════════════════════════════════
+     GLOBAL FOOTER — extracted from forbesindia.com
+     ═══════════════════════════════════════════════════ -->
+<footer class="fbftr">
+  <div class="ft-inner">
+    <div class="ftgrid">
+
+      <!-- Left col: logo + social + copyright -->
+      <div class="fleft">
+        <div class="ftlgo">
+          <!-- Forbes India logo (white version) -->
+          <svg width="120" height="30" viewBox="0 0 159 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_ftr)">
+              <path d="M0 38.62V37.95L1.22 37.79C4.21 37.42 5.16 36.18 5.50 32.18C5.93 27.00 5.93 15.19 5.49 10.13C5.30 7.90 4.86 6.51 4.11 5.71C3.61 5.19 2.74 4.85 1.34 4.63C0.67 4.53 0.10 4.44 0.06 4.44C0.03 4.44 0 4.13 0 3.75V3.06H16.25H32.51V8.12V13.19L31.68 13.42C31.23 13.54 30.82 13.64 30.77 13.64C30.72 13.64 30.47 13.08 30.21 12.39C28.88 8.85 26.97 6.72 24.36 5.84C23.08 5.41 22.33 5.36 18.40 5.39L14.85 5.41L14.79 6.15C14.58 8.48 14.47 11.67 14.47 15.70L14.52 20.29C14.60 20.37 19.61 20.07 20.04 19.97C20.71 19.80 21.39 19.41 21.87 18.92C22.42 18.35 23.11 17.05 23.42 15.98L23.66 15.17H24.43H25.21V21.32V27.46H24.41C23.79 27.46 23.61 27.43 23.61 27.33C23.61 27.02 23.06 25.50 22.70 24.81C22.02 23.51 20.93 22.65 19.65 22.40C19.38 22.34 18.11 22.27 16.83 22.24L14.50 22.18L14.51 24.29C14.51 28.88 14.80 33.28 15.20 34.72C15.58 36.09 16.28 36.97 17.32 37.40C17.81 37.60 18.25 37.69 19.42 37.81L20.91 37.95V38.62V39.30H10.45H0L0 38.62ZM40.45 39.94C36.23 39.60 32.88 37.89 30.80 35.02C29.76 33.58 29.09 32.05 28.64 30.06C28.39 28.99 28.37 28.72 28.36 26.68C28.36 24.13 28.47 23.35 29.12 21.50C29.84 19.41 30.80 17.95 32.46 16.41C34.05 14.92 35.68 13.99 37.76 13.37C41.42 12.29 45.93 12.51 49.17 13.93C52.04 15.18 54.29 17.57 55.45 20.58C56.12 22.35 56.47 24.69 56.39 26.85C56.29 29.17 55.82 31.05 54.87 32.88C54.17 34.24 53.46 35.19 52.39 36.21C49.90 38.59 46.70 39.82 42.61 39.97C41.92 40.00 40.95 39.99 40.45 39.94ZM43.46 38.32C45.81 37.76 47.12 35.20 47.62 30.24C47.78 28.71 47.78 24.46 47.63 23.12C47.09 18.41 45.79 15.67 43.62 14.68C43.03 14.41 42.88 14.38 42.11 14.39C41.40 14.39 41.16 14.44 40.64 14.65C39.92 14.95 39.12 15.68 38.63 16.47C37.93 17.61 37.37 19.65 37.09 22.10C36.89 23.86 36.92 28.77 37.14 30.28C37.82 34.96 39.41 37.76 41.70 38.34C42.33 38.49 42.76 38.49 43.46 38.32Z" fill="white"/>
+            </g>
+            <defs><clipPath id="clip0_ftr"><rect width="159" height="40" fill="white"/></clipPath></defs>
+          </svg>
+        </div>
+
+        <div class="cpytxt">© Copyright 2026, ForbesIndia.com. All Rights Reserved.</div>
+
+        <!-- Social icons -->
+        <div class="fshrwrp">
+          <a href="https://www.facebook.com/ForbesIndia" class="ic-fb"  title="Facebook"  aria-label="Facebook"></a>
+          <a href="https://x.com/forbesindia"            class="ic-twit" title="X / Twitter" aria-label="X Twitter"></a>
+          <a href="https://www.instagram.com/forbesindia/" class="ic-insta" title="Instagram" aria-label="Instagram"></a>
+          <a href="https://www.linkedin.com/company/forbes-india" class="ic-linkedin" title="LinkedIn" aria-label="LinkedIn"></a>
+          <a href="https://open.spotify.com/show/4UT3wTpKhqqjWicisQC6hG" class="ic-spotify" title="Spotify" aria-label="Spotify"></a>
+          <a href="https://www.youtube.com/forbesindia" class="ic-ytube" title="YouTube" aria-label="YouTube"></a>
+          <a href="https://t.me/s/forbesind" class="ic-telegram" title="Telegram" aria-label="Telegram"></a>
+        </div>
+      </div>
+
+      <!-- Right col: nav categories -->
+      <div class="fright">
+        <div class="ftcatgrd">
+          <div class="ftcell">
+            <div class="ftcattl">Explore</div>
+            <ul class="ftctlist">
+              <li><a href="https://www.forbesindia.com/leadership/1927/1">Leadership</a></li>
+              <li><a href="https://www.forbesindia.com/news/innovation">Innovation</a></li>
+              <li><a href="https://www.forbesindia.com/billionaires">Billionaires</a></li>
+              <li><a href="https://www.forbesindia.com/enterprise/startups">Startups</a></li>
+              <li><a href="https://www.forbesindia.com/lists">Lists</a></li>
+            </ul>
+          </div>
+          <div class="ftcell">
+            <div class="ftcattl">Media</div>
+            <ul class="ftctlist">
+              <li><a href="https://www.forbesindia.com/multimedia/audio/8/1">Podcasts</a></li>
+              <li><a href="https://www.forbesindia.com/multimedia/video/2/1">Videos</a></li>
+              <li><a href="https://www.forbesindia.com/life/92/1">Life</a></li>
+            </ul>
+          </div>
+          <div class="ftcell">
+            <div class="ftcattl">Company</div>
+            <ul class="ftctlist">
+              <li><a href="https://www.forbesindia.com/contactus/">Contact Us</a></li>
+              <li><a href="https://www.forbesindia.com/advertise/">Advertise</a></li>
+              <li><a href="https://subscription.forbesindia.com/">Subscribe</a></li>
+              <li><a href="https://www.forbesindia.com/marquee">Marquee</a></li>
+            </ul>
+          </div>
+          <div class="ftcell">
+            <div class="ftcattl">Legal</div>
+            <ul class="ftctlist">
+              <li><a href="https://www.forbesindia.com/privacy/">Privacy Policy</a></li>
+              <li><a href="https://www.forbesindia.com/cookiepolicy/">Cookie Policy</a></li>
+              <li><a href="https://www.forbesindia.com/terms-conditions/">Terms &amp; Conditions</a></li>
+              <li><a href="https://www.forbesindia.com/disclaimer/">Disclaimer</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom: NW18 logo -->
+    <div class="ftbottom">
+      <a href="http://www.nw18.com/" target="_blank" rel="noopener noreferrer">
+        <img src="https://images.forbesindia.com/media/image_uploads/network18-logo.svg" alt="Network 18" height="28" />
+      </a>
+    </div>
+  </div>
+</footer>
 
 <!-- Scroll to top -->
 <button id="scrollTop" title="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">
@@ -1135,6 +1175,19 @@
 </button>
 
 <script>
+  /* ── Mobile sidebar ── */
+  function openSidebar()  { document.getElementById('sidebar').classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function closeSidebar() { document.getElementById('sidebar').classList.remove('active'); document.body.style.overflow = ''; }
+
+  /* ── Mobile sub-menu toggle ── */
+  document.querySelectorAll('.sdmenu .sbmnuli > a').forEach(a => {
+    a.addEventListener('click', () => {
+      const li = a.closest('.sbmnuli');
+      li.classList.toggle('active');
+    });
+  });
+
+  /* ── Year nav scroll ── */
   function scrollToYear(yr, btn) {
     document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -1144,13 +1197,13 @@
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
   }
 
-  // Scroll-to-top visibility
+  /* ── Scroll-to-top ── */
   const scrollTopBtn = document.getElementById('scrollTop');
   window.addEventListener('scroll', () => {
     scrollTopBtn.classList.toggle('show', window.scrollY > 400);
   }, { passive: true });
 
-  // Auto-highlight year in nav on scroll
+  /* ── Auto-highlight year in nav on scroll ── */
   const yearCards = document.querySelectorAll('.year-card[id]');
   const yearBtns  = document.querySelectorAll('.year-btn');
   const navHeight = document.getElementById('yearNav').offsetHeight;
