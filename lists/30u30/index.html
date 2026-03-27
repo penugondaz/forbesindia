@@ -64,7 +64,13 @@ img { display: block; max-width: 100%; }
 }
 
 /* Forbes India logo PNG */
-.fblogo img { height: 36px; width: auto; display: block; }
+.fblogo { display: inline-flex; align-items: center; flex-shrink: 0; }
+.fblogo img {
+  height: 36px;
+  width: auto;
+  max-width: none;   /* override global img{max-width:100%} which collapses the logo */
+  display: block;
+}
 @media screen and (min-width: 1024px) {
   .fblogo img { height: 42px; }
 }
@@ -240,7 +246,9 @@ img { display: block; max-width: 100%; }
    ══════════════════════════════════════════ */
 .year-nav-bar {
   background: var(--fi-white); border-bottom: 1px solid var(--fi-rule);
-  position: sticky; top: 0; z-index: 80;
+  position: sticky;
+  top: var(--header-h, 0px);   /* set dynamically by JS to match sticky header height */
+  z-index: 79;                 /* just below header z-index:100 */
   box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 .year-nav-inner {
@@ -896,12 +904,24 @@ img { display: block; max-width: 100%; }
     a.addEventListener('click', () => a.closest('.sbmnuli').classList.toggle('active'));
   });
 
+  /* ── Set year nav sticky top = height of sticky header ── */
+  function setNavTop() {
+    const hdr = document.querySelector('.stckyhdr');
+    if (hdr) {
+      document.documentElement.style.setProperty('--header-h', hdr.offsetHeight + 'px');
+    }
+  }
+  setNavTop();
+  window.addEventListener('resize', setNavTop, { passive: true });
+
   function scrollToYear(yr, btn) {
     document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     const el = document.getElementById('year-' + yr);
     if (!el) return;
-    const offset = document.getElementById('yearNav').offsetHeight + 10;
+    const hdrH = document.querySelector('.stckyhdr')?.offsetHeight || 0;
+    const navH = document.getElementById('yearNav')?.offsetHeight || 44;
+    const offset = hdrH + navH + 10;
     window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
   }
 
@@ -910,16 +930,24 @@ img { display: block; max-width: 100%; }
 
   const yearCards = document.querySelectorAll('.year-card[id]');
   const yearBtns  = document.querySelectorAll('.year-btn');
-  const navH = document.getElementById('yearNav').offsetHeight;
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        const yr = e.target.id.replace('year-','');
-        yearBtns.forEach(b => b.classList.toggle('active', b.textContent.trim() === yr));
-      }
-    });
-  }, { rootMargin: `-${navH + 20}px 0px -55% 0px`, threshold: 0 });
-  yearCards.forEach(c => obs.observe(c));
+
+  function buildObserver() {
+    const hdrH = (document.querySelector('.stckyhdr')?.offsetHeight || 0);
+    const navH = (document.getElementById('yearNav')?.offsetHeight || 44);
+    const totalOffset = hdrH + navH + 20;
+    if (window._yearObs) window._yearObs.disconnect();
+    window._yearObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const yr = e.target.id.replace('year-','');
+          yearBtns.forEach(b => b.classList.toggle('active', b.textContent.trim() === yr));
+        }
+      });
+    }, { rootMargin: `-${totalOffset}px 0px -55% 0px`, threshold: 0 });
+    yearCards.forEach(c => window._yearObs.observe(c));
+  }
+  buildObserver();
+  window.addEventListener('resize', buildObserver, { passive: true });
 </script>
 </body>
 </html>
