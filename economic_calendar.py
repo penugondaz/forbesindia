@@ -7,9 +7,9 @@ from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 
 # ── Config from GitHub Secrets ──────────────────────────────────────────────
-GMAIL_USER       = os.environ["GMAIL_USER"]
-GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"]
-TO_EMAIL         = os.environ["TO_EMAIL"]
+GMAIL_USER = os.environ["GMAIL_USER"].strip()
+GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"].strip()
+TO_EMAIL = os.environ["TO_EMAIL"].strip()
 
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
