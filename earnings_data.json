@@ -1,9 +1,0 @@
-[
-  {
-    "company": "Security CodeSecurity NameResult Date{{fr.scrip_Code}}{{fr.short_name}}{{fr.meeting_date  | date:'dd MMM yyyy'}}",
-    "quarter": "Security Code",
-    "date": "Security Name",
-    "time": "Result Date",
-    "exchange": "BSE"
-  }
-]
