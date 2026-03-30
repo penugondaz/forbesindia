@@ -7,9 +7,9 @@ from datetime import datetime, timezone, timedelta
 from bs4 import BeautifulSoup
 
 # ── Config from GitHub Secrets ──────────────────────────────────────────────
-GMAIL_USER = os.environ["GMAIL_USER"].strip()
+GMAIL_USER         = os.environ["GMAIL_USER"].strip()
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"].strip()
-TO_EMAIL = os.environ["TO_EMAIL"].strip()
+TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
 
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -29,7 +29,6 @@ HEADERS = {
 }
 
 def get_star_rating(cell):
-    """Count filled stars in impact cell."""
     stars = cell.find_all("i")
     filled = sum(1 for s in stars if "fill" in s.get("class", []))
     return "⭐" * filled if filled else "–"
@@ -44,7 +43,6 @@ def scrape_india_events():
     soup = BeautifulSoup(resp.text, "html.parser")
     rows = soup.select("table.calendarTable tbody tr, #economicCalendarTable tbody tr, .econCalTbl tbody tr")
 
-    # Fallback: find any table rows with IND
     if not rows:
         rows = soup.find_all("tr")
 
@@ -77,7 +75,6 @@ def scrape_india_events():
 
     return events, None
 
-# ── Build Email ───────────────────────────────────────────────────────────────
 def build_html(events, error=None):
     rows_html = ""
 
@@ -123,20 +120,18 @@ def build_html(events, error=None):
     </body></html>
     """
 
-# ── Send Email ────────────────────────────────────────────────────────────────
 def send_email(subject, html_body):
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"]    = GMAIL_USER
-    msg["To"]      = TO_EMAIL
+    msg["To"]      = ", ".join(TO_EMAILS)
     msg.attach(MIMEText(html_body, "html"))
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
-        server.sendmail(GMAIL_USER, TO_EMAIL, msg.as_string())
+        server.sendmail(GMAIL_USER, TO_EMAILS, msg.as_string())
     print("✅ Email sent successfully.")
 
-# ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print(f"Fetching economic calendar for {date_str}...")
     events, error = scrape_india_events()
