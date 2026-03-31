@@ -2,8 +2,8 @@ name: Daily Economic Calendar Email
 
 on:
   schedule:
-    - cron: '0 4 * * *'  # 9:30 AM IST (UTC+5:30)
-  workflow_dispatch:       # Allow manual trigger from GitHub UI
+- cron: '30 2 * * *'  # 8:00 AM IST (UTC+5:30) — targets ~9:30 AM delivery
+workflow_dispatch:       # Allow manual trigger from GitHub UI
 
 jobs:
   send-calendar:
