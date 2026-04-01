@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Forbes India 30 Under 30 2025 — Meet the young groundbreakers and trendsetters shaping India's future across 19 categories." />
+  <meta name="keywords" content="Forbes India, 30 Under 30, 2025, young achievers, India innovators, entrepreneurs" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Forbes India 30 Under 30 2025" />
+  <meta property="og:description" content="Meet India's most compelling young groundbreakers and trendsetters of 2025." />
+  <meta property="og:image" content="https://images.forbesindia.com/media/image_uploads/thumbnail_banner1200x900.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <title>Forbes India 30 Under 30 2025 | Young Groundbreakers & Trendsetters</title>
+  <link rel="canonical" href="https://www.forbesindia.com/lists/30-under-30-2025/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --forbes-red: #CC0000;
+      --forbes-black: #0A0A0A;
+      --forbes-gold: #C9A84C;
+      --forbes-gold-light: #F0D98A;
+      --forbes-cream: #FAF7F2;
+      --forbes-warm-gray: #F2EFE9;
+      --forbes-mid-gray: #9A9086;
+      --forbes-dark-gray: #2A2520;
+      --text-primary: #1A1714;
+      --text-secondary: #5C5550;
+      --white: #FFFFFF;
+      --border: rgba(201,168,76,0.25);
+      --card-shadow: 0 4px 24px rgba(10,10,10,0.10);
+      --card-shadow-hover: 0 12px 40px rgba(10,10,10,0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: var(--forbes-cream);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ═══ HEADER ═══ */
+    .site-header {
+      background: var(--forbes-black);
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--forbes-red);
+    }
+    .site-header__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+    .site-header__logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 26px;
+      color: var(--white);
+      letter-spacing: -0.5px;
+    }
+    .site-header__logo span { color: var(--forbes-red); }
+    .site-header__nav {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .site-header__nav a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      transition: color 0.2s;
+    }
+    .site-header__nav a:hover { color: var(--forbes-gold); }
+    .site-header__subscribe {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      background: var(--forbes-red);
+      color: var(--white);
+      padding: 8px 18px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .site-header__subscribe:hover { background: #aa0000; }
+
+    /* ═══ BREADCRUMB ═══ */
+    .breadcrumb {
+      background: var(--forbes-black);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 24px;
+    }
+    .breadcrumb__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      font-family: 'Barlow', sans-serif;
+    }
+    .breadcrumb__inner a { color: rgba(255,255,255,0.45); transition: color 0.2s; }
+    .breadcrumb__inner a:hover { color: var(--forbes-gold); }
+    .breadcrumb__sep { opacity: 0.4; }
+    .breadcrumb__current { color: var(--forbes-gold); font-weight: 500; }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      background: var(--forbes-black);
+      position: relative;
+      overflow: hidden;
+      padding: 80px 24px 100px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 50%, rgba(204,0,0,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero__grid-lines {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(255,255,255,0.025) 80px),
+        repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(255,255,255,0.025) 80px);
+      pointer-events: none;
+    }
+    .hero__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 80px;
+      align-items: center;
+    }
+    .hero__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--forbes-red);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      margin-bottom: 28px;
+    }
+    .hero__badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--white);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+    .hero__edition {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--forbes-gold);
+      margin-bottom: 16px;
+    }
+    .hero__title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: clamp(42px, 5.5vw, 72px);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 28px;
+      letter-spacing: -1px;
+    }
+    .hero__title em {
+      font-style: italic;
+      color: var(--forbes-gold);
+    }
+    .hero__desc {
+      font-size: 17px;
+      line-height: 1.75;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+      max-width: 560px;
+      margin-bottom: 36px;
+    }
+    .hero__meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero__meta-item { text-align: center; }
+    .hero__meta-number {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 36px;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero__meta-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--forbes-gold);
+    }
+    .hero__image-col { position: relative; }
+    .hero__image-frame {
+      position: relative;
+      border: 1px solid rgba(201,168,76,0.3);
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+    }
+    .hero__image-frame::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 24px; right: 24px;
+      height: 2px;
+      background: var(--forbes-red);
+    }
+    .hero__image-frame img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      filter: grayscale(20%) contrast(1.05);
+    }
+    .hero__image-caption {
+      padding: 16px 0 0;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+    }
+    .hero__readmore {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--forbes-gold);
+      border-bottom: 1px solid rgba(201,168,76,0.4);
+      padding-bottom: 2px;
+      transition: opacity 0.2s;
+    }
+    .hero__readmore:hover { opacity: 0.7; }
+    .hero__readmore::after { content: '→'; font-size: 16px; }
+
+    /* ═══ STATS STRIP ═══ */
+    .stats-strip {
+      background: var(--forbes-red);
+      padding: 20px 24px;
+    }
+    .stats-strip__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .stats-strip__item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--white);
+    }
+    .stats-strip__num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 28px;
+      line-height: 1;
+    }
+    .stats-strip__label {
+      font-family: 'Barlow', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      opacity: 0.85;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      max-width: 100px;
+      line-height: 1.3;
+    }
+    .stats-strip__divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* ═══ SECTION HEADER ═══ */
+    .section-header {
+      max-width: 1280px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .section-header__left { }
+    .section-header__kicker {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--forbes-red);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-header__kicker::before {
+      content: '';
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--forbes-red);
+    }
+    .section-header__title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: clamp(28px, 3.5vw, 44px);
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .section-header__count {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ═══ FILTER BAR ═══ */
+    .filter-bar {
+      max-width: 1280px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover,
+    .filter-btn.active {
+      background: var(--forbes-black);
+      border-color: var(--forbes-black);
+      color: var(--white);
+    }
+
+    /* ═══ GRID ═══ */
+    .list-section {
+      padding: 72px 24px;
+    }
+    .list-section--dark {
+      background: var(--forbes-dark-gray);
+    }
+    .list-section--dark .section-header__title { color: var(--white); }
+    .list-section--dark .section-header__count { color: rgba(255,255,255,0.45); }
+    .list-section--dark .filter-btn {
+      border-color: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.55);
+    }
+    .list-section--dark .filter-btn:hover,
+    .list-section--dark .filter-btn.active {
+      background: var(--forbes-red);
+      border-color: var(--forbes-red);
+      color: var(--white);
+    }
+
+    .cards-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    /* ═══ CARD ═══ */
+    .card {
+      background: var(--white);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s;
+    }
+    .card:hover { z-index: 2; box-shadow: var(--card-shadow-hover); }
+    .card:hover .card__img img {
+      transform: scale(1.04);
+    }
+    .card:hover .card__name { color: var(--forbes-red); }
+
+    .card__img {
+      position: relative;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--forbes-warm-gray);
+    }
+    .card__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.5s ease;
+      filter: grayscale(15%);
+    }
+    .card__category {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--forbes-red);
+      color: var(--white);
+      padding: 4px 10px;
+      z-index: 1;
+    }
+    .card__age {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      background: rgba(10,10,10,0.82);
+      backdrop-filter: blur(8px);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 4px 9px;
+      letter-spacing: 0.5px;
+    }
+    .card__age span {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--forbes-gold-light);
+      margin-right: 3px;
+    }
+
+    .card__body {
+      padding: 18px 20px 22px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+    .card:hover .card__body { border-color: var(--forbes-red); }
+
+    .card__name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1.25;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      transition: color 0.2s;
+    }
+    .card__role {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.45;
+      flex: 1;
+      margin-bottom: 14px;
+    }
+    .card__desc {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .card__read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--forbes-red);
+      margin-top: auto;
+      transition: gap 0.2s;
+    }
+    .card:hover .card__read { gap: 10px; }
+    .card__read::after { content: '→'; }
+
+    /* FEATURED CARD — spans 2 cols */
+    .card--featured {
+      grid-column: span 2;
+      flex-direction: row;
+    }
+    .card--featured .card__img {
+      flex: 0 0 48%;
+      aspect-ratio: auto;
+    }
+    .card--featured .card__body {
+      padding: 28px 28px 28px;
+    }
+    .card--featured .card__name {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .card--featured .card__role { font-size: 13px; margin-bottom: 14px; }
+    .card--featured .card__desc {
+      font-size: 13px;
+      -webkit-line-clamp: 6;
+      margin-bottom: 20px;
+    }
+
+    /* Dark grid variant */
+    .list-section--dark .cards-grid {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.06);
+    }
+    .list-section--dark .card {
+      background: var(--forbes-dark-gray);
+    }
+    .list-section--dark .card__name { color: var(--white); }
+    .list-section--dark .card__role { color: rgba(255,255,255,0.5); }
+    .list-section--dark .card__desc { color: rgba(255,255,255,0.4); }
+    .list-section--dark .card:hover .card__name { color: var(--forbes-gold); }
+    .list-section--dark .card:hover .card__body { border-color: var(--forbes-gold); }
+    .list-section--dark .card__read { color: var(--forbes-gold); }
+
+    /* ═══ CATEGORY DIVIDER ═══ */
+    .cat-divider {
+      max-width: 1280px;
+      margin: 0 auto 20px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cat-divider__label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--forbes-mid-gray);
+      white-space: nowrap;
+    }
+    .cat-divider__line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .list-section--dark .cat-divider__label { color: rgba(255,255,255,0.3); }
+    .list-section--dark .cat-divider__line { background: rgba(255,255,255,0.08); }
+
+    /* ═══ POPULAR LISTS ═══ */
+    .popular-section {
+      padding: 72px 24px;
+      background: var(--forbes-warm-gray);
+    }
+    .popular-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: rgba(201,168,76,0.2);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .popular-card {
+      background: var(--white);
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: background 0.25s;
+    }
+    .popular-card:hover { background: var(--forbes-black); }
+    .popular-card__number {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 52px;
+      line-height: 1;
+      color: rgba(201,168,76,0.2);
+      transition: color 0.25s;
+    }
+    .popular-card:hover .popular-card__number { color: rgba(201,168,76,0.4); }
+    .popular-card__title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--text-primary);
+      line-height: 1.3;
+      transition: color 0.25s;
+    }
+    .popular-card:hover .popular-card__title { color: var(--white); }
+    .popular-card__sub {
+      font-size: 13px;
+      color: var(--text-secondary);
+      transition: color 0.25s;
+    }
+    .popular-card:hover .popular-card__sub { color: rgba(255,255,255,0.5); }
+    .popular-card__arrow {
+      margin-top: auto;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--forbes-red);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.25s, gap 0.2s;
+    }
+    .popular-card:hover .popular-card__arrow {
+      color: var(--forbes-gold);
+      gap: 14px;
+    }
+    .popular-card__arrow::after { content: '→'; font-size: 15px; }
+
+    /* ═══ FOOTER ═══ */
+    .site-footer {
+      background: var(--forbes-black);
+      padding: 48px 24px 32px;
+      border-top: 3px solid var(--forbes-red);
+    }
+    .site-footer__inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 64px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 28px;
+    }
+    .site-footer__brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 28px;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .site-footer__brand span { color: var(--forbes-red); }
+    .site-footer__tagline {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .site-footer__links-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    .site-footer__col-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--forbes-gold);
+      margin-bottom: 16px;
+    }
+    .site-footer__col ul { list-style: none; }
+    .site-footer__col ul li + li { margin-top: 10px; }
+    .site-footer__col ul a {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
+    }
+    .site-footer__col ul a:hover { color: var(--white); }
+    .site-footer__bottom {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ═══ MODAL ═══ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(10,10,10,0.92);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white);
+      max-width: 760px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+    }
+    .modal__close {
+      position: absolute;
+      top: 16px; right: 16px;
+      width: 36px; height: 36px;
+      background: var(--forbes-black);
+      border: none;
+      cursor: pointer;
+      color: var(--white);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      transition: background 0.2s;
+    }
+    .modal__close:hover { background: var(--forbes-red); }
+    .modal__img {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+    }
+    .modal__img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .modal__body {
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal__category {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--forbes-red);
+      margin-bottom: 12px;
+    }
+    .modal__name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+    .modal__role {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .modal__age-badge {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 6px;
+      background: var(--forbes-warm-gray);
+      padding: 8px 14px;
+      margin-bottom: 24px;
+      border-left: 3px solid var(--forbes-red);
+    }
+    .modal__age-num {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--forbes-red);
+    }
+    .modal__age-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .modal__divider {
+      height: 1px;
+      background: var(--border);
+      margin-bottom: 20px;
+    }
+    .modal__bio {
+      font-size: 14.5px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      flex: 1;
+    }
+
+    /* ═══ SKIP TO CONTENT ═══ */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--forbes-red);
+      color: var(--white);
+      padding: 8px 16px;
+      font-size: 13px;
+      z-index: 999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ═══ BACK TO TOP ═══ */
+    .back-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px; height: 44px;
+      background: var(--forbes-black);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--white);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.3s;
+      z-index: 50;
+    }
+    .back-top.visible { opacity: 1; transform: translateY(0); }
+    .back-top:hover { background: var(--forbes-red); }
+
+    /* ═══ RESPONSIVE ═══ */
+    @media (max-width: 1100px) {
+      .cards-grid { grid-template-columns: repeat(3, 1fr); }
+      .card--featured { grid-column: span 3; }
+      .card--featured .card__img { flex: 0 0 38%; }
+    }
+    @media (max-width: 900px) {
+      .hero__inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero__image-col { display: none; }
+      .site-footer__inner { grid-template-columns: 1fr; gap: 32px; }
+      .site-footer__links-grid { grid-template-columns: repeat(2, 1fr); }
+      .site-header__nav { display: none; }
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 52px 24px 64px; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+      .card--featured { grid-column: span 2; flex-direction: column; }
+      .card--featured .card__img { flex: 0 0 auto; aspect-ratio: 16/9; }
+      .popular-grid { grid-template-columns: 1fr; }
+      .stats-strip__divider { display: none; }
+      .stats-strip__inner { justify-content: flex-start; gap: 24px; }
+      .modal { grid-template-columns: 1fr; }
+      .modal__img { aspect-ratio: 16/9; }
+    }
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .card--featured { grid-column: 1; }
+      .hero__title { font-size: 36px; }
+      .hero__meta { gap: 20px; }
+      .site-footer__links-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ═══ ANIMATIONS ═══ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero__badge,
+    .hero__edition,
+    .hero__title,
+    .hero__desc,
+    .hero__readmore,
+    .hero__meta { animation: fadeUp 0.6s ease both; }
+    .hero__badge    { animation-delay: 0.05s; }
+    .hero__edition  { animation-delay: 0.1s; }
+    .hero__title    { animation-delay: 0.18s; }
+    .hero__desc     { animation-delay: 0.28s; }
+    .hero__readmore { animation-delay: 0.36s; }
+    .hero__meta     { animation-delay: 0.44s; }
+
+    .card {
+      animation: fadeUp 0.5s ease both;
+    }
+    .card:nth-child(1)  { animation-delay: 0.05s; }
+    .card:nth-child(2)  { animation-delay: 0.10s; }
+    .card:nth-child(3)  { animation-delay: 0.15s; }
+    .card:nth-child(4)  { animation-delay: 0.20s; }
+    .card:nth-child(5)  { animation-delay: 0.25s; }
+    .card:nth-child(6)  { animation-delay: 0.30s; }
+    .card:nth-child(7)  { animation-delay: 0.35s; }
+    .card:nth-child(8)  { animation-delay: 0.40s; }
+    .card:nth-child(9)  { animation-delay: 0.45s; }
+    .card:nth-child(10) { animation-delay: 0.50s; }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- HEADER -->
+  <header class="site-header" role="banner">
+    <div class="site-header__inner">
+      <a href="https://www.forbesindia.com/" class="site-header__logo" aria-label="Forbes India Home">
+        Forbes<span>India</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <ul class="site-header__nav">
+          <li><a href="https://www.forbesindia.com/leadership">Leadership</a></li>
+          <li><a href="https://www.forbesindia.com/news/innovation">Innovation</a></li>
+          <li><a href="https://www.forbesindia.com/billionaires">Billionaires</a></li>
+          <li><a href="https://www.forbesindia.com/enterprise/startups">Startups</a></li>
+          <li><a href="https://www.forbesindia.com/lists/1">Lists</a></li>
+        </ul>
+      </nav>
+      <a href="https://subscription.forbesindia.com/" class="site-header__subscribe" aria-label="Subscribe to Forbes India">Subscribe</a>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <div class="breadcrumb__inner">
+      <a href="https://www.forbesindia.com/">Home</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <a href="https://www.forbesindia.com/lists/1">Lists</a>
+      <span class="breadcrumb__sep" aria-hidden="true">›</span>
+      <span class="breadcrumb__current" aria-current="page">30 Under 30 — 2025</span>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero__grid-lines" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__content">
+          <div class="hero__badge" aria-label="12th Edition">12th Edition · 2025</div>
+          <p class="hero__edition">Forbes India · Annual List</p>
+          <h1 class="hero__title" id="hero-heading">
+            Young<br><em>Groundbreakers</em><br>&amp; Trendsetters
+          </h1>
+          <p class="hero__desc">
+            Meet the Forbes India 30 Under 30 class of 2025 — a cohort of tech innovators, healthcare mavericks, financial wizards, artists, and athletes who are reshaping India's future across 19 categories, including the newly added Artificial Intelligence.
+          </p>
+          <a href="https://www.forbesindia.com/article/30-under-30-2025/forbes-india-30-under-30-class-of-2025-an-ode-to-talent/95239/1" class="hero__readmore" target="_blank" rel="noopener noreferrer" aria-label="Read the full Forbes India 30 Under 30 2025 story">Read the full story</a>
+          <div class="hero__meta" aria-label="Key statistics">
+            <div class="hero__meta-item">
+              <div class="hero__meta-number">30</div>
+              <div class="hero__meta-label">Honourees</div>
+            </div>
+            <div class="hero__meta-item">
+              <div class="hero__meta-number">19</div>
+              <div class="hero__meta-label">Categories</div>
+            </div>
+            <div class="hero__meta-item">
+              <div class="hero__meta-number">18</div>
+              <div class="hero__meta-label">Youngest Age</div>
+            </div>
+          </div>
+        </div>
+        <div class="hero__image-col" aria-hidden="true">
+          <div class="hero__image-frame">
+            <img src="https://images.forbesindia.com/media/image_uploads/Sports_Gukesh1_28.jpg"
+                 alt="D Gukesh — Forbes India 30 Under 30 2025 cover honouree"
+                 width="420" height="525"
+                 loading="eager" />
+            <p class="hero__image-caption">D Gukesh · Chess · Age 18</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS STRIP -->
+    <div class="stats-strip" role="region" aria-label="List highlights">
+      <div class="stats-strip__inner">
+        <div class="stats-strip__item">
+          <div class="stats-strip__num">$500M</div>
+          <div class="stats-strip__label">deal by a listee this year</div>
+        </div>
+        <div class="stats-strip__divider" aria-hidden="true"></div>
+        <div class="stats-strip__item">
+          <div class="stats-strip__num">11</div>
+          <div class="stats-strip__label">women on the list</div>
+        </div>
+        <div class="stats-strip__divider" aria-hidden="true"></div>
+        <div class="stats-strip__item">
+          <div class="stats-strip__num">1M+</div>
+          <div class="stats-strip__label">beneficiaries reached</div>
+        </div>
+        <div class="stats-strip__divider" aria-hidden="true"></div>
+        <div class="stats-strip__item">
+          <div class="stats-strip__num">12</div>
+          <div class="stats-strip__label">years of the list</div>
+        </div>
+        <div class="stats-strip__divider" aria-hidden="true"></div>
+        <div class="stats-strip__item">
+          <div class="stats-strip__num">19</div>
+          <div class="stats-strip__label">categories incl. new AI</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN LIST SECTION -->
+    <section class="list-section" aria-labelledby="list-heading">
+      <header class="section-header">
+        <div class="section-header__left">
+          <div class="section-header__kicker">Class of 2025</div>
+          <h2 class="section-header__title" id="list-heading">The Complete List</h2>
+        </div>
+        <p class="section-header__count">30 Honourees · 19 Categories</p>
+      </header>
+
+      <!-- FILTER BAR -->
+      <div class="filter-bar" role="group" aria-label="Filter by category">
+        <button class="filter-btn active" data-filter="all" onclick="filterCards(this, 'all')">All</button>
+        <button class="filter-btn" data-filter="Agritech" onclick="filterCards(this, 'Agritech')">Agritech</button>
+        <button class="filter-btn" data-filter="Art" onclick="filterCards(this, 'Art')">Art</button>
+        <button class="filter-btn" data-filter="Artificial Intelligence" onclick="filterCards(this, 'Artificial Intelligence')">AI</button>
+        <button class="filter-btn" data-filter="B2B" onclick="filterCards(this, 'B2B')">B2B</button>
+        <button class="filter-btn" data-filter="Entertainment" onclick="filterCards(this, 'Entertainment')">Entertainment</button>
+        <button class="filter-btn" data-filter="Fashion" onclick="filterCards(this, 'Fashion')">Fashion</button>
+        <button class="filter-btn" data-filter="Finance" onclick="filterCards(this, 'Finance')">Finance</button>
+        <button class="filter-btn" data-filter="Healthcare" onclick="filterCards(this, 'Healthcare')">Healthcare</button>
+        <button class="filter-btn" data-filter="Sports" onclick="filterCards(this, 'Sports')">Sports</button>
+      </div>
+
+      <div class="cards-grid" id="cards-grid" role="list">
+
+        <!-- FEATURED: Devan Chandrasekharan -->
+        <article class="card card--featured" role="listitem" tabindex="0"
+          data-category="Agritech"
+          data-name="Devan Chandrasekharan"
+          data-role="Founder and Managing Director, Fuselage Innovations"
+          data-age="28"
+          data-bio="Fuselage helps farmers increase efficiency by deploying advanced solutions for mapping and diagnostics of farmland. It specialises in technologies based on Unmanned Aerial Vehicles, Internet of Things and artificial intelligence. Applications range from post-disaster management and infrastructure monitoring to environmental conservation."
+          data-img="https://images.forbesindia.com/media/image_uploads/Agritech_Devan Chandrasekharan_1.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Devan Chandrasekharan — Agritech">
+          <div class="card__img">
+            <span class="card__category">Agritech</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Agritech_Devan Chandrasekharan_1.jpg"
+                 alt="Devan Chandrasekharan" width="400" height="533" loading="lazy" />
+            <div class="card__age"><span>28</span> years old</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Devan Chandrasekharan</h3>
+            <p class="card__role">Founder and Managing Director, Fuselage Innovations</p>
+            <p class="card__desc">Fuselage helps farmers increase efficiency by deploying advanced solutions for mapping and diagnostics of the farmland. It specialises in the development of technologies based on UAVs, IoT and artificial intelligence. Applications range from post-disaster management to environmental conservation.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Rabiul Khan -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Art"
+          data-name="Rabiul Khan"
+          data-role="Artist"
+          data-age="27"
+          data-bio="From a coal mining family to bachelor's and master's degrees in fine arts from Kala Bhavan, Visva Bharati University, Rabiul Khan has come a long way and wants to make art that asks provoking questions. His collective, Gabaa, was set up with like-minded friends from college. He has received the Inlaks Fine Art Award in 2023 and the Prince Claus Fund Seed Award in 2024."
+          data-img="https://images.forbesindia.com/media/image_uploads/Art_Rabiul%20Khan.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Rabiul Khan — Art">
+          <div class="card__img">
+            <span class="card__category">Art</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Art_Rabiul%20Khan.jpg" alt="Rabiul Khan" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>27</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Rabiul Khan</h3>
+            <p class="card__role">Artist</p>
+            <p class="card__desc">From a coal mining family to fine arts degrees from Kala Bhavan, Visva Bharati. Inlaks Fine Art Award 2023 and Prince Claus Fund Seed Award 2024 recipient.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Rajat Arya, Chirag Arya -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Artificial Intelligence"
+          data-name="Rajat Arya, Chirag Arya"
+          data-role="Founder & CEO; COO, 169Pi.ai"
+          data-age="28 & 24"
+          data-bio="The Arya brothers are not new to the world of AI — they have built a software business in the past and blockchain solutions for US customers. OpenAI CEO Sam Altman's India visit in 2023 piqued their interest in India-specific language models. An important early user is ISRO, India's space agency, which is testing a PDF agent that 169Pi created."
+          data-img="https://images.forbesindia.com/media/image_uploads/AI_Rajat Arya copy.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Rajat Arya and Chirag Arya — Artificial Intelligence">
+          <div class="card__img">
+            <span class="card__category">AI</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/AI_Rajat Arya copy.jpg" alt="Rajat Arya and Chirag Arya" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>28 & 24</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Rajat Arya, Chirag Arya</h3>
+            <p class="card__role">Founder &amp; CEO; COO, 169Pi.ai</p>
+            <p class="card__desc">Building desi AI — India-specific language models tested by ISRO. Their PDF agent is reshaping how government agencies handle vast data.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Abhinav Shekhar Vashistha -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Clean Energy"
+          data-name="Abhinav Shekhar Vashistha"
+          data-role="Co-founder & CTO, WeVOIS Labs Pvt Ltd"
+          data-age="29"
+          data-bio="WeVois has created a sustainable, scalable and profitable waste management business for urban and suburban areas. The company deploys an IoT-enabled app to help efficient waste collection to reduce open dumping and burning of household trash. Its employees — the waste collectors — are given social benefits, and it employs 1,000 workers directly and another 500 indirectly."
+          data-img="https://images.forbesindia.com/media/image_uploads/Clean_energy_I92A9799-Enhanced-NR copy.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Abhinav Shekhar Vashistha — Clean Energy">
+          <div class="card__img">
+            <span class="card__category">Clean Energy</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Clean_energy_I92A9799-Enhanced-NR copy.jpg" alt="Abhinav Shekhar Vashistha" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Abhinav Shekhar Vashistha</h3>
+            <p class="card__role">Co-founder &amp; CTO, WeVOIS Labs</p>
+            <p class="card__desc">IoT-powered waste management for India's cities. 1,500 workers empowered with social benefits and performance rewards.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- FEATURED: Brinda Dudhat -->
+        <article class="card card--featured" role="listitem" tabindex="0"
+          data-category="Design & Architecture"
+          data-name="Brinda Dudhat"
+          data-role="Co-founder, Morii Design"
+          data-age="29"
+          data-bio="Brinda Dudhat set up Morii Design in 2019, focusing on one-of-a-kind textile art pieces and wall art. With a natural and earthy palette, her work is organic, abstract, and intuitive — reminiscent of aerial landscapes depicting global warming and climate change. Today, Morii collaborates with over 165 women artisans from 12 villages across India, combining techniques like Sujani embroidery from Bihar, Bela block printing, and Kantha embroidery from West Bengal."
+          data-img="https://images.forbesindia.com/media/image_uploads/Design & Architecture_Brinda_6.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Brinda Dudhat — Design and Architecture">
+          <div class="card__img">
+            <span class="card__category">Design</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Design & Architecture_Brinda_6.jpg" alt="Brinda Dudhat" width="400" height="533" loading="lazy" />
+            <div class="card__age"><span>29</span> years old</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Brinda Dudhat</h3>
+            <p class="card__role">Co-founder, Morii Design</p>
+            <p class="card__desc">A textile artist uniting 165 artisan women across 12 Indian villages. Morii fuses Sujani embroidery, Bela block printing and Kantha techniques with contemporary abstraction — each piece a meditation on landscape and climate.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Kavya Karnatac -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Digital Content"
+          data-name="Kavya Karnatac"
+          data-role="Founder, KK Create"
+          data-age="27"
+          data-bio="Kavya Karnatac's video at the Ghazipur garbage dump — India's tallest — garnered 3 million views, but it was also a test of her commitment. She and her team were attacked by a mob but continued documenting the lives and struggles of people there. Her aim: To visit India's 800 districts to experience and tell their stories."
+          data-img="https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Kavya Karnatac.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Kavya Karnatac — Digital Content">
+          <div class="card__img">
+            <span class="card__category">Digital Content</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Kavya Karnatac.jpg" alt="Kavya Karnatac" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>27</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Kavya Karnatac</h3>
+            <p class="card__role">Founder, KK Create</p>
+            <p class="card__desc">Raw storytelling from India's forgotten corners. Ghazipur dump video: 3M views. Goal: all 800 districts of India.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Prakhar Gupta -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Digital Content"
+          data-name="Prakhar Gupta"
+          data-role="Podcaster"
+          data-age="28"
+          data-bio="His podcast 'Prakhar Ke Pravachan' on YouTube has seen guests like Piyush Goyal, the union minister of commerce and industry, and Arvind Kejriwal, the Aam Aadmi Party chief and former Delhi CM. A Columbia University graduate in psychology and economics, Gupta uses ideas as currency in wide-ranging conversations about religion, science, politics, and spirituality."
+          data-img="https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Prakhar.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Prakhar Gupta — Digital Content">
+          <div class="card__img">
+            <span class="card__category">Digital Content</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Prakhar.jpg" alt="Prakhar Gupta" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>28</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Prakhar Gupta</h3>
+            <p class="card__role">Podcaster — Prakhar Ke Pravachan</p>
+            <p class="card__desc">Columbia-educated podcaster hosting India's political class and thought leaders. Candid conversations on religion, science and spirituality.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Pallav Bihani -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Ecommerce"
+          data-name="Pallav Bihani"
+          data-role="Founder, Boldfit"
+          data-age="29"
+          data-bio="From being forced onto a journey of fitness to falling in love with every aspect of it, Bihani has come a long way. He wants Boldfit to be India's counter to prohibitive international brands and cheap Indian brands — promising high-quality products at an affordable price. The profitable venture clocked revenue of nearly Rs 140 crore in FY24."
+          data-img="https://images.forbesindia.com/media/image_uploads/Ecommerce_Pallav Bihani.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Pallav Bihani — Ecommerce">
+          <div class="card__img">
+            <span class="card__category">Ecommerce</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Ecommerce_Pallav Bihani.jpg" alt="Pallav Bihani" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Pallav Bihani</h3>
+            <p class="card__role">Founder, Boldfit</p>
+            <p class="card__desc">India's answer to overpriced global fitness brands. Rs 140 crore revenue in FY24, profitable, and growing fast.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Anshita Mehrotra -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Ecommerce"
+          data-name="Anshita Mehrotra"
+          data-role="Founder, Fix My Curls"
+          data-age="25"
+          data-bio="Fix My Curls is the result of extensive primary and secondary research — testing and studying curly hair products from all over the world, identifying the pain points for curly-haired women. Products are sold on ecommerce platforms and are available in 15 countries including Germany, Switzerland, the US and the UAE."
+          data-img="https://images.forbesindia.com/media/image_uploads/Ecommerce_Anshita.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Anshita Mehrotra — Ecommerce">
+          <div class="card__img">
+            <span class="card__category">Ecommerce</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Ecommerce_Anshita.jpg" alt="Anshita Mehrotra" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>25</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Anshita Mehrotra</h3>
+            <p class="card__role">Founder, Fix My Curls</p>
+            <p class="card__desc">Curly hair care brand available in 15 countries. Built on painstaking global research to solve real problems for real women.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Anirudh Sharma -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Enterprise Technology"
+          data-name="Anirudh Sharma"
+          data-role="Founder & CEO, Digantara Research and Technologies"
+          data-age="26"
+          data-bio="With the launch of Digantara Research's SCOT satellite, the co-founders have joined an elite club of space tech entrepreneurs. Digantara's SCOT (Space Camera for Object Tracking) was among the 131 satellites onboard SpaceX's transporter-12 Falcon-9 rocket. As one of the world's first commercial 'space situational awareness' satellites, SCOT is engineered to track resident space objects with high frequency and precision."
+          data-img="https://images.forbesindia.com/media/image_uploads/Enterprise Technology_Anirudh Sharma.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Anirudh Sharma — Enterprise Technology">
+          <div class="card__img">
+            <span class="card__category">Enterprise Tech</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Enterprise Technology_Anirudh Sharma.jpg" alt="Anirudh Sharma" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>26</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Anirudh Sharma</h3>
+            <p class="card__role">Founder &amp; CEO, Digantara Research</p>
+            <p class="card__desc">Space surveillance from orbit. SCOT satellite launched on SpaceX Falcon-9 — tracking space objects with commercial-grade precision.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- FEATURED: Rohit Saraf -->
+        <article class="card card--featured" role="listitem" tabindex="0"
+          data-category="Entertainment"
+          data-name="Rohit Saraf"
+          data-role="Actor"
+          data-age="28"
+          data-bio="Rohit Saraf wanted to be a professional dancer but decided to give acting a real shot after he lost his father when he was 12. It was his father's dream to see him on the big screen. The youngest of five children, Saraf did not have a Plan B and approached his craft with honesty. After doing two TV shows in his maiden year, Netflix's Mismatched became a defining turning point of his career."
+          data-img="https://images.forbesindia.com/media/image_uploads/entertainment_Rohit3_16.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Rohit Saraf — Entertainment">
+          <div class="card__img">
+            <span class="card__category">Entertainment</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/entertainment_Rohit3_16.jpg" alt="Rohit Saraf" width="400" height="533" loading="lazy" />
+            <div class="card__age"><span>28</span> years old</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Rohit Saraf</h3>
+            <p class="card__role">Actor</p>
+            <p class="card__desc">From aspiring dancer to Netflix breakout star. Mismatched launched him into the spotlight and he hasn't looked back — approaching every role with the sincerity of someone who made a promise to his late father.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Aparna Balamurali -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Entertainment"
+          data-name="Aparna Balamurali"
+          data-role="Actor"
+          data-age="29"
+          data-bio="In the 10 years of her career as an actor, Aparna Balamurali has done some 30 films, and has a National Award to her credit. In 2024, she played significant roles in Tamil film Raayan and Malayalam film Kishkindha Kaandam. Her next will also be a thriller directed by Jeethu Joseph of Drishyam fame."
+          data-img="https://images.forbesindia.com/media/image_uploads/Entertainment_Aparna Balamurali.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Aparna Balamurali — Entertainment">
+          <div class="card__img">
+            <span class="card__category">Entertainment</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Entertainment_Aparna Balamurali.jpg" alt="Aparna Balamurali" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Aparna Balamurali</h3>
+            <p class="card__role">Actor</p>
+            <p class="card__desc">National Award winner. 30 films in 10 years. Standout 2024 roles in Raayan and Kishkindha Kaandam.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Nancy Tyagi -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Fashion"
+          data-name="Nancy Tyagi"
+          data-role="Fashion Designer & Content Creator"
+          data-age="21"
+          data-bio="Nancy Tyagi's favourite childhood activity was creating dresses for her doll. This led to a once-in-a-lifetime opportunity to showcase her talent on the red carpet at the Cannes Film Festival in 2024, for which she created four outfits in four months. Since then, she has collaborated with popular beauty and fashion brands, gaining millions of followers across platforms."
+          data-img="https://images.forbesindia.com/media/image_uploads/Fashion_Nancy Tyagi.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Nancy Tyagi — Fashion">
+          <div class="card__img">
+            <span class="card__category">Fashion</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Fashion_Nancy Tyagi.jpg" alt="Nancy Tyagi" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>21</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Nancy Tyagi</h3>
+            <p class="card__role">Fashion Designer &amp; Content Creator</p>
+            <p class="card__desc">From doll dresses to Cannes red carpet — self-taught designer with millions of followers and major brand collaborations.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Khushi Shah -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Fashion"
+          data-name="Khushi Shah"
+          data-role="Creative Director & Co-founder, Shanti Banaras"
+          data-age="25"
+          data-bio="Shanti Banaras, a designer Banarasi sarees and Indian clothing brand, was born out of recognising the decline of real zari — an intricate weaving technique. Khushi Shah has been instrumental in forming Shanti's brand identity and positioning, attracting a younger audience by changing the visual imagery and styling in campaigns."
+          data-img="https://images.forbesindia.com/media/image_uploads/Fashion_Khushi Shah.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Khushi Shah — Fashion">
+          <div class="card__img">
+            <span class="card__category">Fashion</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Fashion_Khushi Shah.jpg" alt="Khushi Shah" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>25</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Khushi Shah</h3>
+            <p class="card__role">Creative Director, Shanti Banaras</p>
+            <p class="card__desc">Reviving the dying art of real zari Banarasi weaving by reimagining it for a younger, contemporary audience.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Anant Mohta -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Finance"
+          data-name="Anant Mohta"
+          data-role="Vice President, Bain Capital Private Equity"
+          data-age="28"
+          data-bio="At 12, Anant Mohta saw most of his family wealth lost to the 2008 financial crisis. At 27, he became the youngest vice president at Bain Capital Private Equity. Two years after joining, Bain Capital closed a near-$500 million deal to pick up a substantial stake in 360 One — a business he had tracked proactively."
+          data-img="https://images.forbesindia.com/media/image_uploads/Finance_Anant Mohta.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Anant Mohta — Finance">
+          <div class="card__img">
+            <span class="card__category">Finance</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Finance_Anant Mohta.jpg" alt="Anant Mohta" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>28</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Anant Mohta</h3>
+            <p class="card__role">Vice President, Bain Capital Private Equity</p>
+            <p class="card__desc">Youngest VP at Bain Capital. Orchestrated a ~$500M deal for 360 One — driven by the memory of watching his family lose everything in 2008.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Rajit Uboweja -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Finance"
+          data-name="Rajit Uboweja"
+          data-role="Partner, Stride Ventures"
+          data-age="29"
+          data-bio="Rajit Uboweja proudly points out that he is one of the youngest partners in the global venture debt industry. Over the past four years, he has led investments in over 50 of Stride Venture's 160 portfolio companies and deployed around $170 million across early and late startups in diverse sectors, including Sugar Cosmetics and Zepto."
+          data-img="https://images.forbesindia.com/media/image_uploads/Finance_Rajit Uboweja.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Rajit Uboweja — Finance">
+          <div class="card__img">
+            <span class="card__category">Finance</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Finance_Rajit Uboweja.jpg" alt="Rajit Uboweja" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Rajit Uboweja</h3>
+            <p class="card__role">Partner, Stride Ventures</p>
+            <p class="card__desc">$170M deployed across 50+ startups. One of the youngest venture debt partners globally. Portfolio: Zepto, Sugar Cosmetics and more.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Devika Gholap -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Healthcare"
+          data-name="Devika Gholap"
+          data-role="Co-founder & Chief Product Officer, OptraScan"
+          data-age="27"
+          data-bio="Along with her father, she wants to eliminate all microscopes in the world and replace them with digital pathology scanners in the fight against cancer. They help scan slides from biopsies in addition to features like storing, archiving, real-time sharing, and reporting — helping pathologists come to quicker conclusions and democratising affordable cancer treatment."
+          data-img="https://images.forbesindia.com/media/image_uploads/Health Care_Devika_gholap.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Devika Gholap — Healthcare">
+          <div class="card__img">
+            <span class="card__category">Healthcare</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Health Care_Devika_gholap.jpg" alt="Devika Gholap" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>27</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Devika Gholap</h3>
+            <p class="card__role">Co-founder &amp; CPO, OptraScan</p>
+            <p class="card__desc">Replacing microscopes with digital pathology — making cancer diagnosis faster, smarter, and radically more accessible.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Siddhant Dangi & Deepansh Goyal -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Healthcare"
+          data-name="Siddhant Dangi, Deepansh Goyal"
+          data-role="Co-founder & CEO; Co-founder & CTO, Nexstem"
+          data-age="25 & 26"
+          data-bio="Founded in 2020, the duo's company Nexstem launched the Nexstem V1 EEG headset that captures electrical brain signals. This led to a focus on bio signal acquisitions with potential uses in medical, gaming, digital health, and defence. Today, Nexstem works to democratise brain-computer interface (BCI) technology."
+          data-img="https://images.forbesindia.com/media/image_uploads/Health%20Care_Siddhant%20and%20Deepansh.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Siddhant Dangi and Deepansh Goyal — Healthcare">
+          <div class="card__img">
+            <span class="card__category">Healthcare</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Health%20Care_Siddhant%20and%20Deepansh.jpg" alt="Siddhant Dangi and Deepansh Goyal" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>25 & 26</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Siddhant Dangi, Deepansh Goyal</h3>
+            <p class="card__role">Co-founders, Nexstem</p>
+            <p class="card__desc">EEG headsets and brain-computer interfaces — bringing neurotechnology out of research labs and into the real world.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Divanshu Kumar -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Industry & Manufacturing"
+          data-name="Divanshu Kumar"
+          data-role="Co-founder & CEO, Solinas Integrity Private Limited"
+          data-age="28"
+          data-bio="Kumar is driven to find a permanent and effective solution to the cruel practice of manual scavenging. His company works in two aspects: cleaning septic tanks, drains and sewers, as well as inspecting and cleaning water pipelines. It has developed two robots that crawl through pipelines of any material and diameter ranging from 90mm to 1500mm. It closed FY24 with a revenue of Rs 4.5 crore."
+          data-img="https://images.forbesindia.com/media/image_uploads/Industry and Manufacturing_Divanshu Kumar.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Divanshu Kumar — Industry and Manufacturing">
+          <div class="card__img">
+            <span class="card__category">Industry</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Industry and Manufacturing_Divanshu Kumar.jpg" alt="Divanshu Kumar" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>28</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Divanshu Kumar</h3>
+            <p class="card__role">Co-founder &amp; CEO, Solinas Integrity</p>
+            <p class="card__desc">Robots to replace manual scavengers. Pipeline inspection bots crawling through India's sewers so humans don't have to.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Karan Kanchan -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Music"
+          data-name="Karan Kanchan"
+          data-role="Artist & Entrepreneur"
+          data-age="27"
+          data-bio="In 2024, Kanchan took the stage at Lollapalooza's second edition, debuting with his show, The Karan Kanchan Experience. With a vision to fuse music from diverse genres with dynamic visuals, lighting, and sound, he created a truly immersive theatrical experience. 'Karan is the hottest beat maker in the current scene,' says Ankur Tewari, singer-songwriter and sonic designer."
+          data-img="https://images.forbesindia.com/media/image_uploads/Music_Karan Kanchan.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Karan Kanchan — Music">
+          <div class="card__img">
+            <span class="card__category">Music</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Music_Karan Kanchan.jpg" alt="Karan Kanchan" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>27</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Karan Kanchan</h3>
+            <p class="card__role">Artist &amp; Entrepreneur</p>
+            <p class="card__desc">Lollapalooza headliner. Immersive theatre meets genre-bending sound. 'Hottest beat maker in the current scene.' — Ankur Tewari.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Soumya Dabriwal & Aradhana Rai Gupta -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="NGO & Social"
+          data-name="Soumya Dabriwal, Aradhana Rai Gupta"
+          data-role="Co-founders, Project Baala"
+          data-age="29 & 29"
+          data-bio="The duo, through Project Baala, have been working to provide quality, low-cost menstrual products and create awareness about menstrual hygiene and health. Their portfolio includes sustainable menstrual cups and biodegradable pads. Since 2017, their enterprise has reached a million beneficiaries across 28 states in India, apart from Ghana, Nepal, and Tanzania."
+          data-img="https://images.forbesindia.com/media/image_uploads/NGOs and Social Entrepreneurship_Soumya_Aradhna_27.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Soumya Dabriwal and Aradhana Rai Gupta — NGO and Social">
+          <div class="card__img">
+            <span class="card__category">Social Impact</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/NGOs and Social Entrepreneurship_Soumya_Aradhna_27.jpg" alt="Soumya Dabriwal and Aradhana Rai Gupta" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29 & 29</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Soumya Dabriwal, Aradhana Rai Gupta</h3>
+            <p class="card__role">Co-founders, Project Baala</p>
+            <p class="card__desc">1 million+ beneficiaries across 28 states and 3 countries. Affordable, sustainable menstrual health for every woman.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Rishabh Suri -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="NGO & Social"
+          data-name="Rishabh Suri"
+          data-role="Co-founder & CEO, qudrat"
+          data-age="28"
+          data-bio="Rishabh Suri and his brother make tableware that has already replaced 1 lakh kg of plastic waste. The products are made from rice husk — sturdy, microwaveable, and freezable, free of adhesives and laminates, making them safe for animals when discarded and fully decomposable in soil within 30 days."
+          data-img="https://images.forbesindia.com/media/image_uploads/NGOs and Social Entrepreneurship_Rishabh Suri.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Rishabh Suri — NGO and Social">
+          <div class="card__img">
+            <span class="card__category">Social Impact</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/NGOs and Social Entrepreneurship_Rishabh Suri.jpg" alt="Rishabh Suri" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>28</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Rishabh Suri</h3>
+            <p class="card__role">Co-founder &amp; CEO, qudrat</p>
+            <p class="card__desc">Rice husk tableware replacing 1 lakh kg of plastic. Biodegrades in 30 days. Safe for animals, safe for the earth.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- FEATURED: D Gukesh -->
+        <article class="card card--featured" role="listitem" tabindex="0"
+          data-category="Sports"
+          data-name="D Gukesh"
+          data-role="Chess Player — World Chess Champion"
+          data-age="18"
+          data-bio="At 18, D Gukesh has achieved what many aspire to once in their lifetime. In 2024, he scripted history as he brought home the World Championship crown back to India as its youngest winner. His composure and his ability to remain unfazed are exceptional, and he brings the same attitude and strategy to every game, says Viswanathan Anand, himself a five-time World Champion and the torchbearer of India's chess revolution."
+          data-img="https://images.forbesindia.com/media/image_uploads/Sports_Gukesh1.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="D Gukesh — Sports">
+          <div class="card__img">
+            <span class="card__category">Sports</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Sports_Gukesh1.jpg" alt="D Gukesh — World Chess Champion" width="400" height="533" loading="lazy" />
+            <div class="card__age"><span>18</span> years old · youngest winner</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">D Gukesh</h3>
+            <p class="card__role">Chess Player — World Chess Champion 2024</p>
+            <p class="card__desc">At 18, the youngest World Chess Champion in history. Praise from Viswanathan Anand for his unshakeable composure. A once-in-a-generation talent who has redefined what youth can achieve on the world stage.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Yashasvi Jaiswal -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Sports"
+          data-name="Yashasvi Jaiswal"
+          data-role="Cricketer"
+          data-age="23"
+          data-bio="The cricketer who once sold pani puris to survive in Mumbai emerged as the second-highest Test run-getter and the highest Indian run-getter in the Border-Gavaskar Trophy in 2024. All four Test centuries since his debut in July 2023 have been 150+, two of them double centuries. With his Champions Trophy selection, he has debuted in all formats."
+          data-img="https://images.forbesindia.com/media/image_uploads/Sports_Yashasvi%20Jaiswal_vertical.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Yashasvi Jaiswal — Sports">
+          <div class="card__img">
+            <span class="card__category">Sports</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Sports_Yashasvi%20Jaiswal_vertical.jpg" alt="Yashasvi Jaiswal" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>23</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Yashasvi Jaiswal</h3>
+            <p class="card__role">Cricketer</p>
+            <p class="card__desc">From selling pani puris to dominating Test cricket. All 4 debut centuries were 150+. India's brightest batting prospect.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Preethi Pal -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Sports"
+          data-name="Preethi Pal"
+          data-role="Para-athlete"
+          data-age="24"
+          data-bio="The para-athlete created history when she made her Paralympics debut at Stade de France in Paris in 2024. She won two bronze medals — in the women's 100-metre and 200-metre T35. She also became the first Indian woman to win a medal in track events at the Paralympics or Olympics. She is gearing up for the World Championship in New Delhi in September."
+          data-img="https://images.forbesindia.com/media/image_uploads/Sports_Preethi Pal.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Preethi Pal — Sports">
+          <div class="card__img">
+            <span class="card__category">Sports</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Sports_Preethi Pal.jpg" alt="Preethi Pal" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>24</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Preethi Pal</h3>
+            <p class="card__role">Para-athlete</p>
+            <p class="card__desc">First Indian woman to medal in Olympic/Paralympic track events. Two Paris 2024 bronzes in 100m and 200m T35.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Deepak Meena, Arjit Singh, Hansraj Patel -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="B2B"
+          data-name="Deepak Meena, Arjit Singh, Hansraj Patel"
+          data-role="Co-founders, Flyzy"
+          data-age="25, 26 & 25"
+          data-bio="Flyzy found an opportunity in the pandemic and entered the Online Travel Agency (OTA) business which put the Davids and the Goliaths at the starting line. Flyzy has come a long way — from an app to enable contactless travel to finding a niche in B2B online ticket booking. It is profitable while filling a crucial gap of end-to-end travel solutions in B2B."
+          data-img="https://images.forbesindia.com/media/image_uploads/B2B_FlyzyVertical.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Deepak Meena, Arjit Singh and Hansraj Patel — B2B">
+          <div class="card__img">
+            <span class="card__category">B2B</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/B2B_FlyzyVertical.jpg" alt="Flyzy co-founders" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>25–26</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Deepak Meena, Arjit Singh, Hansraj Patel</h3>
+            <p class="card__role">Co-founders, Flyzy</p>
+            <p class="card__desc">Profitable B2B travel platform turned pandemic opportunity into a durable niche. Aims for unicorn in profit, not just valuation.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Raghav Simha, Pragun Bajaj, Jatin Talreja -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Food & Hospitality"
+          data-name="Raghav Simha, Pragun Bajaj, Jatin Talreja"
+          data-role="Co-founders, Project Hum"
+          data-age="27, 28 & 27"
+          data-bio="Friends and roommates who quit high-paying jobs to launch Project Hum, a farm-to-table fast-casual restaurant in Mumbai in September 2022. The USP of Project Hum is that it connects diners with farmers to understand their triumphs and challenges. With a revenue of Rs 4.48 crore in FY24, they've launched their second outlet and plan to take it to other cities."
+          data-img="https://images.forbesindia.com/media/image_uploads/Food & Hospitality_Raghav, Jatin Pragul copy_21.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Raghav Simha, Pragun Bajaj and Jatin Talreja — Food and Hospitality">
+          <div class="card__img">
+            <span class="card__category">Food &amp; Hospitality</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Food & Hospitality_Raghav, Jatin Pragul copy_21.jpg" alt="Project Hum founders" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>27–28</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Raghav Simha, Pragun Bajaj, Jatin Talreja</h3>
+            <p class="card__role">Co-founders, Project Hum</p>
+            <p class="card__desc">Farm-to-table dining with a conscience. Connecting Mumbai diners with the farmers who feed them. Rs 4.48 cr revenue in FY24.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Neelakantha Bhanu et al -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Education"
+          data-name="Neelakantha Bhanu et al."
+          data-role="Founders, Bhanzu"
+          data-age="25–27"
+          data-bio="Bhanu holds several world records in mathematics, and by the time he was 18, he was being invited to schools and colleges to talk about strengthening maths skills. Bhanzu, started as a Government of Telangana numeracy development project, works with nearly 5,000 government schools. It has also launched in the US, UK, Australia and parts of the Middle East and South Asia."
+          data-img="https://images.forbesindia.com/media/image_uploads/Education_Neelkanth%20Bhanu2Vertical.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Neelakantha Bhanu — Education">
+          <div class="card__img">
+            <span class="card__category">Education</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Education_Neelkanth%20Bhanu2Vertical.jpg" alt="Neelakantha Bhanu" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>25–27</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Neelakantha Bhanu et al.</h3>
+            <p class="card__role">Founders, Bhanzu</p>
+            <p class="card__desc">World-record mathematician to edtech founder — partnering with 5,000+ government schools to make maths fearless for every child.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Simoul Alva -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Design & Architecture"
+          data-name="Simoul Alva"
+          data-role="Visual Design Lead, Ripple"
+          data-age="29"
+          data-bio="'Simoul approaches every project with an open mind and a desire to push boundaries,' says Jessica Walsh, founder and creative director of &Walsh. 'Her ability to seamlessly merge creativity with thoughtfulness and precision makes her a standout in the field of design.' Alva has worked on brands such as Amazon, Apple, and Frooti during her employment at the New York-based creative agency &Walsh."
+          data-img="https://images.forbesindia.com/media/image_uploads/Design & Architecture_Simoul Alva_Jan25_01 copy.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Simoul Alva — Design and Architecture">
+          <div class="card__img">
+            <span class="card__category">Design</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Design & Architecture_Simoul Alva_Jan25_01 copy.jpg" alt="Simoul Alva" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>29</span> yrs</div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Simoul Alva</h3>
+            <p class="card__role">Visual Design Lead, Ripple</p>
+            <p class="card__desc">From Amazon, Apple and Frooti at &Walsh NYC to leading visual design at Ripple. A designer who makes the invisible — understandable.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+        <!-- Aniket Shah, Ujjwal Sukheja and Saran S -->
+        <article class="card" role="listitem" tabindex="0"
+          data-category="Ecommerce"
+          data-name="Aniket Shah, Ujjwal Sukheja & Saran S"
+          data-role="Co-founders, Swish"
+          data-age="24–25"
+          data-bio="Founded in August 2024, Swish manages the entire process — from food preparation to delivery — operating within a 1.5 to 2 kilometre radius. The startup operates several cloud kitchens in Bengaluru and has raised $2 million in a funding round led by Accel. With over 70 unique SKUs covering indulgences, snacks, beverages and meals, Swish owns the entire food stack."
+          data-img="https://images.forbesindia.com/media/image_uploads/Ecommerce_Aniket Shah_Swish_10.jpg"
+          onclick="openModal(this)" onkeypress="if(event.key==='Enter')openModal(this)"
+          aria-label="Aniket Shah, Ujjwal Sukheja and Saran S — Ecommerce">
+          <div class="card__img">
+            <span class="card__category">Ecommerce</span>
+            <img src="https://images.forbesindia.com/media/image_uploads/Ecommerce_Aniket Shah_Swish_10.jpg" alt="Swish co-founders" width="300" height="400" loading="lazy" />
+            <div class="card__age"><span>24–25</span></div>
+          </div>
+          <div class="card__body">
+            <h3 class="card__name">Aniket Shah, Ujjwal Sukheja &amp; Saran S</h3>
+            <p class="card__role">Co-founders, Swish</p>
+            <p class="card__desc">$2M raised. Cloud kitchen-first quick commerce brand controlling the entire food stack — from prep to doorstep in 2km.</p>
+            <span class="card__read" aria-hidden="true">Read profile</span>
+          </div>
+        </article>
+
+      </div><!-- /cards-grid -->
+    </section>
+
+    <!-- POPULAR LISTS -->
+    <section class="popular-section" aria-labelledby="popular-heading">
+      <header class="section-header">
+        <div class="section-header__left">
+          <div class="section-header__kicker">Explore More</div>
+          <h2 class="section-header__title" id="popular-heading">Popular Lists</h2>
+        </div>
+      </header>
+      <div class="popular-grid" role="list">
+        <a href="https://www.forbesindia.com/lists/2024-digital-stars/" class="popular-card" role="listitem" aria-label="Forbes India Digital Stars 2024">
+          <div class="popular-card__number">01</div>
+          <h3 class="popular-card__title">Forbes India Digital Stars 2024</h3>
+          <p class="popular-card__sub">India's Top 100 Digital Stars 2024</p>
+          <span class="popular-card__arrow">Explore list</span>
+        </a>
+        <a href="https://www.forbesindia.com/lists/w-power-2024/" class="popular-card" role="listitem" aria-label="W-Power 2024">
+          <div class="popular-card__number">02</div>
+          <h3 class="popular-card__title">W-Power 2024</h3>
+          <p class="popular-card__sub">Meet India's Top Self-Made Women in 2024</p>
+          <span class="popular-card__arrow">Explore list</span>
+        </a>
+        <a href="https://www.forbesindia.com/lists/30-under-30-2024/" class="popular-card" role="listitem" aria-label="Forbes India 30 Under 30 2024">
+          <div class="popular-card__number">03</div>
+          <h3 class="popular-card__title">Forbes India 30 Under 30 2024</h3>
+          <p class="popular-card__sub">Meet our young disruptors and trailblazers</p>
+          <span class="popular-card__arrow">Explore list</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div>
+        <div class="site-footer__brand">Forbes<span>India</span></div>
+        <p class="site-footer__tagline">Inspiring India's changemakers and tomorrow's leaders through fearless journalism since 2009.</p>
+      </div>
+      <div class="site-footer__links-grid">
+        <div class="site-footer__col">
+          <div class="site-footer__col-title">Channels</div>
+          <ul>
+            <li><a href="https://www.forbesindia.com/leadership">Leadership</a></li>
+            <li><a href="https://www.forbesindia.com/news/innovation">Innovation</a></li>
+            <li><a href="https://www.forbesindia.com/billionaires">Billionaires</a></li>
+            <li><a href="https://www.forbesindia.com/enterprise/startups">Startups</a></li>
+            <li><a href="https://www.forbesindia.com/lists/1">Lists</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <div class="site-footer__col-title">Media</div>
+          <ul>
+            <li><a href="https://www.forbesindia.com/multimedia/video/2/1">Videos</a></li>
+            <li><a href="https://www.forbesindia.com/multimedia/audio/8/1">Podcasts</a></li>
+            <li><a href="https://www.forbesindia.com/life/92/1">Forbes Life</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <div class="site-footer__col-title">Company</div>
+          <ul>
+            <li><a href="https://www.forbesindia.com/contactus/">Contact Us</a></li>
+            <li><a href="https://www.forbesindia.com/advertise/">Advertise</a></li>
+            <li><a href="https://subscription.forbesindia.com/">Subscribe</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <div class="site-footer__col-title">Legal</div>
+          <ul>
+            <li><a href="https://www.forbesindia.com/privacy/">Privacy Policy</a></li>
+            <li><a href="https://www.forbesindia.com/terms-conditions/">Terms</a></li>
+            <li><a href="https://www.forbesindia.com/disclaimer/">Disclaimer</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <span>© 2025 Forbes India. All rights reserved. A Network18 publication.</span>
+      <span>Forbes India is a licensee of Forbes Media LLC.</span>
+    </div>
+  </footer>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-label="Profile details" onclick="closeModalOutside(event)">
+    <div class="modal" id="modal">
+      <button class="modal__close" onclick="closeModal()" aria-label="Close profile">✕</button>
+      <div class="modal__img" id="modal-img-wrap">
+        <img id="modal-img" src="" alt="" width="280" height="373" />
+      </div>
+      <div class="modal__body">
+        <p class="modal__category" id="modal-category"></p>
+        <h2 class="modal__name" id="modal-name"></h2>
+        <p class="modal__role" id="modal-role"></p>
+        <div class="modal__age-badge">
+          <span class="modal__age-num" id="modal-age"></span>
+          <span class="modal__age-label">years old</span>
+        </div>
+        <div class="modal__divider"></div>
+        <p class="modal__bio" id="modal-bio"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACK TO TOP -->
+  <button class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+  <script>
+    // ── MODAL ──
+    function openModal(card) {
+      const o = document.getElementById('modal-overlay');
+      document.getElementById('modal-img').src   = card.dataset.img;
+      document.getElementById('modal-img').alt   = card.dataset.name;
+      document.getElementById('modal-category').textContent = card.dataset.category;
+      document.getElementById('modal-name').textContent     = card.dataset.name;
+      document.getElementById('modal-role').textContent     = card.dataset.role;
+      document.getElementById('modal-age').textContent      = card.dataset.age;
+      document.getElementById('modal-bio').textContent      = card.dataset.bio;
+      o.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modal').querySelector('.modal__close').focus();
+    }
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeModalOutside(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // ── FILTER ──
+    function filterCards(btn, cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card').forEach(card => {
+        const match = cat === 'all' || card.dataset.category === cat;
+        card.style.display = match ? '' : 'none';
+      });
+    }
+
+    // ── BACK TO TOP ──
+    const bt = document.getElementById('back-top');
+    window.addEventListener('scroll', () => {
+      bt.classList.toggle('visible', window.scrollY > 500);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
