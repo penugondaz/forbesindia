@@ -17,6 +17,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
 
 <style>
+/* ─── GOTHAM-LIKE FONT STACK ─── */
+@font-face {
+  font-family: 'GothamBook';
+  src: local('Gotham Book'), local('Gotham-Book');
+  /* fallback will use system sans-serif that resembles Gotham */
+}
+
 :root {
   --red:    #CC0000;
   --black:  #0D0D0D;
@@ -27,199 +34,259 @@
   --bg:     #F8F7F4;
   --white:  #FFFFFF;
   --gold:   #B8963E;
-  --g:      "Gotham Book","Nunito Sans","Gill Sans",Futura,sans-serif;
+  --g: "Gotham Book","Nunito Sans","Gill Sans",Futura,sans-serif;
+  --thumb-w: 72px;
+  --thumb-h: 144px; /* 1:2 ratio */
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:var(--g);background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased;font-size:14px}
+body{font-family:var(--g);background:var(--bg);color:var(--dark);-webkit-font-smoothing:antialiased;font-size:15px}
 a{text-decoration:none;color:inherit}
 img{display:block;max-width:100%}
 button{cursor:pointer;font-family:var(--g)}
 
 /* ─── SKIP ─── */
-.skip{position:absolute;top:-40px;left:0;background:var(--red);color:#fff;padding:8px 16px;font-size:12px;z-index:9999;transition:top .2s}
+.skip{position:absolute;top:-40px;left:0;background:var(--red);color:#fff;padding:8px 16px;font-size:13px;z-index:9999;transition:top .2s}
 .skip:focus{top:0}
 
 /* ─── HEADER ─── */
 .hdr{background:var(--black);border-bottom:2px solid var(--red);position:sticky;top:0;z-index:200}
-.hdr__in{max-width:1200px;margin:0 auto;padding:0 24px;height:52px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.hdr__logo{font-weight:900;font-size:20px;color:#fff;letter-spacing:-.3px;white-space:nowrap}
+.hdr__in{max-width:1360px;margin:0 auto;padding:0 32px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.hdr__logo{font-weight:900;font-size:21px;color:#fff;letter-spacing:-.3px;white-space:nowrap}
 .hdr__logo span{color:var(--red)}
-.hdr__nav{display:flex;gap:22px;list-style:none}
-.hdr__nav a{font-size:11px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color .2s}
+.hdr__nav{display:flex;gap:24px;list-style:none}
+.hdr__nav a{font-size:12px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,.55);transition:color .2s}
 .hdr__nav a:hover{color:var(--gold)}
-.hdr__sub{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:#fff;padding:7px 16px;border:none;white-space:nowrap;transition:background .2s}
+.hdr__sub{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--red);color:#fff;padding:8px 18px;border:none;white-space:nowrap;transition:background .2s}
 .hdr__sub:hover{background:#aa0000}
 
 /* ─── BREADCRUMB ─── */
-.bc{background:var(--black);border-top:1px solid rgba(255,255,255,.07);padding:7px 24px}
-.bc__in{max-width:1200px;margin:0 auto;display:flex;gap:6px;align-items:center;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.3px}
+.bc{background:var(--black);border-top:1px solid rgba(255,255,255,.07);padding:8px 32px}
+.bc__in{max-width:1360px;margin:0 auto;display:flex;gap:7px;align-items:center;font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.3px}
 .bc__in a{color:rgba(255,255,255,.35);transition:color .2s}
 .bc__in a:hover{color:var(--gold)}
 .bc__cur{color:var(--gold);font-weight:600}
 
 /* ─── HERO ─── */
-.hero{background:var(--black);padding:32px 24px 36px}
-.hero__in{max-width:1200px;margin:0 auto}
-.hero__eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px}
-.hero__edition{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
+.hero{background:var(--black);padding:36px 32px 42px}
+.hero__in{max-width:1360px;margin:0 auto}
+.hero__eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.hero__edition{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
 .hero__dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2)}
-.hero__year{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.hero__h1{font-size:clamp(26px,3.6vw,46px);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.5px;margin-bottom:14px;max-width:780px}
-.hero__desc{font-size:13px;line-height:1.75;color:rgba(255,255,255,.5);font-weight:300;max-width:640px;margin-bottom:20px}
-.hero__cta{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(184,150,62,.35);padding-bottom:2px;transition:opacity .2s}
+.hero__year{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.hero__h1{font-size:clamp(28px,3.6vw,48px);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.5px;margin-bottom:16px;max-width:820px}
+.hero__desc{font-size:14px;line-height:1.8;color:rgba(255,255,255,.52);font-weight:300;max-width:660px;margin-bottom:22px}
+.hero__cta{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(184,150,62,.35);padding-bottom:2px;transition:opacity .2s}
 .hero__cta:hover{opacity:.6}
-.hero__cta::after{content:"→";font-size:13px}
+.hero__cta::after{content:"→";font-size:14px}
+
+/* ─── TWO-COLUMN LAYOUT WRAPPER ─── */
+.page-body{max-width:1360px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start}
 
 /* ─── LIST AREA ─── */
-.list-area{max-width:1200px;margin:0 auto;padding:0 24px}
+.list-area{}
 
 /* ─── TOOLBAR ─── */
-.toolbar{padding:20px 0 0;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:2px solid var(--black);padding-bottom:16px;flex-wrap:wrap}
-.toolbar__left{display:flex;align-items:center;gap:12px}
-.toolbar__kicker{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red)}
-.toolbar__div{width:1px;height:14px;background:var(--rule)}
-.toolbar__title{font-size:17px;font-weight:800;color:var(--dark);letter-spacing:-.15px}
-.toolbar__right{display:flex;align-items:center;gap:10px}
-.toolbar__count{font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:600}
+.toolbar{padding:22px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:2px solid var(--black);flex-wrap:wrap}
+.toolbar__left{display:flex;align-items:center;gap:14px}
+.toolbar__kicker{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red)}
+.toolbar__div{width:1px;height:15px;background:var(--rule)}
+.toolbar__title{font-size:18px;font-weight:800;color:var(--dark);letter-spacing:-.15px}
+.toolbar__right{display:flex;align-items:center;gap:12px}
+.toolbar__count{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);font-weight:600}
 
 /* ─── DROPDOWN ─── */
 .cat-wrap{position:relative}
-.cat-select{appearance:none;-webkit-appearance:none;font-family:var(--g);font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:8px 36px 8px 14px;border:1px solid var(--rule);background:var(--white);color:var(--dark);cursor:pointer;outline:none;transition:border-color .2s}
+.cat-select{appearance:none;-webkit-appearance:none;font-family:var(--g);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:9px 40px 9px 16px;border:1px solid var(--rule);background:var(--white);color:var(--dark);cursor:pointer;outline:none;transition:border-color .2s}
 .cat-select:hover,.cat-select:focus{border-color:var(--dark)}
-.cat-arrow{pointer-events:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--muted)}
+.cat-arrow{pointer-events:none;position:absolute;right:13px;top:50%;transform:translateY(-50%);font-size:9px;color:var(--muted)}
 
 /* ─── LIST ─── */
 .list{padding-top:0}
 
 /* ─── ENTRY ROW ─── */
-.entry{display:grid;grid-template-columns:52px 80px 1fr;align-items:stretch;border-bottom:1px solid var(--rule);cursor:pointer;transition:background .15s;position:relative}
-.entry:hover{background:rgba(204,0,0,.03)}
+.entry{
+  display:grid;
+  grid-template-columns:52px var(--thumb-w) 1fr;
+  align-items:stretch;
+  border-bottom:1px solid var(--rule);
+  cursor:pointer;
+  transition:background .15s;
+  position:relative;
+}
+.entry:hover{background:rgba(204,0,0,.028)}
 .entry:hover .entry__name{color:var(--red)}
-.entry:hover .entry__arr{opacity:1;transform:translateX(0)}
+.entry:hover .entry__arr{opacity:1;transform:translateY(-50%) translateX(0)}
 .entry:focus{outline:2px solid var(--red);outline-offset:-2px}
 
 /* serial */
-.entry__num{display:flex;align-items:center;justify-content:center;padding:18px 0;border-right:1px solid var(--rule)}
-.entry__num-txt{font-size:15px;font-weight:900;color:#ccc;letter-spacing:-.5px}
+.entry__num{display:flex;align-items:center;justify-content:center;padding:20px 0;border-right:1px solid var(--rule)}
+.entry__num-txt{font-size:16px;font-weight:900;color:#ccc;letter-spacing:-.5px}
 
-/* thumb */
-.entry__thumb-wrap{overflow:hidden;background:#e8e8e8;width:80px;align-self:stretch}
-.entry__thumb{width:80px;height:100%;min-height:90px;object-fit:cover;object-position:top center;display:block;filter:grayscale(12%);transition:transform .4s}
-.entry:hover .entry__thumb{transform:scale(1.04)}
+/* thumb — strict 1:2 aspect ratio */
+.entry__thumb-wrap{
+  overflow:hidden;
+  background:#e8e8e8;
+  width:var(--thumb-w);
+  height:var(--thumb-h);
+  flex-shrink:0;
+  align-self:stretch;
+  max-height:var(--thumb-h);
+  display:flex;
+  align-items:stretch;
+}
+.entry__thumb{
+  width:var(--thumb-w);
+  height:var(--thumb-h);
+  object-fit:cover;
+  object-position:top center;
+  display:block;
+  flex-shrink:0;
+  filter:grayscale(10%);
+  transition:transform .4s;
+}
+.entry:hover .entry__thumb{transform:scale(1.05)}
 
 /* body */
-.entry__body{padding:16px 20px;display:flex;flex-direction:column;justify-content:center;gap:3px;min-width:0}
-.entry__cat{font-size:9px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--red);margin-bottom:2px}
-.entry__name{font-size:15px;font-weight:800;color:var(--dark);line-height:1.25;letter-spacing:-.1px;transition:color .15s}
-.entry__desg{font-size:12px;color:var(--muted);font-weight:300;line-height:1.45;margin-top:1px}
-.entry__company{font-size:11px;color:var(--mid);font-weight:600;margin-top:2px}
+.entry__body{padding:16px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
+.entry__cat{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.entry__name{font-size:16px;font-weight:800;color:var(--dark);line-height:1.25;letter-spacing:-.1px;transition:color .15s}
+.entry__age{font-size:12px;font-weight:600;color:var(--gold);margin-top:1px}
+.entry__desg{font-size:13px;color:var(--muted);font-weight:300;line-height:1.5;margin-top:2px}
+.entry__company{font-size:12px;color:var(--mid);font-weight:600;margin-top:3px}
 
 /* arrow */
-.entry__arr{position:absolute;right:20px;top:50%;transform:translateY(-50%) translateX(-6px);font-size:18px;color:var(--muted);opacity:0;transition:all .2s;pointer-events:none}
+.entry__arr{position:absolute;right:22px;top:50%;transform:translateY(-50%) translateX(-6px);font-size:20px;color:var(--muted);opacity:0;transition:all .2s;pointer-events:none}
 
-/* ─── STAT BREAK ─── */
-.stat-break{background:var(--dark);margin:0 -24px;padding:20px 24px;display:flex;align-items:stretch;gap:0}
-.stat-break__label{font-size:8px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.25);writing-mode:vertical-rl;transform:rotate(180deg);padding-right:16px;border-right:1px solid rgba(255,255,255,.08);margin-right:20px;white-space:nowrap;align-self:center}
-.stat-break__items{display:flex;flex:1;gap:0;flex-wrap:wrap}
-.stat-break__item{flex:1;min-width:120px;padding:4px 24px;border-right:1px solid rgba(255,255,255,.07)}
-.stat-break__item:last-child{border-right:none}
-.stat-break__num{font-size:26px;font-weight:900;color:#fff;line-height:1;margin-bottom:4px}
-.stat-break__num.gold{color:var(--gold)}
-.stat-break__desc{font-size:11px;color:rgba(255,255,255,.38);line-height:1.45;font-weight:300}
+/* ─── SIDEBAR ─── */
+.sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:0}
 
-/* ─── POPULAR LISTS ─── */
+/* Numbers widget */
+.numbers-widget{background:var(--dark);padding:0}
+.numbers-widget__head{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:20px 22px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+.numbers-item{padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);transition:background .2s}
+.numbers-item:last-child{border-bottom:none}
+.numbers-item:hover{background:rgba(255,255,255,.04)}
+.numbers-item__num{font-size:28px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:6px;letter-spacing:-1px}
+.numbers-item__desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.55;font-weight:300}
+
+/* Popular lists */
 .pop{padding:32px 0 40px}
-.pop__head{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:10px}
+.pop__head{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .pop__head::after{content:'';flex:1;height:1px;background:var(--rule)}
 .pop__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.pop__card{background:var(--white);padding:20px;display:flex;flex-direction:column;gap:5px;transition:background .2s}
+.pop__card{background:var(--white);padding:22px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
 .pop__card:hover{background:var(--dark)}
-.pop__n{font-size:32px;font-weight:900;color:var(--rule);line-height:1;transition:color .2s}
+.pop__n{font-size:34px;font-weight:900;color:var(--rule);line-height:1;transition:color .2s}
 .pop__card:hover .pop__n{color:rgba(255,255,255,.08)}
-.pop__title{font-size:13px;font-weight:800;color:var(--dark);line-height:1.3;transition:color .2s}
+.pop__title{font-size:14px;font-weight:800;color:var(--dark);line-height:1.3;transition:color .2s}
 .pop__card:hover .pop__title{color:#fff}
-.pop__sub{font-size:11px;color:var(--muted);font-weight:300;transition:color .2s}
+.pop__sub{font-size:12px;color:var(--muted);font-weight:300;transition:color .2s}
 .pop__card:hover .pop__sub{color:rgba(255,255,255,.4)}
-.pop__go{margin-top:6px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:6px;transition:color .2s,gap .2s}
-.pop__card:hover .pop__go{color:var(--gold);gap:10px}
+.pop__go{margin-top:7px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:6px;transition:color .2s,gap .2s}
+.pop__card:hover .pop__go{color:var(--gold);gap:12px}
 .pop__go::after{content:"→"}
 
 /* ─── FOOTER ─── */
-.ftr{background:var(--black);border-top:2px solid var(--red);padding:28px 24px 16px}
-.ftr__in{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:200px 1fr;gap:40px;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:14px}
-.ftr__brand{font-size:20px;font-weight:900;color:#fff;margin-bottom:6px}
+.ftr{background:var(--black);border-top:2px solid var(--red);padding:30px 32px 18px}
+.ftr__in{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:220px 1fr;gap:48px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:16px}
+.ftr__brand{font-size:21px;font-weight:900;color:#fff;margin-bottom:7px}
 .ftr__brand span{color:var(--red)}
-.ftr__tag{font-size:12px;color:rgba(255,255,255,.3);line-height:1.6;font-weight:300}
-.ftr__cols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.ftr__col-t{font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.ftr__tag{font-size:13px;color:rgba(255,255,255,.3);line-height:1.65;font-weight:300}
+.ftr__cols{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+.ftr__col-t{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .ftr__col ul{list-style:none}
-.ftr__col ul li+li{margin-top:7px}
-.ftr__col ul a{font-size:12px;color:rgba(255,255,255,.35);transition:color .2s;font-weight:300}
+.ftr__col ul li+li{margin-top:8px}
+.ftr__col ul a{font-size:13px;color:rgba(255,255,255,.35);transition:color .2s;font-weight:300}
 .ftr__col ul a:hover{color:#fff}
-.ftr__copy{max-width:1200px;margin:0 auto;font-size:11px;color:rgba(255,255,255,.18);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.ftr__copy{max-width:1360px;margin:0 auto;font-size:12px;color:rgba(255,255,255,.18);display:flex;justify-content:space-between;flex-wrap:wrap;gap:7px}
 
 /* ─── MODAL OVERLAY ─── */
-.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:900;align-items:center;justify-content:center;padding:20px}
+.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:900;align-items:center;justify-content:center;padding:20px}
 .ovl.on{display:flex}
 
 /* ─── MODAL BOX ─── */
-.modal{background:var(--white);width:100%;max-width:780px;max-height:90vh;overflow-y:auto;position:relative;display:flex;flex-direction:column}
+.modal{background:var(--white);width:100%;max-width:820px;max-height:90vh;overflow-y:auto;position:relative;display:flex;flex-direction:column}
 
-/* top image */
-.modal__img-wrap{position:relative;overflow:hidden;background:#111;height:280px;flex-shrink:0}
-.modal__img-wrap img{width:100%;height:100%;object-fit:cover;object-position:top center}
-.modal__img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
-.modal__img-cat{position:absolute;top:16px;left:16px;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#fff;background:var(--red);padding:4px 10px}
-.modal__close{position:absolute;top:12px;right:12px;width:34px;height:34px;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);border:none;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:0;transition:background .2s}
+/* top image: 143:81 ratio → width=820, height=820*(81/143)≈464 */
+.modal__img-wrap{
+  position:relative;
+  overflow:hidden;
+  background:#111;
+  width:100%;
+  padding-top:56.64%; /* 81/143 * 100 */
+  flex-shrink:0;
+}
+.modal__img-wrap img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
+.modal__img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.08) 50%,transparent 100%)}
+.modal__img-cat{position:absolute;top:16px;left:16px;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#fff;background:var(--red);padding:5px 12px;z-index:1}
+.modal__close{position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);border:none;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:0;transition:background .2s}
 .modal__close:hover{background:var(--red)}
+.modal__name-overlay{position:absolute;bottom:0;left:0;right:0;padding:22px 28px;z-index:1}
+.modal__name-overlay-name{font-size:24px;font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.2px}
+.modal__name-overlay-age{font-size:13px;font-weight:700;color:var(--gold);margin-top:4px}
 
 /* body */
-.modal__body{padding:24px 28px 28px;flex:1}
-.modal__name{font-size:22px;font-weight:900;color:var(--dark);line-height:1.2;margin-bottom:4px;letter-spacing:-.2px}
-.modal__desg{font-size:13px;color:var(--muted);font-weight:300;margin-bottom:2px}
-.modal__company{font-size:12px;font-weight:700;color:var(--mid);margin-bottom:16px}
-.modal__rule{height:1px;background:var(--rule);margin-bottom:16px}
-.modal__bio{font-size:13.5px;line-height:1.78;color:var(--mid);font-weight:300}
+.modal__body{padding:26px 30px 30px;flex:1}
+.modal__desg{font-size:14px;color:var(--muted);font-weight:300;margin-bottom:3px}
+.modal__company{font-size:13px;font-weight:700;color:var(--mid);margin-bottom:18px}
+.modal__rule{height:1px;background:var(--rule);margin-bottom:18px}
+.modal__bio{font-size:15px;line-height:1.82;color:var(--mid);font-weight:300}
 
 /* nav bar */
-.modal__nav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-top:1px solid var(--rule);background:#fafafa;flex-shrink:0;gap:12px}
-.modal__nav-btn{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark);background:none;border:1px solid var(--rule);padding:8px 16px;transition:all .2s}
+.modal__nav{display:flex;align-items:center;justify-content:space-between;padding:15px 30px;border-top:1px solid var(--rule);background:#fafafa;flex-shrink:0;gap:14px}
+.modal__nav-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark);background:none;border:1px solid var(--rule);padding:9px 18px;transition:all .2s}
 .modal__nav-btn:hover{background:var(--dark);border-color:var(--dark);color:#fff}
 .modal__nav-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
-.modal__nav-counter{font-size:11px;color:var(--muted);letter-spacing:.5px}
+.modal__nav-counter{font-size:12px;color:var(--muted);letter-spacing:.5px}
 
 /* ─── BACK TO TOP ─── */
-.btt{position:fixed;bottom:22px;right:22px;width:36px;height:36px;background:var(--dark);border:none;color:#fff;font-size:15px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:all .3s;z-index:50}
+.btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;background:var(--dark);border:none;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:all .3s;z-index:50}
 .btt.vis{opacity:1;transform:translateY(0)}
 .btt:hover{background:var(--red)}
 
 /* ─── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .page-body{grid-template-columns:1fr;gap:0}
+  .sidebar{position:static}
+  .numbers-widget{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+  .numbers-widget__head{grid-column:1/-1}
+  .numbers-item{border-right:1px solid rgba(255,255,255,.07)}
+  .numbers-item:nth-child(3n+1){border-right:1px solid rgba(255,255,255,.07)}
+  .numbers-item:last-child,.numbers-item:nth-last-child(-n+3 of .numbers-item:nth-child(3n)){border-bottom:none}
+}
 @media(max-width:860px){
   .hdr__nav{display:none}
   .ftr__in{grid-template-columns:1fr}
   .ftr__cols{grid-template-columns:repeat(2,1fr)}
-  .stat-break{overflow-x:auto}
-  .stat-break__items{flex-wrap:nowrap}
+  .pop__grid{grid-template-columns:1fr}
 }
 @media(max-width:620px){
-  .entry{grid-template-columns:38px 64px 1fr}
-  .entry__thumb-wrap{width:64px}
-  .entry__thumb{width:64px}
-  .entry__num-txt{font-size:12px}
-  .modal__img-wrap{height:200px}
+  :root{--thumb-w:60px;--thumb-h:120px}
+  .entry{grid-template-columns:38px var(--thumb-w) 1fr}
+  .entry__num-txt{font-size:13px}
+  .modal__img-wrap{padding-top:56.64%}
   .modal__body{padding:18px 18px 22px}
-  .modal__nav{padding:12px 18px}
-  .pop__grid{grid-template-columns:1fr}
+  .modal__nav{padding:13px 18px}
   .toolbar{flex-direction:column;align-items:flex-start}
+  .page-body{padding:0 16px}
+  .numbers-widget{grid-template-columns:1fr 1fr}
 }
 @media(max-width:440px){
-  .hero__h1{font-size:24px}
+  .hero__h1{font-size:25px}
   .ftr__cols{grid-template-columns:1fr}
+  .numbers-widget{grid-template-columns:1fr}
 }
 
 /* ─── FADE IN ─── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .hero__eyebrow{animation:fadeUp .45s ease both .05s}
 .hero__h1{animation:fadeUp .45s ease both .12s}
 .hero__desc{animation:fadeUp .45s ease both .2s}
@@ -272,74 +339,114 @@ button{cursor:pointer;font-family:var(--g)}
   </div>
 </section>
 
-<!-- MAIN LIST -->
+<!-- MAIN -->
 <main id="main">
-<div class="list-area">
+<div class="page-body">
 
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <div class="toolbar__left">
-      <span class="toolbar__kicker">Class of 2025</span>
-      <span class="toolbar__div" aria-hidden="true"></span>
-      <h2 class="toolbar__title">The Complete List</h2>
-    </div>
-    <div class="toolbar__right">
-      <span class="toolbar__count" id="count-label">Showing all 30</span>
-      <div class="cat-wrap">
-        <select class="cat-select" id="cat-select" aria-label="Filter by category" onchange="doFilter(this.value)">
-          <option value="all">All Categories</option>
-          <option value="Agritech">Agritech</option>
-          <option value="Art">Art</option>
-          <option value="Artificial Intelligence">Artificial Intelligence</option>
-          <option value="B2B">B2B</option>
-          <option value="Clean Energy">Clean Energy &amp; Climate</option>
-          <option value="Design">Design &amp; Architecture</option>
-          <option value="Digital Content">Digital Content Creators</option>
-          <option value="Ecommerce">Ecommerce &amp; Consumer Tech</option>
-          <option value="Education">Education</option>
-          <option value="Enterprise Tech">Enterprise Technology</option>
-          <option value="Entertainment">Entertainment</option>
-          <option value="Fashion">Fashion</option>
-          <option value="Finance">Finance</option>
-          <option value="Food">Food &amp; Hospitality</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Industry">Industry &amp; Manufacturing</option>
-          <option value="Music">Music</option>
-          <option value="NGO">NGO &amp; Social Entrepreneurship</option>
-          <option value="Sports">Sports</option>
-        </select>
-        <span class="cat-arrow" aria-hidden="true">▾</span>
+  <!-- LEFT: LIST AREA -->
+  <div class="list-area">
+
+    <!-- TOOLBAR -->
+    <div class="toolbar">
+      <div class="toolbar__left">
+        <span class="toolbar__kicker">Class of 2025</span>
+        <span class="toolbar__div" aria-hidden="true"></span>
+        <h2 class="toolbar__title">The Complete List</h2>
+      </div>
+      <div class="toolbar__right">
+        <span class="toolbar__count" id="count-label">Showing all 30</span>
+        <div class="cat-wrap">
+          <select class="cat-select" id="cat-select" aria-label="Filter by category" onchange="doFilter(this.value)">
+            <option value="all">All Categories</option>
+            <option value="Agritech">Agritech</option>
+            <option value="Art">Art</option>
+            <option value="Artificial Intelligence">Artificial Intelligence</option>
+            <option value="B2B">B2B</option>
+            <option value="Clean Energy">Clean Energy &amp; Climate</option>
+            <option value="Design">Design &amp; Architecture</option>
+            <option value="Digital Content">Digital Content Creators</option>
+            <option value="Ecommerce">Ecommerce &amp; Consumer Tech</option>
+            <option value="Education">Education</option>
+            <option value="Enterprise Tech">Enterprise Technology</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Finance">Finance</option>
+            <option value="Food">Food &amp; Hospitality</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Industry">Industry &amp; Manufacturing</option>
+            <option value="Music">Music</option>
+            <option value="NGO">NGO &amp; Social Entrepreneurship</option>
+            <option value="Sports">Sports</option>
+          </select>
+          <span class="cat-arrow" aria-hidden="true">▾</span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- LIST -->
-  <div class="list" id="list" role="list"></div>
+    <!-- LIST -->
+    <div class="list" id="list" role="list"></div>
 
-  <!-- POPULAR LISTS -->
-  <div class="pop">
-    <div class="pop__head">Popular Lists</div>
-    <div class="pop__grid">
-      <a href="https://www.forbesindia.com/lists/2024-digital-stars/" class="pop__card">
-        <div class="pop__n">01</div>
-        <div class="pop__title">Forbes India Digital Stars 2024</div>
-        <div class="pop__sub">India's Top 100 Digital Stars 2024</div>
-        <div class="pop__go">Explore list</div>
-      </a>
-      <a href="https://www.forbesindia.com/lists/w-power-2024/" class="pop__card">
-        <div class="pop__n">02</div>
-        <div class="pop__title">W-Power 2024</div>
-        <div class="pop__sub">Meet India's Top Self-Made Women in 2024</div>
-        <div class="pop__go">Explore list</div>
-      </a>
-      <a href="https://www.forbesindia.com/lists/30-under-30-2024/" class="pop__card">
-        <div class="pop__n">03</div>
-        <div class="pop__title">Forbes India 30 Under 30 2024</div>
-        <div class="pop__sub">Meet our young disruptors and trailblazers</div>
-        <div class="pop__go">Explore list</div>
-      </a>
+    <!-- POPULAR LISTS -->
+    <div class="pop">
+      <div class="pop__head">Popular Lists</div>
+      <div class="pop__grid">
+        <a href="https://www.forbesindia.com/lists/2024-digital-stars/" class="pop__card">
+          <div class="pop__n">01</div>
+          <div class="pop__title">Forbes India Digital Stars 2024</div>
+          <div class="pop__sub">India's Top 100 Digital Stars 2024</div>
+          <div class="pop__go">Explore list</div>
+        </a>
+        <a href="https://www.forbesindia.com/lists/w-power-2024/" class="pop__card">
+          <div class="pop__n">02</div>
+          <div class="pop__title">W-Power 2024</div>
+          <div class="pop__sub">Meet India's Top Self-Made Women in 2024</div>
+          <div class="pop__go">Explore list</div>
+        </a>
+        <a href="https://www.forbesindia.com/lists/30-under-30-2024/" class="pop__card">
+          <div class="pop__n">03</div>
+          <div class="pop__title">Forbes India 30 Under 30 2024</div>
+          <div class="pop__sub">Meet our young disruptors and trailblazers</div>
+          <div class="pop__go">Explore list</div>
+        </a>
+      </div>
     </div>
+
   </div>
+
+  <!-- RIGHT: SIDEBAR -->
+  <aside class="sidebar" aria-label="By the numbers">
+    <div class="numbers-widget">
+      <div class="numbers-widget__head">By the Numbers</div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">18</div>
+        <div class="numbers-item__desc">years old — the youngest winner this year (D Gukesh)</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">11</div>
+        <div class="numbers-item__desc">women honourees on the list this year</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">19</div>
+        <div class="numbers-item__desc">categories including the newly added Artificial Intelligence</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">1</div>
+        <div class="numbers-item__desc">new category added this year — Artificial Intelligence</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">$500M</div>
+        <div class="numbers-item__desc">deal closed by Anant Mohta at Bain Capital Private Equity</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">12</div>
+        <div class="numbers-item__desc">number of professionals on the list this year</div>
+      </div>
+      <div class="numbers-item">
+        <div class="numbers-item__num">12</div>
+        <div class="numbers-item__desc">years of the Forbes India 30 Under 30 list</div>
+      </div>
+    </div>
+  </aside>
 
 </div>
 </main>
@@ -398,13 +505,16 @@ button{cursor:pointer;font-family:var(--g)}
 <div class="ovl" id="ovl" role="dialog" aria-modal="true" aria-label="Profile details" onclick="ovlClick(event)">
   <div class="modal" id="modal">
     <div class="modal__img-wrap">
-      <img id="m-img" src="" alt="" width="780" height="280" loading="lazy"/>
+      <img id="m-img" src="" alt="" loading="lazy"/>
       <div class="modal__img-overlay" aria-hidden="true"></div>
       <span class="modal__img-cat" id="m-cat-badge"></span>
       <button class="modal__close" onclick="closeModal()" aria-label="Close profile">✕</button>
+      <div class="modal__name-overlay">
+        <div class="modal__name-overlay-name" id="m-name"></div>
+        <div class="modal__name-overlay-age" id="m-age"></div>
+      </div>
     </div>
     <div class="modal__body">
-      <div class="modal__name" id="m-name"></div>
       <div class="modal__desg" id="m-desg"></div>
       <div class="modal__company" id="m-company"></div>
       <div class="modal__rule"></div>
@@ -423,12 +533,13 @@ button{cursor:pointer;font-family:var(--g)}
 
 <script>
 // ═══════════════════════════════════════
-//  DATA  — 30 entries in original order
+//  DATA — 30 entries with age data
 // ═══════════════════════════════════════
 const ENTRIES = [
   {
     cat:"Agritech",
     name:"Devan Chandrasekharan",
+    age:"28",
     desg:"Founder and Managing Director",
     company:"Fuselage Innovations",
     bio:"Fuselage helps farmers increase efficiency by deploying advanced solutions for mapping and diagnostics of the farmland. It specialises in the development of technologies based on Unmanned Ariel Vehicles, Internet of Things and artificial intelligence. Applications range from post-disaster management, infrastructure monitoring and even environmental conservation.",
@@ -437,6 +548,7 @@ const ENTRIES = [
   {
     cat:"Art",
     name:"Rabiul Khan",
+    age:"27",
     desg:"Artist",
     company:"",
     bio:"From a coal mining family to bachelor's and master's degrees in fine arts from Kala Bhavan, Visva Bharati University, Rabiul Khan has come a long way and wants to make art that asks provoking questions. His collective, Gabaa, was set up with like-minded friends from college. He has received the Inlaks Fine Art Award in 2023 and the Prince Claus Fund Seed Award in 2024.",
@@ -445,6 +557,7 @@ const ENTRIES = [
   {
     cat:"Artificial Intelligence",
     name:"Rajat Arya, Chirag Arya",
+    age:"28, 24",
     desg:"Founder and CEO; COO",
     company:"169Pi.ai",
     bio:"The Arya brothers are not new to the world of AI — they have built a software business in the past and a few blockchain solutions for US customers. OpenAI CEO Sam Altman's India visit in 2023 piqued their interest in information about India in language models, finding a unique opportunity to do something desi versus West-oriented information on the internet. An important early user for the Aryas is ISRO, India's space agency, which is testing out a PDF agent that 169Pi has created.",
@@ -453,6 +566,7 @@ const ENTRIES = [
   {
     cat:"B2B",
     name:"Deepak Meena, Arjit Singh, Hansraj Patel",
+    age:"25, 26, 25",
     desg:"Co-founder & CEO; Co-founder & COO; Co-founder & CTO",
     company:"Flyzy",
     bio:"Flyzy found an opportunity in the pandemic and entered the Online Travel Agency (OTA) business which put the Davids and the Goliaths at the starting line. Flyzy has come a long way, from an app to enable contactless travel to finding a niche in B2B online ticket booking. It is profitable while filling a crucial gap of end-to-end travel solutions in B2B. It aims to be a unicorn in profit instead of valuation.",
@@ -461,23 +575,16 @@ const ENTRIES = [
   {
     cat:"Clean Energy",
     name:"Abhinav Shekhar Vashistha",
+    age:"29",
     desg:"Co-founder and CTO",
     company:"WeVOIS Labs Pvt Ltd",
     bio:"WeVois has created a sustainable, scalable and profitable waste management business for urban and suburban areas. With the confidence that India can resolve its trash problem, the company deploys an IoT-enabled app to help efficient waste collection to reduce open dumping and burning of household trash. Its employees — the waste collectors — are given social benefits: a first, and it encourages performance with rewards and bonuses. It employes 1,000 workers directly, and other 500 indirectly.",
     img:"https://images.forbesindia.com/media/image_uploads/Clean_energy_I92A9799-Enhanced-NR copy_5.jpg"
   },
-  // ── STAT BREAK 1 after entry 5 ──
-  {
-    _statBreak: true,
-    stats:[
-      {num:"18",    gold:true,  desc:"years old — the youngest winner this year (D Gukesh)"},
-      {num:"19",    gold:false, desc:"categories including the newly added Artificial Intelligence"},
-      {num:"11",    gold:false, desc:"women honourees on the list this year"}
-    ]
-  },
   {
     cat:"Design & Architecture",
     name:"Brinda Dudhat",
+    age:"29",
     desg:"Co-founder",
     company:"Morii Design",
     bio:"Brinda Dudhat set up Morii Design in 2019, focusing on one-of-a-kind textile art pieces and wall art. With a natural and earthy palette, Dudhat's work is organic, abstract, and intuitive, reminiscent of aerial views of landscapes, conceptually depicting themes like global warming and climate change. Today, Morii collaborates with over 165 women artisans from 12 villages across India, combining techniques such as Sujani embroidery from Bihar, Bela block printing, and Rabari embroidery with contemporary abstract designs from Kutch and Kantha embroidery from West Bengal. The aim: Ensuring artisans can work in their villages while earning fair wages, maintaining traditions and taking pride in their work.",
@@ -486,6 +593,7 @@ const ENTRIES = [
   {
     cat:"Design & Architecture",
     name:"Simoul Alva",
+    age:"29",
     desg:"Visual Design Lead",
     company:"Ripple",
     bio:"'Simoul approaches every project with an open mind and a desire to push boundaries,' says Jessica Walsh, founder and creative director, &Walsh about Alva. 'Her ability to seamlessly merge creativity with thoughtfulness and precision makes her a standout in the field of design.' In her own words, Alva says, 'Designing for products or tech that need to be explained by visualisation sets me apart.' Alva has worked on brands such as Amazon, Apple, and even Indian brand Frooti during her employment at the New York-based creative agency &Walsh. She is currently the visual design lead at Ripple.",
@@ -494,6 +602,7 @@ const ENTRIES = [
   {
     cat:"Digital Content",
     name:"Prakhar Gupta",
+    age:"28",
     desg:"Podcaster",
     company:"Prakhar Ke Pravachan",
     bio:"His podcast 'Prakhar Ke Pravachan' on YouTube has seen guests like Piyush Goyal, the union minister of commerce and industry, and Arvind Kejriwal, the Aam Aadmi Party chief and former Delhi CM. Gupta says he's learnt how to deal with India's political class along with many other crucial lessons while running his podcast for over a year. He's not afraid to make mistakes and claims his Ivy League education (a Columbia University graduate in psychology and economics) taught him to use ideas as currency. His channel is full of varied conversations about religion, science, politics, and even spirituality, offering fresh perspectives.",
@@ -502,6 +611,7 @@ const ENTRIES = [
   {
     cat:"Digital Content",
     name:"Kavya Karnatac",
+    age:"27",
     desg:"Founder",
     company:"KK Create",
     bio:"Kavya Karnatac's video at the Ghazipur garbage dump — India's tallest — garnered 3 million views, but it was also a test of her commitment to her work. She and her team were attacked by a mob but she continued documenting the lives of the people there and their struggles. Her videos break the mould of traditional content creation and takes her viewers on a raw and bold journey, offering a view into the lives of everyday people who are often forgotten. Her aim: To visit India's 800 districts to experience and tell their stories.",
@@ -510,23 +620,16 @@ const ENTRIES = [
   {
     cat:"Ecommerce",
     name:"Pallav Bihani",
+    age:"29",
     desg:"Founder",
     company:"Boldfit",
     bio:"From being forced onto a journey of fitness to falling in love with every aspect of it, Bihani has come a long way. Like taking his health by the horns, there is nothing unthinking about his foray from family business to entrepreneur. He wants Boldfit to be India's counter to prohibitive international brands and cheap Indian brands. Boldfit promises high-quality products at an affordable price point. The profitable venture clocked revenue of nearly Rs 140 crore in FY24.",
     img:"https://images.forbesindia.com/media/image_uploads/Ecommerce_Pallav Bihani_12.jpg"
   },
-  // ── STAT BREAK 2 after entry 10 (index 11 in arr) ──
-  {
-    _statBreak: true,
-    stats:[
-      {num:"$500M", gold:true,  desc:"deal closed by Anant Mohta at Bain Capital Private Equity"},
-      {num:"12",    gold:false, desc:"number of professionals on the list this year"},
-      {num:"12",    gold:false, desc:"years of the Forbes India 30 Under 30 list"}
-    ]
-  },
   {
     cat:"Ecommerce",
     name:"Aniket Shah, Ujjwal Sukheja and Saran S",
+    age:"25, 24, 24",
     desg:"Co-founders",
     company:"Swish",
     bio:"Founded in August 2024, Swish manages the entire process — from food preparation to delivery — and operates within a geographical radius of 1.5 to 2 kilometres. The startup operates several cloud kitchens in Bengaluru, and has raised $2 million in its maiden funding round led by Accel in 2023. With the belief that making of food to delivery to controlling the food stack, everything should be owned and managed, Swish has over 70 unique stock-keeping units (SKUs), covering indulgences, snacks, beverages and meals.",
@@ -535,6 +638,7 @@ const ENTRIES = [
   {
     cat:"Ecommerce",
     name:"Anshita Mehrotra",
+    age:"25",
     desg:"Founder",
     company:"Fix My Curls",
     bio:"Fix My Curls is the result of extensive primary and secondary research — testing and studying curly hair products from all over the world, finding the pain points for curly hair women, and more. The formulation was then created. Its products — hair butter, hair mask, leave-in cream, volumising mousse, shampoo and conditioner — are sold on ecommerce platforms and are available in 15 countries including Germany, Switzerland, the US and the UAE.",
@@ -543,6 +647,7 @@ const ENTRIES = [
   {
     cat:"Education",
     name:"Neelakantha Bhanu, Devulapalli Lakshmi Prachotan, Alluru Uday Kiran and Jonnalagadda Sai Krishnakanth",
+    age:"25, 25, 26, 27",
     desg:"Founder & CEO; Co-founder, head of business development; Co-founder, head of operations; Co-founder, head of R&D",
     company:"Bhanzu",
     bio:"Bhanu holds several world records in mathematics, and by the time he was 18, he was being invited to schools and colleges and companies to talk about strengthening maths skills. Bhanzu, started as a Government of Telangana numeracy development project, works with nearly 5,000 government schools to teach maths in the best possible ways. So far, it has been conducting online classes and is also looking to have an offline presence. It has also launched in the US, UK, Australia and some parts of the Middle East and South Asia.",
@@ -551,6 +656,7 @@ const ENTRIES = [
   {
     cat:"Enterprise Tech",
     name:"Anirudh Sharma",
+    age:"26",
     desg:"Founder and CEO",
     company:"Digantara Research and Technologies",
     bio:"With the launch of Digantara Research's SCOT satellite, the co-founders have joined an elite club of space tech entrepreneurs who are building space surveillance and intelligence technologies. Digantara's SCOT satellite stands for Space Camera for Object Tracking, and was among the 131 satellites onboard SpaceX's transporter-12 Falcon-9 rocket that lifted off from the Vandenberg spaceport in the US. As one of the world's first commercial 'space situational awareness' satellites, SCOT is engineered to track 'resident space objects' with high frequency and precision.",
@@ -559,23 +665,16 @@ const ENTRIES = [
   {
     cat:"Entertainment",
     name:"Aparna Balamurali",
+    age:"29",
     desg:"Actor",
     company:"",
     bio:"In the 10 years of her career as an actor, Aparna Balamurali has done some 30 films, and has a National Award to her credit. She had started acting serendipitously but now wants to make the most of opportunities. In 2024, she played significant roles in two well-received dramas and thriller projects, Tamil film Raayan and Malayalam film Kishkindha Kaandam. Her next will also be a thriller directed by Jeethu Joseph (of Drishyam fame). In the future, however, she wants to 'get into something a little more lighter, cooler, something towards humour'.",
     img:"https://images.forbesindia.com/media/image_uploads/Entertainment_Aparna Balamurali_15.jpg"
   },
-  // ── STAT BREAK 3 after entry 15 (index 17 in arr) ──
-  {
-    _statBreak: true,
-    stats:[
-      {num:"30",     gold:true,  desc:"films in 10 years — Aparna Balamurali's career count"},
-      {num:"3M",     gold:false, desc:"views on Kavya Karnatac's Ghazipur garbage dump video"},
-      {num:"1 Lakh", gold:false, desc:"kg of plastic replaced by qudrat's rice husk tableware"}
-    ]
-  },
   {
     cat:"Entertainment",
     name:"Rohit Saraf",
+    age:"28",
     desg:"Actor",
     company:"",
     bio:"Rohit Saraf wanted to be a professional dancer but decided to give acting a real shot after he lost his father when he was 12. It was his father's dream to see him on the big screen. The youngest of five children, Saraf did not have a Plan B, and approached his craft with honesty and sincerity. After doing two TV shows in his maiden year, he did parts in movies from 2016–2020 when Netflix's Mismatched came as a defining turning point of his career.",
@@ -584,6 +683,7 @@ const ENTRIES = [
   {
     cat:"Fashion",
     name:"Nancy Tyagi",
+    age:"21",
     desg:"Fashion Designer and Content Creator",
     company:"",
     bio:"Nancy Tyagi's favourite childhood activity was creating dresses for her doll. Eventually, she designed clothes for herself and created content for social media. This led to the once-in-a-lifetime opportunity to showcase her talent on the red carpet at the Cannes Film Festival in 2024, for which she created four outfits in four months. Since then, she has collaborated with popular beauty and fashion brands, gaining millions of followers across platforms.",
@@ -592,6 +692,7 @@ const ENTRIES = [
   {
     cat:"Fashion",
     name:"Khushi Shah",
+    age:"25",
     desg:"Creative Director and Co-founder",
     company:"Shanti Banaras",
     bio:"Shanti Banaras, a designer Banarasi sarees and Indian clothing brand was born out of recognising the decline of real zari — an intricate weaving technique. Involved in the family business since a young age, Khushi Shah has been instrumental in forming Shanti's brand identity development and positioning. By changing the visual imagery and styling in her campaigns, she has successfully attracted a younger audience.",
@@ -600,6 +701,7 @@ const ENTRIES = [
   {
     cat:"Finance",
     name:"Anant Mohta",
+    age:"28",
     desg:"Vice President",
     company:"Bain Capital Private Equity",
     bio:"At 12, Anant Mohta saw most of his family wealth lost to the 2008 financial crisis. At 27, he became the youngest vice president at Bain Capital Private Equity. Two years after joining, Bain Capital closed a near-$500 million deal to pick up a substantial stake in asset and wealth management services firm 360 One (formerly IIF Wealth), a business he had tracked proactively. Mohta wishes to explore something more entrepreneurial at some point.",
@@ -608,23 +710,16 @@ const ENTRIES = [
   {
     cat:"Finance",
     name:"Rajit Uboweja",
+    age:"29",
     desg:"Partner",
     company:"Stride Ventures",
     bio:"Rajit Uboweja proudly points out that he is one of the youngest partners in the global venture debt industry. Over the past four years, Uboweja has led investments in over 50 of Stride Venture's 160 venture debt portfolio companies and has deployed around $170 million across early and late startups in diverse sectors, including consumer and B2B commerce. Some names include Sugar Cosmetics, Zepto, among others.",
     img:"https://images.forbesindia.com/media/image_uploads/Finance_Rajit Uboweja_20.jpg"
   },
-  // ── STAT BREAK 4 after entry 20 (index 23 in arr) ──
-  {
-    _statBreak: true,
-    stats:[
-      {num:"$170M",  gold:true,  desc:"deployed by Rajit Uboweja across 50+ startups at Stride Ventures"},
-      {num:"5,000",  gold:false, desc:"government schools Bhanzu works with across India"},
-      {num:"165",    gold:false, desc:"women artisans collaborating with Morii Design across 12 villages"}
-    ]
-  },
   {
     cat:"Food",
     name:"Raghav Simha, Pragun Bajaj, Jatin Talreja",
+    age:"27, 28, 27",
     desg:"Co-founder — Operations; Co-founder — Kitchen; Co-founder — Business",
     company:"Project Hum",
     bio:"Friends and roommates Raghav Simha, Jatin Talreja and Pragun Bajaj quit high-paying jobs to launch Project Hum, a farm-to-table fast-casual restaurant in September 2022, in Mumbai. The USP of Project Hum, other than popularising clean eating, is that it connects diners with farmers to understand their triumphs and challenges. With a revenue of Rs 4.48 crore in FY24, they've launched their second outlet and plan to take it to other cities as well.",
@@ -633,6 +728,7 @@ const ENTRIES = [
   {
     cat:"Healthcare",
     name:"Siddhant Dangi, Deepansh Goyal",
+    age:"25, 26",
     desg:"Co-founder & CEO; Co-founder & CTO",
     company:"Nexstem",
     bio:"Founded in 2020, the duo's company Nexstem launched Nexstem V1, an EEG (electroencephalogram) headset that would capture electrical signals. The success of the device led to a focus on capturing bio signal acquisitions, which have the potential to be used across areas such as medical, gaming, digital, health, and defence, among others. Today, Nexstem works to democratise brain-computer interface (BCI) technology and leverage its expertise in neurotech research and engineering.",
@@ -641,6 +737,7 @@ const ENTRIES = [
   {
     cat:"Healthcare",
     name:"Devika Gholap",
+    age:"27",
     desg:"Co-founder and Chief Product Officer",
     company:"OptraScan",
     bio:"Along with her father, she wants to eliminate all microscopes in the world and replace them with digital pathology scanners in the fight against cancer. They help scan slides from biopsies or other sources in addition to features such as storing, archiving, real-time sharing, and reporting — symptoms often missing while using microscopes — to help pathologists come to a quicker conclusion. She says this would help democratise treatment and make it affordable for the public.",
@@ -649,6 +746,7 @@ const ENTRIES = [
   {
     cat:"Industry",
     name:"Divanshu Kumar",
+    age:"28",
     desg:"Co-founder and CEO",
     company:"Solinas Integrity Private Limited",
     bio:"Kumar is driven to find a permanent and effective solution to the cruel practice of manual scavenging. His company works in two aspects: Cleaning septic tanks, drains, and sewers, as well as inspecting and cleaning water pipelines. It has developed two robots that crawl through a water and sewer pipeline of any material and diameter ranging from 90 mm to 1500 mm. It closed FY24 with a revenue of Rs 4.5 crore.",
@@ -657,23 +755,16 @@ const ENTRIES = [
   {
     cat:"Music",
     name:"Karan Kanchan",
+    age:"27",
     desg:"Artist and Entrepreneur",
     company:"",
     bio:"In 2024, Kanchan took the stage at Lollapalooza's second edition, debuting with his show, The Karan Kanchan Experience. With a vision to fuse music from diverse genres with dynamic visuals, lighting, and sound, he created a truly immersive theatrical experience — one that left an unforgettable impression on the audience. 'Karan is the hottest beat maker in the current scene,' says Ankur Tewari, singer-songwriter, music supervisor, and sonic designer.",
     img:"https://images.forbesindia.com/media/image_uploads/Music_Karan Kanchan_25.jpg"
   },
-  // ── STAT BREAK 5 after entry 25 (index 30 in arr) ──
-  {
-    _statBreak: true,
-    stats:[
-      {num:"1M+",  gold:true,  desc:"beneficiaries reached by Project Baala across 28 Indian states"},
-      {num:"15",   gold:false, desc:"countries Fix My Curls products are sold in"},
-      {num:"Rs 140 Cr", gold:false, desc:"revenue clocked by Boldfit in FY24"}
-    ]
-  },
   {
     cat:"NGO",
     name:"Soumya Dabriwal, Aradhana Rai Gupta",
+    age:"29, 29",
     desg:"Co-founders",
     company:"Project Baala",
     bio:"The duo, through their social enterprise, Project Baala, have been working to provide quality, low-cost menstrual products, and create awareness about menstrual hygiene and health. Their portfolio includes sustainable menstrual cups and biodegradable pads. Since 2017, their enterprise has reached a million beneficiaries across 28 states in India, apart from Ghana, Nepal, and Tanzania.",
@@ -682,6 +773,7 @@ const ENTRIES = [
   {
     cat:"NGO",
     name:"Rishabh Suri",
+    age:"28",
     desg:"Co-founder and CEO",
     company:"qudrat",
     bio:"Rishabh Suri and his brother make tableware that has already replaced 1 lakh kg of plastic waste. The products are made from rice husk, which the founders claim are not only sturdy, microwaveable, and freezable but also free of any adhesives and laminates, making it safe for animals eating from trash cans or when it decomposes into the soil in 30 days.",
@@ -690,6 +782,7 @@ const ENTRIES = [
   {
     cat:"Sports",
     name:"D Gukesh",
+    age:"18",
     desg:"Chess Player",
     company:"",
     bio:"At 18, D Gukesh has achieved what many aspire to once in their lifetime. In 2024, he scripted history as he brought home the World Championship crown back to India as its youngest winner. His composure and his ability to remain unfazed are exceptional, and he brings the same attitude and strategy to every game, says Viswanathan Anand, himself a five-time World Champion and the torchbearer of India's chess revolution.",
@@ -698,6 +791,7 @@ const ENTRIES = [
   {
     cat:"Sports",
     name:"Yashasvi Jaiswal",
+    age:"23",
     desg:"Cricketer",
     company:"",
     bio:"The cricketer who once sold pani puris to survive in Mumbai emerged as the second-highest Test run-getter and was the highest Indian run-getter in the Border-Gavaskar Trophy in 2024. All four Test centuries he has scored since his debut in July 2023 have been 150+, two of them double centuries. With his selection for the Champions Trophy, the young batter has completed his debut in all formats.",
@@ -706,6 +800,7 @@ const ENTRIES = [
   {
     cat:"Sports",
     name:"Preethi Pal",
+    age:"24",
     desg:"Para-athlete",
     company:"",
     bio:"The para-athlete created history when she made her Paralympics debut at Stade de France in Paris in 2024. She won two bronze medals — in the women's 100-metre and 200-metre T35 (the category is for runners with coordination impairments). She also became the first Indian woman to win a medal in track events at the Paralympics or Olympics. She is gearing up for the World Championship in New Delhi in September.",
@@ -716,67 +811,51 @@ const ENTRIES = [
 // ─────────────────────────────────────────
 //  Build the list
 // ─────────────────────────────────────────
-// entryIndex maps rendered entry position → ENTRIES array index (stat breaks excluded)
-const entryIndices = []; // indices in ENTRIES that are real entries (not stat breaks)
-ENTRIES.forEach((e,i) => { if(!e._statBreak) entryIndices.push(i); });
-
-let currentEntryPos = 0; // position in entryIndices
+let currentEntryPos = 0;
+let filteredIndices = ENTRIES.map((_,i) => i);
 
 function buildList(filterCat) {
   const container = document.getElementById('list');
   container.innerHTML = '';
   let serial = 0;
 
+  filteredIndices = [];
+
   ENTRIES.forEach((item, idx) => {
-    if (item._statBreak) {
-      // hide stat breaks when filtering
-      if (filterCat && filterCat !== 'all') return;
-      const sb = document.createElement('div');
-      sb.className = 'stat-break';
-      sb.setAttribute('aria-label','By the numbers');
-      sb.innerHTML = `<div class="stat-break__label">By the Numbers</div><div class="stat-break__items">${
-        item.stats.map(s=>`<div class="stat-break__item"><div class="stat-break__num${s.gold?' gold':''}">${s.num}</div><div class="stat-break__desc">${s.desc}</div></div>`).join('')
-      }</div>`;
-      container.appendChild(sb);
-      return;
-    }
-
-    // filter check
     if (filterCat && filterCat !== 'all' && item.cat !== filterCat) return;
-
+    filteredIndices.push(idx);
     serial++;
-    const entryPos = entryIndices.indexOf(idx); // position in entryIndices
 
     const el = document.createElement('div');
     el.className = 'entry';
-    el.setAttribute('role','listitem button');
+    el.setAttribute('role','listitem');
     el.setAttribute('tabindex','0');
     el.setAttribute('aria-label',`Open profile: ${item.name}`);
-    el.dataset.entryPos = entryPos;
+    el.dataset.pos = filteredIndices.length - 1;
 
-    const thumb = item.img;
     const companyHtml = item.company
       ? `<div class="entry__company">${item.company}</div>` : '';
 
     el.innerHTML = `
       <div class="entry__num"><span class="entry__num-txt">${String(serial).padStart(2,'0')}</span></div>
       <div class="entry__thumb-wrap">
-        <img class="entry__thumb" src="${thumb}" alt="${item.name}" width="80" height="100" loading="lazy"/>
+        <img class="entry__thumb" src="${item.img}" alt="${item.name}" loading="lazy"/>
       </div>
       <div class="entry__body">
         <div class="entry__cat">${item.cat}</div>
         <div class="entry__name">${item.name}</div>
+        <div class="entry__age">Age: ${item.age}</div>
         <div class="entry__desg">${item.desg}</div>
         ${companyHtml}
       </div>
       <span class="entry__arr" aria-hidden="true">›</span>`;
 
-    el.addEventListener('click', () => openModal(entryPos));
-    el.addEventListener('keypress', e => { if(e.key==='Enter') openModal(entryPos); });
+    const pos = filteredIndices.length - 1;
+    el.addEventListener('click', () => openModal(pos));
+    el.addEventListener('keypress', e => { if(e.key==='Enter') openModal(pos); });
     container.appendChild(el);
   });
 
-  // update count label
   const label = document.getElementById('count-label');
   if (filterCat && filterCat !== 'all') {
     label.textContent = `Showing ${serial} of 30`;
@@ -792,8 +871,8 @@ function doFilter(val) {
 // ─────────────────────────────────────────
 //  MODAL
 // ─────────────────────────────────────────
-function openModal(entryPos) {
-  currentEntryPos = entryPos;
+function openModal(pos) {
+  currentEntryPos = pos;
   renderModal();
   document.getElementById('ovl').classList.add('on');
   document.body.style.overflow = 'hidden';
@@ -801,26 +880,26 @@ function openModal(entryPos) {
 }
 
 function renderModal() {
-  const idx = entryIndices[currentEntryPos];
+  const idx = filteredIndices[currentEntryPos];
   const item = ENTRIES[idx];
   document.getElementById('m-img').src       = item.img;
   document.getElementById('m-img').alt       = item.name;
   document.getElementById('m-cat-badge').textContent = item.cat;
   document.getElementById('m-name').textContent      = item.name;
+  document.getElementById('m-age').textContent       = `Age: ${item.age}`;
   document.getElementById('m-desg').textContent      = item.desg;
   document.getElementById('m-company').textContent   = item.company || '';
   document.getElementById('m-company').style.display = item.company ? '' : 'none';
   document.getElementById('m-bio').textContent       = item.bio;
-  document.getElementById('m-counter').textContent   = `${currentEntryPos + 1} of ${entryIndices.length}`;
+  document.getElementById('m-counter').textContent   = `${currentEntryPos + 1} of ${filteredIndices.length}`;
   document.getElementById('btn-prev').disabled       = currentEntryPos === 0;
-  document.getElementById('btn-next').disabled       = currentEntryPos === entryIndices.length - 1;
-  // reset scroll
+  document.getElementById('btn-next').disabled       = currentEntryPos === filteredIndices.length - 1;
   document.getElementById('modal').scrollTop = 0;
 }
 
 function navModal(dir) {
   const next = currentEntryPos + dir;
-  if (next < 0 || next >= entryIndices.length) return;
+  if (next < 0 || next >= filteredIndices.length) return;
   currentEntryPos = next;
   renderModal();
 }
