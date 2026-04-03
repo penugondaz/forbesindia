@@ -15,15 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet"/>
-
 <style>
-/* ─── GOTHAM-LIKE FONT STACK ─── */
-@font-face {
-  font-family: 'GothamBook';
-  src: local('Gotham Book'), local('Gotham-Book');
-  /* fallback will use system sans-serif that resembles Gotham */
-}
-
 :root {
   --red:    #CC0000;
   --black:  #0D0D0D;
@@ -34,9 +26,9 @@
   --bg:     #F8F7F4;
   --white:  #FFFFFF;
   --gold:   #B8963E;
-  --g: "Gotham Book","Nunito Sans","Gill Sans",Futura,sans-serif;
-  --thumb-w: 72px;
-  --thumb-h: 144px; /* 1:2 ratio */
+  --g: "Nunito Sans","Gill Sans",Futura,sans-serif;
+  --thumb-w: 90px;
+  --thumb-h: 130px;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -49,7 +41,7 @@ button{cursor:pointer;font-family:var(--g)}
 .skip{position:absolute;top:-40px;left:0;background:var(--red);color:#fff;padding:8px 16px;font-size:13px;z-index:9999;transition:top .2s}
 .skip:focus{top:0}
 
-/* ─── HEADER ─── */
+/* ─── HEADER (from original) ─── */
 .hdr{background:var(--black);border-bottom:2px solid var(--red);position:sticky;top:0;z-index:200}
 .hdr__in{max-width:1360px;margin:0 auto;padding:0 32px;height:54px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .hdr__logo{font-weight:900;font-size:21px;color:#fff;letter-spacing:-.3px;white-space:nowrap}
@@ -69,19 +61,23 @@ button{cursor:pointer;font-family:var(--g)}
 
 /* ─── HERO ─── */
 .hero{background:var(--black);padding:36px 32px 42px}
-.hero__in{max-width:1360px;margin:0 auto}
+.hero__in{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:40px;align-items:center}
+.hero__content{}
 .hero__eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .hero__edition{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold)}
 .hero__dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.2)}
 .hero__year{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.hero__h1{font-size:clamp(28px,3.6vw,48px);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.5px;margin-bottom:16px;max-width:820px}
-.hero__desc{font-size:14px;line-height:1.8;color:rgba(255,255,255,.52);font-weight:300;max-width:660px;margin-bottom:22px}
+.hero__h1{font-size:clamp(22px,2.8vw,38px);font-weight:900;color:#fff;line-height:1.15;letter-spacing:-.5px;margin-bottom:16px}
+.hero__desc{font-size:13.5px;line-height:1.8;color:rgba(255,255,255,.52);font-weight:300;margin-bottom:22px}
 .hero__cta{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border-bottom:1px solid rgba(184,150,62,.35);padding-bottom:2px;transition:opacity .2s}
 .hero__cta:hover{opacity:.6}
 .hero__cta::after{content:"→";font-size:14px}
+.hero__img-wrap{position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.08)}
+.hero__img-wrap img{width:100%;height:260px;object-fit:cover;display:block}
+.hero__img-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(204,0,0,.18) 0%,transparent 60%)}
 
 /* ─── TWO-COLUMN LAYOUT WRAPPER ─── */
-.page-body{max-width:1360px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 280px;gap:40px;align-items:start}
+.page-body{max-width:1360px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:1fr 300px;gap:40px;align-items:start}
 
 /* ─── LIST AREA ─── */
 .list-area{}
@@ -113,6 +109,7 @@ button{cursor:pointer;font-family:var(--g)}
   cursor:pointer;
   transition:background .15s;
   position:relative;
+  padding-left: 12px;
 }
 .entry:hover{background:rgba(204,0,0,.028)}
 .entry:hover .entry__name{color:var(--red)}
@@ -120,20 +117,19 @@ button{cursor:pointer;font-family:var(--g)}
 .entry:focus{outline:2px solid var(--red);outline-offset:-2px}
 
 /* serial */
-.entry__num{display:flex;align-items:center;justify-content:center;padding:20px 0;border-right:1px solid var(--rule)}
-.entry__num-txt{font-size:16px;font-weight:900;color:#ccc;letter-spacing:-.5px}
+.entry__num{display:flex;align-items:center;justify-content:center;padding:20px 0;border-right:1px solid var(--rule);flex-shrink:0}
+.entry__num-txt{font-size:15px;font-weight:900;color:#ccc;letter-spacing:-.5px}
 
-/* thumb — strict 1:2 aspect ratio */
+/* thumb */
 .entry__thumb-wrap{
   overflow:hidden;
   background:#e8e8e8;
   width:var(--thumb-w);
   height:var(--thumb-h);
   flex-shrink:0;
-  align-self:stretch;
-  max-height:var(--thumb-h);
-  display:flex;
-  align-items:stretch;
+  align-self:center;
+  margin:12px 0 12px 14px;
+  border-radius:2px;
 }
 .entry__thumb{
   width:var(--thumb-w);
@@ -141,53 +137,55 @@ button{cursor:pointer;font-family:var(--g)}
   object-fit:cover;
   object-position:top center;
   display:block;
-  flex-shrink:0;
   filter:grayscale(10%);
   transition:transform .4s;
 }
 .entry:hover .entry__thumb{transform:scale(1.05)}
 
 /* body */
-.entry__body{padding:16px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
+.entry__body{padding:16px 22px 16px 16px;display:flex;flex-direction:column;justify-content:center;gap:4px;min-width:0}
 .entry__cat{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:3px}
-.entry__name{font-size:16px;font-weight:800;color:var(--dark);line-height:1.25;letter-spacing:-.1px;transition:color .15s}
-.entry__age{font-size:12px;font-weight:600;color:var(--gold);margin-top:1px}
-.entry__desg{font-size:13px;color:var(--muted);font-weight:300;line-height:1.5;margin-top:2px}
-.entry__company{font-size:12px;color:var(--mid);font-weight:600;margin-top:3px}
+.entry__name{font-size:15px;font-weight:800;color:var(--dark);line-height:1.3;letter-spacing:-.1px;transition:color .15s;word-break:break-word;overflow-wrap:break-word;hyphens:auto}
+.entry__age{font-size:12px;font-weight:600;color:var(--gold);margin-top:2px}
+.entry__desg{font-size:12.5px;color:var(--muted);font-weight:300;line-height:1.5;margin-top:2px;word-break:break-word}
+.entry__company{font-size:12px;color:var(--mid);font-weight:600;margin-top:3px;word-break:break-word}
 
 /* arrow */
-.entry__arr{position:absolute;right:22px;top:50%;transform:translateY(-50%) translateX(-6px);font-size:20px;color:var(--muted);opacity:0;transition:all .2s;pointer-events:none}
+.entry__arr{position:absolute;right:16px;top:50%;transform:translateY(-50%) translateX(-6px);font-size:20px;color:var(--muted);opacity:0;transition:all .2s;pointer-events:none}
 
 /* ─── SIDEBAR ─── */
 .sidebar{position:sticky;top:90px;display:flex;flex-direction:column;gap:0}
 
 /* Numbers widget */
-.numbers-widget{background:var(--dark);padding:0}
-.numbers-widget__head{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:20px 22px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
-.numbers-item{padding:20px 22px;border-bottom:1px solid rgba(255,255,255,.07);transition:background .2s}
+.numbers-widget{background:var(--dark)}
+.numbers-widget__head{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:16px 20px 10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.numbers-scroll{max-height:480px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.15) transparent}
+.numbers-scroll::-webkit-scrollbar{width:4px}
+.numbers-scroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:2px}
+.numbers-item{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.07);transition:background .2s}
 .numbers-item:last-child{border-bottom:none}
 .numbers-item:hover{background:rgba(255,255,255,.04)}
-.numbers-item__num{font-size:28px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:6px;letter-spacing:-1px}
-.numbers-item__desc{font-size:12px;color:rgba(255,255,255,.45);line-height:1.55;font-weight:300}
+.numbers-item__num{font-size:24px;font-weight:900;color:var(--gold);line-height:1;margin-bottom:4px;letter-spacing:-1px}
+.numbers-item__desc{font-size:11.5px;color:rgba(255,255,255,.45);line-height:1.5;font-weight:300}
 
 /* Popular lists */
 .pop{padding:32px 0 40px}
 .pop__head{font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:10px}
 .pop__head::after{content:'';flex:1;height:1px;background:var(--rule)}
-.pop__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.pop__card{background:var(--white);padding:22px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
+.pop__grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.pop__card{background:var(--white);padding:18px 20px;display:flex;flex-direction:column;gap:6px;transition:background .2s}
 .pop__card:hover{background:var(--dark)}
-.pop__n{font-size:34px;font-weight:900;color:var(--rule);line-height:1;transition:color .2s}
+.pop__n{font-size:28px;font-weight:900;color:var(--rule);line-height:1;transition:color .2s}
 .pop__card:hover .pop__n{color:rgba(255,255,255,.08)}
-.pop__title{font-size:14px;font-weight:800;color:var(--dark);line-height:1.3;transition:color .2s}
+.pop__title{font-size:13px;font-weight:800;color:var(--dark);line-height:1.3;transition:color .2s}
 .pop__card:hover .pop__title{color:#fff}
-.pop__sub{font-size:12px;color:var(--muted);font-weight:300;transition:color .2s}
+.pop__sub{font-size:11px;color:var(--muted);font-weight:300;transition:color .2s}
 .pop__card:hover .pop__sub{color:rgba(255,255,255,.4)}
-.pop__go{margin-top:7px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:6px;transition:color .2s,gap .2s}
+.pop__go{margin-top:5px;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:6px;transition:color .2s,gap .2s}
 .pop__card:hover .pop__go{color:var(--gold);gap:12px}
 .pop__go::after{content:"→"}
 
-/* ─── FOOTER ─── */
+/* ─── FOOTER (from original) ─── */
 .ftr{background:var(--black);border-top:2px solid var(--red);padding:30px 32px 18px}
 .ftr__in{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:220px 1fr;gap:48px;padding-bottom:22px;border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:16px}
 .ftr__brand{font-size:21px;font-weight:900;color:#fff;margin-bottom:7px}
@@ -206,15 +204,15 @@ button{cursor:pointer;font-family:var(--g)}
 .ovl.on{display:flex}
 
 /* ─── MODAL BOX ─── */
-.modal{background:var(--white);width:100%;max-width:820px;max-height:90vh;overflow-y:auto;position:relative;display:flex;flex-direction:column}
+.modal{background:var(--white);width:100%;max-width:760px;max-height:90vh;overflow-y:auto;position:relative;display:flex;flex-direction:column;border-radius:2px;box-shadow:0 24px 80px rgba(0,0,0,.6)}
 
-/* top image: 143:81 ratio → width=820, height=820*(81/143)≈464 */
+/* Horizontal image for modal */
 .modal__img-wrap{
   position:relative;
   overflow:hidden;
   background:#111;
   width:100%;
-  padding-top:56.64%; /* 81/143 * 100 */
+  padding-top:52%;
   flex-shrink:0;
 }
 .modal__img-wrap img{
@@ -225,30 +223,48 @@ button{cursor:pointer;font-family:var(--g)}
   object-fit:cover;
   object-position:top center;
 }
-.modal__img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.08) 50%,transparent 100%)}
+.modal__img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.0) 40%,rgba(0,0,0,.55) 100%)}
 .modal__img-cat{position:absolute;top:16px;left:16px;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#fff;background:var(--red);padding:5px 12px;z-index:1}
-.modal__close{position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);border:none;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:0;transition:background .2s}
+.modal__close{position:absolute;top:12px;right:12px;width:36px;height:36px;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);border:none;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;z-index:2;border-radius:50%;transition:background .2s;cursor:pointer}
 .modal__close:hover{background:var(--red)}
-.modal__name-overlay{position:absolute;bottom:0;left:0;right:0;padding:22px 28px;z-index:1}
-.modal__name-overlay-name{font-size:24px;font-weight:900;color:#fff;line-height:1.2;letter-spacing:-.2px}
-.modal__name-overlay-age{font-size:13px;font-weight:700;color:var(--gold);margin-top:4px}
 
-/* body */
-.modal__body{padding:26px 30px 30px;flex:1}
-.modal__desg{font-size:14px;color:var(--muted);font-weight:300;margin-bottom:3px}
-.modal__company{font-size:13px;font-weight:700;color:var(--mid);margin-bottom:18px}
-.modal__rule{height:1px;background:var(--rule);margin-bottom:18px}
-.modal__bio{font-size:15px;line-height:1.82;color:var(--mid);font-weight:300}
+/* Prev/Next in middle of image sides */
+.modal__prev,.modal__next{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(4px);
+  border:none;
+  color:#fff;
+  font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  z-index:3;
+  border-radius:50%;
+  cursor:pointer;
+  transition:background .2s, transform .2s;
+}
+.modal__prev{left:12px}
+.modal__next{right:12px}
+.modal__prev:hover,.modal__next:hover{background:var(--red);transform:translateY(-50%) scale(1.1)}
+.modal__prev:disabled,.modal__next:disabled{opacity:.2;pointer-events:none}
 
-/* nav bar */
-.modal__nav{display:flex;align-items:center;justify-content:space-between;padding:15px 30px;border-top:1px solid var(--rule);background:#fafafa;flex-shrink:0;gap:14px}
-.modal__nav-btn{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--dark);background:none;border:1px solid var(--rule);padding:9px 18px;transition:all .2s}
-.modal__nav-btn:hover{background:var(--dark);border-color:var(--dark);color:#fff}
-.modal__nav-btn:disabled{opacity:.25;cursor:default;pointer-events:none}
+/* body — text now BELOW image */
+.modal__body{padding:22px 28px 28px;flex:1}
+.modal__name{font-size:22px;font-weight:900;color:var(--dark);line-height:1.2;letter-spacing:-.2px;margin-bottom:4px}
+.modal__age{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:8px;display:block}
+.modal__desg{font-size:13.5px;color:var(--muted);font-weight:300;margin-bottom:3px}
+.modal__company{font-size:13px;font-weight:700;color:var(--mid);margin-bottom:16px}
+.modal__rule{height:1px;background:var(--rule);margin-bottom:16px}
+.modal__bio{font-size:14.5px;line-height:1.82;color:var(--mid);font-weight:300}
+
+/* nav bar bottom */
+.modal__nav{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;border-top:1px solid var(--rule);background:#fafafa;flex-shrink:0;gap:14px}
 .modal__nav-counter{font-size:12px;color:var(--muted);letter-spacing:.5px}
 
 /* ─── BACK TO TOP ─── */
-.btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;background:var(--dark);border:none;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:all .3s;z-index:50}
+.btt{position:fixed;bottom:24px;right:24px;width:38px;height:38px;background:var(--dark);border:none;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(8px);transition:all .3s;z-index:50;border-radius:50%}
 .btt.vis{opacity:1;transform:translateY(0)}
 .btt:hover{background:var(--red)}
 
@@ -258,31 +274,43 @@ button{cursor:pointer;font-family:var(--g)}
   .sidebar{position:static}
   .numbers-widget{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
   .numbers-widget__head{grid-column:1/-1}
+  .numbers-scroll{max-height:none;overflow-y:visible;display:contents}
   .numbers-item{border-right:1px solid rgba(255,255,255,.07)}
-  .numbers-item:nth-child(3n+1){border-right:1px solid rgba(255,255,255,.07)}
-  .numbers-item:last-child,.numbers-item:nth-last-child(-n+3 of .numbers-item:nth-child(3n)){border-bottom:none}
 }
 @media(max-width:860px){
   .hdr__nav{display:none}
+  .hero__in{grid-template-columns:1fr}
+  .hero__img-wrap{display:none}
   .ftr__in{grid-template-columns:1fr}
   .ftr__cols{grid-template-columns:repeat(2,1fr)}
   .pop__grid{grid-template-columns:1fr}
 }
 @media(max-width:620px){
-  :root{--thumb-w:60px;--thumb-h:120px}
-  .entry{grid-template-columns:38px var(--thumb-w) 1fr}
-  .entry__num-txt{font-size:13px}
-  .modal__img-wrap{padding-top:56.64%}
-  .modal__body{padding:18px 18px 22px}
-  .modal__nav{padding:13px 18px}
+  :root{--thumb-w:72px;--thumb-h:108px}
+  .entry{grid-template-columns:36px var(--thumb-w) 1fr;padding-left:6px}
+  .entry__thumb-wrap{margin:10px 0 10px 10px}
+  .entry__body{padding:12px 10px 12px 12px}
+  .entry__name{font-size:13px}
+  .entry__num-txt{font-size:12px}
+  .entry__arr{display:none}
+  .modal__body{padding:16px 18px 22px}
+  .modal__nav{padding:12px 18px}
   .toolbar{flex-direction:column;align-items:flex-start}
   .page-body{padding:0 16px}
-  .numbers-widget{grid-template-columns:1fr 1fr}
+  .hero{padding:24px 16px 28px}
+  .bc{padding:8px 16px}
+  .modal__prev,.modal__next{width:36px;height:36px;font-size:16px}
+  .modal__name{font-size:18px}
 }
 @media(max-width:440px){
-  .hero__h1{font-size:25px}
+  .hero__h1{font-size:20px}
   .ftr__cols{grid-template-columns:1fr}
-  .numbers-widget{grid-template-columns:1fr}
+  :root{--thumb-w:62px;--thumb-h:93px}
+  .entry{grid-template-columns:32px var(--thumb-w) 1fr;padding-left:4px}
+  .entry__body{padding:10px 8px 10px 10px}
+  .entry__name{font-size:12.5px}
+  .entry__desg{font-size:11.5px}
+  .entry__age{font-size:11px}
 }
 
 /* ─── FADE IN ─── */
@@ -291,13 +319,14 @@ button{cursor:pointer;font-family:var(--g)}
 .hero__h1{animation:fadeUp .45s ease both .12s}
 .hero__desc{animation:fadeUp .45s ease both .2s}
 .hero__cta{animation:fadeUp .45s ease both .28s}
+.hero__img-wrap{animation:fadeUp .45s ease both .35s}
 </style>
 </head>
 <body>
 
 <a href="#main" class="skip">Skip to main content</a>
 
-<!-- HEADER -->
+<!-- HEADER (from original) -->
 <header class="hdr" role="banner">
   <div class="hdr__in">
     <a href="https://www.forbesindia.com/" class="hdr__logo">Forbes<span>India</span></a>
@@ -325,17 +354,23 @@ button{cursor:pointer;font-family:var(--g)}
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO with lead image -->
 <section class="hero" aria-labelledby="hero-h1">
   <div class="hero__in">
-    <div class="hero__eyebrow">
-      <span class="hero__edition">12th Edition</span>
-      <span class="hero__dot" aria-hidden="true"></span>
-      <span class="hero__year">Forbes India · 2025</span>
+    <div class="hero__content">
+      <div class="hero__eyebrow">
+        <span class="hero__edition">12th Edition</span>
+        <span class="hero__dot" aria-hidden="true"></span>
+        <span class="hero__year">Forbes India · 2025</span>
+      </div>
+      <h1 class="hero__h1" id="hero-h1">Forbes India 30 Under 30 2025: Meet our young groundbreakers and trendsetters</h1>
+      <p class="hero__desc">Now in its 12th year, the annual and most-awaited list has winners across 19 categories, including the newly added Artificial Intelligence. The cohort has not only launched disruptive businesses all under the age of 30 but also focussed on creating social impact through ventures that address societal issues, sustainability and community development. Here's to those who dare to dream and believe in the power of possibilities.</p>
+      <a href="https://www.forbesindia.com/article/30-under-30-2025/forbes-india-30-under-30-class-of-2025-an-ode-to-talent/95239/1" class="hero__cta" target="_blank" rel="noopener noreferrer">Read more</a>
     </div>
-    <h1 class="hero__h1" id="hero-h1">Forbes India 30 Under 30 2025: Meet our young groundbreakers and trendsetters</h1>
-    <p class="hero__desc">Now in its 12th year, the annual and most-awaited list has winners across 19 categories, including the newly added Artificial Intelligence. The cohort has not only launched disruptive businesses all under the age of 30 but also focussed on creating social impact through ventures that address societal issues, sustainability and community development. Here's to those who dare to dream and believe in the power of possibilities.</p>
-    <a href="https://www.forbesindia.com/article/30-under-30-2025/forbes-india-30-under-30-class-of-2025-an-ode-to-talent/95239/1" class="hero__cta" target="_blank" rel="noopener noreferrer">Read more</a>
+    <div class="hero__img-wrap">
+      <img src="https://images.forbesindia.com/media/image_uploads/thumbnail_banner900X475.jpg" alt="Forbes India 30 Under 30 2025"/>
+      <div class="hero__img-overlay" aria-hidden="true"></div>
+    </div>
   </div>
 </section>
 
@@ -363,7 +398,7 @@ button{cursor:pointer;font-family:var(--g)}
             <option value="Artificial Intelligence">Artificial Intelligence</option>
             <option value="B2B">B2B</option>
             <option value="Clean Energy">Clean Energy &amp; Climate</option>
-            <option value="Design">Design &amp; Architecture</option>
+            <option value="Design & Architecture">Design &amp; Architecture</option>
             <option value="Digital Content">Digital Content Creators</option>
             <option value="Ecommerce">Ecommerce &amp; Consumer Tech</option>
             <option value="Education">Education</option>
@@ -417,33 +452,35 @@ button{cursor:pointer;font-family:var(--g)}
   <aside class="sidebar" aria-label="By the numbers">
     <div class="numbers-widget">
       <div class="numbers-widget__head">By the Numbers</div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">18</div>
-        <div class="numbers-item__desc">years old — the youngest winner this year (D Gukesh)</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">11</div>
-        <div class="numbers-item__desc">women honourees on the list this year</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">19</div>
-        <div class="numbers-item__desc">categories including the newly added Artificial Intelligence</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">1</div>
-        <div class="numbers-item__desc">new category added this year — Artificial Intelligence</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">$500M</div>
-        <div class="numbers-item__desc">deal closed by Anant Mohta at Bain Capital Private Equity</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">12</div>
-        <div class="numbers-item__desc">number of professionals on the list this year</div>
-      </div>
-      <div class="numbers-item">
-        <div class="numbers-item__num">12</div>
-        <div class="numbers-item__desc">years of the Forbes India 30 Under 30 list</div>
+      <div class="numbers-scroll">
+        <div class="numbers-item">
+          <div class="numbers-item__num">18</div>
+          <div class="numbers-item__desc">years old — the youngest winner this year (D Gukesh)</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">11</div>
+          <div class="numbers-item__desc">women honourees on the list this year</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">19</div>
+          <div class="numbers-item__desc">categories including the newly added Artificial Intelligence</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">1</div>
+          <div class="numbers-item__desc">new category added this year — Artificial Intelligence</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">$500M</div>
+          <div class="numbers-item__desc">deal closed by Anant Mohta at Bain Capital Private Equity</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">12</div>
+          <div class="numbers-item__desc">number of professionals on the list this year</div>
+        </div>
+        <div class="numbers-item">
+          <div class="numbers-item__num">12</div>
+          <div class="numbers-item__desc">years of the Forbes India 30 Under 30 list</div>
+        </div>
       </div>
     </div>
   </aside>
@@ -451,7 +488,7 @@ button{cursor:pointer;font-family:var(--g)}
 </div>
 </main>
 
-<!-- FOOTER -->
+<!-- FOOTER (from original) -->
 <footer class="ftr" role="contentinfo">
   <div class="ftr__in">
     <div>
@@ -509,21 +546,19 @@ button{cursor:pointer;font-family:var(--g)}
       <div class="modal__img-overlay" aria-hidden="true"></div>
       <span class="modal__img-cat" id="m-cat-badge"></span>
       <button class="modal__close" onclick="closeModal()" aria-label="Close profile">✕</button>
-      <div class="modal__name-overlay">
-        <div class="modal__name-overlay-name" id="m-name"></div>
-        <div class="modal__name-overlay-age" id="m-age"></div>
-      </div>
+      <button class="modal__prev" id="btn-prev" onclick="navModal(-1)" aria-label="Previous">‹</button>
+      <button class="modal__next" id="btn-next" onclick="navModal(1)" aria-label="Next">›</button>
     </div>
     <div class="modal__body">
+      <div class="modal__name" id="m-name"></div>
+      <span class="modal__age" id="m-age"></span>
       <div class="modal__desg" id="m-desg"></div>
       <div class="modal__company" id="m-company"></div>
       <div class="modal__rule"></div>
       <p class="modal__bio" id="m-bio"></p>
     </div>
     <div class="modal__nav">
-      <button class="modal__nav-btn" id="btn-prev" onclick="navModal(-1)">← Previous</button>
       <span class="modal__nav-counter" id="m-counter"></span>
-      <button class="modal__nav-btn" id="btn-next" onclick="navModal(1)">Next →</button>
     </div>
   </div>
 </div>
@@ -533,7 +568,7 @@ button{cursor:pointer;font-family:var(--g)}
 
 <script>
 // ═══════════════════════════════════════
-//  DATA — 30 entries with age data
+//  DATA — 30 entries
 // ═══════════════════════════════════════
 const ENTRIES = [
   {
@@ -587,7 +622,7 @@ const ENTRIES = [
     age:"29",
     desg:"Co-founder",
     company:"Morii Design",
-    bio:"Brinda Dudhat set up Morii Design in 2019, focusing on one-of-a-kind textile art pieces and wall art. With a natural and earthy palette, Dudhat's work is organic, abstract, and intuitive, reminiscent of aerial views of landscapes, conceptually depicting themes like global warming and climate change. Today, Morii collaborates with over 165 women artisans from 12 villages across India, combining techniques such as Sujani embroidery from Bihar, Bela block printing, and Rabari embroidery with contemporary abstract designs from Kutch and Kantha embroidery from West Bengal. The aim: Ensuring artisans can work in their villages while earning fair wages, maintaining traditions and taking pride in their work.",
+    bio:"Brinda Dudhat set up Morii Design in 2019, focusing on one-of-a-kind textile art pieces and wall art. With a natural and earthy palette, Dudhat's work is organic, abstract, and intuitive, reminiscent of aerial views of landscapes, conceptually depicting themes like global warming and climate change. Today, Morii collaborates with over 165 women artisans from 12 villages across India, combining techniques such as Sujani embroidery from Bihar, Bela block printing, and Rabari embroidery with contemporary abstract designs from Kutch and Kantha embroidery from West Bengal.",
     img:"https://images.forbesindia.com/media/image_uploads/Design & Architecture_Brinda_6.jpg"
   },
   {
@@ -596,7 +631,7 @@ const ENTRIES = [
     age:"29",
     desg:"Visual Design Lead",
     company:"Ripple",
-    bio:"'Simoul approaches every project with an open mind and a desire to push boundaries,' says Jessica Walsh, founder and creative director, &Walsh about Alva. 'Her ability to seamlessly merge creativity with thoughtfulness and precision makes her a standout in the field of design.' In her own words, Alva says, 'Designing for products or tech that need to be explained by visualisation sets me apart.' Alva has worked on brands such as Amazon, Apple, and even Indian brand Frooti during her employment at the New York-based creative agency &Walsh. She is currently the visual design lead at Ripple.",
+    bio:"'Simoul approaches every project with an open mind and a desire to push boundaries,' says Jessica Walsh, founder and creative director, &Walsh about Alva. 'Her ability to seamlessly merge creativity with thoughtfulness and precision makes her a standout in the field of design.' Alva has worked on brands such as Amazon, Apple, and even Indian brand Frooti during her employment at the New York-based creative agency &Walsh. She is currently the visual design lead at Ripple.",
     img:"https://images.forbesindia.com/media/image_uploads/Design & Architecture_Simoul Alva_Jan25_01 copy_7.jpg"
   },
   {
@@ -605,7 +640,7 @@ const ENTRIES = [
     age:"28",
     desg:"Podcaster",
     company:"Prakhar Ke Pravachan",
-    bio:"His podcast 'Prakhar Ke Pravachan' on YouTube has seen guests like Piyush Goyal, the union minister of commerce and industry, and Arvind Kejriwal, the Aam Aadmi Party chief and former Delhi CM. Gupta says he's learnt how to deal with India's political class along with many other crucial lessons while running his podcast for over a year. He's not afraid to make mistakes and claims his Ivy League education (a Columbia University graduate in psychology and economics) taught him to use ideas as currency. His channel is full of varied conversations about religion, science, politics, and even spirituality, offering fresh perspectives.",
+    bio:"His podcast 'Prakhar Ke Pravachan' on YouTube has seen guests like Piyush Goyal, the union minister of commerce and industry, and Arvind Kejriwal, the Aam Aadmi Party chief and former Delhi CM. Gupta says he's learnt how to deal with India's political class along with many other crucial lessons while running his podcast for over a year. He's not afraid to make mistakes and claims his Ivy League education (a Columbia University graduate in psychology and economics) taught him to use ideas as currency.",
     img:"https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Prakhar_9.jpg"
   },
   {
@@ -614,7 +649,7 @@ const ENTRIES = [
     age:"27",
     desg:"Founder",
     company:"KK Create",
-    bio:"Kavya Karnatac's video at the Ghazipur garbage dump — India's tallest — garnered 3 million views, but it was also a test of her commitment to her work. She and her team were attacked by a mob but she continued documenting the lives of the people there and their struggles. Her videos break the mould of traditional content creation and takes her viewers on a raw and bold journey, offering a view into the lives of everyday people who are often forgotten. Her aim: To visit India's 800 districts to experience and tell their stories.",
+    bio:"Kavya Karnatac's video at the Ghazipur garbage dump — India's tallest — garnered 3 million views, but it was also a test of her commitment to her work. She and her team were attacked by a mob but she continued documenting the lives of the people there and their struggles. Her videos break the mould of traditional content creation and takes her viewers on a raw and bold journey, offering a view into the lives of everyday people who are often forgotten.",
     img:"https://images.forbesindia.com/media/image_uploads/Digital Content Creators_Kavya Karnatac_8.jpg"
   },
   {
@@ -632,7 +667,7 @@ const ENTRIES = [
     age:"25, 24, 24",
     desg:"Co-founders",
     company:"Swish",
-    bio:"Founded in August 2024, Swish manages the entire process — from food preparation to delivery — and operates within a geographical radius of 1.5 to 2 kilometres. The startup operates several cloud kitchens in Bengaluru, and has raised $2 million in its maiden funding round led by Accel in 2023. With the belief that making of food to delivery to controlling the food stack, everything should be owned and managed, Swish has over 70 unique stock-keeping units (SKUs), covering indulgences, snacks, beverages and meals.",
+    bio:"Founded in August 2024, Swish manages the entire process — from food preparation to delivery — and operates within a geographical radius of 1.5 to 2 kilometres. The startup operates several cloud kitchens in Bengaluru, and has raised $2 million in its maiden funding round led by Accel in 2023. Swish has over 70 unique stock-keeping units (SKUs), covering indulgences, snacks, beverages and meals.",
     img:"https://images.forbesindia.com/media/image_uploads/Ecommerce_Aniket Shah_Swish_10.jpg"
   },
   {
@@ -641,7 +676,7 @@ const ENTRIES = [
     age:"25",
     desg:"Founder",
     company:"Fix My Curls",
-    bio:"Fix My Curls is the result of extensive primary and secondary research — testing and studying curly hair products from all over the world, finding the pain points for curly hair women, and more. The formulation was then created. Its products — hair butter, hair mask, leave-in cream, volumising mousse, shampoo and conditioner — are sold on ecommerce platforms and are available in 15 countries including Germany, Switzerland, the US and the UAE.",
+    bio:"Fix My Curls is the result of extensive primary and secondary research — testing and studying curly hair products from all over the world, finding the pain points for curly hair women, and more. Its products — hair butter, hair mask, leave-in cream, volumising mousse, shampoo and conditioner — are sold on ecommerce platforms and are available in 15 countries including Germany, Switzerland, the US and the UAE.",
     img:"https://images.forbesindia.com/media/image_uploads/Ecommerce_Anshita_11.jpg"
   },
   {
@@ -650,7 +685,7 @@ const ENTRIES = [
     age:"25, 25, 26, 27",
     desg:"Founder & CEO; Co-founder, head of business development; Co-founder, head of operations; Co-founder, head of R&D",
     company:"Bhanzu",
-    bio:"Bhanu holds several world records in mathematics, and by the time he was 18, he was being invited to schools and colleges and companies to talk about strengthening maths skills. Bhanzu, started as a Government of Telangana numeracy development project, works with nearly 5,000 government schools to teach maths in the best possible ways. So far, it has been conducting online classes and is also looking to have an offline presence. It has also launched in the US, UK, Australia and some parts of the Middle East and South Asia.",
+    bio:"Bhanu holds several world records in mathematics, and by the time he was 18, he was being invited to schools and colleges and companies to talk about strengthening maths skills. Bhanzu, started as a Government of Telangana numeracy development project, works with nearly 5,000 government schools to teach maths in the best possible ways. It has also launched in the US, UK, Australia and some parts of the Middle East and South Asia.",
     img:"https://images.forbesindia.com/media/image_uploads/Education_Neelkanth Bhanu2_13.jpg"
   },
   {
@@ -659,7 +694,7 @@ const ENTRIES = [
     age:"26",
     desg:"Founder and CEO",
     company:"Digantara Research and Technologies",
-    bio:"With the launch of Digantara Research's SCOT satellite, the co-founders have joined an elite club of space tech entrepreneurs who are building space surveillance and intelligence technologies. Digantara's SCOT satellite stands for Space Camera for Object Tracking, and was among the 131 satellites onboard SpaceX's transporter-12 Falcon-9 rocket that lifted off from the Vandenberg spaceport in the US. As one of the world's first commercial 'space situational awareness' satellites, SCOT is engineered to track 'resident space objects' with high frequency and precision.",
+    bio:"With the launch of Digantara Research's SCOT satellite, the co-founders have joined an elite club of space tech entrepreneurs who are building space surveillance and intelligence technologies. Digantara's SCOT satellite stands for Space Camera for Object Tracking, and was among the 131 satellites onboard SpaceX's transporter-12 Falcon-9 rocket. As one of the world's first commercial 'space situational awareness' satellites, SCOT is engineered to track 'resident space objects' with high frequency and precision.",
     img:"https://images.forbesindia.com/media/image_uploads/Enterprise Technology_Anirudh Sharma_14.jpg"
   },
   {
@@ -668,7 +703,7 @@ const ENTRIES = [
     age:"29",
     desg:"Actor",
     company:"",
-    bio:"In the 10 years of her career as an actor, Aparna Balamurali has done some 30 films, and has a National Award to her credit. She had started acting serendipitously but now wants to make the most of opportunities. In 2024, she played significant roles in two well-received dramas and thriller projects, Tamil film Raayan and Malayalam film Kishkindha Kaandam. Her next will also be a thriller directed by Jeethu Joseph (of Drishyam fame). In the future, however, she wants to 'get into something a little more lighter, cooler, something towards humour'.",
+    bio:"In the 10 years of her career as an actor, Aparna Balamurali has done some 30 films, and has a National Award to her credit. She had started acting serendipitously but now wants to make the most of opportunities. In 2024, she played significant roles in Tamil film Raayan and Malayalam film Kishkindha Kaandam. Her next will also be a thriller directed by Jeethu Joseph (of Drishyam fame).",
     img:"https://images.forbesindia.com/media/image_uploads/Entertainment_Aparna Balamurali_15.jpg"
   },
   {
@@ -704,7 +739,7 @@ const ENTRIES = [
     age:"28",
     desg:"Vice President",
     company:"Bain Capital Private Equity",
-    bio:"At 12, Anant Mohta saw most of his family wealth lost to the 2008 financial crisis. At 27, he became the youngest vice president at Bain Capital Private Equity. Two years after joining, Bain Capital closed a near-$500 million deal to pick up a substantial stake in asset and wealth management services firm 360 One (formerly IIF Wealth), a business he had tracked proactively. Mohta wishes to explore something more entrepreneurial at some point.",
+    bio:"At 12, Anant Mohta saw most of his family wealth lost to the 2008 financial crisis. At 27, he became the youngest vice president at Bain Capital Private Equity. Two years after joining, Bain Capital closed a near-$500 million deal to pick up a substantial stake in asset and wealth management services firm 360 One (formerly IIF Wealth), a business he had tracked proactively.",
     img:"https://images.forbesindia.com/media/image_uploads/Finance_Anant Mohta_19.jpg"
   },
   {
@@ -722,7 +757,7 @@ const ENTRIES = [
     age:"27, 28, 27",
     desg:"Co-founder — Operations; Co-founder — Kitchen; Co-founder — Business",
     company:"Project Hum",
-    bio:"Friends and roommates Raghav Simha, Jatin Talreja and Pragun Bajaj quit high-paying jobs to launch Project Hum, a farm-to-table fast-casual restaurant in September 2022, in Mumbai. The USP of Project Hum, other than popularising clean eating, is that it connects diners with farmers to understand their triumphs and challenges. With a revenue of Rs 4.48 crore in FY24, they've launched their second outlet and plan to take it to other cities as well.",
+    bio:"Friends and roommates Raghav Simha, Jatin Talreja and Pragun Bajaj quit high-paying jobs to launch Project Hum, a farm-to-table fast-casual restaurant in September 2022, in Mumbai. The USP of Project Hum, other than popularising clean eating, is that it connects diners with farmers to understand their triumphs and challenges. With a revenue of Rs 4.48 crore in FY24, they've launched their second outlet.",
     img:"https://images.forbesindia.com/media/image_uploads/Food & Hospitality_Raghav, Jatin Pragul copy_21.jpg"
   },
   {
@@ -731,7 +766,7 @@ const ENTRIES = [
     age:"25, 26",
     desg:"Co-founder & CEO; Co-founder & CTO",
     company:"Nexstem",
-    bio:"Founded in 2020, the duo's company Nexstem launched Nexstem V1, an EEG (electroencephalogram) headset that would capture electrical signals. The success of the device led to a focus on capturing bio signal acquisitions, which have the potential to be used across areas such as medical, gaming, digital, health, and defence, among others. Today, Nexstem works to democratise brain-computer interface (BCI) technology and leverage its expertise in neurotech research and engineering.",
+    bio:"Founded in 2020, the duo's company Nexstem launched Nexstem V1, an EEG (electroencephalogram) headset that would capture electrical signals. The success of the device led to a focus on capturing bio signal acquisitions, which have the potential to be used across areas such as medical, gaming, digital, health, and defence, among others. Today, Nexstem works to democratise brain-computer interface (BCI) technology.",
     img:"https://images.forbesindia.com/media/image_uploads/Health Care_Siddhant and Deepansh_23.jpg"
   },
   {
@@ -740,7 +775,7 @@ const ENTRIES = [
     age:"27",
     desg:"Co-founder and Chief Product Officer",
     company:"OptraScan",
-    bio:"Along with her father, she wants to eliminate all microscopes in the world and replace them with digital pathology scanners in the fight against cancer. They help scan slides from biopsies or other sources in addition to features such as storing, archiving, real-time sharing, and reporting — symptoms often missing while using microscopes — to help pathologists come to a quicker conclusion. She says this would help democratise treatment and make it affordable for the public.",
+    bio:"Along with her father, she wants to eliminate all microscopes in the world and replace them with digital pathology scanners in the fight against cancer. They help scan slides from biopsies or other sources in addition to features such as storing, archiving, real-time sharing, and reporting — symptoms often missing while using microscopes — to help pathologists come to a quicker conclusion.",
     img:"https://images.forbesindia.com/media/image_uploads/Health Care_Devika_gholap_22.jpg"
   },
   {
@@ -803,7 +838,7 @@ const ENTRIES = [
     age:"24",
     desg:"Para-athlete",
     company:"",
-    bio:"The para-athlete created history when she made her Paralympics debut at Stade de France in Paris in 2024. She won two bronze medals — in the women's 100-metre and 200-metre T35 (the category is for runners with coordination impairments). She also became the first Indian woman to win a medal in track events at the Paralympics or Olympics. She is gearing up for the World Championship in New Delhi in September.",
+    bio:"The para-athlete created history when she made her Paralympics debut at Stade de France in Paris in 2024. She won two bronze medals — in the women's 100-metre and 200-metre T35 (the category is for runners with coordination impairments). She also became the first Indian woman to win a medal in track events at the Paralympics or Olympics.",
     img:"https://images.forbesindia.com/media/image_uploads/Sports_Preethi Pal'_29.jpg"
   }
 ];
@@ -818,7 +853,6 @@ function buildList(filterCat) {
   const container = document.getElementById('list');
   container.innerHTML = '';
   let serial = 0;
-
   filteredIndices = [];
 
   ENTRIES.forEach((item, idx) => {
@@ -831,7 +865,6 @@ function buildList(filterCat) {
     el.setAttribute('role','listitem');
     el.setAttribute('tabindex','0');
     el.setAttribute('aria-label',`Open profile: ${item.name}`);
-    el.dataset.pos = filteredIndices.length - 1;
 
     const companyHtml = item.company
       ? `<div class="entry__company">${item.company}</div>` : '';
@@ -857,11 +890,9 @@ function buildList(filterCat) {
   });
 
   const label = document.getElementById('count-label');
-  if (filterCat && filterCat !== 'all') {
-    label.textContent = `Showing ${serial} of 30`;
-  } else {
-    label.textContent = 'Showing all 30';
-  }
+  label.textContent = filterCat && filterCat !== 'all'
+    ? `Showing ${serial} of 30`
+    : 'Showing all 30';
 }
 
 function doFilter(val) {
