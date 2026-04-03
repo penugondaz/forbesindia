@@ -1,213 +1,197 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Weekly Digest Newsletter</title>
-    <style type="text/css">
-        /* Client Resets (Crucial for Outlook and others) */
-        body, table, td, p, a {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 16px;
-            line-height: 1.5;
-            color: #1f2937; /* Default body text color */
-        }
-        
-        body { margin: 0; padding: 0; background-color: #f3f4f6; }
-        table { border-collapse: collapse !important; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
-        img { border: 0; line-height: 100%; outline: none; text-decoration: none; display: block; }
-        a { text-decoration: none; color: #1d4ed8; }
-
-        /* Custom link style for articles */
-        .read-article-link {
-            color: #1d4ed8; 
-            text-decoration: none;
-            font-weight: bold;
-            border-bottom: 1px solid #1d4ed8;
-        }
-
-        /* --- NEW MAGAZINE WIDGET STYLES --- */
-        .magazine-outer {
-            background-color: #0a0a0a; /* Dark background for premium look */
-            color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            padding: 0; /* Padding is now inside the inner tables */
-        }
-        .magazine-title {
-            color: #fca5a5; /* Light accent color for the title */
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-        }
-        .story-separator {
-            background-color: #1f2937; /* Dark separator line */
-            height: 1px;
-            line-height: 1px;
-            font-size: 1px;
-        }
-        .editor-note-card {
-            background-color: #ffffff; /* White card inside dark container */
-            color: #1f2937;
-            border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-        }
-        .editor-note-icon {
-            font-size: 40px; 
-            font-weight: 900; 
-            color: #1f2937;
-            line-height: 1;
-        }
-        .story-text a {
-             color: #93c5fd; /* Light blue links on dark background */
-             text-decoration: none;
-             border-bottom: 1px solid #93c5fd;
-        }
-
-        /* --- MOBILE/RESPONSIVE STYLES (Media Queries) --- */
-        @media screen and (max-width: 600px) {
-            .mobile-padding { padding: 12px !important; }
-            .mobile-content-padding { padding: 8px 12px 12px 12px !important; }
-            
-            /* Header - Maintain 70%/30% width ratio to keep logo and date side-by-side */
-            .header-logo-col { 
-                width: 70% !important; 
-                max-width: 70% !important; 
-            }
-            .header-date-col { 
-                width: 30% !important; 
-                max-width: 30% !important; 
-                font-size: 12px !important; /* Smaller date font on tight mobile */
-            }
-            .mobile-h1 { font-size: 20px !important; }
-            
-            /* MAGAZINE WIDGET FIX: Force image and text to use a defined split on mobile (35/65) */
-            .magazine-story-image-col {
-                width: 35% !important;
-                max-width: 35% !important;
-                padding-right: 8px !important; /* Reduced padding between image and text on mobile */
-            }
-            .magazine-story-text-col {
-                width: 65% !important;
-                max-width: 65% !important;
-            }
-
-            /* Ensure image scales cleanly within its container */
-            .magazine-story-image-col img {
-                width: 100% !important;
-                max-width: 100% !important;
-                height: auto !important; /* Allow height to adjust based on aspect-ratio */
-            }
-            /* Remove vertical padding from image cells on mobile (added to the image itself) */
-            .magazine-story-image-col {
-                padding-top: 0 !important;
-                padding-bottom: 0 !important;
-            }
-            /* Adjust spacing of text content */
-            .magazine-story-text-col p, 
-            .magazine-story-text-col h3 {
-                margin: 0 !important;
-            }
-            
-        }
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>The Weekly Digest Newsletter</title>
+      <style type="text/css">
+         /* Client Resets (Crucial for Outlook and others) */
+         body, table, td, p, a {
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 16px;
+         line-height: 1.5;
+         color: #1f2937; /* Default body text color */
+         }
+         body { margin: 0; padding: 0; background-color: #f3f4f6; }
+         table { border-collapse: collapse !important; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+         img { border: 0; line-height: 100%; outline: none; text-decoration: none; display: block; }
+         a { text-decoration: none; color: #1d4ed8; }
+         /* Custom link style for articles */
+         .read-article-link {
+         color: #1d4ed8; 
+         text-decoration: none;
+         font-weight: bold;
+         border-bottom: 1px solid #1d4ed8;
+         }
+         /* --- NEW MAGAZINE WIDGET STYLES --- */
+         .magazine-outer {
+         background-color: #0a0a0a; /* Dark background for premium look */
+         color: #ffffff;
+         border-radius: 12px;
+         box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+         padding: 0; /* Padding is now inside the inner tables */
+         }
+         .magazine-title {
+         color: #fca5a5; /* Light accent color for the title */
+         font-size: 12px;
+         font-weight: 700;
+         text-transform: uppercase;
+         }
+         .story-separator {
+         background-color: #1f2937; /* Dark separator line */
+         height: 1px;
+         line-height: 1px;
+         font-size: 1px;
+         }
+         .editor-note-card {
+         background-color: #ffffff; /* White card inside dark container */
+         color: #1f2937;
+         border-radius: 8px;
+         box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+         }
+         .editor-note-icon {
+         font-size: 40px; 
+         font-weight: 900; 
+         color: #1f2937;
+         line-height: 1;
+         }
+         .story-text a {
+         color: #93c5fd; /* Light blue links on dark background */
+         text-decoration: none;
+         border-bottom: 1px solid #93c5fd;
+         }
+         /* --- MOBILE/RESPONSIVE STYLES (Media Queries) --- */
+         @media screen and (max-width: 600px) {
+         .mobile-padding { padding: 12px !important; }
+         .mobile-content-padding { padding: 8px 12px 12px 12px !important; }
+         /* Header - Maintain 70%/30% width ratio to keep logo and date side-by-side */
+         .header-logo-col { 
+         width: 70% !important; 
+         max-width: 70% !important; 
+         }
+         .header-date-col { 
+         width: 30% !important; 
+         max-width: 30% !important; 
+         font-size: 12px !important; /* Smaller date font on tight mobile */
+         }
+         .mobile-h1 { font-size: 20px !important; }
+         /* MAGAZINE WIDGET FIX: Force image and text to use a defined split on mobile (35/65) */
+         .magazine-story-image-col {
+         width: 35% !important;
+         max-width: 35% !important;
+         padding-right: 8px !important; /* Reduced padding between image and text on mobile */
+         }
+         .magazine-story-text-col {
+         width: 65% !important;
+         max-width: 65% !important;
+         }
+         /* Ensure image scales cleanly within its container */
+         .magazine-story-image-col img {
+         width: 100% !important;
+         max-width: 100% !important;
+         height: auto !important; /* Allow height to adjust based on aspect-ratio */
+         }
+         /* Remove vertical padding from image cells on mobile (added to the image itself) */
+         .magazine-story-image-col {
+         padding-top: 0 !important;
+         padding-bottom: 0 !important;
+         }
+         /* Adjust spacing of text content */
+         .magazine-story-text-col p, 
+         .magazine-story-text-col h3 {
+         margin: 0 !important;
+         }
+         }
          p img{
-            width: 100% !important;   
-            height: auto !important;
-            display: block !important;
-        }
-    </style>
-</head>
-<body style="margin: 0; padding: 0; background-color: #f3f4f6;">
-   <!-- Outer Container Table (600px max width) -->
-   <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 20px auto; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
-      <tr>
-         <td align="center" valign="top">
-
-            <!-- 1. HEADER SECTION -->
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1f2937; color: #ffffff; border-radius: 12px 12px 0 0; border-bottom: 3px solid #1d4ed8;">
-               <tr>
-                  <td class="mobile-padding" style="padding: 10px 24px;">
-                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                        <tr>
-                           <td colspan="2" align="center" style="padding-bottom: 10px;">
-                              <p style="font-size: 12px; color: #9ca3af; margin: 0; line-height: 1.2;">
-                                 <!-- <a target="_blank" href="https://www.forbesindia.com//" style="color: #9ca3af; text-decoration: underline;">View in Browser</a> | 
-                                 <a target="_blank" href="https://stg-mt.forbesindia.com/subscription" style="color: #9ca3af; text-decoration: underline;">Manage Subscription</a> -->
-                              </p>
-                           </td>
-                        </tr>
-                        <tr>
-                           <!-- Logo and Title -->
-                           <td class="header-logo-col" width="70%" align="left" valign="bottom" style="width: 70%; max-width: 70%;">
-                              <p style="margin: 0 0 4px 0; padding: 0;">
-                                 <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/10/forbeslogo-1-2025-10-8c82c269e82b0027d98922ffd47a4f98.png" alt="Forbes India Logo" width="120" height="28" style="display: block; border: 0; max-width: 120px;" onerror="this.src='https://placehold.co/120x28/1f2937/ffffff?text=Logo';">
-                              </p>
-                              <h1 class="mobile-h1" style="font-size: 24px; font-weight: 800; margin: 0; padding: 0; color: #ffffff; line-height: 1.2;">
-                                 <div style="line-height:22px; white-space:normal;"><div>Data Dive</div><div></div></div>
-                                 <span style="display: block; width: 60px; height: 3px; background-color: #1d4ed8; margin-top: 4px; border-radius: 1px;"></span>
-                              </h1>
-                           </td>
-                           <!-- Date -->
-                           <td class="header-date-col" width="30%" align="right" valign="bottom" style="width: 30%; max-width: 30%;">
-                              <p style="font-size: 14px; color: #9ca3af; margin: 0; line-height: 1.2; font-weight: 500;">Mar 27, 2026</p>
-                           </td>
-                        </tr>
-                     </table>
-                  </td>
-               </tr>
-            </table>
-
-            <!-- Email Body -->
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff;">
-               <tr>
-                  <td class="mobile-padding" style="padding: 24px;">
-
-                     <!-- Email Summary -->
-                                                <strong>Nolan Loves the World’s Loudest Camera— <span style="color: #555555">Even Though It Needs a Silencer</span></strong>
-<p><span>Dear Reader,</span></p>
-                                                   <p>Why isn’t every film an IMAX film? Is the IMAX hype just giant screens and salary-threatening tickets? Does “shot with” versus “filmed for” IMAX actually matter?</p>
-                                                   <p>Most audiences likely don’t care—though without hard data, that’s just a guess.</p>
-                                                   <p>The truth though, lies in the clarity. IMAX offers a vibrant, grain-free world but devours 1,000 feet of film every three minutes. While other directors use the format sparingly, Christopher Nolan went all-in for <em>Odyssey</em>, filming entirely on IMAX. The production utilised a staggering two million feet of film stock! I am not making this up, he said so himself.</p>
-                                                   <p>IMAX cameras are also famously noisy. So, for <em>Odyssey</em>, Nolan debuted a new silencer-equipped version, sparing actors from shouting over the roaring, lawn mower-like machines.</p>
-                                                   <p>Turns out silencing cameras were the easy part. But silencing competition?</p>
-                                                   <p><em>Project Hail Mary</em> seems to be the latest victim of the <em>Dhurandhar </em>storm—a release so explosive that the record-breaking runs of <em>Pushpa 2</em> and <em>Pathaan</em> now look like warm-up acts. Apparently, the Ryan Gosling-starrer is struggling for IMAX airtime.</p>
-                                                   <p>From the silver screen to the effects of the Gulf war on the economy, we examine a different kind of disruption this time. Check out our features on the slowdown in India’s growth forecasts and informal hiring, then stay for our exclusives: FILA 2026 CEO of the Year, and Mumbai’s hungriest rapper.</p>
-                                                   <p>Until next time!</p>
-                                                   <p>-<a href="https://www.forbesindia.com/author/samreen-wani/6225">Samreen</a></p>
-                        
-                     
-                     
-                     <!-- Graphic of the Week -->
-                                             <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
+         width: 100% !important;   
+         height: auto !important;
+         display: block !important;
+         }
+      </style>
+   </head>
+      <body style="margin: 0; padding: 0; background-color: #f3f4f6;">
+      <!-- Outer Container Table (600px max width) -->
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #ffffff; margin: 20px auto; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);">
+         <tr>
+            <td align="center" valign="top">
+               <!-- 1. HEADER SECTION -->
+               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1f2937; color: #ffffff; border-radius: 12px 12px 0 0; border-bottom: 3px solid #1d4ed8;">
+                  <tr>
+                     <td class="mobile-padding" style="padding: 10px 24px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                           <tr>
+                              <td colspan="2" align="center" style="padding-bottom: 10px;">
+                                 <p style="font-size: 12px; color: #9ca3af; margin: 0; line-height: 1.2;">
+                                    <!-- <a target="_blank" href="https://www.forbesindia.com//" style="color: #9ca3af; text-decoration: underline;">View in Browser</a> | 
+                                       <a target="_blank" href="https://stg-mt.forbesindia.com/subscription" style="color: #9ca3af; text-decoration: underline;">Manage Subscription</a> -->
+                                 </p>
+                              </td>
+                           </tr>
+                           <tr>
+                              <!-- Logo and Title -->
+                              <td class="header-logo-col" width="70%" align="left" valign="bottom" style="width: 70%; max-width: 70%;">
+                                 <p style="margin: 0 0 4px 0; padding: 0;">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/10/forbeslogo-1-2025-10-8c82c269e82b0027d98922ffd47a4f98.png" alt="Forbes India Logo" width="120" height="28" style="display: block; border: 0; max-width: 120px;" onerror="this.src='https://placehold.co/120x28/1f2937/ffffff?text=Logo';">
+                                 </p>
+                                 <h1 class="mobile-h1" style="font-size: 24px; font-weight: 800; margin: 0; padding: 0; color: #ffffff; line-height: 1.2;">
+                                    <div style="line-height:22px; white-space:normal;"><div>Data Dive</div><div></div></div>                                    <span style="display: block; width: 60px; height: 3px; background-color: #1d4ed8; margin-top: 4px; border-radius: 1px;"></span>
+                                 </h1>
+                              </td>
+                              <!-- Date -->
+                              <td class="header-date-col" width="30%" align="right" valign="bottom" style="width: 30%; max-width: 30%;">
+                                 <p style="font-size: 14px; color: #9ca3af; margin: 0; line-height: 1.2; font-weight: 500;">Apr 3, 2026</p>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+               </table>
+               <!-- Email Body -->
+               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff;">
+                  <tr>
+                     <td class="mobile-padding" style="padding: 24px;">
+                        <!-- Email Summary -->
+                                                <p><strong>Houston, we have an email problem!</strong></p>
+                                                <p>Dear Reader,</p>
+                                                <p>'QWERTYUIOP'—that was the first message ever sent over email. And this was back in 1971, a full year before the last time a human set foot on the moon.</p>
+                                                <p>You see moonshots are easy, email is hard. And no, I am not being facetious.</p>
+                                                <p>Turns out Nasa figured out the science behind getting humans to the further side of the moon but bungled up the email. The commander of the Artemis II mission couldn’t get his inbox to function because he had two separate instances of Microsoft Outlook running on his device simultaneously—and yet, neither of them worked. At least I have one thing in common with these elite astronauts.</p>
+                                                <p>Meanwhile, back on Earth, humanity is grasping for any shred of sanity as the world hurtles into the future with a backpack full of uncertainty, pink slips and inflated bills.</p>
+                                                <p>This week we write about how Oracle made tech history with 30,000 single-day layoffs against the backdrop of India’s Rs 2 lakh crore fiscal hit from the Iran war, a weakening rupee, and falling private capex. And as Nasa shoots for the moon, India’s graduates are still struggling to find work.</p>
+                                                <p>If you’d rather watch than read, we have you covered. Check out our exclusive conversations with Rani Mukerji, who reflects on her 30 years in the film industry, Abhishek Bachchan on why he gave the IPL a miss, and Maharashtra CM Devendra Fadnavis on what makes his state India’s investment powerhouse.</p>
+                                                <p>Until next time!</p>
+                                                <p>-<a href="https://www.forbesindia.com/author/samreen-wani/6225">Samreen</a></p>
+                                                                                                <!-- Graphic of the Week -->
+                                                <table width="100%" cellpadding="0" cellspacing="0" style="margin:24px 0;">
                            <tr>
                               <td height="1" style="background:#e5e7eb;font-size:1px;line-height:1px;">&nbsp;</td>
                            </tr>
                         </table>
-                        
-                                                    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
-                               <tr>
-                                  <td class="mobile-h2" style="font-size: 24px; font-weight: bold; margin: 0; padding: 0 0 0 12px; border-left: 4px solid #1d4ed8; line-height: 1.1;">
-                                    <span style="display: block; font-size: 12px; font-weight: bold; color: #1d4ed8; text-transform: uppercase; margin-bottom: 2px; line-height: 1;">Graphic of the Week</span>
-                                     <span style="display: block; font-size: 24px; color: #1f2937;">The Box Office Dhurandhar</span>
-                                  </td>
-                               </tr>
-                            </table>
-                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 12px; background-color: #f9fafb; margin-bottom: 32px;">
-                               <tr>
-                                  <td style="padding: 20px;">
-                                                                                                                  <p style="font-size: 14px; line-height: 1.6; color: #374151; margin-top:16px; padding-top:16px; ">
-                                           <em><img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Movies1200X900px-2026-03-6f1b01eeba3b99dadc9c6d26e76154f8.jpg" alt="" width="1200" height="900" />Dhurandhar The Revenge</em> has set a new benchmark for Bollywood, crossing Rs600 crore in its opening week. It comfortably outpaced <em>Pushpa 2</em> (Rs433.5 crore) and the Shah Rukh Khan-starrer <em>Jawan</em> (Rs391.3 crore). The original <em>Dhurandhar</em> opened at Rs218 crore. The sequel has nearly tripled that figure in its debut week.
-                                        </p>
-                                                                                                               <p style="margin-top:16px;">
-                                        <a target="_blank" href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-the-box-office-dhurandhar/2992485/1" style="color: #1d4ed8; text-decoration: none; font-weight: bold; font-size: 14px; line-height: 1.2; border-bottom: 2px solid #1d4ed8;">View story</a>
-                                     </p>
-                                                                       </td>
-                               </tr>
-                            </table>
+                                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+                           <tr>
+                              <td class="mobile-h2" style="font-size: 24px; font-weight: bold; margin: 0; padding: 0 0 0 12px; border-left: 4px solid #1d4ed8; line-height: 1.1;">
+                                 <span style="display: block; font-size: 12px; font-weight: bold; color: #1d4ed8; text-transform: uppercase; margin-bottom: 2px; line-height: 1;">Graphic of the Week</span>
+                                 <span style="display: block; font-size: 24px; color: #1f2937;">Biggest Single-day Global Layoffs</span>
+                              </td>
+                           </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="border: 1px solid #e5e7eb; border-radius: 12px; background-color: #f9fafb; margin-bottom: 32px;">
+                           <tr>
+                              <td style="padding: 20px;">
+                                                                                                   <p style="font-size: 14px; line-height: 1.6; color: #374151; margin-top:16px; padding-top:16px; ">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/TechLayoffs-2026-04-e897b09a050353c98a921dc6dddaa80d.jpg" alt="" width="1200" height="900" />Oracle has enacted the largest single-day layoff in tech history, cutting 30,000 jobs globally, including 12,000 in India. While Intel (USA) and TCS (India) also saw high layoffs, their cuts were phased over time. Oracle’s move marks a record-breaking, immediate shift in the 2026 tech landscape.                                 </p>
+                                                                                                   <p style="margin-top:16px;">
+                                    <a target="_blank" href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-oracles-biggest-single-day-global-layoffs/2992780/1" style="color: #1d4ed8; text-decoration: none; font-weight: bold; font-size: 14px; line-height: 1.2; border-bottom: 2px solid #1d4ed8;">View story</a>
+                                 </p>
+                                                               </td>
+                           </tr>
+                        </table>
                         <!-- Stories by Numbers -->
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
-                        <tr><td height="1" style="font-size:1px; line-height:1px; background-color:#d1d5db;">&nbsp;</td></tr>
-                     </table>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
+                           <tr>
+                              <td height="1" style="font-size:1px; line-height:1px; background-color:#d1d5db;">&nbsp;</td>
+                           </tr>
+                        </table>
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
                            <tbody>
                               <tr>
@@ -218,48 +202,41 @@
                               </tr>
                            </tbody>
                         </table>
-                        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="magazine-outer">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" class="magazine-outer" style="margin-bottom: 24px;">
                            <tbody>
                               <tr>
-                                <td style="padding: 16px;">
-                                                              
-                                 
-                                    <!-- Title and Accent -->
+                                 <td style="padding: 16px;">
+                                                                        <!-- Title and Accent -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tbody>
                                           <tr>
                                              <!-- Image Column (Desktop: 30%, Mobile: 35%) -->
-                                                                                                                                              <td width="30%" 
-                                                        class="magazine-story-image-col"
-                                                        align="left" 
-                                                        valign="top" 
-                                                        style="padding-right:12px;">
-                                                      
-                                                      <a href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-war-dims-indias-growth-forecast/2992567/1"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/GrowthForecast-2026-03-b030b6926f64cafa7090b2621f1b0c96.jpg"
-                                                         alt="War clouds on growth"
-                                                         width="180"
-                                                         style="display:block;
-                                                                width:100%;
-                                                                max-width:180px;
-                                                                height:auto;
-                                                                border:0;
-                                                                border-radius:6px;">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                                                                                                                       <td width="30%" 
+                                                class="magazine-story-image-col"
+                                                align="left" 
+                                                valign="top" 
+                                                style="padding-right:12px;">
+                                                <a href="https://www.forbesindia.com/article/news/growth-slows-and-inflation-bites-as-indias-fiscal-pressures-mount/2992845/1"
+                                                   target="_blank"
+                                                   style="display:inline-block;text-decoration:none;">
+                                                <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/AFP20260401A6EQ3N7v3HighResIndiaWarIranUsIsraelEnergyBG-2026-04-b53cfc0ea539dc376d29d77f1a60b33c.jpg"
+                                                   alt="Rs 2 lakh crore hit?"
+                                                   width="180"
+                                                   style="display:block;
+                                                   width:100%;
+                                                   max-width:180px;
+                                                   height:auto;
+                                                   border:0;
+                                                   border-radius:6px;">
+                                                </a>
+                                             </td>
+                                                                                                                                       <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
                                              <td class="magazine-story-text-col" width="70%" align="left" valign="top" style="width: 70%;">
-                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">War clouds on growth                                                </p>
+                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Rs 2 lakh crore hit?                                                </p>
                                                                                                                                                 <p style="font-size: 14px; font-weight: 100; margin: 4px 0 6px 0; line-height: 1.4; color: #ffffff;">
-                                                   Mixed agency forecasts signal uncertainty as West Asia conflict casts a shadow over India's FY27 outlook
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-war-dims-indias-growth-forecast/2992567/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
-                                                Read more                                                </a>
+                                                   Iran war triggers Rs 2 lakh crore fiscal hit, record oil uncertainty, and a sharp growth slowdown as India faces a major macro squeeze                                                </p>
+                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/growth-slows-and-inflation-bites-as-indias-fiscal-pressures-mount/2992845/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
+                                                View story                                                </a>
                                              </td>
                                           </tr>
                                        </tbody>
@@ -272,47 +249,38 @@
                                           </tr>
                                        </tbody>
                                     </table>
-                                                                     
-                                                      <!-- End Stories by Numbers -->
-
-                                                     
-                                 
-                                    <!-- Title and Accent -->
+                                                                                                <!-- End Stories by Numbers -->
+                                                            <!-- Title and Accent -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tbody>
                                           <tr>
                                              <!-- Image Column (Desktop: 30%, Mobile: 35%) -->
-                                                                                                                                              <td width="30%" 
-                                                        class="magazine-story-image-col"
-                                                        align="left" 
-                                                        valign="top" 
-                                                        style="padding-right:12px;">
-                                                      
-                                                      <a href="https://www.forbesindia.com/article/news/urban-informal-hiring-slows-even-as-establishments-grow/2992529/1"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/shutterstock2642418491bg-2026-03-24f811ddde1a7eac9aac5c3771c1baf4.jpg"
-                                                         alt="Urban informal hiring slowdown"
-                                                         width="180"
-                                                         style="display:block;
-                                                                width:100%;
-                                                                max-width:180px;
-                                                                height:auto;
-                                                                border:0;
-                                                                border-radius:6px;">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                                                                                                                       <td width="30%" 
+                                                class="magazine-story-image-col"
+                                                align="left" 
+                                                valign="top" 
+                                                style="padding-right:12px;">
+                                                <a href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-rupee-under-pressure/2992805/1"
+                                                   target="_blank"
+                                                   style="display:inline-block;text-decoration:none;">
+                                                <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/Rupee-2026-04-aa527f1c278b8da0a5f8df9504923f56.jpg"
+                                                   alt="Rupee under pressure"
+                                                   width="180"
+                                                   style="display:block;
+                                                   width:100%;
+                                                   max-width:180px;
+                                                   height:auto;
+                                                   border:0;
+                                                   border-radius:6px;">
+                                                </a>
+                                             </td>
+                                                                                                                                       <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
                                              <td class="magazine-story-text-col" width="70%" align="left" valign="top" style="width: 70%;">
-                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Urban informal hiring slowdown                                                </p>
+                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Rupee under pressure                                                </p>
                                                                                                                                                 <p style="font-size: 14px; font-weight: 100; margin: 4px 0 6px 0; line-height: 1.4; color: #ffffff;">
-                                                   India’s unincorporated sector added 74.5 lakh workers between 2023-24 and 2025, but urban areas and manufacturing consistently trailed rural and service sectors
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/urban-informal-hiring-slows-even-as-establishments-grow/2992529/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
-                                                Read more                                                </a>
+                                                   The rupee is down against every major currency in March                                                </p>
+                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/upfront/news-by-numbers/graphic-of-the-day-rupee-under-pressure/2992805/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
+                                                View story                                                </a>
                                              </td>
                                           </tr>
                                        </tbody>
@@ -325,47 +293,38 @@
                                           </tr>
                                        </tbody>
                                     </table>
-                                                                     
-                                                      <!-- End Stories by Numbers -->
-
-                                                     
-                                 
-                                    <!-- Title and Accent -->
+                                                                                                <!-- End Stories by Numbers -->
+                                                            <!-- Title and Accent -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tbody>
                                           <tr>
                                              <!-- Image Column (Desktop: 30%, Mobile: 35%) -->
-                                                                                                                                              <td width="30%" 
-                                                        class="magazine-story-image-col"
-                                                        align="left" 
-                                                        valign="top" 
-                                                        style="padding-right:12px;">
-                                                      
-                                                      <a href="https://www.forbesindia.com/article/news/manufacturing-sector-leads-decline-in-hired-worker-share/2992526/1"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/AFP2025031136YT37Xv1HighResIndiaCultureToysBG-2026-03-024fc943c06896273bbf8eed2ac1f8be.jpg"
-                                                         alt="Manufacturing sheds hired workers"
-                                                         width="180"
-                                                         style="display:block;
-                                                                width:100%;
-                                                                max-width:180px;
-                                                                height:auto;
-                                                                border:0;
-                                                                border-radius:6px;">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                                                                                                                       <td width="30%" 
+                                                class="magazine-story-image-col"
+                                                align="left" 
+                                                valign="top" 
+                                                style="padding-right:12px;">
+                                                <a href="https://www.forbesindia.com/article/news/private-capex-plans-drop-16-percent-in-fy27-but-power-sector-bucks-the-trend/2992610/1"
+                                                   target="_blank"
+                                                   style="display:inline-block;text-decoration:none;">
+                                                <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/20250405T145720Z286813266RC2HRDA0FPE7RTRMADP3INDIAPORTS2BG-2026-03-9d976e3d360ea2585ef5e1ada46568f6.jpg"
+                                                   alt="Private capex plans drop"
+                                                   width="180"
+                                                   style="display:block;
+                                                   width:100%;
+                                                   max-width:180px;
+                                                   height:auto;
+                                                   border:0;
+                                                   border-radius:6px;">
+                                                </a>
+                                             </td>
+                                                                                                                                       <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
                                              <td class="magazine-story-text-col" width="70%" align="left" valign="top" style="width: 70%;">
-                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Manufacturing sheds hired workers                                                </p>
+                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Private capex plans drop                                                </p>
                                                                                                                                                 <p style="font-size: 14px; font-weight: 100; margin: 4px 0 6px 0; line-height: 1.4; color: #ffffff;">
-                                                   Manufacturing leads hiring slump as paid staff share dips; informal businesses move toward leaner, owner-operated units
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/manufacturing-sector-leads-decline-in-hired-worker-share/2992526/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
-                                                Read more                                                </a>
+                                                   India Inc pulls back on spending, but bets big on power, as capex intentions fall 16 percent in FY27                                                </p>
+                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/private-capex-plans-drop-16-percent-in-fy27-but-power-sector-bucks-the-trend/2992610/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
+                                                View story                                                </a>
                                              </td>
                                           </tr>
                                        </tbody>
@@ -378,293 +337,296 @@
                                           </tr>
                                        </tbody>
                                     </table>
-                                                                     
-                                                      <!-- End Stories by Numbers -->
-
-                                                     
-                                 
-                                    <!-- Title and Accent -->
+                                                                                                <!-- End Stories by Numbers -->
+                                                            <!-- Title and Accent -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                        <tbody>
                                           <tr>
                                              <!-- Image Column (Desktop: 30%, Mobile: 35%) -->
-                                                                                                                                              <td width="30%" 
-                                                        class="magazine-story-image-col"
-                                                        align="left" 
-                                                        valign="top" 
-                                                        style="padding-right:12px;">
-                                                      
-                                                      <a href="https://www.forbesindia.com/photogallery/upfront/news-by-numbers/in-numbers-how-savings-habits-are-shifting/2992443/1"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/PatternShift-2026-03-2dd3296fd2dd23a9526a7bf7d2641ab2.jpg"
-                                                         alt="How savings habits are shifting"
-                                                         width="180"
-                                                         style="display:block;
-                                                                width:100%;
-                                                                max-width:180px;
-                                                                height:auto;
-                                                                border:0;
-                                                                border-radius:6px;">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                                                                                                                       <td width="30%" 
+                                                class="magazine-story-image-col"
+                                                align="left" 
+                                                valign="top" 
+                                                style="padding-right:12px;">
+                                                <a href="https://www.forbesindia.com/article/news/indias-jobless-rate-holds-steady-but-graduates-and-youth-struggle-to-find-work/2992612/1"
+                                                   target="_blank"
+                                                   style="display:inline-block;text-decoration:none;">
+                                                <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/AFP2022112532TN74Pv1HighResIndiaSocietyEducationBG-2026-03-3f06341edd3153055d57835d790673ff.jpg"
+                                                   alt="Have degrees but no jobs"
+                                                   width="180"
+                                                   style="display:block;
+                                                   width:100%;
+                                                   max-width:180px;
+                                                   height:auto;
+                                                   border:0;
+                                                   border-radius:6px;">
+                                                </a>
+                                             </td>
+                                                                                                                                       <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
                                              <td class="magazine-story-text-col" width="70%" align="left" valign="top" style="width: 70%;">
-                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">How savings habits are shifting                                                </p>
+                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">Have degrees but no jobs                                                </p>
                                                                                                                                                 <p style="font-size: 14px; font-weight: 100; margin: 4px 0 6px 0; line-height: 1.4; color: #ffffff;">
-                                                   As younger investors flock to markets, bank deposits are slowly losing their traditional dominance
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.forbesindia.com/photogallery/upfront/news-by-numbers/in-numbers-how-savings-habits-are-shifting/2992443/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
-                                                Read more                                                </a>
+                                                   Annual Periodic Labour Force Survey (PLFS) shows youth unemployment dips, yet the educated and urban caregivers face rising gaps                                                </p>
+                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/indias-jobless-rate-holds-steady-but-graduates-and-youth-struggle-to-find-work/2992612/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
+                                                View story                                                </a>
                                              </td>
                                           </tr>
                                        </tbody>
                                     </table>
                                     <!-- Separator Line -->
-                                                                     
-                                                               </td>
-                                 </tr>
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 8px 0 16px 0;">
+                                       <tbody>
+                                          <tr>
+                                             <td colspan="2" class="story-separator" style="padding: 0 10%;">&nbsp;</td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                                                                                <!-- End Stories by Numbers -->
+                                                            <!-- Title and Accent -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                       <tbody>
+                                          <tr>
+                                             <!-- Image Column (Desktop: 30%, Mobile: 35%) -->
+                                                                                                                                       <td width="30%" 
+                                                class="magazine-story-image-col"
+                                                align="left" 
+                                                valign="top" 
+                                                style="padding-right:12px;">
+                                                <a href="https://www.forbesindia.com/article/news/artemis-ii-launch-ignites-new-space-race-for-lunar-resources/2992799/1"
+                                                   target="_blank"
+                                                   style="display:inline-block;text-decoration:none;">
+                                                <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/OpeningGettyImages2269445410BG-2026-04-979e9b1a665241497b162b2dc2c6d80b.jpg"
+                                                   alt="More than just a moon flyby"
+                                                   width="180"
+                                                   style="display:block;
+                                                   width:100%;
+                                                   max-width:180px;
+                                                   height:auto;
+                                                   border:0;
+                                                   border-radius:6px;">
+                                                </a>
+                                             </td>
+                                                                                                                                       <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                             <td class="magazine-story-text-col" width="70%" align="left" valign="top" style="width: 70%;">
+                                                                                                <p style="font-size: 16px; font-weight: 700; margin: 4px 0 6px 0; line-height: 1.2; color: #ffffff;">More than just a moon flyby                                                </p>
+                                                                                                                                                <p style="font-size: 14px; font-weight: 100; margin: 4px 0 6px 0; line-height: 1.4; color: #ffffff;">
+                                                   The first crewed flight of Nasa’s Space Launch System rocket and the Orion spacecraft is a 10-day quest to validate systems, scout resource-rich lunar real estate and lead the new global space race                                                </p>
+                                                                                                <a target="_blank" href="https://www.forbesindia.com/article/news/artemis-ii-launch-ignites-new-space-race-for-lunar-resources/2992799/1" style="font-size: 12px; font-weight: 700; display: block; margin-top: 8px;">
+                                                View story                                                </a>
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                    <!-- Separator Line -->
+                                                                                                         </td>
+                              </tr>
                            </tbody>
                         </table>
-                                        <!-- End Stories by Numbers -->
-
-                     
-                     
-
-
-                     <!-- Podcasts & Video -->
-                                        <!-- End Podcasts & Video -->
-
-                    <!-- Reading This Week -->
-                                        <!-- End Reading This Week -->
-
-
-                     <!-- Upcoming on Forbes India -->
-                                        <!-- End Upcoming on Forbes India -->
-
-                    
-
-                     
-                     <!-- Graphic of the Week -->
-                     
-                     
-
-
-                     <!-- Podcasts & Video -->
-                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
-                        <tr><td height="1" style="font-size:1px; line-height:1px; background-color:#d1d5db;">&nbsp;</td></tr>
-                     </table>
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
-                                       <tbody>
-                                          <tr>
-                                             <td class="mobile-h2" style="font-size: 24px; font-weight: bold; margin: 0; padding: 0 0 0 12px; border-left: 4px solid #1d4ed8; line-height: 1.1; color: #1f2937;">
-                                                <span style="display: block; font-size: 24px; color: #1f2937;">
-                                                Multimedia</span>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                        
-                                    
-                                                                        
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6;">
-                                       <tbody>
-                                          <tr>
-                                                                                                                                              <td width="80" valign="top" style="padding-right:16px;">
-
-                                                      
-                                                      <a href="https://www.youtube.com/watch?v=qcU7wjP9ruc"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads//media/images/2025/May/img_245053_anishshah.jpg"
-                                                             alt="CEO of the Year| FILA 2026"
-                                                             width="100"
-                                                             style="display:block;
-                                                                    border:0;
-                                                                    outline:none;
-                                                                    text-decoration:none;
-                                                                    height:auto;
-                                                                    border-radius:0 0 8px 8px;width: 100%">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
-                                             <td width="*" valign="top">
-                                                                                                    <h3 style="font-size: 16px; font-weight: bold; margin: 0 0 4px 0; line-height: 1.4; color: #1f2937;">CEO of the Year| FILA 2026</h3>
-                                                
-                                                                                                                                                <p style="font-size: 14px; color: #4b5563; margin: 0 0 8px 0;">
-                                                   Anish Shah, who is the MD and Group CEO of Mahindra &amp; Mahindra, is Forbes India’s CEO of the Year. Hear him talk about what makes a good leader great
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.youtube.com/watch?v=qcU7wjP9ruc" class="read-article-link" style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #1d4ed8; color: #1d4ed8;">
-                                                View--&gt;                                                </a>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                    
-                                                                        
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; padding-bottom: 16px; ">
-                                       <tbody>
-                                          <tr>
-                                                                                                                                              <td width="80" valign="top" style="padding-right:16px;">
-
-                                                      
-                                                      <a href="https://www.youtube.com/watch?v=aCVF2-Fi3gQ"
-                                                         target="_blank"
-                                                         style="display:inline-block;text-decoration:none;">
-
-                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/01/DSC06824BG-2026-01-747e658b6c0d1940c99dcdc999efdec2.jpg"
-                                                             alt="Mumbai’s Hungriest Rapper Yashraj"
-                                                             width="100"
-                                                             style="display:block;
-                                                                    border:0;
-                                                                    outline:none;
-                                                                    text-decoration:none;
-                                                                    height:auto;
-                                                                    border-radius:0 0 8px 8px;width: 100%">
-
-                                                      </a>
-
-                                                    </td>
-                                                                                                                                              <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
-                                             <td width="*" valign="top">
-                                                                                                    <h3 style="font-size: 16px; font-weight: bold; margin: 0 0 4px 0; line-height: 1.4; color: #1f2937;">Mumbai’s Hungriest Rapper Yashraj</h3>
-                                                
-                                                                                                                                                <p style="font-size: 14px; color: #4b5563; margin: 0 0 8px 0;">
-                                                   A middle-class boy, fighting for open mic spots and a voice in the city: here’s how Forbes India 30 under 30 listed for 2026, rapper Yashraj, found his mojo
-                                                </p>
-                                                                                                <a target="_blank" href="https://www.youtube.com/watch?v=aCVF2-Fi3gQ" class="read-article-link" style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #1d4ed8; color: #1d4ed8;">
-                                                View--&gt;                                                </a>
-                                             </td>
-                                          </tr>
-                                       </tbody>
-                                    </table>
-                                    
-                                                                     
-                                        <!-- End Podcasts & Video -->
-
-                    <!-- Reading This Week -->
-                                        <!-- End Reading This Week -->
-
-
-                     <!-- Upcoming on Forbes India -->
-                                        <!-- End Upcoming on Forbes India -->
-
-                    
-
-                     
-                     <!-- <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;margin-top: 24px; background-color: #eff6ff; border-radius: 6px;">
-                       <tbody>
-                          <tr>
-                             <td class="mobile-padding" style="padding: 16px;"> -->
-                                <!-- 
-                                                                <p style="font-size:14px;font-weight:bold;margin:0 0 4px 0;color:#1f2937;">
-                                                                                                                | , Forbes India
-                                    <?php// endif; ?>
-                                </p>
-                                <?php// endif; ?> -->
-                                <!-- <p style="font-size: 14px; font-weight: bold; margin: 0 0 4px 0; color: #1f2937;">Suveen Sinha | Editor, Forbes India</p> -->
-
-                                <!-- <p style="font-size: 14px; color: #4b5563; margin: 0;">Connect on <a target="_blank" href="https://beta-mt.forbesindia.com/" style="color: #1d4ed8; text-decoration: underline;">Our Website</a></p> -->
-                            <!--  </td>
-                          </tr>
-                       </tbody>
-                    </table> -->
-                  </td>
-               </tr>
-            </table>
-
-            
-
-
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1f2937; color: #ffffff; border-radius: 0 0 12px 12px;">
-               <tbody>
-                  <tr>
-                     <td class="mobile-padding" align="center" style="padding: 32px 24px;">
-                        <p style="font-size: 12px; color: #9ca3af; font-weight: bold; margin: 0 0 16px 0; text-transform: uppercase;">CONNECT WITH US</p>
-                        <!-- Social Icons (Using text/emojis as a fallback) -->
-                        <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
-                                    <tr>
-
-                                        <!-- X (Twitter) -->
-                                        <td align="center" style="padding: 0 4px;">
-                                            <a target="_blank" href="https://twitter.com/ForbesIndia"
-                                               style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
-                                                      border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
-                                            </a>
-                                        </td>
-
-                                        <!-- LinkedIn -->
-                                        <td align="center" style="padding: 0 4px;">
-                                            <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
-                                               style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
-                                                      border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
-                                            </a>
-                                        </td>
-
-                                        <!-- Facebook -->
-                                        <td align="center" style="padding: 0 4px;">
-                                            <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
-                                               style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
-                                                      border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
-                                            </a>
-                                        </td>
-
-                                        <!-- Instagram -->
-                                        <td align="center" style="padding:0 4px;">
-                                            <table border="0" cellpadding="0" cellspacing="0">
-                                                <tr>
-                                                    <td align="center"
-                                                        width="30"
-                                                        height="30"
-                                                        bgcolor="#C13584"
-                                                        style="border-radius:50%;">
-                                                        
-                                                        <a href="https://www.instagram.com/forbesindia/" target="_blank"
-                                                           style="display:block;line-height:30px;text-decoration:none;">
-                                                           
-                                                            <img
-                                                                src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
-                                                                alt="Instagram"
-                                                                width="24"
-                                                                height="24"
-                                                                style="display:block;border:0;">
-                                                        </a>
-
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-
-                                    </tr>
-                                </table>
-
-                        <p style="font-size: 12px; color: #6b7280; margin: 0 0 4px 0;">Copyright © 2026 Forbes India. All Rights Reserved</p>
-                        <p class="unsubscribe" style="font-size: 12px; margin: 0;">
-                           
-                           <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #6b7280; text-decoration: underline;">Unsubscribe</a> | 
-                           <a target="_blank" href="https://forbesindia.com/newsletters" style="color: #6b7280; text-decoration: underline;">Manage preferences</a>
-                        </p>
+                                                <!-- End Stories by Numbers -->
+                                                <!-- Podcasts & Video -->
+                                                <!-- End Podcasts & Video -->
+                        <!-- Reading This Week -->
+                                                <!-- End Reading This Week -->
+                        <!-- Upcoming on Forbes India -->
+                                                <!-- End Upcoming on Forbes India -->
+                                                                        <!-- Graphic of the Week -->
+                                                <!-- Podcasts & Video -->
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
+                           <tr>
+                              <td height="1" style="font-size:1px; line-height:1px; background-color:#d1d5db;">&nbsp;</td>
+                           </tr>
+                        </table>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;">
+                           <tbody>
+                              <tr>
+                                 <td class="mobile-h2" style="font-size: 24px; font-weight: bold; margin: 0; padding: 0 0 0 12px; border-left: 4px solid #1d4ed8; line-height: 1.1; color: #1f2937;">
+                                    <span style="display: block; font-size: 24px; color: #1f2937;">
+                                    Multimedia</span>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6;">
+                           <tbody>
+                              <tr>
+                                                                                                   <td width="80" valign="top" style="padding-right:16px;">
+                                                                        <a href="https://www.youtube.com/watch?v=qcU7wjP9ruc"
+                                       target="_blank"
+                                       style="display:inline-block;text-decoration:none;">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/4D4B6711BG-2026-03-ea4ee3a1f4ca9eee951c8c8d93b7ab28.jpg"
+                                       alt="Arranged marriage, not love: Rani Mukerj…"
+                                       width="100"
+                                       style="display:block;
+                                       border:0;
+                                       outline:none;
+                                       text-decoration:none;
+                                       height:auto;
+                                       border-radius:0 0 8px 8px;width: 100%">
+                                    </a>
+                                 </td>
+                                                                                                   <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                 <td width="*" valign="top">
+                                                                        <h3 style="font-size: 16px; font-weight: bold; margin: 0 0 4px 0; line-height: 1.4; color: #1f2937;">Arranged marriage, not love: Rani Mukerj…</h3>
+                                                                                                            <p style="font-size: 14px; color: #4b5563; margin: 0 0 8px 0;">
+                                       At the Forbes India Leadership Awards, Rani Mukerji had a candid discussion on completing 30 years in the film industry, falling in love with her craft, shaping the representation of women on screen with movies like Mardaani 3, and winning a National Award                                    </p>
+                                                                        <a target="_blank" href="https://www.youtube.com/watch?v=qcU7wjP9ruc" class="read-article-link" style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #1d4ed8; color: #1d4ed8;">
+                                    View                                    </a>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #f3f4f6;">
+                           <tbody>
+                              <tr>
+                                                                                                   <td width="80" valign="top" style="padding-right:16px;">
+                                                                        <a href="https://www.youtube.com/watch?v=aCVF2-Fi3gQ"
+                                       target="_blank"
+                                       style="display:inline-block;text-decoration:none;">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/4D4B6853BG-2026-03-e8649d01b6b3313457d58b132604fcd4.jpg"
+                                       alt="Maharashtra’s growth story: CM Fadnavi…"
+                                       width="100"
+                                       style="display:block;
+                                       border:0;
+                                       outline:none;
+                                       text-decoration:none;
+                                       height:auto;
+                                       border-radius:0 0 8px 8px;width: 100%">
+                                    </a>
+                                 </td>
+                                                                                                   <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                 <td width="*" valign="top">
+                                                                        <h3 style="font-size: 16px; font-weight: bold; margin: 0 0 4px 0; line-height: 1.4; color: #1f2937;">Maharashtra’s growth story: CM Fadnavi…</h3>
+                                                                                                            <p style="font-size: 14px; color: #4b5563; margin: 0 0 8px 0;">
+                                       What is Maharashtra’s X-factor? Watch the state’s honourable Chief Minister at the Forbes India Leadership Awards, detailing what makes the state stand out, and continue to be the hub for investment                                    </p>
+                                                                        <a target="_blank" href="https://www.youtube.com/watch?v=aCVF2-Fi3gQ" class="read-article-link" style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #1d4ed8; color: #1d4ed8;">
+                                    View                                    </a>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px; padding-bottom: 16px; ">
+                           <tbody>
+                              <tr>
+                                                                                                   <td width="80" valign="top" style="padding-right:16px;">
+                                                                        <a href="https://www.youtube.com/watch?v=0MfUt6uogdI"
+                                       target="_blank"
+                                       style="display:inline-block;text-decoration:none;">
+                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/4D4B66932BG-2026-04-3d799cf70bdc03fd612d771aecebedd1.jpg"
+                                       alt="Why Bachchan didn’t invest in IPL"
+                                       width="100"
+                                       style="display:block;
+                                       border:0;
+                                       outline:none;
+                                       text-decoration:none;
+                                       height:auto;
+                                       border-radius:0 0 8px 8px;width: 100%">
+                                    </a>
+                                 </td>
+                                                                                                   <!-- Text Column (Desktop: 70%, Mobile: 65%) -->
+                                 <td width="*" valign="top">
+                                                                        <h3 style="font-size: 16px; font-weight: bold; margin: 0 0 4px 0; line-height: 1.4; color: #1f2937;">Why Bachchan didn’t invest in IPL</h3>
+                                                                                                            <p style="font-size: 14px; color: #4b5563; margin: 0 0 8px 0;">
+                                       The actor and sports investor gets candid about why he didn’t invest in the wildly popular IPL T20 league, choosing other sports instead                                    </p>
+                                                                        <a target="_blank" href="https://www.youtube.com/watch?v=0MfUt6uogdI" class="read-article-link" style="font-size: 12px; font-weight: bold; border-bottom: 1px solid #1d4ed8; color: #1d4ed8;">
+                                    View                                    </a>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                                                                        <!-- End Podcasts & Video -->
+                        <!-- Reading This Week -->
+                                                <!-- End Reading This Week -->
+                        <!-- Upcoming on Forbes India -->
+                                                <!-- End Upcoming on Forbes India -->
+                                                                        <!-- <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 24px;margin-top: 24px; background-color: #eff6ff; border-radius: 6px;">
+                           <tbody>
+                              <tr>
+                                 <td class="mobile-padding" style="padding: 16px;"> -->
+                        <!--                                                       <p style="font-size:14px;font-weight:bold;margin:0 0 4px 0;color:#1f2937;">
+                                                                                                 | , Forbes India
+                               <?php// endif; ?>
+                           </p>
+                           <?php// endif; ?> -->
+                        <!-- <p style="font-size: 14px; font-weight: bold; margin: 0 0 4px 0; color: #1f2937;">Suveen Sinha | Editor, Forbes India</p> -->
+                        <!-- <p style="font-size: 14px; color: #4b5563; margin: 0;">Connect on <a target="_blank" href="https://beta-mt.forbesindia.com/" style="color: #1d4ed8; text-decoration: underline;">Our Website</a></p> -->
+                        <!--  </td>
+                           </tr>
+                           </tbody>
+                           </table> -->
                      </td>
                   </tr>
-                  <!-- Added a small bottom strip to emphasize the blue border used above -->
-                  <tr>
-                     <td height="3" style="font-size: 3px; line-height: 3px; background-color: #1d4ed8; border-radius: 0 0 12px 12px;">&nbsp;</td>
-                  </tr>
-               </tbody>
-            </table>
-
-         </td>
-      </tr>
-   </table>
-</body>
-
+               </table>
+               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #1f2937; color: #ffffff; border-radius: 0 0 12px 12px;">
+                  <tbody>
+                     <tr>
+                        <td class="mobile-padding" align="center" style="padding: 32px 24px;">
+                           <p style="font-size: 12px; color: #9ca3af; font-weight: bold; margin: 0 0 16px 0; text-transform: uppercase;">CONNECT WITH US</p>
+                           <!-- Social Icons (Using text/emojis as a fallback) -->
+                           <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
+                              <tr>
+                                 <!-- X (Twitter) -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://twitter.com/ForbesIndia"
+                                       style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
+                                    </a>
+                                 </td>
+                                 <!-- LinkedIn -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
+                                       style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
+                                    </a>
+                                 </td>
+                                 <!-- Facebook -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
+                                       style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
+                                    </a>
+                                 </td>
+                                 <!-- Instagram -->
+                                 <td align="center" style="padding:0 4px;">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td align="center"
+                                             width="30"
+                                             height="30"
+                                             bgcolor="#C13584"
+                                             style="border-radius:50%;">
+                                             <a href="https://www.instagram.com/forbesindia/" target="_blank"
+                                                style="display:block;line-height:30px;text-decoration:none;">
+                                             <img
+                                                src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
+                                                alt="Instagram"
+                                                width="24"
+                                                height="24"
+                                                style="display:block;border:0;">
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </table>
+                           <p style="font-size: 12px; color: #6b7280; margin: 0 0 4px 0;">Copyright © 2026 Forbes India. All Rights Reserved</p>
+                           <p class="unsubscribe" style="font-size: 12px; margin: 0;">
+                              <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #6b7280; text-decoration: underline;">Unsubscribe</a> | 
+                              <a target="_blank" href="https://forbesindia.com/newsletters" style="color: #6b7280; text-decoration: underline;">Manage preferences</a>
+                           </p>
+                        </td>
+                     </tr>
+                     <!-- Added a small bottom strip to emphasize the blue border used above -->
+                     <tr>
+                        <td height="3" style="font-size: 3px; line-height: 3px; background-color: #1d4ed8; border-radius: 0 0 12px 12px;">&nbsp;</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </body>
 </html>
