@@ -1,1070 +1,909 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forbes India Weekly BUSINESS DIGEST</title>
-    <style>
-        /* Global & Reset Styles */
-        body, table, td, a {
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-        table, td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-            /* Ensures no extra space in Outlook */
-            border-collapse: collapse !important; 
-        }
-        img {
-            -ms-interpolation-mode: bicubic;
-            /* Prevents image borders in some clients */
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #F8F9FA; 
-            color: #333333;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Times New Roman', serif;
-            margin: 0;
-            line-height: 1.2;
-            color: #1a1a1a;
-        }
-        p {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin-bottom: 15px; 
-            color: #555555;
-        }
-        p:last-child {
-            margin-bottom: 0;
-        }
-        a {
-            text-decoration: none;
-            color: #0D3B66;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 16px; 
-            overflow: hidden;
-            background-color: #ffffff;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
-        }
-        /* Important: Use specific classes for padding and background to avoid inline style conflicts */
-        .section {
-            padding: 40px 30px;
-        }
-        .divider {
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        /* Specific Component Styles */
-        .header {
-            padding: 24px 30px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .header-info {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #888888;
-            text-transform: uppercase;
-        }
-        .intro-text {
-            font-family: 'Times New Roman', serif;
-            font-size: 20px;
-            font-style: italic;
-            color: #6c757d;
-        }
-        .story-block {
-            padding: 20px 30px; 
-            border-bottom: 1px solid #e9ecef;
-        }
-        .story-image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .quote-section {
-            background-color: #E6EEF5;
-            color: #0D3B66;
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            padding: 40px 30px;
-            border-radius: 0 0 16px 16px;
-        }
-        .footer {
-            padding: 40px 30px;
-            background-color: #ffffff;
-        }
-
-        /* Divider */
-        .stories-divider-container {
-            /*padding: 15px 30px 10px 30px; */
-            background-color: #ffffff; 
-        }
-        .stories-divider {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #0D3B66; 
-            background-color: #F0F8FF; 
-            padding: 12px 20px;
-            text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-radius: 8px; 
-            border-left: 5px solid #0D3B66; 
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Story Number Badge Styling */
-        .story-number-badge {
-            font-family: Arial, sans-serif; 
-            font-size: 20px; 
-            font-weight: 900;
-            color: #0D3B66; 
-            background-color: #E0EFFF; 
-            padding: 8px 12px;
-            line-height: 1;
-            border-radius: 6px; 
-            text-align: center;
-            white-space: nowrap;
-        }
-        
-        /* Table of Contents (In this edition) Styling */
-        .toc-box {
-            background-color: #F7F7F7; 
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin-top: 15px; 
-            margin-bottom: 25px; /* Added spacing after TOC */
-            border-left: 4px solid #0D3B66; 
-        }
-
-        /* New: Magazine Widget Styles */
-        .magazine-widget-container {
-            padding: 20px 20px;
-            background-color: #F0F8FF; /* Light blue background for emphasis */
-            border-radius: 12px;
-            margin-bottom: 25px; 
-            border: 1px solid #C4DFFD;
-        }
-        .cover-letter-headline {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            font-family: 'Times New Roman', serif;
-            margin: 10px 0 5px 0;
-            line-height: 1.2;
-        }
-        .story-thumbnail {
-            width: 100%; 
-            height: auto; 
-            display: block;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
-        }
-
-
-        /* Social Follow Styling */
-        .social-follow-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #0D3B66;
-            margin-bottom: 15px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Social Icon Styling (Shared) */
-        .social-icon {
-            display: block; /* Use block to ensure correct display in TD */
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        /* Specific Social Colors */
-        .icon-whatsapp { background-color: #25D366; }
-        .icon-linkedin { background-color: #0A66C2; }
-        .icon-twitter { background-color: #1DA1F2; }
-        .icon-facebook { background-color: #3b5998; }
-        .icon-instagram { background-color: #C13584; }
-
-        /* MARKET WIDGET: Replaced Flex with Table-based layout for robust compatibility */
-        .market-widget-table {
-            border: 1px solid #E9ECEF;
-            border-radius: 8px; /* May not render in all clients, but safe */
-            overflow: hidden; /* Safe wrapper */
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Fails gracefully */
-            background-color: #ffffff; /* Container background */
-        }
-        .market-item-td {
-            text-align: center;
-            background-color: #F8F9FA;
-            padding: 15px 5px;
-            border-right: 1px solid #E9ECEF;
-        }
-        .market-item-td:last-child {
-            border-right: none;
-        }
-        .market-item-td .label {
-            font-size: 11px; 
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-bottom: 3px;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-        .market-item-td .value {
-            font-size: 16px; 
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 3px;
-            line-height: 1.2;
-        }
-        .market-item-td .change {
-            font-size: 12px; 
-            font-weight: bold;
-            line-height: 1.2;
-        }
-        .change.positive {
-            color: #28a745; 
-        }
-        .change.negative {
-            color: #dc3545; 
-        }
-        
-        /* Mobile Responsive Styles */
-        @media only screen and (max-width: 480px) {
-            .container {
-                border-radius: 0;
-            }
-            .section {
-                padding: 20px 15px;
-            }
-            .story-block {
-                padding: 20px 15px;
-            }
-            /* --- CHANGE MADE HERE ---
-               Removed the mobile-specific styles that forced stacking 
-               for .story-img-col and .story-text-col in the Magazine Widget. 
-               This ensures the desktop side-by-side layout (image on left, text on right) 
-               persists on mobile, as requested.
-            */
-            /* .story-img-col {
-                display: block !important;
-                width: 100% !important;
-                padding-right: 0 !important; 
-                padding-bottom: 10px !important; 
-            }
-            .story-text-col {
-                display: block !important;
-                width: 100% !important;
-            }
-            .story-img-col img {
-                width: 100% !important;
-                height: auto !important;
-                max-width: 100% !important;
-            } */
-            
-            /* IMPORTANT: On mobile, market items maintain column layout (safer for Outlook) */
-            .market-item-td {
-                width: 25% !important; /* Keep 4 columns across */
-                padding: 10px 5px !important;
-            }
-        }
-
-        p img{
-            width: 100% !important;   
-            height: auto !important;
-            display: block !important;
-        }
-    </style>
-</head>
-
-<body style="margin:0; padding:0; background-color:#F8F9FA;">
-<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F9FA">
-    <tr>
-        <td align="center" style="padding:20px 0;">
-            <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
-
-                <!-- Header -->
-                <tr>
-                    <td class="header" align="center">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Forbes India Weekly BUSINESS DIGEST</title>
+      <style>
+         /* Global & Reset Styles */
+         body, table, td, a {
+         -webkit-text-size-adjust: 100%;
+         -ms-text-size-adjust: 100%;
+         }
+         table, td {
+         mso-table-lspace: 0pt;
+         mso-table-rspace: 0pt;
+         /* Ensures no extra space in Outlook */
+         border-collapse: collapse !important; 
+         }
+         img {
+         -ms-interpolation-mode: bicubic;
+         /* Prevents image borders in some clients */
+         border: 0;
+         height: auto;
+         line-height: 100%;
+         outline: none;
+         text-decoration: none;
+         }
+         body {
+         margin: 0;
+         padding: 0;
+         font-family: Arial, sans-serif;
+         background-color: #F8F9FA; 
+         color: #333333;
+         }
+         h1, h2, h3, h4, h5, h6 {
+         font-family: 'Times New Roman', serif;
+         margin: 0;
+         line-height: 1.2;
+         color: #1a1a1a;
+         }
+         p {
+         font-family: Arial, sans-serif;
+         line-height: 1.6;
+         margin-bottom: 15px; 
+         color: #555555;
+         }
+         p:last-child {
+         margin-bottom: 0;
+         }
+         a {
+         text-decoration: none;
+         color: #0D3B66;
+         }
+         .container {
+         width: 100%;
+         max-width: 600px;
+         margin: auto;
+         border-radius: 16px; 
+         overflow: hidden;
+         background-color: #ffffff;
+         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+         }
+         /* Important: Use specific classes for padding and background to avoid inline style conflicts */
+         .section {
+         padding: 40px 30px;
+         }
+         .divider {
+         border-bottom: 1px solid #e9ecef;
+         }
+         /* Specific Component Styles */
+         .header {
+         padding: 24px 30px;
+         background-color: #ffffff;
+         border-bottom: 1px solid #dee2e6;
+         }
+         .header-info {
+         font-family: Arial, sans-serif;
+         font-size: 14px;
+         color: #888888;
+         text-transform: uppercase;
+         }
+         .intro-text {
+         font-family: 'Times New Roman', serif;
+         font-size: 20px;
+         font-style: italic;
+         color: #6c757d;
+         }
+         .story-block {
+         padding: 20px 30px; 
+         border-bottom: 1px solid #e9ecef;
+         }
+         .story-image {
+         width: 100%;
+         height: auto;
+         border-radius: 8px;
+         margin: 20px 0;
+         }
+         .quote-section {
+         background-color: #E6EEF5;
+         color: #0D3B66;
+         font-family: 'Times New Roman', serif;
+         font-style: italic;
+         padding: 40px 30px;
+         border-radius: 0 0 16px 16px;
+         }
+         .footer {
+         padding: 40px 30px;
+         background-color: #ffffff;
+         }
+         /* Divider */
+         .stories-divider-container {
+         /*padding: 15px 30px 10px 30px; */
+         background-color: #ffffff; 
+         }
+         .stories-divider {
+         font-family: Arial, sans-serif;
+         font-size: 16px;
+         font-weight: 700;
+         color: #0D3B66; 
+         background-color: #F0F8FF; 
+         padding: 12px 20px;
+         text-align: center;
+         letter-spacing: 2px;
+         text-transform: uppercase;
+         border-radius: 8px; 
+         border-left: 5px solid #0D3B66; 
+         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+         }
+         /* Story Number Badge Styling */
+         .story-number-badge {
+         font-family: Arial, sans-serif; 
+         font-size: 20px; 
+         font-weight: 900;
+         color: #0D3B66; 
+         background-color: #E0EFFF; 
+         padding: 8px 12px;
+         line-height: 1;
+         border-radius: 6px; 
+         text-align: center;
+         white-space: nowrap;
+         }
+         /* Table of Contents (In this edition) Styling */
+         .toc-box {
+         background-color: #F7F7F7; 
+         padding: 15px 25px;
+         border-radius: 10px;
+         margin-top: 15px; 
+         margin-bottom: 25px; /* Added spacing after TOC */
+         border-left: 4px solid #0D3B66; 
+         }
+         /* New: Magazine Widget Styles */
+         .magazine-widget-container {
+         padding: 20px 20px;
+         background-color: #F0F8FF; /* Light blue background for emphasis */
+         border-radius: 12px;
+         margin-bottom: 25px; 
+         border: 1px solid #C4DFFD;
+         }
+         .cover-letter-headline {
+         font-size: 24px;
+         font-weight: 700;
+         color: #1a1a1a;
+         font-family: 'Times New Roman', serif;
+         margin: 10px 0 5px 0;
+         line-height: 1.2;
+         }
+         .story-thumbnail {
+         width: 100%; 
+         height: auto; 
+         display: block;
+         border-radius: 4px;
+         border: 1px solid #e9ecef;
+         }
+         /* Social Follow Styling */
+         .social-follow-title {
+         font-size: 18px;
+         font-weight: bold;
+         color: #0D3B66;
+         margin-bottom: 15px;
+         font-family: Arial, sans-serif;
+         }
+         /* Social Icon Styling (Shared) */
+         .social-icon {
+         display: block; /* Use block to ensure correct display in TD */
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+         text-align: center;
+         border-radius: 50%;
+         color: #ffffff;
+         font-size: 14px;
+         font-weight: bold;
+         text-decoration: none;
+         }
+         /* Specific Social Colors */
+         .icon-whatsapp { background-color: #25D366; }
+         .icon-linkedin { background-color: #0A66C2; }
+         .icon-twitter { background-color: #1DA1F2; }
+         .icon-facebook { background-color: #3b5998; }
+         .icon-instagram { background-color: #C13584; }
+         /* MARKET WIDGET: Replaced Flex with Table-based layout for robust compatibility */
+         .market-widget-table {
+         border: 1px solid #E9ECEF;
+         border-radius: 8px; /* May not render in all clients, but safe */
+         overflow: hidden; /* Safe wrapper */
+         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Fails gracefully */
+         background-color: #ffffff; /* Container background */
+         }
+         .market-item-td {
+         text-align: center;
+         background-color: #F8F9FA;
+         padding: 15px 5px;
+         border-right: 1px solid #E9ECEF;
+         }
+         .market-item-td:last-child {
+         border-right: none;
+         }
+         .market-item-td .label {
+         font-size: 11px; 
+         font-weight: bold;
+         color: #1a1a1a;
+         margin-bottom: 3px;
+         text-transform: uppercase;
+         line-height: 1.2;
+         }
+         .market-item-td .value {
+         font-size: 16px; 
+         font-weight: bold;
+         color: #333;
+         margin-bottom: 3px;
+         line-height: 1.2;
+         }
+         .market-item-td .change {
+         font-size: 12px; 
+         font-weight: bold;
+         line-height: 1.2;
+         }
+         .change.positive {
+         color: #28a745; 
+         }
+         .change.negative {
+         color: #dc3545; 
+         }
+         /* Mobile Responsive Styles */
+         @media only screen and (max-width: 480px) {
+         .container {
+         border-radius: 0;
+         }
+         .section {
+         padding: 20px 15px;
+         }
+         .story-block {
+         padding: 20px 15px;
+         }
+         /* --- CHANGE MADE HERE ---
+         Removed the mobile-specific styles that forced stacking 
+         for .story-img-col and .story-text-col in the Magazine Widget. 
+         This ensures the desktop side-by-side layout (image on left, text on right) 
+         persists on mobile, as requested.
+         */
+         /* .story-img-col {
+         display: block !important;
+         width: 100% !important;
+         padding-right: 0 !important; 
+         padding-bottom: 10px !important; 
+         }
+         .story-text-col {
+         display: block !important;
+         width: 100% !important;
+         }
+         .story-img-col img {
+         width: 100% !important;
+         height: auto !important;
+         max-width: 100% !important;
+         } */
+         /* IMPORTANT: On mobile, market items maintain column layout (safer for Outlook) */
+         .market-item-td {
+         width: 25% !important; /* Keep 4 columns across */
+         padding: 10px 5px !important;
+         }
+         }
+         p img{
+         width: 100% !important;   
+         height: auto !important;
+         display: block !important;
+         }
+      </style>
+   </head>
+      <body style="margin:0; padding:0; background-color:#F8F9FA;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F9FA">
+         <tr>
+            <td align="center" style="padding:20px 0;">
+               <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
+                  <!-- Header -->
+                  <tr>
+                     <td class="header" align="center">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td align="left">
-                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/11/ForbesIndiaLogo5-2025-11-8dd9c98df910d35f7144e2ab102cdacf.png"
-                                         alt="Forbes India Logo"
-                                         width="120" height="30"
-                                         style="display:block; border:0; outline:none; text-decoration:none;">
-                                </td>
-                                <td align="right" class="header-info">
-                                    <span style="font-size:12px; color:#6c757d;">
-                                        Monday, March 30, 2026                                    </span><br>
-                                    <span style="font-size:14px; font-weight:bold; color:#0D3B66; letter-spacing:1px;">
-                                        <div style="line-height:22px; white-space:normal;margin-left:20px;"><div>Weekly Digest</div><div></div></div>                                    </span>
-
-                                </td>
-                            </tr>
+                           <tr>
+                              <td align="left">
+                                 <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/11/ForbesIndiaLogo5-2025-11-8dd9c98df910d35f7144e2ab102cdacf.png"
+                                    alt="Forbes India Logo"
+                                    width="120" height="30"
+                                    style="display:block; border:0; outline:none; text-decoration:none;">
+                              </td>
+                              <td align="right" class="header-info">
+                                 <span style="font-size:12px; color:#6c757d;">
+                                 Monday, April 6, 2026                                 </span><br>
+                                 <span style="font-size:14px; font-weight:bold; color:#0D3B66; letter-spacing:1px;">
+                                 <div style="line-height:22px; white-space:normal;margin-left:20px;"><div>Weekly Digest</div><div></div></div>                                 </span>
+                              </td>
+                           </tr>
                         </table>
-                    </td>
-                </tr>
-
-                <!-- Story Blocks -->
-                <tr>
-                    <td class="story-block" style="padding-bottom:30px;">
-
+                     </td>
+                  </tr>
+                  <!-- Story Blocks -->
+                  <tr>
+                     <td class="story-block" style="padding-bottom:30px;">
                         <!-- Email Summary -->
-                                                    
+                                                
 <!-- Image --></p>
 
-<img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/20260328T182018Z2099618372UP1EM3S1D6V32RTRMADP3CRICKETIPLRCBSRHBG-2026-03-682fb4fd34d71692023acef9c9fbc747.jpg" alt="Weekly Digest" />
+<img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/GettyImages2218818396BG-2026-04-bf0b50996ff40a43a6a1364c84ac93fb.jpg" alt="Weekly Digest" />
 
 <p><!-- Caption --></p>
 
 
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo by REUTERS/Priyanshu Singh</p>
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo by Bhushan Koyande/Hindustan Times via Getty Images</p>
 
 
 
 
 <p><em>Hello and welcome back to Forbes India Weekly Digest!</em></p>
-                                                    <p>The reigning champions Royal Challengers Bengaluru (RCB) flagged the IPL season in style, beating Sunrisers Hyderabad by six wickets at the M Chinnaswamy Stadium.</p>
-                                                    <p>The security was tight and the administration cautious after the stampede of last year claiming 11 lives during RCB’s victory parade.</p>
-                                                    <p>While all eyes are on RCB for an encore, the team also has an interesting mix backing it – a consortium of Aditya Birla Group, The Times of India Group, Bolt Ventures and Blackstone’s perpetual private equity strategy BXPE. The consortium has also acquired 100 percent of the Women’s Premiere League franchise in addition to RCB from Diageo subsidiary, United Spirits Limited.</p>
-                                                    <p>The $1.78 billion transaction was paid upfront as per the new BCCI rules, instead of a period of 10 years. Blackstone is treading on familiar grounds, as PE firms worldwide have been known to invest in sports franchises. Closer home, CVC Capital Partners acquired 67 percent stake in Gujarat Titans in 2021, exiting partly in 2025.</p>
-                                                    <p>The transaction marks Blackstone’s maiden investment in sports and an exposure to the nearly $10 billion IPL economy. On a sidenote, Kohli memes have already started flooding social media!</p>
-                                                    <p>Leading from the front is as challenging in sports as in business. Forbes India held its annual edition of Forbes India Leadership Awards to honour those who have shown exceptional mettle in building their businesses ground-up.</p>
-                                                    <p>Here is all that unfolded over the week:</p>
-                        
-
-                        <!-- In This Edition -->
-                                                    <div class="toc-box" style="margin-bottom:20px;">
-                                <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-top:0; margin-bottom:10px;">
-                                    In this edition:
-                                </p>
-                                <ul style="list-style-type:none; padding:0; margin:0;">
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/article/leadership/how-anish-shah-is-looking-around-corners/2992517/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🚙Anish Shah’s vision for Mahindra &amp; Mahindra                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/article/leadership/abhimanyu-munjal-new-chip-off-the-old-block/2992579/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                💵Abhimanyu Munjal: securing Hero Fincorp’s future                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/article/news/maharashtra-is-indias-startup-and-fintech-capital-devendra-fadnavis/2992535/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🌆 Maharashtra’s economy set to cross UAE and Singapore, says Fadnavis                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/article/leadership/audi-targets-industry-level-growth-in-2026/2992370/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🚘Audi is building a sustainable India portfolio                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/article/leadership/creativity-must-move-from-the-margins-to-the-mainstream-of-learning-luxor-md/2992388/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🎨Luxor brings Crayola’s creativity brand to India                                            </a>
-                                        </li>
-                                                                    </ul>
-                            </div>
-                        
-                        
-                        <!-- Render sections in the preserved order -->
-
-                        
-                            <!-- If widgetKey is magazine_stories or similar, render magazine style -->
-                          
-
-
-
-                            </td></tr>
-    
-                                   <tr>
-                                        <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
-                                            <div class="stories-divider">FROM THE MAGAZINE</div>
-                                        </td>
-                                    </tr>
-                                    
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🚙Anish Shah’s vision for Mahindra &amp; Mahindra                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                The first non-family group CEO at Mahindra &amp; Mahindra, Anish Shah has steered the company to a customer-centric organisation, driving profitability and shareholder value. His five-year stint at the company has been marked by cutting losses and gaining market share across the broader business from auto, farm, to financial services, making him the apt choice for CEO of the year at FILA 2026.                            </p>
-                                                                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/AnishShah1200X900-2026-03-62cedae59e3416c06c2e0ad807410681.jpg" alt="🚙Anish Shah’s vision for Mahindra &amp; Mahindra" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
-                                                        <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/article/leadership/how-anish-shah-is-looking-around-corners/2992517/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       Read more                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                                <p>Finally, there will be a number to it – after missing the timeline for the decennial census in 2021, 30 lakh officials in India will spend April 2026 to February 2027 counting the number of people and profiling them as part of its 16th census.</p>
+                                                <p>As per public data sources, India’s population surpassed that of China in 2023, and the current estimated population of the country is 1.4 billion making it the most populous country in the world. The exercise which will cost the government an estimated Rs 11,718.24 crore will deliver share data with customised visualisation tools at the village and ward level.</p>
+                                                <p>The current census which began on April1 will also collect caste data electronically in the second phase of population enumeration to capture the social and demographic diversity in the country.</p>
+                                                <p>The data, if made available, will be significant in recent times as the data from Socio-Economic and Caste Census 2011 was never made public. In a country where elections, benefit schemes and access are closely tied to caste profiles, the data from census 2027 has the power to reshape policy and narratives.</p>
+                                                <!-- In This Edition -->
+                                                <div class="toc-box" style="margin-bottom:20px;">
+                           <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-top:0; margin-bottom:10px;">
+                              In this edition:
+                           </p>
+                           <ul style="list-style-type:none; padding:0; margin:0;">
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/article/leadership/gopal-vittals-network-effect-how-he-rewired-bharti-airtel/2992700/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 📱Gopal Vittal’s network effect                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/article/leadership/how-balaji-wafers-built-a-rs-35000-crore-empire-one-state-at-a-time/2992808/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 🍟Balaji Wafers’ snack attack                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/article/news/no-prescription-no-problem-weight-loss-are-drugs-sold-dodging-regulations/2992788/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 💉Weight loss drugs dodge regulation                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/article/leadership/we-all-knew-rcb-was-the-crown-jewel-asset-satyan-gajwani/2992765/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 🏏Bidding for the IPL champions                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/article/leadership/gut-instinct-matters-more-than-spreadsheets-abhishek-bachchan/2992770/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 ⭐The multi-faceted star: Abhishek Bachchan                                 </a>
+                              </li>
+                                                         </ul>
+                        </div>
+                                                                        <!-- Render sections in the preserved order -->
+                                                <!-- If widgetKey is magazine_stories or similar, render magazine style -->
+                                                               </td></tr>
+                  <tr>
+                     <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
+                        <div class="stories-divider">FROM THE MAGAZINE</div>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    📱Gopal Vittal’s network effect                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           In his decade-long stint helming Airtel, Gopal Vittal has weathered many challenges and steered the business out of the disruption created by Jio’s entry into the market and the spectrum wars. His leadership has seen Airtel focus on high-value users, improve its network quality and enter new lines of business including cloud, lending and cybersecurity.                        </p>
+                                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/VittalBharti1200X900-2026-03-e891a726c758537b75f75c179a1ef020.jpg" alt="📱Gopal Vittal’s network effect" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
+                                                <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/article/leadership/gopal-vittals-network-effect-how-he-rewired-bharti-airtel/2992700/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           Read more                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25F0%259F%259A%2599Anish%2BShah%25E2%2580%2599s%2Bvision%2Bfor%2BMahindra%2B%2526amp%253B%2BMahindra+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fhow-anish-shah-is-looking-around-corners%252F2992517%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=%25F0%259F%2593%25B1Gopal%2BVittal%25E2%2580%2599s%2Bnetwork%2Beffect+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fgopal-vittals-network-effect-how-he-rewired-bharti-airtel%252F2992700%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fhow-anish-shah-is-looking-around-corners%2F2992517%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%9A%99Anish+Shah%E2%80%99s+vision+for+Mahindra+%26amp%3B+Mahindra"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fgopal-vittals-network-effect-how-he-rewired-bharti-airtel%2F2992700%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%93%B1Gopal+Vittal%E2%80%99s+network+effect"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%F0%9F%9A%99Anish+Shah%E2%80%99s+vision+for+Mahindra+%26amp%3B+Mahindra&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fhow-anish-shah-is-looking-around-corners%2F2992517%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=%F0%9F%93%B1Gopal+Vittal%E2%80%99s+network+effect&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fgopal-vittals-network-effect-how-he-rewired-bharti-airtel%2F2992700%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            💵Abhimanyu Munjal: securing Hero Fincorp’s future                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                Abhimanyu Munjal is the third generation of the storied Hero-group who has managed to carve a niche for himself in finance. His entrepreneurial journey started with Hero FinCorp financing the purchase of Hero MotoCorp’s two-wheelers, and has now expanded into a tech-first business. Moving on from lending to credit-rich population, Abhimanyu Munjal is going after the “aspiring India” -- which has earned him the award for the Gennext Entrepreneur.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <a href="https://www.forbesindia.com/article/leadership/abhimanyu-munjal-new-chip-off-the-old-block/2992579/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Abhimanyucover-2026-03-f8867677d473809313d56bcef9116faf.jpg" alt="" width="1200" height="900" /></a>                            </p>
-                                                                                    <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/article/leadership/abhimanyu-munjal-new-chip-off-the-old-block/2992579/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       Read more                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    🍟Balaji Wafers’ snack attack                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           Rajkot-based Balaji Wafers has built a pan-India brand of packaged snacks from its humble-beginnings in 1982. The Rs 35,000-crore business has cracked the code for supply and manufacturing to retail, while offering value-for-money in the competitive market.                        </p>
+                                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/Balaji1200X900-2026-04-30f54d9379c8e76854d7b7684daa6ef5.jpg" alt="🍟Balaji Wafers’ snack attack" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
+                                                <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/article/leadership/how-balaji-wafers-built-a-rs-35000-crore-empire-one-state-at-a-time/2992808/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           Read more                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25F0%259F%2592%25B5Abhimanyu%2BMunjal%253A%2Bsecuring%2BHero%2BFincorp%25E2%2580%2599s%2Bfuture+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fabhimanyu-munjal-new-chip-off-the-old-block%252F2992579%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=%25F0%259F%258D%259FBalaji%2BWafers%25E2%2580%2599%2Bsnack%2Battack+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fhow-balaji-wafers-built-a-rs-35000-crore-empire-one-state-at-a-time%252F2992808%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fabhimanyu-munjal-new-chip-off-the-old-block%2F2992579%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%92%B5Abhimanyu+Munjal%3A+securing+Hero+Fincorp%E2%80%99s+future"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fhow-balaji-wafers-built-a-rs-35000-crore-empire-one-state-at-a-time%2F2992808%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%8D%9FBalaji+Wafers%E2%80%99+snack+attack"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%F0%9F%92%B5Abhimanyu+Munjal%3A+securing+Hero+Fincorp%E2%80%99s+future&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fabhimanyu-munjal-new-chip-off-the-old-block%2F2992579%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=%F0%9F%8D%9FBalaji+Wafers%E2%80%99+snack+attack&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fhow-balaji-wafers-built-a-rs-35000-crore-empire-one-state-at-a-time%2F2992808%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                                                           
-                                    
-
-                                    
-
-
-                                
-
-                                
-                            <!-- If widgetKey is magazine_stories or similar, render magazine style -->
-                          
-
-
-
-                            
-
-                                
-                                    <tr>
-                                        <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
-                                            <div class="stories-divider">TOP STORIES</div>
-                                        </td>
-                                    </tr>
-                                    
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🌆 Maharashtra’s economy set to cross UAE and Singapore, says Fadnavis                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    Maharashtra has global ambitions, as was evident from Chief Minister Devendra Fadnavis’s vision for the state. The state’s economy which is pegged at $660 billion at present is set to surpass that of UAE and Singapore in the next two years.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤The CM highlighted that the power-surplus state was a major draw for data centres with nine gigawatts of new capacity in the pipeline.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤Maharashtra is planning for sustainable growth with 52 percent contribution for power from renewable energy sources by 2030.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤The upcoming Vadhavan port will rank among the top 10 globally in terms of container traffic.                                                </p>
-                                                                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/4D4B6853BG-2026-03-e8649d01b6b3313457d58b132604fcd4.jpg" alt="🌆 Maharashtra’s economy set to cross UAE and Singapore, says Fadnavis" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
-                                                        <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/article/news/maharashtra-is-indias-startup-and-fintech-capital-devendra-fadnavis/2992535/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       Read more                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                                  <tr>
-                                    <td align="left"
-                                        style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                      Share This Story:
-                                    </td>
-
-                                    
-                                    <td align="right">
-
-                                      <!-- WhatsApp -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#66bd56"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://wa.me/?text=%25F0%259F%258C%2586%2BMaharashtra%25E2%2580%2599s%2Beconomy%2Bset%2Bto%2Bcross%2BUAE%2Band%2BSingapore%252C%2Bsays%2BFadnavis+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fnews%252Fmaharashtra-is-indias-startup-and-fintech-capital-devendra-fadnavis%252F2992535%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;">
-                                              <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                                   alt="WhatsApp"
-                                                   width="18" height="18"
-                                                   style="display:block;border:0;">
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- LinkedIn -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#0A66C2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fmaharashtra-is-indias-startup-and-fintech-capital-devendra-fadnavis%2F2992535%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%8C%86+Maharashtra%E2%80%99s+economy+set+to+cross+UAE+and+Singapore%2C+says+Fadnavis"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              in
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- X (Twitter) -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#1DA1F2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://twitter.com/intent/tweet?text=%F0%9F%8C%86+Maharashtra%E2%80%99s+economy+set+to+cross+UAE+and+Singapore%2C+says+Fadnavis&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fmaharashtra-is-indias-startup-and-fintech-capital-devendra-fadnavis%2F2992535%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              X
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                    </td>
-                                  </tr>
-                                </table>
-
-                        </td>
-                    </tr>
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🚘Audi is building a sustainable India portfolio                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    Currency volatility, global unrest and rising prices are likely to dampen the growth for luxury car markets this year. German luxury auto-maker Audi is bracing for a modest expansion in keeping with the trend, says India head Balbir Singh Dhillon.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤After a robust performance in 2023, the brand faced declining sales and recorded two percent growth last year.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤While the brand chose petrol and EV, exiting the diesel vehicle segment, the pace of growth for EVs has been subdued.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤In a market driven by luxury car repurchase, Audi is guarding its spot by spreading across entry and high-end models, while building a pre-owned ecosystem.                                                </p>
-                                                                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/Lead-Balbir-Singh-DhillonAV09BG-2026-03-b8ed7507709bde032e25b0933f9d4438.jpg" alt="🚘Audi is building a sustainable India portfolio" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
-                                                        <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/article/leadership/audi-targets-industry-level-growth-in-2026/2992370/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       Read more                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                                  <tr>
-                                    <td align="left"
-                                        style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                      Share This Story:
-                                    </td>
-
-                                    
-                                    <td align="right">
-
-                                      <!-- WhatsApp -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#66bd56"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://wa.me/?text=%25F0%259F%259A%2598Audi%2Bis%2Bbuilding%2Ba%2Bsustainable%2BIndia%2Bportfolio+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Faudi-targets-industry-level-growth-in-2026%252F2992370%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;">
-                                              <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                                   alt="WhatsApp"
-                                                   width="18" height="18"
-                                                   style="display:block;border:0;">
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- LinkedIn -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#0A66C2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Faudi-targets-industry-level-growth-in-2026%2F2992370%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%9A%98Audi+is+building+a+sustainable+India+portfolio"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              in
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- X (Twitter) -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#1DA1F2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://twitter.com/intent/tweet?text=%F0%9F%9A%98Audi+is+building+a+sustainable+India+portfolio&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Faudi-targets-industry-level-growth-in-2026%2F2992370%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              X
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                    </td>
-                                  </tr>
-                                </table>
-
-                        </td>
-                    </tr>
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🎨Luxor brings Crayola’s creativity brand to India                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    This is a call for all adults (and kids) to bring out their colouring books as Luxor has signed a long-term agreement with Crayola to bring its products to the Indian market. The deal includes Crayola manufacturing its products in India, feeding into its supply-chain.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤As part of the agreement, the brand’s products will be marketed as “Luxor-Crayola” and will be priced at a premium to maintain quality.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤India’s stationery market is estimated to be Rs 12,000 crore, with Camlin dominating children’s stationery.                                                </p>
-                                                                            <p style="font-size:16px; color:#555555;">
-                                                    ➤The creativity and colouring segment are growing at15-20 percent annually, a higher rate of growth compared to the overall stationery segment.                                                </p>
-                                                                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/20260319PoojaJainGuptaLuxorGroup008BG-2026-03-33771fe3229a7110bf833c175453d86b.jpg" alt="🎨Luxor brings Crayola’s creativity brand to India" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
-                                                        <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/article/leadership/creativity-must-move-from-the-margins-to-the-mainstream-of-learning-luxor-md/2992388/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                                                                           </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                                  <tr>
-                                    <td align="left"
-                                        style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                      Share This Story:
-                                    </td>
-
-                                    
-                                    <td align="right">
-
-                                      <!-- WhatsApp -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#66bd56"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://wa.me/?text=%25F0%259F%258E%25A8Luxor%2Bbrings%2BCrayola%25E2%2580%2599s%2Bcreativity%2Bbrand%2Bto%2BIndia+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fcreativity-must-move-from-the-margins-to-the-mainstream-of-learning-luxor-md%252F2992388%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;">
-                                              <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                                   alt="WhatsApp"
-                                                   width="18" height="18"
-                                                   style="display:block;border:0;">
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- LinkedIn -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-right:8px;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#0A66C2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fcreativity-must-move-from-the-margins-to-the-mainstream-of-learning-luxor-md%2F2992388%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%8E%A8Luxor+brings+Crayola%E2%80%99s+creativity+brand+to+India"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              in
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                      <!-- X (Twitter) -->
-                                      <table border="0" cellpadding="0" cellspacing="0"
-                                             style="display:inline-block;margin-top:5px;">
-                                        <tr>
-                                          <td width="30" height="30" align="center" bgcolor="#1DA1F2"
-                                              style="border-radius:50%;">
-                                            <a target="_blank"
-                                               href="https://twitter.com/intent/tweet?text=%F0%9F%8E%A8Luxor+brings+Crayola%E2%80%99s+creativity+brand+to+India&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fcreativity-must-move-from-the-margins-to-the-mainstream-of-learning-luxor-md%2F2992388%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                               style="display:block;line-height:30px;text-decoration:none;
-                                                      font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
-                                              X
-                                            </a>
-                                          </td>
-                                        </tr>
-                                      </table>
-
-                                    </td>
-                                  </tr>
-                                </table>
-
-                        </td>
-                    </tr>
-                                   
-                                                                           
-                                    
-
-                                    
-
-
-                                
-
-                                
-
-                        <!-- Subscriber widget (unchanged) -->
-                        <tr>
-                            <td align="center" style="padding: 10px 30px 30px 30px;">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E6EEF5; border-radius: 12px; padding: 15px; border: 1px solid #C4DFFD;">
-                                    <tr>
-                                                                                <td valign="middle" style="padding-right: 15px; width: 70px;">
-                                            <img src="https://images.forbesindia.com/blog/wp-content/uploads/assets/images/V18I7ForbesIndiaCoverFinal384X512.jpg"
-                                                 alt="Forbes India Magazine Cover"
-                                                 width="70" height="auto"
-                                                 style="display:block; border:1px solid #ffffff; outline:none; text-decoration:none; border-radius: 4px;">
-                                        </td>
-                                                                                <td valign="middle">
-                                            <p style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #0D3B66; margin: 0 0 5px 0; line-height: 1.2;">
-                                                Become a Subscriber
-                                            </p>
-                                            <p style="font-family: Arial, sans-serif; font-size: 14px; color: #444444; margin: 0 0 10px 0;">
-                                                Get your hands on our fortnightly editions for as less as Rs 1,129 a year!
-                                            </p>
-                                            <table border="0" cellpadding="0" cellspacing="0">
-                                                <tr>
-                                                    <td align="center" bgcolor="#0D3B66" style="border-radius: 6px;">
-                                                        <a target="_blank" href="https://www.forbesindia.com/subscription" target="_blank" style="font-size: 14px; font-family: Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; padding: 8px 15px; display: block; border: 1px solid #0D3B66; border-radius: 6px; mso-padding-alt: 0; text-transform: uppercase; font-weight: bold;">
-                                                            <span style="mso-text-raise: 15pt; color: #ffffff;">Subscribe Now &rarr;</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-
-                        <!-- Footer -->
-                        <tr>
-                            <td class="footer" align="center">
-                                <div style="padding-bottom: 25px;">
-                                    <div class="social-follow-title" style="font-size: 18px; font-weight: bold; color: #0D3B66; margin-bottom: 15px; font-family: Arial, sans-serif;">
-                                        Follow Forbes India
-                                    </div>
-                                    <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
-                                        <tr>
-
-                                            <!-- X (Twitter) -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://twitter.com/ForbesIndia"
-                                                   style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- LinkedIn -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
-                                                   style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- Facebook -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
-                                                   style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- Instagram -->
-                                            <td align="center" style="padding:0 4px;">
-                                                <table border="0" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td align="center"
-                                                            width="30"
-                                                            height="30"
-                                                            bgcolor="#C13584"
-                                                            style="border-radius:50%;">
-                                                            
-                                                            <a href="https://www.instagram.com/forbesindia/" target="_blank"
-                                                               style="display:block;line-height:30px;text-decoration:none;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                                                
-                                                                <img
-                                                                    src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
-                                                                    alt="Instagram"
-                                                                    width="24"
-                                                                    height="24"
-                                                                    style="display:block;border:0;">
-                                                            </a>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                            <!-- If widgetKey is magazine_stories or similar, render magazine style -->
+                                                               <tr>
+                     <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
+                        <div class="stories-divider">TOP STORIES</div>
+                     </td>
+                  </tr>
                                     <tr>
-                                        <td align="center" style="font-family: Arial, sans-serif; font-size: 12px; color: #888888; line-height: 1.5; border-top: 1px solid #e9ecef; padding-top: 20px;">
-                                            <p class="unsubscribe" style="margin: 0;">
-                                                You received this email because you signed up for the Forbes India Weekly Roundup newsletter. <br>
-                                                <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #0D3B66; text-decoration: underline;">Unsubscribe</a> | 
-                                                <a target="_blank" href="https://forbesindia.com/newsletters" style="color: #0D3B66; text-decoration: underline;">Manage preferences</a>
-                                            </p>
-                                        </td>
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    💉Weight loss drugs dodge regulation                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           The fall in prices of semaglutide-based weight loss drugs in India due to patent expiry is having an adverse impact – the medicines are now accessible to people without prescription.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤Easy availability and lowered prices have also led to people “trying out” the drugs as a quick fix to weight loss.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤Despite being classified as Schedule H drugs, pharmacists who are only too happy to sell the drugs without prescription across major Indian cities.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤In recent weeks, regulators have conducted inspections across retail pharmacies, wholesalers, online pharmacies, and wellness clinics for misuse of the drug.                        </p>
+                                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/AFP2021042298F4G7v1HighResIndiaHealthVirusDrugsCrimeBG-2026-04-d2ddf28a3fd8cac63a590bc797344cdc.jpg" alt="💉Weight loss drugs dodge regulation" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
+                                                <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/article/news/no-prescription-no-problem-weight-loss-are-drugs-sold-dodging-regulations/2992788/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           Read more                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=%25F0%259F%2592%2589Weight%2Bloss%2Bdrugs%2Bdodge%2Bregulation+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fnews%252Fno-prescription-no-problem-weight-loss-are-drugs-sold-dodging-regulations%252F2992788%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
+                                          <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                </table>
-                            </td>
-                        </tr>
-
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-</body>
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fno-prescription-no-problem-weight-loss-are-drugs-sold-dodging-regulations%2F2992788%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%92%89Weight+loss+drugs+dodge+regulation"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          in
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=%F0%9F%92%89Weight+loss+drugs+dodge+regulation&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fnews%2Fno-prescription-no-problem-weight-loss-are-drugs-sold-dodging-regulations%2F2992788%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          X
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                                    <tr>
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    🏏Bidding for the IPL champions                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           Times Group’s entry into the business of cricket has been in the making for a few years now. Starting with buying the digital rights for IPL in 2011, it has come a full circle as a consortium of four parties – Aditya Birla Group, Times of India Group, Bolt Ventures and private equity firm Blackstone --acquired majority stake in Royal Challengers Bengaluru. Vice Chairman of Times Internet Satyan Gajwani shared the details.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤The Times Group was evaluating a stake in Rajasthan Royals versus Royal Challengers Bengaluru.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤The four-party consortium had been in conversation for a tie-up and firmed it up ahead of the $1.78 billion deal for a stake in RCB and Women’s Premier League team.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤Gajwani says that the largest driver of growth in IPL will come from the media rights cycle.                        </p>
+                                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/1Satyan-GajwaniC100653BG-2026-04-ab1febc3825680fdb378eb6f0ae0bc00.jpg" alt="🏏Bidding for the IPL champions" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
+                                                <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/article/leadership/we-all-knew-rcb-was-the-crown-jewel-asset-satyan-gajwani/2992765/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           Read more                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=%25F0%259F%258F%258FBidding%2Bfor%2Bthe%2BIPL%2Bchampions+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fwe-all-knew-rcb-was-the-crown-jewel-asset-satyan-gajwani%252F2992765%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
+                                          <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fwe-all-knew-rcb-was-the-crown-jewel-asset-satyan-gajwani%2F2992765%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%8F%8FBidding+for+the+IPL+champions"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          in
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=%F0%9F%8F%8FBidding+for+the+IPL+champions&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fwe-all-knew-rcb-was-the-crown-jewel-asset-satyan-gajwani%2F2992765%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          X
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                                    <tr>
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    ⭐The multi-faceted star: Abhishek Bachchan                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           Abhishek Bachchan hates being unidimensional. The aversion to be boxed neatly into a category has seen him experiment across genres and medium. The actor was among the first to experiment with OTT as a medium, investor in new age technology businesses.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤Bachchan is an investor in Swiggy and Zepto, and in sports teams Jaipur Pink Panthers in the Pro Kabaddi League and Chennaiyin FC.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤His investment in sports and technology businesses is driven by instinct over pure business metrics.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           ➤Bachchan was presented the Forbes India Icon of Excellence at FILA 2026.                        </p>
+                                                                        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/4D4B66932BG-2026-04-3d799cf70bdc03fd612d771aecebedd1.jpg" alt="⭐The multi-faceted star: Abhishek Bachchan" class="story-image" width="100" style="display:block; max-width:100%; height:auto;">
+                                                <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/article/leadership/gut-instinct-matters-more-than-spreadsheets-abhishek-bachchan/2992770/1?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           Read more                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=%25E2%25AD%2590The%2Bmulti-faceted%2Bstar%253A%2BAbhishek%2BBachchan+https%253A%252F%252Fwww.forbesindia.com%252Farticle%252Fleadership%252Fgut-instinct-matters-more-than-spreadsheets-abhishek-bachchan%252F2992770%252F1%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
+                                          <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fgut-instinct-matters-more-than-spreadsheets-abhishek-bachchan%2F2992770%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%E2%AD%90The+multi-faceted+star%3A+Abhishek+Bachchan"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          in
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=%E2%AD%90The+multi-faceted+star%3A+Abhishek+Bachchan&url=https%3A%2F%2Fwww.forbesindia.com%2Farticle%2Fleadership%2Fgut-instinct-matters-more-than-spreadsheets-abhishek-bachchan%2F2992770%2F1%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          X
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                                                               
+                                                      <!-- Subscriber widget (unchanged) -->
+                  <tr>
+                     <td align="center" style="padding: 10px 30px 30px 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E6EEF5; border-radius: 12px; padding: 15px; border: 1px solid #C4DFFD;">
+                           <tr>
+                                                            <td valign="middle" style="padding-right: 15px; width: 70px;">
+                                 <img src="https://images.forbesindia.com/blog/wp-content/uploads/assets/images/V18I7ForbesIndiaCoverFinal384X512.jpg"
+                                    alt="Forbes India Magazine Cover"
+                                    width="70" height="auto"
+                                    style="display:block; border:1px solid #ffffff; outline:none; text-decoration:none; border-radius: 4px;">
+                              </td>
+                                                            <td valign="middle">
+                                 <p style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #0D3B66; margin: 0 0 5px 0; line-height: 1.2;">
+                                    Become a Subscriber
+                                 </p>
+                                 <p style="font-family: Arial, sans-serif; font-size: 14px; color: #444444; margin: 0 0 10px 0;">
+                                    Get your hands on our fortnightly editions for as less as Rs 1,129 a year!
+                                 </p>
+                                 <table border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                       <td align="center" bgcolor="#0D3B66" style="border-radius: 6px;">
+                                          <a target="_blank" href="https://www.forbesindia.com/subscription" target="_blank" style="font-size: 14px; font-family: Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; padding: 8px 15px; display: block; border: 1px solid #0D3B66; border-radius: 6px; mso-padding-alt: 0; text-transform: uppercase; font-weight: bold;">
+                                          <span style="mso-text-raise: 15pt; color: #ffffff;">Subscribe Now &rarr;</span>
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  <!-- Footer -->
+                  <tr>
+                     <td class="footer" align="center">
+                        <div style="padding-bottom: 25px;">
+                           <div class="social-follow-title" style="font-size: 18px; font-weight: bold; color: #0D3B66; margin-bottom: 15px; font-family: Arial, sans-serif;">
+                              Follow Forbes India
+                           </div>
+                           <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
+                              <tr>
+                                 <!-- X (Twitter) -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://twitter.com/ForbesIndia"
+                                       style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
+                                    </a>
+                                 </td>
+                                 <!-- LinkedIn -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
+                                       style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
+                                    </a>
+                                 </td>
+                                 <!-- Facebook -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
+                                       style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
+                                    </a>
+                                 </td>
+                                 <!-- Instagram -->
+                                 <td align="center" style="padding:0 4px;">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td align="center"
+                                             width="30"
+                                             height="30"
+                                             bgcolor="#C13584"
+                                             style="border-radius:50%;">
+                                             <a href="https://www.instagram.com/forbesindia/" target="_blank"
+                                                style="display:block;line-height:30px;text-decoration:none;">
+                                             <img
+                                                src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
+                                                alt="Instagram"
+                                                width="24"
+                                                height="24"
+                                                style="display:block;border:0;">
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                           <tr>
+                              <td align="center" style="font-family: Arial, sans-serif; font-size: 12px; color: #888888; line-height: 1.5; border-top: 1px solid #e9ecef; padding-top: 20px;">
+                                 <p class="unsubscribe" style="margin: 0;">
+                                    You received this email because you signed up for the Forbes India Weekly Roundup newsletter. <br>
+                                    <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #0D3B66; text-decoration: underline;">Unsubscribe</a> | 
+                                    <a target="_blank" href="https://forbesindia.com/newsletters" style="color: #0D3B66; text-decoration: underline;">Manage preferences</a>
+                                 </p>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </body>
 </html>
-
