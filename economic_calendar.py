@@ -4,7 +4,6 @@ import requests
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timezone, timedelta
-from bs4 import BeautifulSoup
 
 # ── Config from GitHub Secrets ──────────────────────────────────────────────
 GMAIL_USER         = os.environ["GMAIL_USER"].strip()
@@ -14,10 +13,16 @@ TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
 today = datetime.now(IST)
-date_str = today.strftime("%A, %d %B %Y")
+date_str   = today.strftime("%A, %d %B %Y")
+date_param = today.strftime("%Y-%m-%d")   # e.g. 2026-04-06
 
-# ── Scrape Moneycontrol ──────────────────────────────────────────────────────
+# ── Fetch from Moneycontrol API ───────────────────────────────────────────────
 URL = "https://www.moneycontrol.com/economic-calendar/"
+
+API_URL = (
+    "https://www.moneycontrol.com/mc/widget/basiceconomiccalendar/get_economic_data"
+    f"?country=IND&date={date_param}"
+)
 
 HEADERS = {
     "User-Agent": (
@@ -25,63 +30,56 @@ HEADERS = {
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/123.0.0.0 Safari/537.36"
     ),
-    "Accept-Language": "en-US,en;q=0.9",
+    "Referer": "https://www.moneycontrol.com/economic-calendar/",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "X-Requested-With": "XMLHttpRequest",
 }
 
-def get_star_rating(cell):
-    stars = cell.find_all("i")
-    filled = sum(1 for s in stars if "fill" in s.get("class", []))
-    return "⭐" * filled if filled else "–"
+IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
 
 def scrape_india_events():
     try:
-        resp = requests.get(URL, headers=HEADERS, timeout=15)
+        resp = requests.get(API_URL, headers=HEADERS, timeout=15)
         resp.raise_for_status()
+        data = resp.json()
     except Exception as e:
-        return [], f"Failed to fetch page: {e}"
+        return [], f"Failed to fetch data: {e}"
 
-    soup = BeautifulSoup(resp.text, "html.parser")
-    rows = soup.select("table.calendarTable tbody tr, #economicCalendarTable tbody tr, .econCalTbl tbody tr")
+    # API may return list directly or nested under a key
+    if isinstance(data, list):
+        items = data
+    elif isinstance(data, dict):
+        items = data.get("data", data.get("result", data.get("events", [])))
+    else:
+        items = []
 
-    if not rows:
-        rows = soup.find_all("tr")
+    if not items:
+        return [], None
 
     events = []
-    for row in rows:
-        cells = row.find_all("td")
-        if len(cells) < 5:
-            continue
-
-        text = row.get_text(" ", strip=True)
-        if "IND" not in text and "India" not in text:
-            continue
-
+    for item in items:
         try:
-            time_     = cells[0].get_text(strip=True)
-            country   = cells[1].get_text(strip=True)
-            event     = cells[2].get_text(strip=True)
-            impact    = get_star_rating(cells[3]) if cells[3].find("i") else cells[3].get_text(strip=True)
-            actual    = cells[4].get_text(strip=True) if len(cells) > 4 else "–"
-            previous  = cells[5].get_text(strip=True) if len(cells) > 5 else "–"
-            consensus = cells[6].get_text(strip=True) if len(cells) > 6 else "–"
-
             events.append({
-                "time": time_, "country": country, "event": event,
-                "impact": impact, "actual": actual,
-                "previous": previous, "consensus": consensus,
+                "time":      item.get("time", item.get("event_time", "–")),
+                "event":     item.get("event_name", item.get("event", item.get("name", "–"))),
+                "impact":    IMPACT_MAP.get(str(item.get("impact", item.get("importance", ""))), "–"),
+                "actual":    item.get("actual", "–") or "–",
+                "previous":  item.get("previous", "–") or "–",
+                "consensus": item.get("consensus", item.get("forecast", "–")) or "–",
             })
         except Exception:
             continue
 
     return events, None
 
+# ── Build Email ───────────────────────────────────────────────────────────────
 def build_html(events, error=None):
     rows_html = ""
 
     if error:
         rows_html = f'<tr><td colspan="6" style="color:red;padding:12px">{error}</td></tr>'
     elif not events:
-        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India events found for today.</td></tr>'
+        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India events scheduled for today.</td></tr>'
     else:
         for e in events:
             rows_html += f"""
@@ -115,11 +113,12 @@ def build_html(events, error=None):
         <tbody>{rows_html}</tbody>
       </table>
       <p style="font-size:11px;color:#aaa;margin-top:12px;text-align:center">
-        Source: <a href="{URL}" style="color:#aaa">Moneycontrol Economic Calendar</a> &nbsp;|&nbsp; Sent at 8:00 AM IST
+        Source: <a href="{URL}" style="color:#aaa">Moneycontrol Economic Calendar</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
       </p>
     </body></html>
     """
 
+# ── Send Email ────────────────────────────────────────────────────────────────
 def send_email(subject, html_body):
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
@@ -132,8 +131,9 @@ def send_email(subject, html_body):
         server.sendmail(GMAIL_USER, TO_EMAILS, msg.as_string())
     print("✅ Email sent successfully.")
 
+# ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    print(f"Fetching economic calendar for {date_str}...")
+    print(f"Fetching India economic calendar for {date_str} (date param: {date_param})...")
     events, error = scrape_india_events()
     print(f"Found {len(events)} India event(s)." if not error else f"Error: {error}")
 
