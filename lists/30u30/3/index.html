@@ -172,53 +172,131 @@ img { display: block; max-width: 100%; }
 .ms-breadcrumb li + li::before { content: "›"; padding: 0 4px; color: #bbb; }
 
 /* ══════════════════════════════════════════
-   HERO — Gotham for body/eyebrow/desc/stats
+   HERO — two-column: content left, cover right
    ══════════════════════════════════════════ */
-.lp-hero { background: var(--fi-black); padding: 28px var(--pad); position: relative; overflow: hidden; }
+.lp-hero {
+  background: var(--fi-black);
+  position: relative; overflow: hidden;
+}
 .lp-hero::before {
   content: ''; position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(ellipse 70% 60% at 80% 50%, rgba(204,0,0,.12), transparent),
-    radial-gradient(ellipse 40% 40% at 10% 80%, rgba(184,150,46,.06), transparent);
+    radial-gradient(ellipse 60% 80% at 70% 50%, rgba(204,0,0,.14), transparent),
+    radial-gradient(ellipse 40% 40% at 5% 90%, rgba(184,150,46,.07), transparent);
 }
-.lp-hero-inner { max-width: var(--max); margin: 0 auto; position: relative; }
 
+/* Two-column wrapper */
+.lp-hero-inner {
+  max-width: var(--max); margin: 0 auto; position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto;
+  gap: 0;
+  align-items: stretch;
+}
+
+/* Left content column */
+.lp-hero-content {
+  padding: 32px var(--pad) 32px;
+  display: flex; flex-direction: column; justify-content: center;
+}
+
+/* Right cover image column */
+.lp-hero-cover {
+  width: clamp(260px, 36vw, 460px);
+  position: relative; overflow: hidden;
+  flex-shrink: 0;
+}
+.lp-hero-cover img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  /* Fade left edge into the dark hero background */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.5) 18%, #000 42%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.5) 18%, #000 42%);
+}
+/* Subtle bottom fade */
+.lp-hero-cover::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to top, rgba(15,15,15,.7), transparent);
+  pointer-events: none;
+}
+
+/* Mobile: single column, cover becomes a banner at top */
+@media (max-width: 767px) {
+  .lp-hero-inner {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+  .lp-hero-cover {
+    width: 100%;
+    height: 200px;
+    order: -1;               /* cover goes above the content on mobile */
+  }
+  .lp-hero-cover img {
+    object-position: center 20%;
+    -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+  }
+  .lp-hero-cover::after { display: none; }
+  .lp-hero-content { padding: 24px var(--pad) 28px; }
+}
+/* Tablet: slightly narrower cover */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .lp-hero-cover { width: clamp(220px, 42vw, 360px); }
+}
+
+/* Eyebrow label */
 .lp-eyebrow {
-  font-family: var(--body);         /* Gotham Book */
+  font-family: var(--body);
   font-size: 11px; font-weight: 400;
   letter-spacing: 0.20em; text-transform: uppercase; color: var(--fi-red);
-  display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
 }
 .lp-eyebrow::before { content: ''; display: block; width: 24px; height: 2px; background: var(--fi-red); flex-shrink: 0; }
 
-.lp-identity { display: flex; align-items: center; gap: 20px; margin-bottom: 18px; flex-wrap: wrap; }
+/* Logo + title row */
+.lp-identity {
+  display: flex; align-items: center;
+  gap: 22px; margin-bottom: 20px; flex-wrap: wrap;
+}
 .lp-logo-wrap { flex-shrink: 0; }
-.lp-logo-wrap img { height: clamp(72px, 10vw, 110px); width: auto; object-fit: contain; display: block; border-radius: 6px; }
+/* Bigger, prominent list logo */
+.lp-logo-wrap img {
+  height: clamp(90px, 13vw, 140px);   /* increased from 72–110 → 90–140 */
+  width: auto; object-fit: contain; display: block; border-radius: 6px;
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,.5));
+}
 
-/* Hero title — Playfair kept (display heading) */
+/* Hero title — Playfair kept */
 .lp-title {
   font-family: var(--serif);
-  font-weight: 900; font-size: clamp(38px, 6vw, 68px);
+  font-weight: 900; font-size: clamp(36px, 5.5vw, 66px);
   line-height: 1.0; letter-spacing: -1.5px; color: var(--fi-white);
 }
 
-/* Description — Gotham Book, matching list page body style */
+/* Description — Gotham Book */
 .lp-desc {
   font-family: var(--body);
-  font-size: clamp(14px, 1.6vw, 17px);
-  color: #ccc; max-width: 640px; line-height: 1.7; font-weight: 400;
-  margin-bottom: 24px;
+  font-size: clamp(13px, 1.5vw, 16px);
+  color: #bbb; max-width: 560px; line-height: 1.75; font-weight: 400;
+  margin-bottom: 26px;
 }
 
-.lp-stats { display: flex; gap: 32px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12); }
+.lp-stats {
+  display: flex; gap: 28px; flex-wrap: wrap;
+  padding-top: 18px; border-top: 1px solid rgba(255,255,255,.12);
+}
 
-/* Stat number — Playfair kept for editorial feel */
+/* Stat number — Playfair */
 .lp-stat-num {
   font-family: var(--serif);
   font-size: clamp(22px, 3vw, 34px); font-weight: 700; color: #D4AF37; line-height: 1;
 }
 
-/* Stat label — Gotham Book */
+/* Stat label — Gotham */
 .lp-stat-lbl {
   font-family: var(--body);
   font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #888; margin-top: 5px;
@@ -673,21 +751,32 @@ img { display: block; max-width: 100%; }
      ═══════════════════════════════════════════════════ -->
 <section class="lp-hero">
   <div class="lp-hero-inner">
-    <div class="lp-eyebrow">Forbes India Lists</div>
-    <div class="lp-identity">
-      <div class="lp-logo-wrap">
-        <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/logo30-2026-03-cb25e2b54e17a3d703c5f21dd0dd1311.jpg" alt="30 Under 30 Logo" />
+
+    <!-- Left: eyebrow, logo+title, desc, stats -->
+    <div class="lp-hero-content">
+      <div class="lp-eyebrow">Forbes India Lists</div>
+      <div class="lp-identity">
+        <div class="lp-logo-wrap">
+          <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/logo30-2026-03-cb25e2b54e17a3d703c5f21dd0dd1311.jpg" alt="30 Under 30 Logo" />
+        </div>
+        <h1 class="lp-title">30 Under 30</h1>
       </div>
-      <h1 class="lp-title">30 Under 30</h1>
+      <p class="lp-desc">
+        Meet the Forbes India 30 Under 30 winners, a class full of performers and a mix of tech innovators, healthcare mavericks, financial wizards, and more. The cohort has not only launched disruptive businesses all under the age of 30 but also focussed on creating social impact through ventures that address societal issues, sustainability and community development.
+      </p>
+      <div class="lp-stats">
+        <div class="lp-stat"><div class="lp-stat-num">10</div><div class="lp-stat-lbl">Editions</div></div>
+        <div class="lp-stat"><div class="lp-stat-num">300</div><div class="lp-stat-lbl">Honorees</div></div>
+        <div class="lp-stat"><div class="lp-stat-num">2017</div><div class="lp-stat-lbl">Inaugural Year</div></div>
+      </div>
     </div>
-    <p class="lp-desc">
-      Meet the Forbes India 30 Under 30 winners, a class full of performers and a mix of tech innovators, healthcare mavericks, financial wizards, and more. The cohort has not only launched disruptive businesses all under the age of 30 but also focussed on creating social impact through ventures that address societal issues, sustainability and community development.
-    </p>
-    <div class="lp-stats">
-      <div class="lp-stat"><div class="lp-stat-num">10</div><div class="lp-stat-lbl">Editions</div></div>
-      <div class="lp-stat"><div class="lp-stat-num">300</div><div class="lp-stat-lbl">Honorees</div></div>
-      <div class="lp-stat"><div class="lp-stat-num">2017</div><div class="lp-stat-lbl">Inaugural Year</div></div>
+
+    <!-- Right: cover image -->
+    <div class="lp-hero-cover">
+      <img src="https://images.news18.com/ms/prod/forbesindia/Overview_900_X475_72e1f88c9e.jpg"
+           alt="Forbes India 30 Under 30 — Class of 2026" />
     </div>
+
   </div>
 </section>
 
