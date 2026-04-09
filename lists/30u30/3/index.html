@@ -190,62 +190,58 @@ img { display: block; max-width: 100%; }
   max-width: var(--max); margin: 0 auto; position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
-  grid-template-rows: auto;
+  align-items: center;              /* vertically centre both columns */
   gap: 0;
-  align-items: stretch;
 }
 
 /* Left content column */
 .lp-hero-content {
   padding: 32px var(--pad) 32px;
   display: flex; flex-direction: column; justify-content: center;
+  min-width: 0;
 }
 
-/* Right cover image column */
+/* Right cover image column — natural size, no forced height */
 .lp-hero-cover {
-  width: clamp(260px, 36vw, 460px);
-  position: relative; overflow: hidden;
   flex-shrink: 0;
+  position: relative;
+  /* constrain width so it doesn't dominate; image height follows naturally */
+  width: clamp(280px, 40vw, 500px);
+  align-self: center;
 }
 .lp-hero-cover img {
   display: block;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  width: 100%;
+  height: auto;                     /* key fix: let height follow the image's natural ratio */
+  object-fit: contain;              /* show entire image, no cropping */
+  object-position: center center;
   /* Fade left edge into the dark hero background */
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.5) 18%, #000 42%);
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.5) 18%, #000 42%);
-}
-/* Subtle bottom fade */
-.lp-hero-cover::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
-  background: linear-gradient(to top, rgba(15,15,15,.7), transparent);
-  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 20%, #000 44%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,.55) 20%, #000 44%);
 }
 
 /* Mobile: single column, cover becomes a banner at top */
 @media (max-width: 767px) {
   .lp-hero-inner {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
   }
   .lp-hero-cover {
     width: 100%;
-    height: 200px;
-    order: -1;               /* cover goes above the content on mobile */
+    order: -1;               /* cover above content on mobile */
   }
   .lp-hero-cover img {
+    object-fit: cover;
+    height: 220px;           /* fixed height banner on mobile */
     object-position: center 20%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
   }
-  .lp-hero-cover::after { display: none; }
-  .lp-hero-content { padding: 24px var(--pad) 28px; }
+  .lp-hero-content { padding: 20px var(--pad) 28px; }
 }
+
 /* Tablet: slightly narrower cover */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .lp-hero-cover { width: clamp(220px, 42vw, 360px); }
+  .lp-hero-cover { width: clamp(240px, 44vw, 400px); }
 }
 
 /* Eyebrow label */
