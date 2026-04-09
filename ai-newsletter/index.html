@@ -1,971 +1,936 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forbes India Weekly BUSINESS DIGEST</title>
-    <style>
-        /* Global & Reset Styles */
-        body, table, td, a {
-            -webkit-text-size-adjust: 100%;
-            -ms-text-size-adjust: 100%;
-        }
-        table, td {
-            mso-table-lspace: 0pt;
-            mso-table-rspace: 0pt;
-            /* Ensures no extra space in Outlook */
-            border-collapse: collapse !important; 
-        }
-        img {
-            -ms-interpolation-mode: bicubic;
-            /* Prevents image borders in some clients */
-            border: 0;
-            height: auto;
-            line-height: 100%;
-            outline: none;
-            text-decoration: none;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #F8F9FA; 
-            color: #333333;
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Times New Roman', serif;
-            margin: 0;
-            line-height: 1.2;
-            color: #1a1a1a;
-        }
-        p {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin-bottom: 15px; 
-            color: #555555;
-        }
-        p:last-child {
-            margin-bottom: 0;
-        }
-        a {
-            text-decoration: none;
-            color: #0D3B66;
-        }
-        .container {
-            width: 100%;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 16px; 
-            overflow: hidden;
-            background-color: #ffffff;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
-        }
-        /* Important: Use specific classes for padding and background to avoid inline style conflicts */
-        .section {
-            padding: 40px 30px;
-        }
-        .divider {
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        /* Specific Component Styles */
-        .header {
-            padding: 24px 30px;
-            background-color: #ffffff;
-            border-bottom: 1px solid #dee2e6;
-        }
-        .header-info {
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #888888;
-            text-transform: uppercase;
-        }
-        .intro-text {
-            font-family: 'Times New Roman', serif;
-            font-size: 20px;
-            font-style: italic;
-            color: #6c757d;
-        }
-        .story-block {
-            padding: 20px 30px; 
-            border-bottom: 1px solid #e9ecef;
-        }
-        .story-image {
-            width: 100%;
-            height: auto;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        .quote-section {
-            background-color: #E6EEF5;
-            color: #0D3B66;
-            font-family: 'Times New Roman', serif;
-            font-style: italic;
-            padding: 40px 30px;
-            border-radius: 0 0 16px 16px;
-        }
-        .footer {
-            padding: 40px 30px;
-            background-color: #ffffff;
-        }
-
-        /* Divider */
-        .stories-divider-container {
-            /*padding: 15px 30px 10px 30px; */
-            background-color: #ffffff; 
-        }
-        .stories-divider {
-            font-family: Arial, sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: #0D3B66; 
-            background-color: #F0F8FF; 
-            padding: 12px 20px;
-            text-align: center;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            border-radius: 8px; 
-            border-left: 5px solid #0D3B66; 
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        }
-
-        /* Story Number Badge Styling */
-        .story-number-badge {
-            font-family: Arial, sans-serif; 
-            font-size: 20px; 
-            font-weight: 900;
-            color: #0D3B66; 
-            background-color: #E0EFFF; 
-            padding: 8px 12px;
-            line-height: 1;
-            border-radius: 6px; 
-            text-align: center;
-            white-space: nowrap;
-        }
-        
-        /* Table of Contents (In this edition) Styling */
-        .toc-box {
-            background-color: #F7F7F7; 
-            padding: 15px 25px;
-            border-radius: 10px;
-            margin-top: 15px; 
-            margin-bottom: 25px; /* Added spacing after TOC */
-            border-left: 4px solid #0D3B66; 
-        }
-
-        /* New: Magazine Widget Styles */
-        .magazine-widget-container {
-            padding: 20px 20px;
-            background-color: #F0F8FF; /* Light blue background for emphasis */
-            border-radius: 12px;
-            margin-bottom: 25px; 
-            border: 1px solid #C4DFFD;
-        }
-        .cover-letter-headline {
-            font-size: 24px;
-            font-weight: 700;
-            color: #1a1a1a;
-            font-family: 'Times New Roman', serif;
-            margin: 10px 0 5px 0;
-            line-height: 1.2;
-        }
-        .story-thumbnail {
-            width: 100%; 
-            height: auto; 
-            display: block;
-            border-radius: 4px;
-            border: 1px solid #e9ecef;
-        }
-
-
-        /* Social Follow Styling */
-        .social-follow-title {
-            font-size: 18px;
-            font-weight: bold;
-            color: #0D3B66;
-            margin-bottom: 15px;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Social Icon Styling (Shared) */
-        .social-icon {
-            display: block; /* Use block to ensure correct display in TD */
-            width: 30px;
-            height: 30px;
-            line-height: 30px;
-            text-align: center;
-            border-radius: 50%;
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        /* Specific Social Colors */
-        .icon-whatsapp { background-color: #25D366; }
-        .icon-linkedin { background-color: #0A66C2; }
-        .icon-twitter { background-color: #1DA1F2; }
-        .icon-facebook { background-color: #3b5998; }
-        .icon-instagram { background-color: #C13584; }
-
-        /* MARKET WIDGET: Replaced Flex with Table-based layout for robust compatibility */
-        .market-widget-table {
-            border: 1px solid #E9ECEF;
-            border-radius: 8px; /* May not render in all clients, but safe */
-            overflow: hidden; /* Safe wrapper */
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Fails gracefully */
-            background-color: #ffffff; /* Container background */
-        }
-        .market-item-td {
-            text-align: center;
-            background-color: #F8F9FA;
-            padding: 15px 5px;
-            border-right: 1px solid #E9ECEF;
-        }
-        .market-item-td:last-child {
-            border-right: none;
-        }
-        .market-item-td .label {
-            font-size: 11px; 
-            font-weight: bold;
-            color: #1a1a1a;
-            margin-bottom: 3px;
-            text-transform: uppercase;
-            line-height: 1.2;
-        }
-        .market-item-td .value {
-            font-size: 16px; 
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 3px;
-            line-height: 1.2;
-        }
-        .market-item-td .change {
-            font-size: 12px; 
-            font-weight: bold;
-            line-height: 1.2;
-        }
-        .change.positive {
-            color: #28a745; 
-        }
-        .change.negative {
-            color: #dc3545; 
-        }
-        
-        /* Mobile Responsive Styles */
-        @media only screen and (max-width: 480px) {
-            .container {
-                border-radius: 0;
-            }
-            .section {
-                padding: 20px 15px;
-            }
-            .story-block {
-                padding: 20px 15px;
-            }
-            /* --- CHANGE MADE HERE ---
-               Removed the mobile-specific styles that forced stacking 
-               for .story-img-col and .story-text-col in the Magazine Widget. 
-               This ensures the desktop side-by-side layout (image on left, text on right) 
-               persists on mobile, as requested.
-            */
-            /* .story-img-col {
-                display: block !important;
-                width: 100% !important;
-                padding-right: 0 !important; 
-                padding-bottom: 10px !important; 
-            }
-            .story-text-col {
-                display: block !important;
-                width: 100% !important;
-            }
-            .story-img-col img {
-                width: 100% !important;
-                height: auto !important;
-                max-width: 100% !important;
-            } */
-            
-            /* IMPORTANT: On mobile, market items maintain column layout (safer for Outlook) */
-            .market-item-td {
-                width: 25% !important; /* Keep 4 columns across */
-                padding: 10px 5px !important;
-            }
-        }
-
-        p img{
-            width: 100% !important;   
-            height: auto !important;
-            display: block !important;
-        }
-    </style>
-</head>
-
-<body style="margin:0; padding:0; background-color:#F8F9FA;">
-<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F9FA">
-    <tr>
-        <td align="center" style="padding:20px 0;">
-            <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
-
-                <!-- Header -->
-                <tr>
-                    <td class="header" align="center">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Forbes India Weekly BUSINESS DIGEST</title>
+      <style>
+         /* Global & Reset Styles */
+         body, table, td, a {
+         -webkit-text-size-adjust: 100%;
+         -ms-text-size-adjust: 100%;
+         }
+         table, td {
+         mso-table-lspace: 0pt;
+         mso-table-rspace: 0pt;
+         /* Ensures no extra space in Outlook */
+         border-collapse: collapse !important; 
+         }
+         img {
+         -ms-interpolation-mode: bicubic;
+         /* Prevents image borders in some clients */
+         border: 0;
+         height: auto;
+         line-height: 100%;
+         outline: none;
+         text-decoration: none;
+         }
+         body {
+         margin: 0;
+         padding: 0;
+         font-family: Arial, sans-serif;
+         background-color: #F8F9FA; 
+         color: #333333;
+         }
+         h1, h2, h3, h4, h5, h6 {
+         font-family: 'Times New Roman', serif;
+         margin: 0;
+         line-height: 1.2;
+         color: #1a1a1a;
+         }
+         p {
+         font-family: Arial, sans-serif;
+         line-height: 1.6;
+         margin-bottom: 15px; 
+         color: #555555;
+         }
+         p:last-child {
+         margin-bottom: 0;
+         }
+         a {
+         text-decoration: none;
+         color: #0D3B66;
+         }
+         .container {
+         width: 100%;
+         max-width: 600px;
+         margin: auto;
+         border-radius: 16px; 
+         overflow: hidden;
+         background-color: #ffffff;
+         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); 
+         }
+         /* Important: Use specific classes for padding and background to avoid inline style conflicts */
+         .section {
+         padding: 40px 30px;
+         }
+         .divider {
+         border-bottom: 1px solid #e9ecef;
+         }
+         /* Specific Component Styles */
+         .header {
+         padding: 24px 30px;
+         background-color: #ffffff;
+         border-bottom: 1px solid #dee2e6;
+         }
+         .header-info {
+         font-family: Arial, sans-serif;
+         font-size: 14px;
+         color: #888888;
+         text-transform: uppercase;
+         }
+         .intro-text {
+         font-family: 'Times New Roman', serif;
+         font-size: 20px;
+         font-style: italic;
+         color: #6c757d;
+         }
+         .story-block {
+         padding: 20px 30px; 
+         border-bottom: 1px solid #e9ecef;
+         }
+         .story-image {
+         width: 100%;
+         height: auto;
+         border-radius: 8px;
+         margin: 20px 0;
+         }
+         .quote-section {
+         background-color: #E6EEF5;
+         color: #0D3B66;
+         font-family: 'Times New Roman', serif;
+         font-style: italic;
+         padding: 40px 30px;
+         border-radius: 0 0 16px 16px;
+         }
+         .footer {
+         padding: 40px 30px;
+         background-color: #ffffff;
+         }
+         /* Divider */
+         .stories-divider-container {
+         /*padding: 15px 30px 10px 30px; */
+         background-color: #ffffff; 
+         }
+         .stories-divider {
+         font-family: Arial, sans-serif;
+         font-size: 16px;
+         font-weight: 700;
+         color: #0D3B66; 
+         background-color: #F0F8FF; 
+         padding: 12px 20px;
+         text-align: center;
+         letter-spacing: 2px;
+         text-transform: uppercase;
+         border-radius: 8px; 
+         border-left: 5px solid #0D3B66; 
+         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+         }
+         /* Story Number Badge Styling */
+         .story-number-badge {
+         font-family: Arial, sans-serif; 
+         font-size: 20px; 
+         font-weight: 900;
+         color: #0D3B66; 
+         background-color: #E0EFFF; 
+         padding: 8px 12px;
+         line-height: 1;
+         border-radius: 6px; 
+         text-align: center;
+         white-space: nowrap;
+         }
+         /* Table of Contents (In this edition) Styling */
+         .toc-box {
+         background-color: #F7F7F7; 
+         padding: 15px 25px;
+         border-radius: 10px;
+         margin-top: 15px; 
+         margin-bottom: 25px; /* Added spacing after TOC */
+         border-left: 4px solid #0D3B66; 
+         }
+         /* New: Magazine Widget Styles */
+         .magazine-widget-container {
+         padding: 20px 20px;
+         background-color: #F0F8FF; /* Light blue background for emphasis */
+         border-radius: 12px;
+         margin-bottom: 25px; 
+         border: 1px solid #C4DFFD;
+         }
+         .cover-letter-headline {
+         font-size: 24px;
+         font-weight: 700;
+         color: #1a1a1a;
+         font-family: 'Times New Roman', serif;
+         margin: 10px 0 5px 0;
+         line-height: 1.2;
+         }
+         .story-thumbnail {
+         width: 100%; 
+         height: auto; 
+         display: block;
+         border-radius: 4px;
+         border: 1px solid #e9ecef;
+         }
+         /* Social Follow Styling */
+         .social-follow-title {
+         font-size: 18px;
+         font-weight: bold;
+         color: #0D3B66;
+         margin-bottom: 15px;
+         font-family: Arial, sans-serif;
+         }
+         /* Social Icon Styling (Shared) */
+         .social-icon {
+         display: block; /* Use block to ensure correct display in TD */
+         width: 30px;
+         height: 30px;
+         line-height: 30px;
+         text-align: center;
+         border-radius: 50%;
+         color: #ffffff;
+         font-size: 14px;
+         font-weight: bold;
+         text-decoration: none;
+         }
+         /* Specific Social Colors */
+         .icon-whatsapp { background-color: #25D366; }
+         .icon-linkedin { background-color: #0A66C2; }
+         .icon-twitter { background-color: #1DA1F2; }
+         .icon-facebook { background-color: #3b5998; }
+         .icon-instagram { background-color: #C13584; }
+         /* MARKET WIDGET: Replaced Flex with Table-based layout for robust compatibility */
+         .market-widget-table {
+         border: 1px solid #E9ECEF;
+         border-radius: 8px; /* May not render in all clients, but safe */
+         overflow: hidden; /* Safe wrapper */
+         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08); /* Fails gracefully */
+         background-color: #ffffff; /* Container background */
+         }
+         .market-item-td {
+         text-align: center;
+         background-color: #F8F9FA;
+         padding: 15px 5px;
+         border-right: 1px solid #E9ECEF;
+         }
+         .market-item-td:last-child {
+         border-right: none;
+         }
+         .market-item-td .label {
+         font-size: 11px; 
+         font-weight: bold;
+         color: #1a1a1a;
+         margin-bottom: 3px;
+         text-transform: uppercase;
+         line-height: 1.2;
+         }
+         .market-item-td .value {
+         font-size: 16px; 
+         font-weight: bold;
+         color: #333;
+         margin-bottom: 3px;
+         line-height: 1.2;
+         }
+         .market-item-td .change {
+         font-size: 12px; 
+         font-weight: bold;
+         line-height: 1.2;
+         }
+         .change.positive {
+         color: #28a745; 
+         }
+         .change.negative {
+         color: #dc3545; 
+         }
+         /* Mobile Responsive Styles */
+         @media only screen and (max-width: 480px) {
+         .container {
+         border-radius: 0;
+         }
+         .section {
+         padding: 20px 15px;
+         }
+         .story-block {
+         padding: 20px 15px;
+         }
+         /* --- CHANGE MADE HERE ---
+         Removed the mobile-specific styles that forced stacking 
+         for .story-img-col and .story-text-col in the Magazine Widget. 
+         This ensures the desktop side-by-side layout (image on left, text on right) 
+         persists on mobile, as requested.
+         */
+         /* .story-img-col {
+         display: block !important;
+         width: 100% !important;
+         padding-right: 0 !important; 
+         padding-bottom: 10px !important; 
+         }
+         .story-text-col {
+         display: block !important;
+         width: 100% !important;
+         }
+         .story-img-col img {
+         width: 100% !important;
+         height: auto !important;
+         max-width: 100% !important;
+         } */
+         /* IMPORTANT: On mobile, market items maintain column layout (safer for Outlook) */
+         .market-item-td {
+         width: 25% !important; /* Keep 4 columns across */
+         padding: 10px 5px !important;
+         }
+         }
+         p img{
+         width: 100% !important;   
+         height: auto !important;
+         display: block !important;
+         }
+      </style>
+   </head>
+      <body style="margin:0; padding:0; background-color:#F8F9FA;">
+      <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#F8F9FA">
+         <tr>
+            <td align="center" style="padding:20px 0;">
+               <table class="container" border="0" cellpadding="0" cellspacing="0" width="600">
+                  <!-- Header -->
+                  <tr>
+                     <td class="header" align="center">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                            <tr>
-                                <td align="left">
-                                    <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/11/ForbesIndiaLogo5-2025-11-8dd9c98df910d35f7144e2ab102cdacf.png"
-                                         alt="Forbes India Logo"
-                                         width="120" height="30"
-                                         style="display:block; border:0; outline:none; text-decoration:none;">
-                                </td>
-                                <td align="right" class="header-info">
-                                    <span style="font-size:12px; color:#6c757d;">
-                                        Friday, March 13, 2026                                    </span><br>
-                                    <span style="font-size:14px; font-weight:bold; color:#0D3B66; letter-spacing:1px;">
-                                        Inside.AI                                    </span>
-
-                                </td>
-                            </tr>
+                           <tr>
+                              <td align="left">
+                                 <img src="https://images.forbesindia.com/blog/wp-content/uploads/2025/11/ForbesIndiaLogo5-2025-11-8dd9c98df910d35f7144e2ab102cdacf.png"
+                                    alt="Forbes India Logo"
+                                    width="120" height="30"
+                                    style="display:block; border:0; outline:none; text-decoration:none;">
+                              </td>
+                              <td align="right" class="header-info">
+                                 <span style="font-size:12px; color:#6c757d;">
+                                 Thursday, April 9, 2026                                 </span><br>
+                                 <span style="font-size:14px; font-weight:bold; color:#0D3B66; letter-spacing:1px;">
+                                 <div style="line-height:22px; white-space:normal;margin-left:20px;"><div>Inside.AI</div><div></div></div>                                 </span>
+                              </td>
+                           </tr>
                         </table>
-                    </td>
-                </tr>
-
-                <!-- Story Blocks -->
-                <tr>
-                    <td class="story-block" style="padding-bottom:30px;">
-
+                     </td>
+                  </tr>
+                  <!-- Story Blocks -->
+                  <tr>
+                     <td class="story-block" style="padding-bottom:30px;">
                         <!-- Email Summary -->
-                                                    
+                                                
 
 
 <img style="width: 100%;max-width: 700px;height: auto" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/banner-2026-02-c9c06a27c3c37d72a17536bfa886fe92.jpg" alt="AI related image" />
 
 
 
-<p><!-- Image --></p>
-                                                    <p><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/0RazorpayNR04BG-2026-03-6ad27bc99d934882b704670b50a86b39.jpg" alt="AI Tracker" /></p>
-                                                    <p><!-- Caption --></p>
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Razorpay founders Harshil Mathur and Shashank Kumar . Photo by Nishant Ratnakar for Forbes India</p>
 <p style="text-align: right">From <a href="https://www.forbesindia.com/author/naini-thaker/5173"><strong>Naini Thaker</strong></a> | Assistant Editor</p>
-<p>Yesterday, at the Razorpay FTX Fintech Summit, I found myself listening to Razorpay founders Harshil Mathur and Shashank Kumar reflect on what it means to build a company in an AI‑first world. Razorpay unveiled a sweeping lineup of products—not tools with “AI sprinkled on,” as they put it, but a near‑relaunch of the company itself, rebuilt ground‑up for the AI era.</p>
-                                                    <p>One short ad‑film in particular stayed with me. It captured the loneliness of being a founder—the scramble for loans, the bureaucratic hoops, the endless small battles. And yet, by the end, the founder stands at the helm of a thriving business. A reminder of how isolating, and yet how transformative, that journey can be.</p>
-                                                    <p>During his keynote, Kumar posed a simple but powerful question: If Razorpay were being built today, in an AI‑native world, what would we do differently? The answer, it seems, is everything. From cutting merchant onboarding from 33 minutes to just 3:06, to launching Agent Studio—the world’s first AI‑native agent platform for payments, powered by Anthropic’s Claude—the company has reimagined onboarding, integrations, and day‑to‑day operations through a conversational, AI‑driven layer.</p>
-                                                    <p>And maybe that’s the real story here. Rebuilding with the founder in mind. Rebuilding with the customer in mind. Rebuilding with AI at the core, not as an add‑on. AI isn’t a trend we’re inching toward—it’s the new reality we’re already living in. The sooner we embrace that, the more resilient the companies we build will be.</p>
-                                                    <p>That’s not all — the week has been buzzing with major AI developments, from Perplexity’s big comeback to Meta’s Moltbook acquisition and Atlassian’s AI‑pivot layoffs. Here’s a quick, simplified rundown of everything you need to know:</p>
-                        
-
-                        <!-- In This Edition -->
-                                                    <div class="toc-box" style="margin-bottom:20px;">
-                                <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-top:0; margin-bottom:10px;">
-                                    In this edition:
-                                </p>
-                                <ul style="list-style-type:none; padding:0; margin:0;">
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🤖Razorpay Unveils World’s First AI‑Native Agent Studio for Payments                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🧠Perplexity Launches Perplexity Computer, a Multi‑Model OS for Full AI Workflows                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                ✂️Atlassian to Cut 1,600 Jobs as It Reorients the Company Around AI                                            </a>
-                                        </li>
-                                                                            <li style="margin-bottom:8px;">
-                                            <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
-                                                🌐Meta Acquires Moltbook, an AI‑Only Social Network for Autonomous Agents                                            </a>
-                                        </li>
-                                                                    </ul>
-                            </div>
-                        
-                        
-                        <!-- Render sections in the preserved order -->
-
-                        
-                            <!-- If widgetKey is magazine_stories or similar, render magazine style -->
-                          
-
-
-
-                            </td></tr>
-    
-                                   <tr>
-                                        <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
-                                            <div class="stories-divider">TOP STORIES</div>
-                                        </td>
-                                    </tr>
-                                    
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🤖Razorpay Unveils World’s First AI‑Native Agent Studio for Payments                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Image -->                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/1Razorpay-Agent-StudioBG-2026-03-e0b3c5dcab5e23409a703312ccb7da2e.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Caption -->
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo credits: Razorpay</p>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Razorpay has launched the world’s first AI‑native Agent Studio for payments, developed using Anthropic’s Claude Agent SDK. Designed as a full marketplace and builder platform, it lets businesses deploy specialised AI agents that automate payment operations—from cart recovery to subscription retries, settlement reconciliation, dispute resolution, and cash‑flow forecasting—all without writing code.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                The company also introduced its Agentic Experience Platform, a conversational AI layer that streamlines merchant onboarding, integrations, and payment management. Razorpay says the new stack represents a shift towards intelligent financial infrastructure, where autonomous agents manage revenue flows and operational tasks across billions of transactions in real time.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                With production‑ready agents built in collaboration with partners like Zomato’s Nugget and SuperU, the platform integrates with tools such as Shopify, Slack, WhatsApp, Tally and QuickBooks—positioning Razorpay to redefine how businesses run payment workflows end‑to‑end.                            </p>
-                                                                                    <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       More stories --&gt;                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+<p>India's AI ambitions have a power problem.</p>
+                                                <p>The country wants $200 billion in data centre and AI infrastructure investments by 2030. Microsoft, Amazon, Alphabet, Adani, Reliance — the commitments are already in. Capacity is set to jump from 1.2GW today to 10GW by the end of the decade. On paper, it reads like a triumph of industrial policy.</p>
+                                                <p>But this week, India's apex power planning body—the Central Electricity Authority—went back to the drawing board. The concern: a concentration of massive data centre hubs coming up in Andhra Pradesh, Karnataka, Maharashtra, Telangana and a handful of other states could skew electricity consumption so dramatically that it destabilises the national grid. Each data centre cluster could draw around 2GW of power continuously, enough to fundamentally alter the demand profile of an entire state. For Maharashtra or Karnataka, adding 2-3GW to the base load isn't a rounding error. It's a grid event.</p>
+                                                <p>The CEA is now asking states and power distribution companies to bake data centre demand into their resource adequacy plans—essentially, India is realising that the AI boom it has been so aggressively courting comes with an electricity bill nobody fully planned for.</p>
+                                                <p>It's a reminder that behind every AI model, every GPU cluster, every sovereign cloud ambition, there is a very physical, very finite resource being consumed at scale. India is building for an AI future. It just needs to make sure the lights stay on.</p>
+                                                <p>Here's the rest of the week in AI:</p>
+                                                <!-- In This Edition -->
+                                                <div class="toc-box" style="margin-bottom:20px;">
+                           <p style="font-size:16px; font-weight:bold; color:#1a1a1a; margin-top:0; margin-bottom:10px;">
+                              In this edition:
+                           </p>
+                           <ul style="list-style-type:none; padding:0; margin:0;">
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 Rivals Unite Against China&#039;s AI Copycat Machine                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 Meta&#039;s $14 Billion Moment of Truth                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 Anthropic&#039;s Most Powerful Model Is One You Can&#039;t Use                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 India&#039;s Own AI Lab Is Having Its Moment                                 </a>
+                              </li>
+                                                            <li style="margin-bottom:8px;">
+                                 <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="color:#2A67A3; text-decoration:underline; font-size:16px;">
+                                 Rocket 1.0: Vibe Coding Grew Up                                 </a>
+                              </li>
+                                                         </ul>
+                        </div>
+                                                                        <!-- Render sections in the preserved order -->
+                                                <!-- If widgetKey is magazine_stories or similar, render magazine style -->
+                                                               </td></tr>
+                  <tr>
+                     <td align="center" class="stories-divider-container" style="padding: 15px 30px 10px 30px">
+                        <div class="stories-divider">TOP STORIES</div>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    Rivals Unite Against China&#039;s AI Copycat Machine                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Image -->                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/1AFP20260409A73L8F8v1HighResFilesChinaTechnologyAiDeepseek-2026-04-600e6e455ae528f7f2087353cafd929e.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Caption -->
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">DeepSeek has been accused of attempting to distill its models through "new, obfuscated methods"
+Photo by Mladen Antonov / AFPA</p>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           In what may be the most unexpected alliance in tech this year, OpenAI, Anthropic and Google— three companies locked in fierce competition for enterprise contracts and talent—announced they are pooling threat intelligence to combat a practice called adversarial distillation: the systematic extraction of capabilities from frontier AI models by feeding them millions of carefully crafted queries and using the responses to train cheaper, faster imitations.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The coordination is happening through the Frontier Model Forum, an industry nonprofit the three companies co-founded with Microsoft in 2023, which until now had functioned largely as a venue for safety pledges and government-facing commitments. This week marked the first time it has been activated as an active threat-detection operation against named external adversaries.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The scale of the problem is striking. News reports state that Anthropic traced over 16 million unauthorised exchanges back to roughly 24,000 fraudulent accounts, with three Chinese firms—DeepSeek, Moonshot AI and MiniMax—identified by name. OpenAI has separately accused DeepSeek of attempting to distill its models through "new, obfuscated methods" and has formally flagged the issue to the House Select Committee on China.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           That three direct competitors are voluntarily sharing attack pattern data tells you something about how seriously they view the threat. But the deeper concern isn't lost revenue—it's safety.                        </p>
+                                                                        <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           More stories                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25F0%259F%25A4%2596Razorpay%2BUnveils%2BWorld%25E2%2580%2599s%2BFirst%2BAI%25E2%2580%2591Native%2BAgent%2BStudio%2Bfor%2BPayments+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=Rivals%2BUnite%2BAgainst%2BChina%2526%2523039%253Bs%2BAI%2BCopycat%2BMachine+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%A4%96Razorpay+Unveils+World%E2%80%99s+First+AI%E2%80%91Native+Agent+Studio+for+Payments"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=Rivals+Unite+Against+China%26%23039%3Bs+AI+Copycat+Machine"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%F0%9F%A4%96Razorpay+Unveils+World%E2%80%99s+First+AI%E2%80%91Native+Agent+Studio+for+Payments&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=Rivals+Unite+Against+China%26%23039%3Bs+AI+Copycat+Machine&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🧠Perplexity Launches Perplexity Computer, a Multi‑Model OS for Full AI Workflows                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Image -->                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/2Perplexity-ComputerBG-2026-03-11f4d213ec185636ba8c483f53710bc7.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Caption -->
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo credits: Perplexity</p>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Perplexity has unveiled Perplexity Computer, a new orchestration interface designed to handle entire workflows rather than individual tasks. Unlike single‑model systems such as Claude Code or Google’s agent tools, Perplexity Computer coordinates specialized sub‑agents across multiple AI models, leveraging each model’s strengths — whether coding with Claude or writing with Gemini.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Positioned as the first fully multi‑model orchestration UI, Computer automates complex, multi‑step processes within a safe, auditable environment. Perplexity says its architecture offers broader agentic web access and safer task execution compared to emerging tools like OpenClaw. It’s also built on years of development behind Comet, the company’s agentic browser.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Perplexity isn’t stopping there: alongside Computer comes a deeper ecosystem — including Personal Computer, Enterprise Computer, and mobile integrations — allowing users and teams to run 24/7 autonomous tasks, coordinate agents across devices, and tap into Perplexity’s expanding API platform.                            </p>
-                                                                                    <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       More stories --&gt;                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    Meta&#039;s $14 Billion Moment of Truth                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Image -->                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <a href="?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/2MetaMuseSpark-2026-04-f2c5568ddfd2dd6d29aeee55828734f6.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Caption -->
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo Courtesy Meta Ai</p>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Nine months after Mark Zuckerberg restructured his entire AI operation—pouring $14.3 billion into data labelling firm Scale AI and handing its co-founder Alexandr Wang the keys to a new unit called Meta Superintelligence Labs—it’s first product is here. Muse Spark, built from scratch in under a year, is Meta's most serious attempt yet to close the gap with OpenAI and Anthropic.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The model is already live across Meta AI and Meta.ai, with a rollout to Facebook, Instagram and WhatsApp to follow. It handles voice, text and image inputs, has dedicated reasoning modes, and includes a shopping mode that draws on Meta's vast trove of user behaviour data—a differentiator none of its rivals can easily replicate.
+Meta is candid about where it falls short: coding remains a weak spot relative to the competition. But on multimodal understanding and health-related queries, the company says Muse Spark holds its own.                        </p>
+                                                                        <p style="margin-top:10px;">
+                           <a target="_blank" href="?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           More stories                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25F0%259F%25A7%25A0Perplexity%2BLaunches%2BPerplexity%2BComputer%252C%2Ba%2BMulti%25E2%2580%2591Model%2BOS%2Bfor%2BFull%2BAI%2BWorkflows+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=Meta%2526%2523039%253Bs%2B%252414%2BBillion%2BMoment%2Bof%2BTruth+%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%A7%A0Perplexity+Launches+Perplexity+Computer%2C+a+Multi%E2%80%91Model+OS+for+Full+AI+Workflows"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=Meta%26%23039%3Bs+%2414+Billion+Moment+of+Truth"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%F0%9F%A7%A0Perplexity+Launches+Perplexity+Computer%2C+a+Multi%E2%80%91Model+OS+for+Full+AI+Workflows&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=Meta%26%23039%3Bs+%2414+Billion+Moment+of+Truth&url=%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            ✂️Atlassian to Cut 1,600 Jobs as It Reorients the Company Around AI                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Image -->                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/320130623T120000Z697556430GM1E96O0E8701RTRMADP3AUSTRALIAGEEKSMINERSBG-2026-03-f3008cd62252a51af8ffc83669daa4be.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Caption -->
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo credits: Daniel Munoz / Reuters</p>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Atlassian has announced plans to lay off about 1,600 employees—roughly 10 percent of its workforce—as part of a major pivot toward AI and enterprise sales. The move, detailed in a memo from CEO Mike Cannon‑Brookes, aims to “rebalance” resources for the future of teamwork in the AI era.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Most affected employees are based in North America (40%), Australia (30%) and India (16%), with the restructuring expected to cost between $225 million and $236 million in severance and office reductions.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Cannon‑Brookes stressed that while the shift is not about “AI replacing people,” the technology does change the mix of skills and roles needed inside the company. Atlassian will also see a leadership change, with CTO Rajeev Rajan stepping down on March 31.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                The company expects the restructuring to be substantially complete by Q4 2026 as it doubles down on AI‑driven product development, efficiency and enterprise growth.                            </p>
-                                                                                    <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       More stories --&gt;                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    Anthropic&#039;s Most Powerful Model Is One You Can&#039;t Use                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Image -->                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/3Project-GlasswingAnthropic-2026-04-bda5c7468fcaf998204f56756eac66c9.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Caption -->
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo Courtesy Anthropic ai</p>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Anthropic this week confirmed the existence of Claude Mythos—described internally as the most capable model the company has ever built. The catch: it won't be publicly available. Only 50 organisations have been granted access, under a programme called “Project Glasswing”, and their job isn't to build products with it. It's to use Mythos to scan their own infrastructure for vulnerabilities before bad actors can exploit what the model is capable of.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The logic is deliberately paradoxical—deploy the most powerful AI to defend against the most powerful AI. Anthropic is essentially saying Mythos is too capable to release openly, at least for now, and the responsible first use is defensive.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The pricing signals ambition: $25 per million input tokens and $125 per million output tokens — significantly above current frontier rates. Anthropic has indicated access will eventually widen, but only once efficiency improvements make it commercially viable at scale.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           What makes this notable isn't just the capability claim. It's the posture. At a moment when every other lab is racing to put their best model in front of as many users as possible, Anthropic locked its best work behind a 50-company firewall and called it a safety decision.                        </p>
+                                                                        <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           More stories                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25E2%259C%2582%25EF%25B8%258FAtlassian%2Bto%2BCut%2B1%252C600%2BJobs%2Bas%2BIt%2BReorients%2Bthe%2BCompany%2BAround%2BAI+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=Anthropic%2526%2523039%253Bs%2BMost%2BPowerful%2BModel%2BIs%2BOne%2BYou%2BCan%2526%2523039%253Bt%2BUse+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%E2%9C%82%EF%B8%8FAtlassian+to+Cut+1%2C600+Jobs+as+It+Reorients+the+Company+Around+AI"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=Anthropic%26%23039%3Bs+Most+Powerful+Model+Is+One+You+Can%26%23039%3Bt+Use"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%E2%9C%82%EF%B8%8FAtlassian+to+Cut+1%2C600+Jobs+as+It+Reorients+the+Company+Around+AI&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=Anthropic%26%23039%3Bs+Most+Powerful+Model+Is+One+You+Can%26%23039%3Bt+Use&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                
-
-                                       <tr>
-                        <td class="story-block">
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
-                                <tr>
-                                    <!-- <td valign="top" width="50" style="padding-right:10px;">
-                                        <div class="story-number-badge"></div>
-                                    </td> -->
-                                    <td valign="top">
-                                        <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
-                                            🌐Meta Acquires Moltbook, an AI‑Only Social Network for Autonomous Agents                                        </h2>
-                                    </td>
-                                </tr>
-                            </table>
-
-                            
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Image -->                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/420260310T144150Z2034265951RC2QDJACPJK1RTRMADP3MOLTBOOKMETAPLATFORMSBG-2026-03-87c343a994276c63b0e0d550400c6c42.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                <!-- Caption -->
-<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo credits: Courtesy Moltbook</p>                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Meta has acquired Moltbook, a fast‑growing social network built entirely for AI agents—not humans. The platform allows AI bots to post, comment, and interact autonomously, raising new questions about identity, authenticity and safety in agent‑run digital spaces.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Moltbook has drawn attention for enabling AI‑to‑AI interactions without human intervention, with posts, replies and discussions generated entirely by agents. BBC notes that this shift highlights a new phase in online behaviour, where bots begin to shape conversation dynamics, forcing platforms to rethink verification and trust models.                            </p>
-                                                        <p style="font-size:16px; color:#555555;">
-                                Meta reportedly, sees Moltbook as a testbed for how autonomous agents might connect, coordinate tasks, and build networks—signalling its ambition to move beyond social media into an emerging “agent internet.” The acquisition comes amid rising debate about how AI agents should prove their identity, how their outputs should be labelled, and how human users can detect automated behaviour.                            </p>
-                                                                                    <p style="margin-top:10px;">
-                                                    <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
-                                                       More stories --&gt;                                                    </a>
-                                                </p>
-
-                            
-
-                            
-                            <!-- Share -->
-                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
-                              <tr>
-                                <td align="left"
-                                    style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
-                                  Share This Story:
-                                </td>
-
-                                
-                                <td align="right">
-
-                                  <!-- WhatsApp -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#66bd56"
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    India&#039;s Own AI Lab Is Having Its Moment                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Image -->                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/4Sarvam-ai-2026-04-4982f63f1ff1fcdcf2aaa2bfedf770e0.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Caption -->
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo Courtesy Sarvam ai</p>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Bengaluru-based Sarvam AI is in advanced talks to raise $300–350 million at a valuation of $1.5–1.55 billion, with Bessemer Venture Partners leading and Nvidia, Amazon and Prosperity7 Ventures participating. If it closes, it would be the largest funding round for a pure-play Indian AI company to date.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Founded in 2023 by researchers Vivek Raghavan and Pratyush Kumar, Sarvam builds voice-first, agentic AI models across 22 Indian languages—a deliberate bet that the next billion AI users won't interact in English. At February's India AI Impact Summit, it unveiled two large language models trained entirely in India, with 30 billion and 105 billion parameters. Kumar's line from the stage said it all: "Today we show we can bring our own AI to a billion Indians."                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Nvidia and Amazon's participation isn't just financial validation — it signals that the world's most important AI infrastructure players are taking India's homegrown bet seriously.                        </p>
+                                                                        <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           More stories                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://wa.me/?text=%25F0%259F%258C%2590Meta%2BAcquires%2BMoltbook%252C%2Ban%2BAI%25E2%2580%2591Only%2BSocial%2BNetwork%2Bfor%2BAutonomous%2BAgents+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=India%2526%2523039%253Bs%2BOwn%2BAI%2BLab%2BIs%2BHaving%2BIts%2BMoment+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
                                           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
-                                               alt="WhatsApp"
-                                               width="18" height="18"
-                                               style="display:block;border:0;">
-                                        </a>
-                                      </td>
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- LinkedIn -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=%F0%9F%8C%90Meta+Acquires+Moltbook%2C+an+AI%E2%80%91Only+Social+Network+for+Autonomous+Agents"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=India%26%23039%3Bs+Own+AI+Lab+Is+Having+Its+Moment"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           in
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                  <!-- X (Twitter) -->
-                                  <table border="0" cellpadding="0" cellspacing="0"
-                                         style="display:inline-block;margin-top:5px;">
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
                                     <tr>
-                                      <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
                                           style="border-radius:50%;">
-                                        <a target="_blank"
-                                           href="https://twitter.com/intent/tweet?text=%F0%9F%8C%90Meta+Acquires+Moltbook%2C+an+AI%E2%80%91Only+Social+Network+for+Autonomous+Agents&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
-                                           style="display:block;line-height:30px;text-decoration:none;
-                                                  font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=India%26%23039%3Bs+Own+AI+Lab+Is+Having+Its+Moment&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
                                           X
-                                        </a>
-                                      </td>
+                                          </a>
+                                       </td>
                                     </tr>
-                                  </table>
-
-                                </td>
-                              </tr>
-                            </table>
-
-                        </td>
-                    </tr>
-                                           
-                                               
-                                                
-                                   
-                                
-                                                                           
-                                    
-
-                                    
-
-
-                                
-
-                                
-
-                        <!-- Subscriber widget (unchanged) -->
-                        <tr>
-                            <td align="center" style="padding: 10px 30px 30px 30px;">
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E6EEF5; border-radius: 12px; padding: 15px; border: 1px solid #C4DFFD;">
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                     <tr>
-                                                                                <td valign="middle" style="padding-right: 15px; width: 70px;">
-                                            <img src="https://images.forbesindia.com/blog/wp-content/uploads/assets/images/V18I05ForbesIndiaCoverFinal384X512.jpg"
-                                                 alt="Forbes India Magazine Cover"
-                                                 width="70" height="auto"
-                                                 style="display:block; border:1px solid #ffffff; outline:none; text-decoration:none; border-radius: 4px;">
-                                        </td>
-                                                                                <td valign="middle">
-                                            <p style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #0D3B66; margin: 0 0 5px 0; line-height: 1.2;">
-                                                Become a Subscriber
-                                            </p>
-                                            <p style="font-family: Arial, sans-serif; font-size: 14px; color: #444444; margin: 0 0 10px 0;">
-                                                Get your hands on our fortnightly editions for as less as Rs 1,129 a year!
-                                            </p>
-                                            <table border="0" cellpadding="0" cellspacing="0">
-                                                <tr>
-                                                    <td align="center" bgcolor="#0D3B66" style="border-radius: 6px;">
-                                                        <a target="_blank" href="https://www.forbesindia.com/subscription" target="_blank" style="font-size: 14px; font-family: Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; padding: 8px 15px; display: block; border: 1px solid #0D3B66; border-radius: 6px; mso-padding-alt: 0; text-transform: uppercase; font-weight: bold;">
-                                                            <span style="mso-text-raise: 15pt; color: #ffffff;">Subscribe Now &rarr;</span>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </td>
+                     <td class="story-block">
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom:15px;">
+                           <tr>
+                              <!-- <td valign="top" width="50" style="padding-right:10px;">
+                                 <div class="story-number-badge"></div>
+                                 </td> -->
+                              <td valign="top">
+                                 <h2 style="font-size:24px; font-weight:bold; margin:0; line-height:1.2; color:#1F4A7C;">
+                                    Rocket 1.0: Vibe Coding Grew Up                                 </h2>
+                              </td>
+                           </tr>
+                        </table>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Image -->                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <a href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" target="_blank" style="text-decoration:none;display:block;"><img style="width: 100%;max-width: 700px;height: auto;border: 0" src="https://images.forbesindia.com/blog/wp-content/uploads/2026/04/5RocketOGd408c9d480-2026-04-7f568dd34355d3cd9bc802e95e9cf3ba.jpg" alt="AI Tracker" / width="560" style="display:block;border:0;outline:none;height:auto;"></a>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           <!-- Caption -->
+<p style="margin: 0;font-size: 13px;line-height: 1.4;color: #777777;font-family: Arial, Helvetica, sans-serif;font-style: italic">Photo Courtesy Rocket</p>                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Surat-based Rocket—the AI app-building platform used by 1.5 million people across 180 countries—launched Rocket 1.0 this week, pitching itself as the world's first "Vibe Solutioning" platform. The distinction matters. Where vibe coding tools like Emergent and Lovable answer the question of how to build, Rocket is trying to answer what to build — and what happens after you do.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           The platform bundles three capabilities: Solve, which runs structured strategic research before a team commits to a product; Build, which turns that decision into a production-ready app; and Intelligence, which continuously monitors competitors across websites, reviews, job postings and marketing after launch.                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Co-founder Vishal Virani puts it plainly: "The most expensive mistake in any business is good execution of the wrong thing."                        </p>
+                                                <p style="font-size:16px; color:#555555;">
+                           Seed-funded and backed by Salesforce Ventures and Accel, Rocket is one of India's quieter but serious bets in the global vibe-coding race.                        </p>
+                                                                        <p style="margin-top:10px;">
+                           <a target="_blank" href="https://www.forbesindia.com/ai-tracker?utm_source=newsletter&#038;utm_medium=email&#038;utm_campaign=daily_newsletter" style="display:inline-block; font-size:14px; font-weight:bold; color:#0D3B66; text-decoration:none; border-bottom:2px solid #0D3B66; padding-bottom:3px;">
+                           More stories                           </a>
+                        </p>
+                        <!-- Share -->
+                        <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top:25px;border-top:1px solid #f0f0f0;padding-top:15px;">
+                           <tr>
+                              <td align="left"
+                                 style="font-family:Arial,sans-serif;font-size:14px;color:#555555;font-weight:bold;">
+                                 Share This Story:
+                              </td>
+                                                            <td align="right">
+                                 <!-- WhatsApp -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#66bd56"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://wa.me/?text=Rocket%2B1.0%253A%2BVibe%2BCoding%2BGrew%2BUp+https%253A%252F%252Fwww.forbesindia.com%252Fai-tracker%253Futm_source%253Dnewsletter%2526%2523038%253Butm_medium%253Demail%2526%2523038%253Butm_campaign%253Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;">
+                                          <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/Whatsapp-2026-02-6b86c034794a858610e5c57e91a3e1bc.png"
+                                             alt="WhatsApp"
+                                             width="18" height="18"
+                                             style="display:block;border:0;">
+                                          </a>
+                                       </td>
                                     </tr>
-                                </table>
-                            </td>
-                        </tr>
-
-                        <!-- Footer -->
-                        <tr>
-                            <td class="footer" align="center">
-                                <div style="padding-bottom: 25px;">
-                                    <div class="social-follow-title" style="font-size: 18px; font-weight: bold; color: #0D3B66; margin-bottom: 15px; font-family: Arial, sans-serif;">
-                                        Follow Forbes India
-                                    </div>
-                                    <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
-                                        <tr>
-
-                                            <!-- X (Twitter) -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://twitter.com/ForbesIndia"
-                                                   style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- LinkedIn -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
-                                                   style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- Facebook -->
-                                            <td align="center" style="padding: 0 4px;">
-                                                <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
-                                                   style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
-                                                          border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
-                                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
-                                                </a>
-                                            </td>
-
-                                            <!-- Instagram -->
-                                            <td align="center" style="padding:0 4px;">
-                                                <table border="0" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td align="center"
-                                                            width="30"
-                                                            height="30"
-                                                            bgcolor="#C13584"
-                                                            style="border-radius:50%;">
-                                                            
-                                                            <a href="https://www.instagram.com/forbesindia/" target="_blank"
-                                                               style="display:block;line-height:30px;text-decoration:none;">
+                                 </table>
+                                 <!-- LinkedIn -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-right:8px;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#0A66C2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter&title=Rocket+1.0%3A+Vibe+Coding+Grew+Up"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          in
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                                 <!-- X (Twitter) -->
+                                 <table border="0" cellpadding="0" cellspacing="0"
+                                    style="display:inline-block;margin-top:5px;">
+                                    <tr>
+                                       <td width="30" height="30" align="center" bgcolor="#1DA1F2"
+                                          style="border-radius:50%;">
+                                          <a target="_blank"
+                                             href="https://twitter.com/intent/tweet?text=Rocket+1.0%3A+Vibe+Coding+Grew+Up&url=https%3A%2F%2Fwww.forbesindia.com%2Fai-tracker%3Futm_source%3Dnewsletter%26%23038%3Butm_medium%3Demail%26%23038%3Butm_campaign%3Ddaily_newsletter"
+                                             style="display:block;line-height:30px;text-decoration:none;
+                                             font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#ffffff;">
+                                          X
+                                          </a>
+                                       </td>
+                                    </tr>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
                                                                
-                                                                <img
-                                                                    src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
-                                                                    alt="Instagram"
-                                                                    width="24"
-                                                                    height="24"
-                                                                    style="display:block;border:0;">
-                                                            </a>
-
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-
-                                        </tr>
-                                    </table>
-
-                                </div>
-
-                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                      <!-- Subscriber widget (unchanged) -->
+                  <tr>
+                     <td align="center" style="padding: 10px 30px 30px 30px;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #E6EEF5; border-radius: 12px; padding: 15px; border: 1px solid #C4DFFD;">
+                           <tr>
+                                                            <td valign="middle" style="padding-right: 15px; width: 70px;">
+                                 <img src="https://images.forbesindia.com/blog/wp-content/uploads/assets/images/V18I7ForbesIndiaCoverFinal384X512.jpg"
+                                    alt="Forbes India Magazine Cover"
+                                    width="70" height="auto"
+                                    style="display:block; border:1px solid #ffffff; outline:none; text-decoration:none; border-radius: 4px;">
+                              </td>
+                                                            <td valign="middle">
+                                 <p style="font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; color: #0D3B66; margin: 0 0 5px 0; line-height: 1.2;">
+                                    Become a Subscriber
+                                 </p>
+                                 <p style="font-family: Arial, sans-serif; font-size: 14px; color: #444444; margin: 0 0 10px 0;">
+                                    Get your hands on our fortnightly editions for as less as Rs 1,129 a year!
+                                 </p>
+                                 <table border="0" cellpadding="0" cellspacing="0">
                                     <tr>
-                                        <td align="center" style="font-family: Arial, sans-serif; font-size: 12px; color: #888888; line-height: 1.5; border-top: 1px solid #e9ecef; padding-top: 20px;">
-                                            <p class="unsubscribe" style="margin: 0;">
-                                                You received this email because you signed up for the Forbes India Weekly Roundup newsletter. <br>
-                                                <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #0D3B66; text-decoration: underline;">Unsubscribe</a>
-                                            </p>
-                                        </td>
+                                       <td align="center" bgcolor="#0D3B66" style="border-radius: 6px;">
+                                          <a target="_blank" href="https://www.forbesindia.com/subscription" target="_blank" style="font-size: 14px; font-family: Arial, sans-serif; color: #ffffff; text-align: center; text-decoration: none; padding: 8px 15px; display: block; border: 1px solid #0D3B66; border-radius: 6px; mso-padding-alt: 0; text-transform: uppercase; font-weight: bold;">
+                                          <span style="mso-text-raise: 15pt; color: #ffffff;">Subscribe Now &rarr;</span>
+                                          </a>
+                                       </td>
                                     </tr>
-                                </table>
-                            </td>
-                        </tr>
-
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-</body>
+                                 </table>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  <!-- Footer -->
+                  <tr>
+                     <td class="footer" align="center">
+                        <div style="padding-bottom: 25px;">
+                           <div class="social-follow-title" style="font-size: 18px; font-weight: bold; color: #0D3B66; margin-bottom: 15px; font-family: Arial, sans-serif;">
+                              Follow Forbes India
+                           </div>
+                           <table border="0" cellpadding="0" cellspacing="0" style="margin: 0 2px 10px;">
+                              <tr>
+                                 <!-- X (Twitter) -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://twitter.com/ForbesIndia"
+                                       style="background-color:#1DA1F2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">X</span>
+                                    </a>
+                                 </td>
+                                 <!-- LinkedIn -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.linkedin.com/company/forbes-india/"
+                                       style="background-color:#0A66C2;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">in</span>
+                                    </a>
+                                 </td>
+                                 <!-- Facebook -->
+                                 <td align="center" style="padding: 0 4px;">
+                                    <a target="_blank" href="https://www.facebook.com/ForbesIndia/"
+                                       style="background-color:#3b5998;display:block;width:30px;height:30px;line-height:30px;
+                                       border-radius:50%;color:#ffffff;font-size:14px;font-weight:bold;text-decoration:none;">
+                                    <span style="font-family:Arial,sans-serif;font-size:14px;color:#ffffff;">f</span>
+                                    </a>
+                                 </td>
+                                 <!-- Instagram -->
+                                 <td align="center" style="padding:0 4px;">
+                                    <table border="0" cellpadding="0" cellspacing="0">
+                                       <tr>
+                                          <td align="center"
+                                             width="30"
+                                             height="30"
+                                             bgcolor="#C13584"
+                                             style="border-radius:50%;">
+                                             <a href="https://www.instagram.com/forbesindia/" target="_blank"
+                                                style="display:block;line-height:30px;text-decoration:none;">
+                                             <img
+                                                src="https://images.forbesindia.com/blog/wp-content/uploads/2026/02/instaicon-2026-02-798fa779ba75b8c19bdd34af8395a066.png"
+                                                alt="Instagram"
+                                                width="24"
+                                                height="24"
+                                                style="display:block;border:0;">
+                                             </a>
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                           <tr>
+                              <td align="center" style="font-family: Arial, sans-serif; font-size: 12px; color: #888888; line-height: 1.5; border-top: 1px solid #e9ecef; padding-top: 20px;">
+                                 <p class="unsubscribe" style="margin: 0;">
+                                    You received this email because you signed up for the Forbes India Weekly Roundup newsletter. <br>
+                                    <a target="_blank" href="*|UNSUBSCRIBE|*" style="color: #0D3B66; text-decoration: underline;">Unsubscribe</a> | 
+                                    <a target="_blank" href="https://forbesindia.com/newsletters" style="color: #0D3B66; text-decoration: underline;">Manage preferences</a>
+                                 </p>
+                              </td>
+                           </tr>
+                        </table>
+                     </td>
+                  </tr>
+                  </td>
+                  </tr>
+               </table>
+            </td>
+         </tr>
+      </table>
+   </body>
 </html>
-
