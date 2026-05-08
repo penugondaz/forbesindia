@@ -8,7 +8,6 @@
 <meta property="og:title" content="India Rich List 2025 | Forbes India"/>
 <meta property="og:type" content="website"/>
 <link rel="canonical" href="https://www.forbesindia.com/lists/india-rich-list-2025"/>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemList","name":"Forbes India Rich List 2025","numberOfItems":100}</script>
 
 <style>
 @font-face{font-family:"Gotham Book";src:url(https://images.forbesindia.com/assets/fonts/Gotham-Book.woff2)format("woff2"),url(https://images.forbesindia.com/assets/fonts/GothamBook.woff2)format("woff2");font-weight:400;font-style:normal;font-display:swap;}
@@ -35,9 +34,7 @@ body{font-family:var(--body);font-size:15px;background:var(--fi-cream);color:var
 a{color:inherit;text-decoration:none;}
 img{display:block;max-width:100%;}
 
-/* ══════════════════════════════
-   HEADER — exact 30U30
-   ══════════════════════════════ */
+/* ══ HEADER ══ */
 .stckyhdr{position:sticky;top:0;background:#fff;z-index:100;}
 .fbhdr{position:relative;}
 .mxwdth{max-width:1160px;margin:0 auto;}
@@ -87,9 +84,7 @@ img{display:block;max-width:100%;}
 .sbmnuli.active .sbinmnu{max-height:500px;padding:8px 16px;}
 .sbinmnu li a{font-size:12px;font-weight:500;color:#757575;padding:8px 0;border:none;}
 
-/* ══════════════════════════════
-   BREADCRUMB
-   ══════════════════════════════ */
+/* ══ BREADCRUMB ══ */
 .ms-breadcrumb-w{background:#f6f6f6;border-bottom:1px solid #e4e4e4;}
 .ms-breadcrumb{list-style:none;display:flex;flex-wrap:wrap;gap:4px;max-width:1160px;margin:0 auto;padding:9px 16px;}
 .ms-breadcrumb li{font-family:var(--body);font-size:11px;color:#757575;}
@@ -97,11 +92,7 @@ img{display:block;max-width:100%;}
 .ms-breadcrumb li a:hover{color:var(--fi-red);}
 .ms-breadcrumb li+li::before{content:"›";padding:0 4px;color:#bbb;}
 
-/* ══════════════════════════════
-   HERO — 30U30 style exactly
-   left: eyebrow + logo+title row + desc + stats
-   right: cover image with fade mask
-   ══════════════════════════════ */
+/* ══ HERO ══ */
 .lp-hero{background:var(--fi-black);position:relative;overflow:hidden;}
 .lp-hero::before{content:'';position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse 60% 80% at 70% 50%,rgba(204,0,0,.10),transparent),
@@ -122,27 +113,18 @@ img{display:block;max-width:100%;}
 }
 @media(min-width:768px)and(max-width:1023px){.lp-hero-cover{width:clamp(240px,44vw,400px);}}
 
-/* Eyebrow */
 .lp-eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--fi-red);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .lp-eyebrow::before{content:'';display:block;width:24px;height:2px;background:var(--fi-red);flex-shrink:0;}
-
-/* Identity row: logo + title side by side — mirrors 30U30 */
 .lp-identity{display:flex;align-items:center;gap:22px;margin-bottom:20px;flex-wrap:wrap;}
 .lp-logo-wrap{flex-shrink:0;}
 .lp-logo-wrap img{height:clamp(90px,13vw,140px);width:auto;object-fit:contain;display:block;border-radius:6px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));}
 .lp-title{font-family:var(--serif);font-weight:900;font-size:clamp(36px,5.5vw,66px);line-height:1.0;letter-spacing:-1.5px;color:var(--fi-white);}
-
-/* Description */
 .lp-desc{font-family:var(--body);font-size:clamp(13px,1.5vw,16px);color:#bbb;max-width:560px;line-height:1.75;margin-bottom:26px;}
-
-/* Stats */
 .lp-stats{display:flex;gap:28px;flex-wrap:wrap;padding-top:18px;border-top:1px solid rgba(255,255,255,.12);}
 .lp-stat-num{font-family:var(--serif);font-size:clamp(22px,3vw,34px);font-weight:700;color:var(--fi-gold);line-height:1;}
 .lp-stat-lbl{font-family:var(--body);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#888;margin-top:5px;}
 
-/* ══════════════════════════════
-   FILTERS BAR
-   ══════════════════════════════ */
+/* ══ FILTERS BAR ══ */
 .rl-filters-wrap{background:#fff;border-bottom:1px solid var(--fi-rule);position:sticky;top:var(--header-h);z-index:79;box-shadow:0 2px 6px rgba(0,0,0,.06);}
 .rl-filters{max-width:var(--max);margin:0 auto;padding:0 var(--pad);display:flex;align-items:center;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;height:46px;}
 .rl-filters::-webkit-scrollbar{display:none;}
@@ -155,44 +137,53 @@ img{display:block;max-width:100%;}
 .rl-results-count{margin-left:auto;font-family:var(--body);font-size:11px;color:var(--fi-mid);white-space:nowrap;flex-shrink:0;}
 .rl-results-count span{color:var(--fi-red);}
 
-/* ══════════════════════════════
-   MAIN WRAPPER
-   ══════════════════════════════ */
+/* ══ MAIN WRAPPER ══ */
 .rl-main{max-width:var(--max);margin:0 auto;padding:0 var(--pad) 64px;}
-.rl-table-wrap{margin-top:24px;overflow-x:auto;}
+.rl-table-wrap{margin-top:24px;width:100%;overflow-x:hidden;}
 
 /* ══════════════════════════════
-   TABLE
+   TABLE — Desktop: 6 columns
    ══════════════════════════════ */
-.rl-table{width:100%;border-collapse:collapse;}
+.rl-table{width:100%;border-collapse:collapse;table-layout:auto;}
 
 /* HEAD */
 .rl-table thead tr{background:#fff;border-bottom:2px solid var(--fi-ink);}
-.rl-table thead th{font-family:var(--body);font-size:10px;letter-spacing:.16em;color:var(--fi-mid);text-transform:uppercase;padding:10px 8px;text-align:left;white-space:nowrap;border-bottom:2px solid var(--fi-ink);}
-.rl-table thead th.th-rank{width:40px;text-align:center;padding-right:4px;}
-.rl-table thead th.th-photo{width:52px;}
-.rl-table thead th.th-name{min-width:160px;}
-.rl-table thead th.th-wealth{width:100px;text-align:right;}
-/* hide detail cols in normal state */
-.col-detail{display:none;}
+.rl-table thead th{
+  font-family:var(--body);font-size:10px;letter-spacing:.16em;color:var(--fi-mid);
+  text-transform:uppercase;padding:10px 10px;text-align:left;white-space:nowrap;
+  border-bottom:2px solid var(--fi-ink);
+}
+.rl-table thead th.th-rank{width:36px;text-align:center;padding-right:6px;}
+.rl-table thead th.th-photo{width:48px;padding-right:4px;}
+.rl-table thead th.th-name{min-width:140px;max-width:220px;}
+.rl-table thead th.th-wealth{text-align:right;white-space:nowrap;}
+.rl-table thead th.th-age{text-align:center;white-space:nowrap;}
+.rl-table thead th.th-industry{white-space:nowrap;}
+.rl-table thead th.th-change{white-space:nowrap;}
+
+/* Hide extra cols on mobile, show only rank/photo/name/wealth */
+.col-desktop{display:table-cell;}
+@media(max-width:640px){
+  .col-desktop{display:none;}
+}
 
 /* BODY ROWS */
 .rl-table tbody tr.entry-row{border-bottom:1px solid #ebebef;cursor:pointer;transition:background .12s;}
 .rl-table tbody tr.entry-row:hover{background:#faf8f4;}
 .rl-table tbody tr.entry-row.is-open{background:#faf8f4;border-bottom:none;}
-.rl-table td{padding:9px 8px;vertical-align:middle;}
+.rl-table td{padding:9px 10px;vertical-align:middle;}
 
 /* Rank */
 .rl-rank{font-family:var(--serif);font-size:16px;font-weight:700;color:var(--fi-ink);text-align:center;line-height:1;}
 .rl-rank-top{color:var(--fi-gold);}
 
-/* Postal-stamp photo: 2:3 portrait ratio */
+/* Stamp */
 .rl-stamp{width:38px;height:57px;flex-shrink:0;overflow:hidden;border:1.5px solid var(--fi-rule);background:#e8e1d8;display:flex;align-items:center;justify-content:center;font-family:var(--body);font-size:11px;color:var(--fi-mid);text-transform:uppercase;letter-spacing:.04em;border-radius:1px;}
 .rl-stamp img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
 
-/* Name cell — compact */
+/* Name cell */
 .rl-name{font-family:var(--body);font-size:14px;color:var(--fi-ink);line-height:1.25;}
-.rl-company{font-family:var(--body);font-size:11px;color:var(--fi-mid);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:240px;}
+.rl-company{font-family:var(--body);font-size:11px;color:var(--fi-mid);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px;}
 .rl-caret{float:right;color:var(--fi-mid);font-size:13px;line-height:1;margin-top:2px;transition:transform .2s;padding-left:6px;}
 tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
 
@@ -200,16 +191,29 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
 .rl-wealth{font-family:var(--body);font-size:14px;color:var(--fi-ink);text-align:right;white-space:nowrap;}
 .rl-wealth-unit{font-size:10px;color:var(--fi-mid);}
 
+/* Age */
+.rl-age{font-family:var(--body);font-size:13px;color:var(--fi-ash);text-align:center;white-space:nowrap;}
+
+/* Industry badge */
+.rl-industry{font-family:var(--body);font-size:11px;letter-spacing:.04em;color:var(--fi-ash);white-space:nowrap;}
+
+/* Wealth change pill — inline in table */
+.rl-change{white-space:nowrap;text-align:center;}
+.change-pill{display:inline-flex;align-items:center;gap:3px;font-family:var(--body);font-size:11px;font-weight:600;padding:2px 7px;border-radius:2px;white-space:nowrap;}
+.change-up{background:#f0fff0;color:#2e7d32;border:1px solid #a5d6a7;}
+.change-down{background:#fff0f0;color:var(--fi-red);border:1px solid #f5c6c6;}
+.change-flat{background:#f5f5f5;color:#999;border:1px solid #ddd;}
+
 /* ══════════════════════════════
    EXPANDED DETAIL ROW
    ══════════════════════════════ */
 .detail-row{display:none;}
 .detail-row.is-open{display:table-row;}
 .detail-row td{padding:0;background:#faf8f4;border-bottom:2px solid var(--fi-rule);}
-.detail-inner{padding:14px 14px 18px 100px;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;}
-@media(max-width:640px){.detail-inner{padding:12px 12px 16px 12px;gap:16px;}}
+.detail-inner{padding:14px 14px 18px 96px;display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start;}
+@media(max-width:640px){.detail-inner{padding:12px 12px 16px 12px;gap:14px;}}
 
-/* Detail pill group */
+/* Detail pills */
 .detail-pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .detail-pill{font-family:var(--body);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:1px;white-space:nowrap;}
 .pill-age{background:#f0ece4;color:var(--fi-ash);border:1px solid var(--fi-rule);}
@@ -225,29 +229,46 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
 /* Bio text */
 .detail-bio{font-family:var(--body);font-size:13px;line-height:1.7;color:#555;max-width:680px;margin-top:10px;width:100%;}
 
-/* ══════════════════════════════
-   NOTE (replaces methodology)
-   ══════════════════════════════ */
+/* ══ NOTE ══ */
 .rl-note{margin-top:40px;padding:14px 18px;background:#fff;border-left:3px solid var(--fi-gold);font-family:var(--body);font-size:12px;color:var(--fi-ash);line-height:1.7;}
 .rl-note strong{color:var(--fi-ink);}
 
-/* ══════════════════════════════
-   NO RESULTS
-   ══════════════════════════════ */
+/* ══ NO RESULTS ══ */
 .rl-no-results{text-align:center;padding:50px 24px;color:var(--fi-mid);font-family:var(--serif);font-size:20px;display:none;}
 
 /* ══════════════════════════════
-   MOBILE — hide company on very small
+   MOBILE — full-width table, no overflow
    ══════════════════════════════ */
-@media(max-width:480px){
-  .rl-company{display:none;}
+@media(max-width:640px){
+  /* Table fills width exactly, no side scroll */
+  .rl-table-wrap{overflow-x:hidden;}
+  .rl-table{table-layout:fixed;width:100%;}
+
+  /* Column widths on mobile: rank, photo, name, wealth */
+  .rl-table thead th.th-rank{width:32px;}
+  .rl-table thead th.th-photo{width:0;padding:0;}
+  .rl-table tbody td:nth-child(2){width:0;padding:0;overflow:hidden;}
+  .rl-stamp{display:none;}/* hide photo stamp on mobile to save space */
+  .rl-table thead th.th-name{width:auto;}
+  .rl-table thead th.th-wealth{width:72px;}
+
   .rl-name{font-size:13px;}
+  .rl-company{font-size:10px;max-width:none;}
   .rl-wealth{font-size:13px;}
+  .rl-rank{font-size:14px;}
+  .rl-table td{padding:8px 6px;}
+
+  /* Detail row on mobile: full width, no left indent */
+  .detail-inner{padding:10px 10px 14px 10px;}
 }
 
-/* ══════════════════════════════
-   FOOTER — exact 30U30
-   ══════════════════════════════ */
+@media(min-width:641px) and (max-width:900px){
+  /* Tablet: show all 6 cols but tighter */
+  .rl-table td,.rl-table th{padding:8px 7px;}
+  .rl-company{max-width:130px;}
+}
+
+/* ══ FOOTER ══ */
 .fbftr{background:#000;padding:36px 20px 24px;}
 .ft-inner{max-width:1160px;margin:0 auto;}
 .ftgrid{display:flex;flex-direction:column;padding-bottom:24px;border-bottom:1px solid #444;margin-bottom:20px;}
@@ -284,7 +305,7 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
 </head>
 <body>
 
-<!-- ══════════════════ HEADER ══════════════════ -->
+<!-- ══ HEADER ══ -->
 <div class="stckyhdr" id="siteHeader">
   <header class="fbhdr">
     <div class="mxwdth tphdr">
@@ -361,7 +382,7 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
   </div>
 </div>
 
-<!-- ══════════════════ BREADCRUMB ══════════════════ -->
+<!-- ══ BREADCRUMB ══ -->
 <div class="ms-breadcrumb-w">
   <ol class="ms-breadcrumb">
     <li><a href="https://www.forbesindia.com/">Home</a></li>
@@ -370,15 +391,13 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
   </ol>
 </div>
 
-<!-- ══════════════════ HERO — 30U30 style ══════════════════ -->
+<!-- ══ HERO ══ -->
 <section class="lp-hero">
   <div class="lp-hero-inner">
     <div class="lp-hero-content">
       <div class="lp-eyebrow">Forbes India Lists</div>
-      <!-- Logo + Title side by side — same as 30U30 -->
       <div class="lp-identity">
         <div class="lp-logo-wrap">
-          <!-- Replace with actual Rich List logo when available -->
           <img src="https://images.forbesindia.com/blog/wp-content/uploads/2026/03/logo30-2026-03-cb25e2b54e17a3d703c5f21dd0dd1311.jpg"
                alt="India Rich List 2025 Logo"
                onerror="this.style.display='none'"/>
@@ -397,7 +416,6 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
         <div class="lp-stat"><div class="lp-stat-num">12</div><div class="lp-stat-lbl">Women on the List</div></div>
       </div>
     </div>
-    <!-- Lead image — right column -->
     <div class="lp-hero-cover">
       <img src="https://images.news18.com/ms/prod/forbesindia/sq_PC_Ir_B0m5_350ab1ee9d.jpg"
            alt="Forbes India Rich List 2025"
@@ -406,7 +424,7 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
   </div>
 </section>
 
-<!-- ══════════════════ FILTERS ══════════════════ -->
+<!-- ══ FILTERS ══ -->
 <div class="rl-filters-wrap" id="filtersBar">
   <div class="rl-filters">
     <span class="rl-filter-label">Filter</span>
@@ -445,7 +463,7 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
   </div>
 </div>
 
-<!-- ══════════════════ TABLE ══════════════════ -->
+<!-- ══ TABLE ══ -->
 <div class="rl-main">
   <div class="rl-table-wrap">
     <table class="rl-table" id="richListTable">
@@ -455,6 +473,9 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
           <th class="th-photo"></th>
           <th class="th-name">Name</th>
           <th class="th-wealth">Net Worth</th>
+          <th class="th-age col-desktop">Age</th>
+          <th class="th-industry col-desktop">Industry</th>
+          <th class="th-change col-desktop">Wealth Change</th>
         </tr>
       </thead>
       <tbody id="richListBody"></tbody>
@@ -462,13 +483,12 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
     <div class="rl-no-results" id="noResults">No entries match the selected filters.</div>
   </div>
 
-  <!-- Note only — no methodology section -->
   <div class="rl-note">
     <strong>Note:</strong> This list was compiled using data available up to August 31, 2025. Forbes India's Rich List ranks individuals by estimated net worth considering publicly traded stocks, closely held businesses, real estate and other assets, with debt subtracted. All figures are in US dollars. The list includes Indian citizens and Persons of Indian Origin (PIOs) with significant business ties to India. Forbes India makes every effort to publish accurate and complete information; figures represent an estimate of known wealth and should not be construed as an exhaustive account of any individual's total assets. Wealth change reflects movement versus the prior year's list. Status: <strong>New</strong> = first-time entrant; <strong>Returnee</strong> = previously listed; <strong>Dropped</strong> = on list last year but not this year; <strong>Split</strong> = wealth formally divided among family members.
   </div>
 </div>
 
-<!-- ══════════════════ FOOTER — exact 30U30 ══════════════════ -->
+<!-- ══ FOOTER ══ -->
 <footer class="fbftr">
   <div class="ft-inner">
     <div class="ftgrid">
@@ -501,29 +521,29 @@ tr.entry-row.is-open .rl-caret{transform:rotate(180deg);color:var(--fi-red);}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
-<!-- ══════════════════ DATA + LOGIC ══════════════════ -->
+<!-- ══ DATA + LOGIC ══ -->
 <script>
 const RICH_LIST = [
   {rank:1,name:"Mukesh Ambani",initials:"MA",gender:"M",age:67,company:"Reliance Industries",industry:"Energy",wealth:119.5,wealthPrev:83.4,status:"return",split:false,bio:"Mukesh Ambani chairs Reliance Industries, India's largest company by revenue. Under his leadership, Reliance expanded from petrochemicals and refining into retail (Reliance Retail) and digital services (Jio), transforming consumer behaviour across 1.4 billion people. His JioCinema streaming play and 5G rollout continue to reshape India's media landscape."},
   {rank:2,name:"Gautam Adani",initials:"GA",gender:"M",age:62,company:"Adani Group",industry:"Industrials",wealth:84.0,wealthPrev:120.0,status:"return",split:false,bio:"Gautam Adani built the Adani Group into India's largest infrastructure conglomerate, spanning ports, airports, energy, data centres, and defence. Despite a turbulent 2023 following a short-seller attack, Adani rebounded strongly, growing coal-to-green energy assets globally."},
   {rank:3,name:"Shiv Nadar",initials:"SN",gender:"M",age:79,company:"HCL Technologies",industry:"Technology",wealth:36.9,wealthPrev:31.6,status:"return",split:false,bio:"Shiv Nadar founded HCL in 1976, which today is a $13B IT services giant. He transitioned to chairman emeritus and is now among India's biggest philanthropists through Shiv Nadar Foundation, which runs universities and schools."},
-  {rank:4,name:"Savitri Jindal",initials:"SJ",gender:"F",age:74,company:"OP Jindal Group",industry:"Industrials",wealth:33.5,wealthPrev:24.1,status:"return",split:true,bio:"Savitri Jindal chairs the OP Jindal Group following the passing of her husband OM Prakash Jindal. The conglomerate spans steel, power, cement and infrastructure. She is one of the wealthiest women in Asia. The family wealth has been divided among her sons, each running separate Jindal group companies."},
-  {rank:5,name:"Cyrus Poonawalla",initials:"CP",gender:"M",age:82,company:"Serum Institute of India",industry:"Pharma",wealth:31.2,wealthPrev:29.0,status:"return",split:false,bio:"Cyrus Poonawalla founded Serum Institute, the world's largest vaccine manufacturer by doses. His prominence soared during Covid-19 when Serum produced the Covishield vaccine. He has been investing heavily in new biologics and expanding manufacturing capacity."},
-  {rank:6,name:"Dilip Shanghvi",initials:"DS",gender:"M",age:69,company:"Sun Pharmaceuticals",industry:"Pharma",wealth:29.6,wealthPrev:26.2,status:"return",split:false,bio:"Dilip Shanghvi built Sun Pharma from a tiny operation in Vapi into India's largest pharmaceutical company and among the top five specialty generic drug makers globally. He is known for a frugal, acquisition-driven style."},
-  {rank:7,name:"Kumar Mangalam Birla",initials:"KB",gender:"M",age:57,company:"Aditya Birla Group",industry:"Industrials",wealth:27.8,wealthPrev:22.5,status:"return",split:false,bio:"Kumar Mangalam Birla heads the $60B Aditya Birla Group, with interests in cement (UltraTech), telecom (Vi), financial services, aluminium and retail. He is steering a major AI and digital transformation across group companies."},
-  {rank:8,name:"Radhakishan Damani",initials:"RD",gender:"M",age:69,company:"DMart",industry:"Retail",wealth:27.3,wealthPrev:21.0,status:"return",split:false,bio:"Radhakishan Damani is the founder of Avenue Supermarts which runs DMart, one of India's most profitable retail chains. The Thane-born billionaire started as a stock broker and is still known for a deeply value-oriented investing philosophy."},
+  {rank:4,name:"Savitri Jindal",initials:"SJ",gender:"F",age:74,company:"OP Jindal Group",industry:"Industrials",wealth:33.5,wealthPrev:24.1,status:"return",split:true,bio:"Savitri Jindal chairs the OP Jindal Group following the passing of her husband OM Prakash Jindal. The conglomerate spans steel, power, cement and infrastructure. She is one of the wealthiest women in Asia."},
+  {rank:5,name:"Cyrus Poonawalla",initials:"CP",gender:"M",age:82,company:"Serum Institute of India",industry:"Pharma",wealth:31.2,wealthPrev:29.0,status:"return",split:false,bio:"Cyrus Poonawalla founded Serum Institute, the world's largest vaccine manufacturer by doses. His prominence soared during Covid-19 when Serum produced the Covishield vaccine."},
+  {rank:6,name:"Dilip Shanghvi",initials:"DS",gender:"M",age:69,company:"Sun Pharmaceuticals",industry:"Pharma",wealth:29.6,wealthPrev:26.2,status:"return",split:false,bio:"Dilip Shanghvi built Sun Pharma from a tiny operation in Vapi into India's largest pharmaceutical company and among the top five specialty generic drug makers globally."},
+  {rank:7,name:"Kumar Mangalam Birla",initials:"KB",gender:"M",age:57,company:"Aditya Birla Group",industry:"Industrials",wealth:27.8,wealthPrev:22.5,status:"return",split:false,bio:"Kumar Mangalam Birla heads the $60B Aditya Birla Group, with interests in cement (UltraTech), telecom (Vi), financial services, aluminium and retail."},
+  {rank:8,name:"Radhakishan Damani",initials:"RD",gender:"M",age:69,company:"DMart",industry:"Retail",wealth:27.3,wealthPrev:21.0,status:"return",split:false,bio:"Radhakishan Damani is the founder of Avenue Supermarts which runs DMart, one of India's most profitable retail chains."},
   {rank:9,name:"Lakshmi Mittal",initials:"LM",gender:"M",age:74,company:"ArcelorMittal",industry:"Industrials",wealth:17.9,wealthPrev:16.2,status:"return",split:false,bio:""},
-  {rank:10,name:"Uday Kotak",initials:"UK",gender:"M",age:65,company:"Kotak Mahindra Bank",industry:"Finance",wealth:16.8,wealthPrev:15.2,status:"return",split:false,bio:"Uday Kotak founded and built Kotak Mahindra Bank from a bill-discounting outfit into a full-service financial services empire. He stepped down as CEO in 2023 but continues as non-executive director."},
+  {rank:10,name:"Uday Kotak",initials:"UK",gender:"M",age:65,company:"Kotak Mahindra Bank",industry:"Finance",wealth:16.8,wealthPrev:15.2,status:"return",split:false,bio:"Uday Kotak founded and built Kotak Mahindra Bank from a bill-discounting outfit into a full-service financial services empire."},
   {rank:11,name:"Vikram Lal",initials:"VL",gender:"M",age:80,company:"Eicher Motors",industry:"Auto",wealth:14.2,wealthPrev:11.8,status:"return",split:false,bio:""},
   {rank:12,name:"Nusli Wadia",initials:"NW",gender:"M",age:80,company:"Wadia Group",industry:"Industrials",wealth:13.8,wealthPrev:13.0,status:"return",split:false,bio:""},
   {rank:13,name:"Bajaj Family",initials:"BF",gender:"M",age:54,company:"Bajaj Auto",industry:"Auto",wealth:13.5,wealthPrev:12.1,status:"return",split:true,bio:""},
-  {rank:14,name:"Sunil Mittal",initials:"SM",gender:"M",age:67,company:"Bharti Airtel",industry:"Technology",wealth:13.2,wealthPrev:11.5,status:"return",split:false,bio:"Sunil Mittal founded Bharti Airtel which has grown into a pan-African and Indian telecom powerhouse. His satellite broadband venture OneWeb positions him at the frontier of global connectivity."},
-  {rank:15,name:"Kiran Mazumdar-Shaw",initials:"KM",gender:"F",age:71,company:"Biocon",industry:"Pharma",wealth:12.4,wealthPrev:10.2,status:"return",split:false,bio:"Kiran Mazumdar-Shaw founded Biocon in a garage in 1978 and built it into Asia's largest biopharmaceuticals company. A pioneering woman entrepreneur, she has pushed affordable biologics including insulin to global markets."},
+  {rank:14,name:"Sunil Mittal",initials:"SM",gender:"M",age:67,company:"Bharti Airtel",industry:"Technology",wealth:13.2,wealthPrev:11.5,status:"return",split:false,bio:"Sunil Mittal founded Bharti Airtel which has grown into a pan-African and Indian telecom powerhouse."},
+  {rank:15,name:"Kiran Mazumdar-Shaw",initials:"KM",gender:"F",age:71,company:"Biocon",industry:"Pharma",wealth:12.4,wealthPrev:10.2,status:"return",split:false,bio:"Kiran Mazumdar-Shaw founded Biocon in a garage in 1978 and built it into Asia's largest biopharmaceuticals company."},
   {rank:16,name:"Azim Premji",initials:"AP",gender:"M",age:79,company:"Wipro",industry:"Technology",wealth:12.0,wealthPrev:9.8,status:"return",split:false,bio:""},
   {rank:17,name:"SP Hinduja",initials:"SH",gender:"M",age:84,company:"Hinduja Group",industry:"Industrials",wealth:11.6,wealthPrev:10.4,status:"return",split:false,bio:""},
   {rank:18,name:"Ravi Jaipuria",initials:"RJ",gender:"M",age:66,company:"RJ Corp",industry:"Retail",wealth:10.9,wealthPrev:9.5,status:"return",split:false,bio:""},
   {rank:19,name:"Smita Crishna",initials:"SC",gender:"F",age:69,company:"Godrej Group",industry:"Industrials",wealth:10.6,wealthPrev:9.0,status:"return",split:true,bio:""},
-  {rank:20,name:"Leena Gandhi Tewari",initials:"LT",gender:"F",age:56,company:"USV Private Ltd",industry:"Pharma",wealth:10.2,wealthPrev:7.9,status:"return",split:false,bio:"Leena Gandhi Tewari is managing director of USV, a pharmaceutical and API maker with a strong presence in diabetes and CVS care. She has steered the company toward global generics expansion."},
+  {rank:20,name:"Leena Gandhi Tewari",initials:"LT",gender:"F",age:56,company:"USV Private Ltd",industry:"Pharma",wealth:10.2,wealthPrev:7.9,status:"return",split:false,bio:"Leena Gandhi Tewari is managing director of USV, a pharmaceutical and API maker with a strong presence in diabetes and CVS care."},
   {rank:21,name:"Pankaj Munjal",initials:"PM",gender:"M",age:63,company:"Hero MotoCorp",industry:"Auto",wealth:9.9,wealthPrev:8.8,status:"return",split:false,bio:""},
   {rank:22,name:"Baba Kalyani",initials:"BK",gender:"M",age:73,company:"Bharat Forge",industry:"Industrials",wealth:9.8,wealthPrev:8.1,status:"return",split:false,bio:""},
   {rank:23,name:"Indu Jain",initials:"IJ",gender:"F",age:83,company:"Bennett Coleman & Co.",industry:"Media",wealth:9.6,wealthPrev:8.4,status:"return",split:true,bio:""},
@@ -540,16 +560,16 @@ const RICH_LIST = [
   {rank:34,name:"Yusuf Hamied",initials:"YH",gender:"M",age:87,company:"Cipla",industry:"Pharma",wealth:7.7,wealthPrev:6.9,status:"return",split:true,bio:""},
   {rank:35,name:"Wipro Family",initials:"WP",gender:"M",age:46,company:"Wipro Enterprises",industry:"Technology",wealth:7.5,wealthPrev:6.4,status:"return",split:true,bio:""},
   {rank:36,name:"Rishad Premji",initials:"RP",gender:"M",age:46,company:"Wipro",industry:"Technology",wealth:7.3,wealthPrev:6.0,status:"return",split:false,bio:""},
-  {rank:37,name:"Deepika Padukone",initials:"DP",gender:"F",age:39,company:"Ka Enterprises",industry:"Media",wealth:7.0,wealthPrev:5.1,status:"new",split:false,bio:"Deepika Padukone is not only Bollywood's highest-paid actress but has emerged as a serious investor and entrepreneur. Her production house and stakes in consumer, wellness and health startups make her a force in the new-age economy."},
-  {rank:38,name:"PC Musthafa",initials:"PM",gender:"M",age:47,company:"iD Fresh Food",industry:"Retail",wealth:6.9,wealthPrev:5.4,status:"new",split:false,bio:"PC Musthafa co-founded iD Fresh Food, which revolutionised ready-to-cook Indian batter and dosa mix. The Bengaluru company is now expanding into the Middle East and the US, with strong DTC and modern trade presence."},
+  {rank:37,name:"Deepika Padukone",initials:"DP",gender:"F",age:39,company:"Ka Enterprises",industry:"Media",wealth:7.0,wealthPrev:5.1,status:"new",split:false,bio:"Deepika Padukone is not only Bollywood's highest-paid actress but has emerged as a serious investor and entrepreneur."},
+  {rank:38,name:"PC Musthafa",initials:"PM",gender:"M",age:47,company:"iD Fresh Food",industry:"Retail",wealth:6.9,wealthPrev:5.4,status:"new",split:false,bio:"PC Musthafa co-founded iD Fresh Food, which revolutionised ready-to-cook Indian batter and dosa mix."},
   {rank:39,name:"Nilesh Shah",initials:"NS",gender:"M",age:55,company:"Kotak AMC",industry:"Finance",wealth:6.7,wealthPrev:5.9,status:"return",split:false,bio:""},
   {rank:40,name:"Romesh Wadhwani",initials:"RW",gender:"M",age:76,company:"Symphony Technology Group",industry:"Technology",wealth:6.6,wealthPrev:5.8,status:"return",split:false,bio:""},
   {rank:41,name:"Noel Tata",initials:"NT",gender:"M",age:67,company:"Tata Sons",industry:"Retail",wealth:6.5,wealthPrev:5.5,status:"return",split:false,bio:""},
   {rank:42,name:"A.M. Naik",initials:"AN",gender:"M",age:82,company:"L&T",industry:"Industrials",wealth:6.4,wealthPrev:5.4,status:"return",split:false,bio:""},
   {rank:43,name:"Rajesh Mehta",initials:"RM",gender:"M",age:58,company:"Rajesh Exports",industry:"Retail",wealth:6.2,wealthPrev:5.0,status:"return",split:false,bio:""},
   {rank:44,name:"Satish Mehta",initials:"SM",gender:"M",age:64,company:"Emcure Pharmaceuticals",industry:"Pharma",wealth:6.1,wealthPrev:4.8,status:"return",split:false,bio:""},
-  {rank:45,name:"Bhavish Aggarwal",initials:"BA",gender:"M",age:39,company:"Ola / Krutrim",industry:"Technology",wealth:6.0,wealthPrev:3.5,status:"return",split:false,bio:"Bhavish Aggarwal, founder of Ola Cabs, pivoted to electric vehicles and launched Ola Electric, which became the first EV startup to list on Indian bourses. His AI venture Krutrim is India's first AI unicorn."},
-  {rank:46,name:"Falguni Nayar",initials:"FN",gender:"F",age:61,company:"Nykaa",industry:"Retail",wealth:5.9,wealthPrev:4.7,status:"return",split:false,bio:"Falguni Nayar founded Nykaa and took it public in 2021, becoming one of India's most celebrated self-made women billionaires. Nykaa is India's leading beauty and lifestyle platform, with both digital and physical retail presence."},
+  {rank:45,name:"Bhavish Aggarwal",initials:"BA",gender:"M",age:39,company:"Ola / Krutrim",industry:"Technology",wealth:6.0,wealthPrev:3.5,status:"return",split:false,bio:"Bhavish Aggarwal, founder of Ola Cabs, pivoted to electric vehicles. His AI venture Krutrim is India's first AI unicorn."},
+  {rank:46,name:"Falguni Nayar",initials:"FN",gender:"F",age:61,company:"Nykaa",industry:"Retail",wealth:5.9,wealthPrev:4.7,status:"return",split:false,bio:"Falguni Nayar founded Nykaa, India's leading beauty and lifestyle platform."},
   {rank:47,name:"Prashant Ruia",initials:"PR",gender:"M",age:57,company:"Essar Group",industry:"Energy",wealth:5.8,wealthPrev:5.1,status:"return",split:true,bio:""},
   {rank:48,name:"S Ramadorai",initials:"SR",gender:"M",age:79,company:"TCS / Tata Sons",industry:"Technology",wealth:5.7,wealthPrev:5.0,status:"return",split:false,bio:""},
   {rank:49,name:"Naresh Goyal",initials:"NG",gender:"M",age:74,company:"Jet Airways",industry:"Finance",wealth:5.5,wealthPrev:4.8,status:"drop",split:false,bio:""},
@@ -566,13 +586,13 @@ const RICH_LIST = [
   {rank:60,name:"Sujata Kelkar Shetty",initials:"SK",gender:"F",age:52,company:"Mahindra",industry:"Auto",wealth:4.4,wealthPrev:3.6,status:"new",split:false,bio:""},
   {rank:61,name:"Anand Mahindra",initials:"AM",gender:"M",age:69,company:"Mahindra & Mahindra",industry:"Auto",wealth:4.3,wealthPrev:3.8,status:"return",split:false,bio:""},
   {rank:62,name:"K V Kamath",initials:"KV",gender:"M",age:76,company:"NDB / ICICI",industry:"Finance",wealth:4.2,wealthPrev:3.6,status:"return",split:false,bio:""},
-  {rank:63,name:"Revathi Advaithi",initials:"RA",gender:"F",age:56,company:"Flex Ltd.",industry:"Technology",wealth:4.1,wealthPrev:3.4,status:"new",split:false,bio:"Revathi Advaithi is the CEO of Flex Ltd., a global electronics manufacturing services company. She is one of the very few Indian-origin women to run a Fortune 500 company and has overseen significant stock price appreciation since 2019."},
+  {rank:63,name:"Revathi Advaithi",initials:"RA",gender:"F",age:56,company:"Flex Ltd.",industry:"Technology",wealth:4.1,wealthPrev:3.4,status:"new",split:false,bio:"Revathi Advaithi is the CEO of Flex Ltd., one of the very few Indian-origin women to run a Fortune 500 company."},
   {rank:64,name:"Sumant Sinha",initials:"SS",gender:"M",age:57,company:"ReNew Power",industry:"Energy",wealth:4.0,wealthPrev:3.3,status:"return",split:false,bio:""},
   {rank:65,name:"Vikram Kirloskar",initials:"VK",gender:"M",age:61,company:"Kirloskar Group",industry:"Industrials",wealth:3.9,wealthPrev:3.4,status:"return",split:false,bio:""},
   {rank:66,name:"A Vellayan",initials:"AV",gender:"M",age:71,company:"Murugappa Group",industry:"Industrials",wealth:3.8,wealthPrev:3.2,status:"return",split:false,bio:""},
   {rank:67,name:"Sudhir Mehta",initials:"SM",gender:"M",age:73,company:"Torrent Group",industry:"Pharma",wealth:3.7,wealthPrev:3.1,status:"return",split:false,bio:""},
   {rank:68,name:"Brij Bhushan Singal",initials:"BS",gender:"M",age:72,company:"JSPL",industry:"Industrials",wealth:3.6,wealthPrev:3.0,status:"return",split:false,bio:""},
-  {rank:69,name:"Radha Vembu",initials:"RV",gender:"F",age:48,company:"Zoho Corporation",industry:"Technology",wealth:3.5,wealthPrev:2.8,status:"return",split:false,bio:"Radha Vembu is co-founder and VP of Zoho Corporation alongside her brother Sridhar Vembu. Zoho's bootstrapped model and refusal to go public has become a global case study. Radha oversees product divisions including Zoho Mail."},
+  {rank:69,name:"Radha Vembu",initials:"RV",gender:"F",age:48,company:"Zoho Corporation",industry:"Technology",wealth:3.5,wealthPrev:2.8,status:"return",split:false,bio:"Radha Vembu is co-founder and VP of Zoho Corporation. Zoho's bootstrapped model and refusal to go public has become a global case study."},
   {rank:70,name:"Sridhar Vembu",initials:"SV",gender:"M",age:55,company:"Zoho Corporation",industry:"Technology",wealth:3.4,wealthPrev:2.7,status:"return",split:false,bio:""},
   {rank:71,name:"Narayana Murthy Family",initials:"NF",gender:"M",age:51,company:"Infosys",industry:"Technology",wealth:3.3,wealthPrev:2.9,status:"return",split:true,bio:""},
   {rank:72,name:"Rare Enterprises Estate",initials:"RJ",gender:"M",age:62,company:"Rare Enterprises",industry:"Finance",wealth:3.2,wealthPrev:5.8,status:"drop",split:true,bio:""},
@@ -580,7 +600,7 @@ const RICH_LIST = [
   {rank:74,name:"Arvind Mafatlal",initials:"AM",gender:"M",age:62,company:"Mafatlal Group",industry:"Retail",wealth:3.0,wealthPrev:2.5,status:"return",split:false,bio:""},
   {rank:75,name:"Pallavi Shroff",initials:"PS",gender:"F",age:67,company:"Shardul Amarchand Mangaldas",industry:"Finance",wealth:2.9,wealthPrev:2.4,status:"return",split:false,bio:""},
   {rank:76,name:"D Shivakumar",initials:"DS",gender:"M",age:61,company:"Aditya Birla Group",industry:"Retail",wealth:2.8,wealthPrev:2.2,status:"return",split:false,bio:""},
-  {rank:77,name:"Deepinder Goyal",initials:"DG",gender:"M",age:41,company:"Zomato / Eternal",industry:"Technology",wealth:2.7,wealthPrev:1.9,status:"new",split:false,bio:"Deepinder Goyal founded Zomato (now Eternal) in 2008 and guided it through an IPO, multiple pivots, and the acquisition of quick commerce platform Blinkit. Eternal's hyperlocaldelivery and B2B services have made him one of the most-watched tech founders."},
+  {rank:77,name:"Deepinder Goyal",initials:"DG",gender:"M",age:41,company:"Zomato / Eternal",industry:"Technology",wealth:2.7,wealthPrev:1.9,status:"new",split:false,bio:"Deepinder Goyal founded Zomato (now Eternal) and guided it through an IPO and the acquisition of quick commerce platform Blinkit."},
   {rank:78,name:"Vijay Shekhar Sharma",initials:"VS",gender:"M",age:45,company:"Paytm / One97",industry:"Technology",wealth:2.6,wealthPrev:3.1,status:"return",split:false,bio:""},
   {rank:79,name:"Ratan Tata Estate",initials:"RT",gender:"M",age:87,company:"Tata Sons",industry:"Industrials",wealth:2.5,wealthPrev:2.5,status:"drop",split:false,bio:""},
   {rank:80,name:"Vikram Nair",initials:"VN",gender:"M",age:53,company:"ABB India",industry:"Industrials",wealth:2.4,wealthPrev:2.0,status:"return",split:false,bio:""},
@@ -593,41 +613,41 @@ const RICH_LIST = [
   {rank:87,name:"Anu Aga",initials:"AA",gender:"F",age:82,company:"Thermax",industry:"Industrials",wealth:1.7,wealthPrev:1.5,status:"return",split:true,bio:""},
   {rank:88,name:"Keshav Mahindra",initials:"KM",gender:"M",age:98,company:"Mahindra & Mahindra",industry:"Auto",wealth:1.6,wealthPrev:1.4,status:"return",split:false,bio:""},
   {rank:89,name:"Arjun Minda",initials:"AM",gender:"M",age:48,company:"Minda Industries",industry:"Auto",wealth:1.5,wealthPrev:1.2,status:"return",split:false,bio:""},
-  {rank:90,name:"Byju Raveendran",initials:"BR",gender:"M",age:43,company:"BYJU's",industry:"Technology",wealth:1.4,wealthPrev:5.0,status:"drop",split:false,bio:"Once India's most valuable startup founder, Byju Raveendran has seen a dramatic reversal. BYJU's faced severe regulatory scrutiny, investor exits, and debt default, leading to insolvency proceedings. His wealth has fallen sharply from peak levels."},
-  {rank:91,name:"Nikhil Kamath",initials:"NK",gender:"M",age:38,company:"Zerodha / True Beacon",industry:"Finance",wealth:1.4,wealthPrev:1.0,status:"new",split:false,bio:"Nikhil Kamath co-founded Zerodha with his brother Nithin, building India's largest discount brokerage by active users. A self-taught investor and chess player who dropped out of school, he is among the youngest self-made billionaires in India."},
+  {rank:90,name:"Byju Raveendran",initials:"BR",gender:"M",age:43,company:"BYJU's",industry:"Technology",wealth:1.4,wealthPrev:5.0,status:"drop",split:false,bio:"Once India's most valuable startup founder, Byju Raveendran has seen a dramatic reversal. BYJU's faced severe regulatory scrutiny and insolvency proceedings."},
+  {rank:91,name:"Nikhil Kamath",initials:"NK",gender:"M",age:38,company:"Zerodha / True Beacon",industry:"Finance",wealth:1.4,wealthPrev:1.0,status:"new",split:false,bio:"Nikhil Kamath co-founded Zerodha, India's largest discount brokerage by active users. Among the youngest self-made billionaires in India."},
   {rank:92,name:"Nithin Kamath",initials:"NK",gender:"M",age:44,company:"Zerodha",industry:"Finance",wealth:1.4,wealthPrev:1.0,status:"return",split:false,bio:""},
   {rank:93,name:"Ramesh Rachuri",initials:"RR",gender:"M",age:58,company:"Rainbow Children's Medicare",industry:"Pharma",wealth:1.3,wealthPrev:1.0,status:"new",split:false,bio:""},
-  {rank:94,name:"Ruchi Bhansali",initials:"RB",gender:"F",age:46,company:"CoinDCX",industry:"Technology",wealth:1.3,wealthPrev:0.9,status:"new",split:false,bio:"Ruchi Bhansali is co-founder and COO of CoinDCX, India's largest cryptocurrency exchange by user base. She is among the few women founders in India's fintech-crypto space and has been a vocal advocate for regulated digital asset markets."},
-  {rank:95,name:"Kunal Shah",initials:"KS",gender:"M",age:40,company:"CRED",industry:"Technology",wealth:1.2,wealthPrev:0.8,status:"new",split:false,bio:"Kunal Shah founded CRED, the high-trust member platform that rewards creditworthy Indians. After a high-profile Series E, CRED has expanded into lending, travel, and commerce, making Shah one of the most-watched second-time founders."},
+  {rank:94,name:"Ruchi Bhansali",initials:"RB",gender:"F",age:46,company:"CoinDCX",industry:"Technology",wealth:1.3,wealthPrev:0.9,status:"new",split:false,bio:"Ruchi Bhansali is co-founder and COO of CoinDCX, India's largest cryptocurrency exchange."},
+  {rank:95,name:"Kunal Shah",initials:"KS",gender:"M",age:40,company:"CRED",industry:"Technology",wealth:1.2,wealthPrev:0.8,status:"new",split:false,bio:"Kunal Shah founded CRED, the high-trust member platform that rewards creditworthy Indians."},
   {rank:96,name:"Meena Ganesh",initials:"MG",gender:"F",age:59,company:"Portea Medical",industry:"Pharma",wealth:1.1,wealthPrev:0.8,status:"new",split:false,bio:""},
   {rank:97,name:"Ritesh Agarwal",initials:"RA",gender:"M",age:31,company:"OYO Rooms",industry:"Technology",wealth:1.0,wealthPrev:1.5,status:"return",split:false,bio:""},
-  {rank:98,name:"Ghazal Alagh",initials:"GA",gender:"F",age:35,company:"Mamaearth",industry:"Retail",wealth:1.0,wealthPrev:0.7,status:"new",split:false,bio:"Ghazal Alagh co-founded Honasa Consumer (Mamaearth) and took it public in 2023. The natural personal care brand resonated with millennial parents and grew through D2C and quick commerce channels. She is one of India's youngest self-made women billionaires."},
+  {rank:98,name:"Ghazal Alagh",initials:"GA",gender:"F",age:35,company:"Mamaearth",industry:"Retail",wealth:1.0,wealthPrev:0.7,status:"new",split:false,bio:"Ghazal Alagh co-founded Honasa Consumer (Mamaearth) and took it public in 2023."},
   {rank:99,name:"Samir Arora",initials:"SA",gender:"M",age:59,company:"Helios Capital",industry:"Finance",wealth:1.0,wealthPrev:0.9,status:"return",split:false,bio:""},
-  {rank:100,name:"Vineeta Singh",initials:"VS",gender:"F",age:40,company:"Sugar Cosmetics",industry:"Retail",wealth:0.9,wealthPrev:0.6,status:"new",split:false,bio:"Vineeta Singh co-founded Sugar Cosmetics, an Indian beauty brand that took on global players by offering diverse shades for Indian skin tones. She became widely known through Shark Tank India. Sugar is now one of India's fastest-growing D2C beauty brands."}
+  {rank:100,name:"Vineeta Singh",initials:"VS",gender:"F",age:40,company:"Sugar Cosmetics",industry:"Retail",wealth:0.9,wealthPrev:0.6,status:"new",split:false,bio:"Vineeta Singh co-founded Sugar Cosmetics, an Indian beauty brand that took on global players by offering diverse shades for Indian skin tones."}
 ];
 
-/* ── helpers ── */
+/* helpers */
 function changeType(e){const d=e.wealth-e.wealthPrev;return d>0.3?'up':d<-0.3?'down':'flat';}
+
+function changePillHTML(e){
+  const t=changeType(e);
+  const diff=(e.wealth-e.wealthPrev).toFixed(1);
+  const sign=diff>0?'+':'';
+  if(t==='up')   return `<span class="change-pill change-up">▲ ${sign}${diff}B</span>`;
+  if(t==='down') return `<span class="change-pill change-down">▼ ${diff}B</span>`;
+  return `<span class="change-pill change-flat">— flat</span>`;
+}
 
 function statusPills(e){
   const pills=[];
-  // Entry status
   if(e.status==='new')   pills.push(`<span class="detail-pill pill-status-new">New Entrant</span>`);
   else if(e.status==='drop') pills.push(`<span class="detail-pill pill-status-drop">Dropped</span>`);
   else pills.push(`<span class="detail-pill pill-status-return">Returnee</span>`);
-  // Split merged into status
   if(e.split) pills.push(`<span class="detail-pill pill-status-split">Split</span>`);
   return pills.join('');
 }
 
-function changePill(e){
-  const t=changeType(e);
-  if(t==='up')   return `<span class="detail-pill pill-change-up">▲ Wealth Up</span>`;
-  if(t==='down') return `<span class="detail-pill pill-change-down">▼ Wealth Down</span>`;
-  return `<span class="detail-pill pill-change-flat">Unchanged</span>`;
-}
-
-/* ── build rows ── */
+/* build rows */
 let activeFilters={tag:'all',industry:'',change:'',sort:'rank'};
 
 function buildRows(data){
@@ -636,12 +656,9 @@ function buildRows(data){
   data.forEach(entry=>{
     const rankClass=entry.rank<=3?'rl-rank rl-rank-top':'rl-rank';
     const hasBio=entry.bio&&entry.bio.trim().length>0;
-    const rowId=`row-${entry.rank}`;
 
-    // Main entry row
     const tr=document.createElement('tr');
     tr.className='entry-row';
-    tr.id=rowId;
     tr.innerHTML=`
       <td style="text-align:center;padding-right:4px"><div class="${rankClass}">${entry.rank}</div></td>
       <td><div class="rl-stamp">${entry.initials}</div></td>
@@ -651,18 +668,16 @@ function buildRows(data){
       </td>
       <td style="text-align:right">
         <div class="rl-wealth">$${entry.wealth.toFixed(1)}<span class="rl-wealth-unit"> B</span></div>
-      </td>`;
+      </td>
+      <td class="col-desktop"><div class="rl-age">${entry.age}</div></td>
+      <td class="col-desktop"><div class="rl-industry">${entry.industry}</div></td>
+      <td class="col-desktop"><div class="rl-change">${changePillHTML(entry)}</div></td>`;
 
-    // Detail row (always present, hidden by default)
     const dtr=document.createElement('tr');
     dtr.className='detail-row';
-    dtr.id=`detail-${entry.rank}`;
-    dtr.innerHTML=`<td colspan="4"><div class="detail-inner">
+    dtr.innerHTML=`<td colspan="7"><div class="detail-inner">
       <div class="detail-pills">
-        <span class="detail-pill pill-age">Age: ${entry.age}</span>
-        <span class="detail-pill pill-industry">${entry.industry}</span>
         ${statusPills(entry)}
-        ${changePill(entry)}
       </div>
       ${hasBio?`<div class="detail-bio">${entry.bio}</div>`:''}
     </div></td>`;
@@ -707,7 +722,6 @@ document.getElementById('industryFilter').addEventListener('change',e=>{activeFi
 document.getElementById('changeFilter').addEventListener('change',e=>{activeFilters.change=e.target.value;applyFilters();});
 document.getElementById('sortFilter').addEventListener('change',e=>{activeFilters.sort=e.target.value;applyFilters();});
 
-/* ── header height for sticky offset ── */
 function setHeaderH(){
   const h=document.getElementById('siteHeader');
   if(h) document.documentElement.style.setProperty('--header-h',h.offsetHeight+'px');
@@ -715,14 +729,12 @@ function setHeaderH(){
 setHeaderH();
 window.addEventListener('resize',setHeaderH,{passive:true});
 
-/* ── sidebar ── */
 function openSidebar(){document.getElementById('sidebar').classList.add('active');document.body.style.overflow='hidden';}
 function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.body.style.overflow='';}
 document.querySelectorAll('.sdmenu .sbmnuli>a').forEach(a=>{
   a.addEventListener('click',()=>a.closest('.sbmnuli').classList.toggle('active'));
 });
 
-/* ── scroll-to-top ── */
 window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400);},{passive:true});
 
 applyFilters();
