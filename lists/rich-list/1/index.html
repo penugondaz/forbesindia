@@ -87,56 +87,76 @@ img{display:block;max-width:100%;}
 .bc li a:hover{color:var(--red);}
 .bc li+li::before{content:"›";padding:0 5px;color:#bbb;}
 
-/* ══════════════ HERO ══════════════ */
+/* ══════════════ HERO — matches 30U30 layout exactly ══════════════ */
 .hero{background:var(--black);overflow:hidden;position:relative;}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 80% at 68% 50%,rgba(204,0,0,.10),transparent),
              radial-gradient(ellipse 40% 40% at 5% 90%,rgba(184,150,46,.07),transparent);}
-/* Desktop: left content gets 60%, right image gets 40% — always wider than tall = rectangle */
-.hero-inner{position:relative;z-index:1;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:60% 40%;align-items:stretch;}
-.hero-content{padding:36px var(--pad) 36px;display:flex;flex-direction:column;min-width:0;}
 
-/* Right image: height = left column height, width = 40% of max-width.
-   At 1160px max-width that's 464px wide, left col ~220-280px tall → always landscape */
-.hero-img-col{overflow:hidden;position:relative;}
+/* Two-col: content gets natural width, image col is auto-sized */
+.hero-inner{
+  position:relative;z-index:1;
+  max-width:var(--max);margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center; /* vertically centre both columns */
+}
+.hero-content{padding:32px var(--pad) 32px;display:flex;flex-direction:column;min-width:0;}
+
+/* Image col: constrain width, let height follow content col via align-self:stretch */
+.hero-img-col{
+  width:clamp(280px,40vw,500px);
+  align-self:center;
+  position:relative;
+  flex-shrink:0;
+}
+/* Let image render at natural height (no forced height) so it shows full rectangle */
 .hero-img-col img{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center 20%;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 16%,#000 38%);
-  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 16%,#000 38%);
+  display:block;
+  width:100%;
+  height:auto;
+  object-fit:contain;
+  object-position:center center;
+  /* Fade left edge to blend into dark hero */
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
 }
 
-/* Mobile: image on top, explicit landscape height */
+/* Mobile: image on top full-width, content below */
 @media(max-width:767px){
   .hero-inner{grid-template-columns:1fr;}
-  .hero-img-col{order:-1;height:56vw;max-height:240px;}
+  .hero-img-col{
+    width:100%;
+    order:-1;
+    align-self:auto;
+  }
   .hero-img-col img{
+    width:100%;height:auto;
+    object-fit:cover;
     object-position:center 20%;
-    -webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
-    mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
+    -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);
+    mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);
   }
   .hero-content{padding:20px 16px 28px;}
 }
-@media(min-width:768px)and(max-width:1024px){
-  .hero-inner{grid-template-columns:58% 42%;}
+@media(min-width:768px)and(max-width:1023px){
+  .hero-img-col{width:clamp(240px,44vw,400px);}
 }
 
 /* Eyebrow */
-.eyebrow{font-family:var(--body);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px;margin-bottom:14px;}
-.eyebrow::before{content:'';width:22px;height:2px;background:var(--red);flex-shrink:0;}
+.eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.eyebrow::before{content:'';width:24px;height:2px;background:var(--red);flex-shrink:0;}
 
-/* Identity row: small square badge + title */
-.identity{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+/* Identity row: small square badge + title — like 30U30 */
+.identity{display:flex;align-items:center;gap:22px;margin-bottom:20px;flex-wrap:wrap;}
 .list-logo{flex-shrink:0;}
 .list-logo img{
-  width:clamp(44px,4.2vw,56px);
-  height:clamp(44px,4.2vw,56px);
-  object-fit:cover;
-  object-position:center top;
-  border-radius:4px;
-  filter:drop-shadow(0 2px 8px rgba(0,0,0,.6));
+  height:clamp(90px,13vw,140px);
+  width:auto;
+  object-fit:contain;
+  display:block;
+  border-radius:6px;
+  filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));
 }
 .hero-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.8vw,58px);line-height:1.0;letter-spacing:-1.5px;color:#fff;}
 @media(max-width:480px){.hero-title{font-size:clamp(26px,8vw,36px);}}
@@ -253,35 +273,31 @@ img{display:block;max-width:100%;}
 }
 .ncaret{float:right;color:var(--mid);font-size:11px;margin-top:2px;transition:transform .2s;padding-left:5px;flex-shrink:0;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
+/* Caret only visible on mobile */
+.mob-only{display:none;}
+/* Desktop: no pointer cursor (not clickable) */
+.tbl tbody tr.erow{cursor:default;}
 
 /* Wealth */
 .wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;}
 .wlth small{font-size:10px;color:var(--mid);}
-
 /* Age */
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
-
 /* Industry */
-.ind{font-family:var(--body);font-size:11px;color:var(--ash);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-
+.ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 /* Change arrow */
 .chg{text-align:center;font-size:15px;line-height:1;}
 .a-up{color:#2e7d32;}
 .a-dn{color:var(--red);}
 .a-fl{color:#bbb;font-size:12px;}
-
-/* Desktop-only columns (age + industry) */
+/* Desktop-only columns */
 .dsk{display:table-cell;}
 
-/* ── EXPAND ROW ──
-   colspan set dynamically in JS to match visible column count.
-   Desktop = 7, Mobile = 4.
-   ────────────────────────────────────────────────────── */
+/* ── EXPAND ROW — mobile only ── */
 .xrow{display:none;}
 .xrow.open{display:table-row;}
 .xrow td{padding:0;background:#faf8f4;border-bottom:2px solid #c8b87a;}
-.xinner{padding:12px 12px 16px 70px;display:flex;flex-direction:column;gap:10px;}
+.xinner{padding:10px 10px 14px 10px;display:flex;flex-direction:column;gap:8px;}
 .xpills{display:flex;gap:6px;flex-wrap:wrap;}
 .pill{font-family:var(--body);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:1px;white-space:nowrap;}
 .p-age{background:#f0ece4;color:var(--ash);border:1px solid var(--rule);}
@@ -293,30 +309,39 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .p-ret{background:#f0ece4;color:var(--mid);border:1px solid var(--rule);}
 .p-drp{background:#fff0f0;color:var(--red);border:1px solid #f5c6c6;}
 .p-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
-.xbio{font-family:var(--body);font-size:13px;line-height:1.7;color:#555;max-width:680px;}
 
+/* ════════════════════════════════════
+   MOBILE ≤ 640px
+   5 visible cols: rank | photo | name | wealth | change
+   mob-xrow shown; dsk cols hidden
+   ════════════════════════════════════ */
 @media(max-width:640px){
-  /* Fixed layout with % widths: rank 8% | name fills | wealth 22% | change 8% */
   .tbl{table-layout:fixed;}
+  /* 5-col % widths: rank 8% | photo 13% | name auto | wealth 22% | change 8% */
   .tbl col.c-rank  {width:8%;}
-  .tbl col.c-photo {width:0;}   /* hidden */
-  .tbl col.c-name  {width:auto;}/* gets all remaining space */
+  .tbl col.c-photo {width:13%;}
+  .tbl col.c-name  {width:auto;}
   .tbl col.c-wealth{width:22%;}
-  .tbl col.c-age   {width:0;}   /* hidden */
-  .tbl col.c-ind   {width:0;}   /* hidden */
+  .tbl col.c-age   {width:0;}
+  .tbl col.c-ind   {width:0;}
+  .tbl col.c-stat  {width:0;}
   .tbl col.c-chg   {width:8%;}
-  /* Hide photo + desktop cols */
-  .tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
+  /* Show photo on mobile, hide desktop-only cols */
   .dsk{display:none !important;}
-  /* Keep single-line names on mobile with ellipsis — name col is wide enough */
-  .nname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;}
-  .nco{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;}
+  /* Show caret on mobile */
+  .mob-only{display:inline;}
+  /* Mobile rows are clickable */
+  .tbl tbody tr.erow{cursor:pointer;}
+  .tbl tbody tr.erow:hover{background:#faf8f4;}
+  .tbl tbody tr.erow.open{background:#faf8f4;border-bottom:none;}
+  /* mob-xrow hidden by default, shown when open */
+  .mob-xrow{display:none;}
+  .mob-xrow.open{display:table-row;}
   /* Tighten padding */
   .tbl td{padding:9px 5px;}
   .tbl thead th{padding:9px 5px;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
-  .xinner{padding:10px 10px 14px 10px;}
 }
 @media(min-width:641px)and(max-width:900px){
   .tbl td{padding:7px 6px;}
@@ -512,13 +537,16 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 <div class="main">
   <div class="tbl-wrap">
     <table class="tbl" id="tbl">
+      <!-- Desktop: rank|photo|name|wealth|age|industry|status|change (8 cols) -->
+      <!-- Mobile:  rank|photo|name|wealth|change (5 cols, others hidden) -->
       <colgroup>
         <col class="c-rank"   style="width:4%"/>
         <col class="c-photo"  style="width:6%"/>
-        <col class="c-name"   style="width:26%"/>
+        <col class="c-name"   style="width:24%"/>
         <col class="c-wealth" style="width:11%"/>
         <col class="c-age"    style="width:5%"/>
         <col class="c-ind"    style="width:13%"/>
+        <col class="c-stat"   style="width:10%"/>
         <col class="c-chg"    style="width:5%"/>
       </colgroup>
       <thead>
@@ -535,6 +563,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
             Age <span class="sort-icon"></span>
           </th>
           <th class="tc-ind dsk">Industry</th>
+          <th class="dsk" style="text-align:center">Status</th>
           <th class="tc-chg" style="text-align:center">±</th>
         </tr>
       </thead>
@@ -699,22 +728,18 @@ function arrowHTML(e){
   return `<span class="a-fl" title="Unchanged">—</span>`;
 }
 
-function pillsHTML(e){
-  const t=ct(e), p=[];
-  p.push(`<span class="pill p-age">Age ${e.a}</span>`);
-  p.push(`<span class="pill p-ind">${e.ind}</span>`);
-  if(t==='up')   p.push(`<span class="pill p-up">▲ Wealth Up</span>`);
-  else if(t==='down') p.push(`<span class="pill p-dn">▼ Wealth Down</span>`);
-  else            p.push(`<span class="pill p-fl">— Unchanged</span>`);
-  if(e.st==='new')        p.push(`<span class="pill p-new">New Entrant</span>`);
-  else if(e.st==='drop')  p.push(`<span class="pill p-drp">Dropped</span>`);
-  else                    p.push(`<span class="pill p-ret">Returnee</span>`);
-  if(e.sp) p.push(`<span class="pill p-spl">Split</span>`);
-  return p.join('');
-}
+/* ── visible column count for mobile expand colspan ── */
+function isMob(){ return window.innerWidth <= 640; }
+function vcols(){ return isMob() ? 5 : 8; }
 
-/* ── visible column count (for colspan) ── */
-function vcols(){ return window.innerWidth <= 640 ? 4 : 7; }
+/* Status badge HTML */
+function statusBadge(e){
+  if(e.st==='new')   return `<span class="pill p-new" style="font-size:9px;padding:2px 6px">New</span>`;
+  if(e.st==='drop')  return `<span class="pill p-drp" style="font-size:9px;padding:2px 6px">Dropped</span>`;
+  const base = `<span class="pill p-ret" style="font-size:9px;padding:2px 6px">Returnee</span>`;
+  const sp   = e.sp ? ` <span class="pill p-spl" style="font-size:9px;padding:2px 6px">Split</span>` : '';
+  return base + sp;
+}
 
 /* ── build ── */
 let AF={tag:'all',ind:'',chg:'',sort:'rank'};
@@ -722,45 +747,51 @@ let AF={tag:'all',ind:'',chg:'',sort:'rank'};
 function build(data){
   const tb=document.getElementById('tbody');
   tb.innerHTML='';
-  const cols=vcols();
   data.forEach(e=>{
     const rc=e.r<=3?'rnk rnk-top':'rnk';
-    const hasBio=e.bio&&e.bio.trim().length>0;
     const stampInner=e.img
       ? `<img src="${e.img}" alt="${e.n}" onerror="this.style.display='none';this.nextSibling&&(this.nextSibling.style.display='flex')"  /><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center">${e.ini}</span>`
       : e.ini;
 
+    /* ── Entry row ──
+       Desktop (>640px): 8 cols, no caret, NOT clickable
+       Mobile  (≤640px): 5 visible cols, caret shown, clickable */
     const tr=document.createElement('tr');
     tr.className='erow';
     tr.innerHTML=`
-      <td style="text-align:center;width:38px"><div class="${rc}">${e.r}</div></td>
-      <td class="td-photo" style="width:56px"><div class="stamp">${stampInner}</div></td>
+      <td style="text-align:center"><div class="${rc}">${e.r}</div></td>
+      <td class="td-photo"><div class="stamp">${stampInner}</div></td>
       <td>
         <div class="nwrap">
-          <div class="nname">${e.n} <span class="ncaret">▾</span></div>
+          <div class="nname">${e.n}<span class="ncaret mob-only">▾</span></div>
           <div class="nco">${e.co}</div>
         </div>
       </td>
-      <td style="text-align:right;width:88px"><div class="wlth">$${e.w.toFixed(1)}<small> B</small></div></td>
-      <td class="dsk" style="width:44px;text-align:center"><div class="age">${e.a}</div></td>
-      <td class="dsk" style="width:100px"><div class="ind">${e.ind}</div></td>
-      <td style="width:36px;text-align:center"><div class="chg">${arrowHTML(e)}</div></td>
+      <td style="text-align:right"><div class="wlth">$${e.w.toFixed(1)}<small> B</small></div></td>
+      <td class="dsk" style="text-align:center"><div class="age">${e.a}</div></td>
+      <td class="dsk"><div class="ind">${e.ind}</div></td>
+      <td class="dsk" style="text-align:center">${statusBadge(e)}</td>
+      <td style="text-align:center"><div class="chg">${arrowHTML(e)}</div></td>
     `;
 
+    /* ── Expand row — mobile only, shows age/industry/status pills, NO bio ── */
     const xtr=document.createElement('tr');
-    xtr.className='xrow';
-    xtr.innerHTML=`<td colspan="${cols}"><div class="xinner">
-      <div class="xpills">${pillsHTML(e)}</div>
-      ${hasBio?`<div class="xbio">${e.bio}</div>`:''}
+    xtr.className='xrow mob-xrow';
+    xtr.innerHTML=`<td colspan="5"><div class="xinner">
+      <div class="xpills">
+        <span class="pill p-age">Age ${e.a}</span>
+        <span class="pill p-ind">${e.ind}</span>
+        ${statusBadge(e)}
+      </div>
     </div></td>`;
 
     tb.appendChild(tr);
     tb.appendChild(xtr);
 
+    /* Click only active on mobile */
     tr.addEventListener('click',()=>{
+      if(!isMob()) return; /* desktop: no expand */
       const wasOpen=xtr.classList.contains('open');
-      /* update colspan in case viewport changed */
-      xtr.querySelector('td').colSpan=vcols();
       xtr.classList.toggle('open',!wasOpen);
       tr.classList.toggle('open',!wasOpen);
     });
