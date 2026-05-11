@@ -313,35 +313,65 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 /* ════════════════════════════════════
    MOBILE ≤ 640px
    5 visible cols: rank | photo | name | wealth | change
-   mob-xrow shown; dsk cols hidden
    ════════════════════════════════════ */
 @media(max-width:640px){
   .tbl{table-layout:fixed;}
-  /* 5-col % widths: rank 8% | photo 13% | name auto | wealth 22% | change 8% */
+
+  /* Column widths for 5 visible cols.
+     rank:8% | photo:12% | name:auto | wealth:23% | change:9%
+     Hidden cols get width:0 AND their th/td are display:none */
   .tbl col.c-rank  {width:8%;}
-  .tbl col.c-photo {width:13%;}
+  .tbl col.c-photo {width:12%;}
   .tbl col.c-name  {width:auto;}
-  .tbl col.c-wealth{width:22%;}
+  .tbl col.c-wealth{width:23%;}
   .tbl col.c-age   {width:0;}
   .tbl col.c-ind   {width:0;}
   .tbl col.c-stat  {width:0;}
-  .tbl col.c-chg   {width:8%;}
-  /* Show photo on mobile, hide desktop-only cols */
+  .tbl col.c-chg   {width:9%;}
+
+  /* Hide BOTH the th and td for desktop-only columns.
+     Width:0 on col alone does NOT prevent th from showing. */
   .dsk{display:none !important;}
+  .tbl thead th.tc-age,
+  .tbl thead th.tc-ind,
+  .tbl thead th.tc-stat{display:none !important;}
+  .tbl td.td-age,
+  .tbl td.td-ind,
+  .tbl td.td-stat{display:none !important;}
+
+  /* Stamp: smaller on mobile to fit 12% col */
+  .stamp{width:36px;height:48px;font-size:9px;}
+
+  /* Name: allow single line with ellipsis — col is ~47% = ~170px, enough */
+  .nname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;
+    /* Prevent caret from pushing name text to wrap */
+    display:flex;align-items:center;justify-content:space-between;gap:4px;}
+  .nname .mob-only{flex-shrink:0;}
+  .nco{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;}
+
   /* Show caret on mobile */
   .mob-only{display:inline;}
-  /* Mobile rows are clickable */
+
+  /* Mobile rows clickable */
   .tbl tbody tr.erow{cursor:pointer;}
   .tbl tbody tr.erow:hover{background:#faf8f4;}
   .tbl tbody tr.erow.open{background:#faf8f4;border-bottom:none;}
-  /* mob-xrow hidden by default, shown when open */
+
+  /* mob-xrow */
   .mob-xrow{display:none;}
   .mob-xrow.open{display:table-row;}
+
   /* Tighten padding */
-  .tbl td{padding:9px 5px;}
-  .tbl thead th{padding:9px 5px;}
+  .tbl td{padding:8px 4px;}
+  .tbl thead th{padding:8px 4px;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
+  .chg{font-size:14px;}
+
+  /* Hero stats: smaller on mobile so all 4 fit */
+  .stat-num{font-size:18px;}
+  .stat-lbl{font-size:9px;letter-spacing:.10em;}
+  .hero-stats{gap:16px;}
 }
 @media(min-width:641px)and(max-width:900px){
   .tbl td{padding:7px 6px;}
@@ -563,7 +593,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
             Age <span class="sort-icon"></span>
           </th>
           <th class="tc-ind dsk">Industry</th>
-          <th class="dsk" style="text-align:center">Status</th>
+          <th class="tc-stat dsk" style="text-align:center">Status</th>
           <th class="tc-chg" style="text-align:center">±</th>
         </tr>
       </thead>
@@ -768,9 +798,9 @@ function build(data){
         </div>
       </td>
       <td style="text-align:right"><div class="wlth">$${e.w.toFixed(1)}<small> B</small></div></td>
-      <td class="dsk" style="text-align:center"><div class="age">${e.a}</div></td>
-      <td class="dsk"><div class="ind">${e.ind}</div></td>
-      <td class="dsk" style="text-align:center">${statusBadge(e)}</td>
+      <td class="td-age dsk" style="text-align:center"><div class="age">${e.a}</div></td>
+      <td class="td-ind dsk"><div class="ind">${e.ind}</div></td>
+      <td class="td-stat dsk" style="text-align:center">${statusBadge(e)}</td>
       <td style="text-align:center"><div class="chg">${arrowHTML(e)}</div></td>
     `;
 
