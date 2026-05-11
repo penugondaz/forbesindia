@@ -178,33 +178,40 @@ img{display:block;max-width:100%;}
    TABLE
    Desktop uses table-layout:fixed with a <colgroup> so
    we have absolute control over every column width.
-   Column widths (desktop, 7 cols, total ≈ content width):
-     rank:40 | photo:58 | name:160 | wealth:96 | age:46 | industry:108 | change:40
-   The name column is intentionally kept at 160px — narrow.
-   Mobile (≤640px): 4 cols — rank:32 | name:auto | wealth:80 | change:34
+   Column widths (desktop, 7 cols):
+     rank:40 | photo:58 | name:120 | wealth:96 | age:46 | industry:108 | change:40 = 508px
+   Name column is narrow at 120px — truncates with ellipsis.
+   Mobile (≤640px): 4 cols — rank:40 | name:auto | wealth:96 | change:40
    ══════════════════════════════════════════════════════ */
-.tbl-wrap{margin-top:0;width:100%;overflow-x:hidden;}
-
-/* Wrapper also acts as the sticky-header scroll container */
-.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+/* tbl-wrap: the page itself scrolls so sticky th works correctly.
+   DO NOT set overflow on this wrapper — that would break position:sticky on th */
+.tbl-wrap{margin-top:0;width:100%;}
+.tbl-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 
 .tbl{
   width:100%;
   border-collapse:collapse;
-  table-layout:fixed; /* critical: respect colgroup widths */
-  min-width:580px;    /* prevents squash on tablet */
+  table-layout:fixed;
+  /* sum of all 7 desktop col widths: 40+58+120+96+46+108+40 = 508px */
+  min-width:508px;
 }
 
-/* ── STICKY THEAD ── */
-.tbl thead{position:sticky;top:calc(var(--hh) + 44px);z-index:60;background:#fff;}
-.tbl thead tr{border-bottom:2px solid var(--ink);}
+/* ── STICKY: apply to TH not THEAD
+   thead inside an overflow container breaks sticky.
+   Here the scroll is on .tbl-scroll but page itself scrolls too,
+   so sticky on th works against the viewport. ── */
+.tbl thead tr{border-bottom:none;} /* replaced by box-shadow on th */
 .tbl thead th{
+  position:sticky;
+  top:calc(var(--hh) + 44px);
+  z-index:60;
   font-family:var(--body);font-size:10px;letter-spacing:.15em;
   color:var(--mid);text-transform:uppercase;
   padding:10px 8px;text-align:left;white-space:nowrap;
-  border-bottom:2px solid var(--ink);
   background:#fff;
   user-select:none;
+  /* Box-shadow replaces border-bottom (borders don't render on sticky cells) */
+  box-shadow:inset 0 -2px 0 0 var(--ink);
 }
 /* Sortable headers */
 .tbl thead th.sortable{cursor:pointer;}
@@ -515,11 +522,10 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   <div class="tbl-wrap">
     <div class="tbl-scroll">
     <table class="tbl" id="tbl">
-      <!-- colgroup: desktop 7-col fixed widths -->
       <colgroup>
         <col class="c-rank"   style="width:40px"/>
         <col class="c-photo"  style="width:58px"/>
-        <col class="c-name"   style="width:160px"/>
+        <col class="c-name"   style="width:120px"/>
         <col class="c-wealth" style="width:96px"/>
         <col class="c-age"    style="width:46px"/>
         <col class="c-ind"    style="width:108px"/>
