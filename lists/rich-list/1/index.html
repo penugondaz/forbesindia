@@ -317,35 +317,26 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 @media(max-width:640px){
   .tbl{table-layout:fixed;}
 
-  /* Column widths for 5 visible cols.
-     rank:8% | photo:12% | name:auto | wealth:23% | change:9%
-     Hidden cols get width:0 AND their th/td are display:none */
-  .tbl col.c-rank  {width:8%;}
+  /* Column widths for 5 visible cols */
+  .tbl col.c-rank  {width:7%;}
   .tbl col.c-photo {width:12%;}
   .tbl col.c-name  {width:auto;}
-  .tbl col.c-wealth{width:23%;}
-  .tbl col.c-age   {width:0;}
-  .tbl col.c-ind   {width:0;}
-  .tbl col.c-stat  {width:0;}
-  .tbl col.c-chg   {width:9%;}
+  .tbl col.c-wealth{width:24%;}
+  .tbl col.c-chg   {width:8%;}
 
-  /* Hide BOTH the th and td for desktop-only columns.
-     Width:0 on col alone does NOT prevent th from showing. */
+  /* HIDE desktop-only cols completely — col + th + td all get display:none.
+     This is the ONLY reliable way to fully remove columns on mobile. */
+  .tbl col.c-age,
+  .tbl col.c-ind,
+  .tbl col.c-stat{display:none;}
   .dsk{display:none !important;}
-  .tbl thead th.tc-age,
-  .tbl thead th.tc-ind,
-  .tbl thead th.tc-stat{display:none !important;}
-  .tbl td.td-age,
-  .tbl td.td-ind,
-  .tbl td.td-stat{display:none !important;}
 
-  /* Stamp: smaller on mobile to fit 12% col */
+  /* Stamp: smaller on mobile */
   .stamp{width:36px;height:48px;font-size:9px;}
 
-  /* Name: allow single line with ellipsis — col is ~47% = ~170px, enough */
+  /* Name: single line, flex layout so caret doesn't push text */
   .nname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;
-    /* Prevent caret from pushing name text to wrap */
-    display:flex;align-items:center;justify-content:space-between;gap:4px;}
+    display:flex;align-items:center;gap:4px;}
   .nname .mob-only{flex-shrink:0;}
   .nco{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;}
 
@@ -368,7 +359,10 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .wlth{font-size:12px;}
   .chg{font-size:14px;}
 
-  /* Hero stats: smaller on mobile so all 4 fit */
+  /* Wealth header text: abbreviate via hide/show trick */
+  .tbl thead th.tc-wealth{font-size:9px;}
+
+  /* Hero stats: smaller so all 4 fit on mobile */
   .stat-num{font-size:18px;}
   .stat-lbl{font-size:9px;letter-spacing:.10em;}
   .hero-stats{gap:16px;}
