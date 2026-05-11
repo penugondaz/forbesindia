@@ -88,34 +88,67 @@ img{display:block;max-width:100%;}
 .bc li+li::before{content:"›";padding:0 5px;color:#bbb;}
 
 /* ══════════════ HERO ══════════════ */
-.hero{background:var(--black);overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+.hero{background:var(--black);overflow:hidden;position:relative;}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 80% at 68% 50%,rgba(204,0,0,.10),transparent),
              radial-gradient(ellipse 40% 40% at 5% 90%,rgba(184,150,46,.07),transparent);}
-/* Desktop: two-col grid */
-.hero-inner{position:relative;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:center;}
+/* Desktop: two-col grid — left content, right image */
+.hero-inner{position:relative;z-index:1;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:stretch;}
 .hero-content{padding:36px var(--pad) 36px;display:flex;flex-direction:column;min-width:0;}
-/* Right image column */
-.hero-img-col{flex-shrink:0;width:clamp(260px,38vw,460px);align-self:stretch;overflow:hidden;}
-.hero-img-col img{width:100%;height:100%;object-fit:cover;object-position:center top;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 22%,#000 46%);
-  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 22%,#000 46%);}
-/* Mobile: stack — image on top full width */
+
+/* ── Right column: 16:9 image that EXACTLY matches content-column height ── */
+/* We let content drive the height; image fills it */
+.hero-img-col{
+  flex-shrink:0;
+  /* 16:9 width from height: width = height * (16/9)
+     But we don't know height upfront, so we use a different trick:
+     We set a fixed aspect-ratio container that is as wide as needed */
+  width:clamp(240px,36vw,440px);
+  align-self:stretch;   /* fill the grid row height = content height */
+  overflow:hidden;
+  position:relative;
+}
+.hero-img-col img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 20%;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 20%,#000 44%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.45) 20%,#000 44%);
+}
+
+/* Mobile: stack — image on top full width, 16:9 */
 @media(max-width:767px){
   .hero-inner{grid-template-columns:1fr;grid-template-rows:auto auto;}
-  .hero-img-col{width:100%;height:220px;order:-1;}
-  .hero-img-col img{height:100%;object-position:center 15%;
+  .hero-img-col{
+    width:100%;
+    height:0;
+    padding-bottom:56.25%; /* 16:9 */
+    align-self:auto;
+    order:-1;
+  }
+  .hero-img-col img{
+    object-position:center 20%;
     -webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
-    mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);}
+    mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
+  }
   .hero-content{padding:20px 16px 28px;}
 }
+
 /* Eyebrow */
 .eyebrow{font-family:var(--body);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:8px;margin-bottom:14px;}
 .eyebrow::before{content:'';width:22px;height:2px;background:var(--red);flex-shrink:0;}
-/* Identity row */
-.identity{display:flex;align-items:center;gap:18px;margin-bottom:18px;flex-wrap:nowrap;}
+
+/* Identity row: logo badge + title side by side */
+.identity{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:nowrap;}
 .list-logo{flex-shrink:0;}
-.list-logo img{height:clamp(72px,11vw,110px);width:auto;border-radius:5px;filter:drop-shadow(0 3px 12px rgba(0,0,0,.5));}
+/* Badge: 1:1 square, height = 1 line of title font ≈ 58px at desktop */
+.list-logo img{
+  width: clamp(48px, 4.8vw, 62px);   /* 1:1 — same as height */
+  height: clamp(48px, 4.8vw, 62px);
+  object-fit:cover;
+  border-radius:6px;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.55));
+}
 .hero-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.8vw,58px);line-height:1.0;letter-spacing:-1.5px;color:#fff;}
 @media(max-width:480px){.hero-title{font-size:clamp(26px,8vw,36px);}}
 /* Desc */
@@ -139,49 +172,91 @@ img{display:block;max-width:100%;}
 .fcount b{color:var(--red);}
 
 /* ══════════════ MAIN ══════════════ */
-.main{max-width:var(--max);margin:0 auto;padding:0 var(--pad) 60px;}
+.main{max-width:var(--max);margin:0 auto;padding:24px var(--pad) 60px;}
 
-/* ══════════════════════════════════════════════
+/* ══════════════════════════════════════════════════════
    TABLE
-   Strategy:
-   - table-layout: auto (browser sizes columns naturally)
-   - We constrain only rank, photo, wealth, change with explicit widths via CSS
-   - Name gets remaining space — no explicit width needed
-   - On mobile: hide photo column td/th via display:none
-   ══════════════════════════════════════════════ */
-.tbl-wrap{margin-top:20px;width:100%;overflow-x:hidden;}
-.tbl{width:100%;border-collapse:collapse;table-layout:auto;}
+   Desktop uses table-layout:fixed with a <colgroup> so
+   we have absolute control over every column width.
+   Column widths (desktop, 7 cols, total ≈ content width):
+     rank:40 | photo:58 | name:160 | wealth:96 | age:46 | industry:108 | change:40
+   The name column is intentionally kept at 160px — narrow.
+   Mobile (≤640px): 4 cols — rank:32 | name:auto | wealth:80 | change:34
+   ══════════════════════════════════════════════════════ */
+.tbl-wrap{margin-top:0;width:100%;overflow-x:hidden;}
 
-/* HEAD */
-.tbl thead tr{background:#fff;border-bottom:2px solid var(--ink);}
-.tbl thead th{font-family:var(--body);font-size:10px;letter-spacing:.15em;color:var(--mid);text-transform:uppercase;padding:10px 8px;text-align:left;white-space:nowrap;border-bottom:2px solid var(--ink);}
-.tbl thead th.tc-rank  {width:38px;text-align:center;}
-.tbl thead th.tc-photo {width:56px;}
-.tbl thead th.tc-wealth{text-align:right;width:88px;}
-.tbl thead th.tc-age   {width:44px;text-align:center;}
-.tbl thead th.tc-ind   {width:100px;}
-.tbl thead th.tc-chg   {width:36px;text-align:center;}
-/* name gets all remaining space automatically */
+/* Wrapper also acts as the sticky-header scroll container */
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+
+.tbl{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed; /* critical: respect colgroup widths */
+  min-width:580px;    /* prevents squash on tablet */
+}
+
+/* ── STICKY THEAD ── */
+.tbl thead{position:sticky;top:calc(var(--hh) + 44px);z-index:60;background:#fff;}
+.tbl thead tr{border-bottom:2px solid var(--ink);}
+.tbl thead th{
+  font-family:var(--body);font-size:10px;letter-spacing:.15em;
+  color:var(--mid);text-transform:uppercase;
+  padding:10px 8px;text-align:left;white-space:nowrap;
+  border-bottom:2px solid var(--ink);
+  background:#fff;
+  user-select:none;
+}
+/* Sortable headers */
+.tbl thead th.sortable{cursor:pointer;}
+.tbl thead th.sortable:hover{color:var(--ink);}
+.tbl thead th .sort-icon{
+  display:inline-block;margin-left:4px;font-size:9px;
+  opacity:.35;vertical-align:middle;transition:opacity .15s;
+}
+.tbl thead th.sort-asc .sort-icon,
+.tbl thead th.sort-desc .sort-icon{opacity:1;color:var(--red);}
+.tbl thead th.sort-asc .sort-icon::after{content:"▲";}
+.tbl thead th.sort-desc .sort-icon::after{content:"▼";}
+.tbl thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after{content:"⇅";}
+
+/* Column alignment */
+.tbl thead th.tc-rank  {text-align:center;}
+.tbl thead th.tc-wealth{text-align:right;}
+.tbl thead th.tc-age   {text-align:center;}
+.tbl thead th.tc-chg   {text-align:center;}
 
 /* BODY */
 .tbl tbody tr.erow{border-bottom:1px solid #ebebef;cursor:pointer;transition:background .12s;}
 .tbl tbody tr.erow:hover{background:#faf8f4;}
 .tbl tbody tr.erow.open{background:#faf8f4;border-bottom:none;}
-.tbl td{padding:8px 8px;vertical-align:middle;}
+.tbl td{padding:8px 8px;vertical-align:middle;overflow:hidden;}
 
 /* Rank */
 .rnk{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);text-align:center;line-height:1;}
 .rnk-top{color:var(--gold);}
 
-/* Stamp photo — postal 3:4 ratio */
-.stamp{width:44px;height:58px;overflow:hidden;border:1.5px solid var(--rule);background:#e8e1d8;border-radius:1px;display:flex;align-items:center;justify-content:center;font-family:var(--body);font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;}
+/* Stamp photo — 3:4 portrait ratio */
+.stamp{
+  width:44px;height:58px;overflow:hidden;
+  border:1.5px solid var(--rule);background:#e8e1d8;border-radius:1px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--body);font-size:10px;color:var(--mid);
+  text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;
+}
 .stamp img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
 
-/* Name cell — CRITICAL: max-width + overflow to prevent bloat */
-.nwrap{min-width:0;max-width:160px;} /* desktop cap */
-.nname{font-family:var(--body);font-size:13px;color:var(--ink);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.nco  {font-family:var(--body);font-size:10px;color:var(--mid);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.ncaret{float:right;color:var(--mid);font-size:11px;margin-top:3px;transition:transform .2s;padding-left:4px;}
+/* Name cell — constrained by colgroup width, overflow hidden */
+.nwrap{min-width:0;width:100%;}
+.nname{
+  font-family:var(--body);font-size:13px;color:var(--ink);
+  line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  display:block;
+}
+.nco{
+  font-family:var(--body);font-size:10px;color:var(--mid);margin-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;
+}
+.ncaret{float:right;color:var(--mid);font-size:11px;margin-top:2px;transition:transform .2s;padding-left:5px;flex-shrink:0;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 
 /* Wealth */
@@ -192,7 +267,8 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
 
 /* Industry */
-.ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100px;}
+.ind{font-family:var(--body);font-size:11px;color:var(--ash);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
 /* Change arrow */
 .chg{text-align:center;font-size:15px;line-height:1;}
@@ -200,16 +276,13 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .a-dn{color:var(--red);}
 .a-fl{color:#bbb;font-size:12px;}
 
-/* Desktop-only (age, industry) */
+/* Desktop-only columns (age + industry) */
 .dsk{display:table-cell;}
 
-/* ══════════════════════════════════════════════
-   EXPAND ROW
-   The ONLY way to prevent column shift on mobile:
-   The expand row td must span the exact number of
-   visible columns. We calculate this in JS and set
-   data-cols on the table, then read it.
-   ══════════════════════════════════════════════ */
+/* ── EXPAND ROW ──
+   colspan set dynamically in JS to match visible column count.
+   Desktop = 7, Mobile = 4.
+   ────────────────────────────────────────────────────── */
 .xrow{display:none;}
 .xrow.open{display:table-row;}
 .xrow td{padding:0;background:#faf8f4;border-bottom:2px solid #c8b87a;}
@@ -227,37 +300,27 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .p-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
 .xbio{font-family:var(--body);font-size:13px;line-height:1.7;color:#555;max-width:680px;}
 
-/* ══════════════ MOBILE TABLE OVERRIDES ══════════════
-   On mobile ≤ 640px:
-   - Hide photo column (td + th)
-   - Hide age + industry columns
-   - Show change as 4th column (it's always visible)
-   - Name cell: remove max-width cap so it can flex
-   - table-layout auto handles everything naturally
-   ══════════════════════════════════════════════════ */
+/* ═══════════════════════════════
+   MOBILE ≤ 640px — 4 visible cols
+   rank | name | wealth | change
+   ═══════════════════════════════ */
 @media(max-width:640px){
-  /* Hide photo */
-  .tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
+  .tbl{min-width:0;table-layout:fixed;}
+  /* Hide photo col */
+  .tbl col.c-photo,.tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
   /* Hide desktop-only cols */
   .dsk{display:none !important;}
-  /* Name cap removed on mobile so it fills space */
-  .nwrap{max-width:none;}
-  .nname{font-size:12px;}
-  .nco  {font-size:10px;}
-  /* Tighten padding on mobile */
+  /* Name fills remaining space */
+  .tbl col.c-name{width:auto;}
+  /* Tighten padding */
   .tbl td{padding:7px 5px;}
   .tbl thead th{padding:8px 5px;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
-  /* Expand inner — no left indent on mobile */
+  /* No left indent in expand */
   .xinner{padding:10px 10px 14px 10px;}
-  /* Column widths on mobile — auto handles naturally */
-  .tbl thead th.tc-rank  {width:28px;}
-  .tbl thead th.tc-wealth{width:76px;}
-  .tbl thead th.tc-chg   {width:30px;}
 }
 @media(min-width:641px)and(max-width:900px){
-  .nwrap{max-width:120px;}
   .tbl td{padding:7px 6px;}
 }
 
@@ -450,20 +513,38 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 <!-- ══ TABLE ══ -->
 <div class="main">
   <div class="tbl-wrap">
+    <div class="tbl-scroll">
     <table class="tbl" id="tbl">
+      <!-- colgroup: desktop 7-col fixed widths -->
+      <colgroup>
+        <col class="c-rank"   style="width:40px"/>
+        <col class="c-photo"  style="width:58px"/>
+        <col class="c-name"   style="width:160px"/>
+        <col class="c-wealth" style="width:96px"/>
+        <col class="c-age"    style="width:46px"/>
+        <col class="c-ind"    style="width:108px"/>
+        <col class="c-chg"    style="width:40px"/>
+      </colgroup>
       <thead>
         <tr>
-          <th class="tc-rank">#</th>
+          <th class="tc-rank sortable" id="th-rank" data-col="rank">
+            # <span class="sort-icon sort-desc"></span>
+          </th>
           <th class="tc-photo"></th>
           <th>Name</th>
-          <th class="tc-wealth" style="text-align:right">Net Worth</th>
-          <th class="tc-age dsk">Age</th>
+          <th class="tc-wealth sortable" id="th-wealth" data-col="wealth" style="text-align:right">
+            Net Worth <span class="sort-icon"></span>
+          </th>
+          <th class="tc-age dsk sortable" id="th-age" data-col="age" style="text-align:center">
+            Age <span class="sort-icon"></span>
+          </th>
           <th class="tc-ind dsk">Industry</th>
-          <th class="tc-chg">±</th>
+          <th class="tc-chg" style="text-align:center">±</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
     </table>
+    </div>
     <div class="nores" id="nores">No entries match the filters.</div>
   </div>
 
@@ -706,6 +787,7 @@ function render(){
   build(d);
   document.getElementById('fcnt').textContent=d.length;
   document.getElementById('nores').style.display=d.length===0?'block':'none';
+  syncSortHeaders();
 }
 
 /* filters */
@@ -720,6 +802,32 @@ document.querySelectorAll('[data-f]').forEach(b=>{
 document.getElementById('selInd').addEventListener('change',e=>{AF.ind=e.target.value;render();});
 document.getElementById('selChg').addEventListener('change',e=>{AF.chg=e.target.value;render();});
 document.getElementById('selSort').addEventListener('change',e=>{AF.sort=e.target.value;render();});
+
+/* Sortable column headers */
+const SORT_MAP={rank:['rank','wd'],wealth:['wd','wa'],age:['ya','yo']};
+function syncSortHeaders(){
+  ['rank','wealth','age'].forEach(col=>{
+    const th=document.getElementById('th-'+col);
+    if(!th) return;
+    th.classList.remove('sort-asc','sort-desc');
+    const [asc,desc]=SORT_MAP[col];
+    if(AF.sort===asc)  th.classList.add('sort-asc');
+    if(AF.sort===desc) th.classList.add('sort-desc');
+  });
+}
+document.querySelectorAll('.tbl thead th.sortable').forEach(th=>{
+  th.addEventListener('click',()=>{
+    const col=th.dataset.col;
+    const [asc,desc]=SORT_MAP[col];
+    /* cycle: default → asc → desc → default */
+    if(AF.sort===asc)       AF.sort=desc;
+    else if(AF.sort===desc) AF.sort='rank';
+    else                    AF.sort=asc;
+    /* sync the dropdown too */
+    document.getElementById('selSort').value=AF.sort;
+    render();
+  });
+});
 
 /* header height for sticky fbar */
 function setHH(){
