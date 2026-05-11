@@ -28,7 +28,7 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--body);background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 a{color:inherit;text-decoration:none;}
 img{display:block;max-width:100%;}
 
@@ -176,41 +176,40 @@ img{display:block;max-width:100%;}
 
 /* ══════════════════════════════════════════════════════
    TABLE
-   Desktop uses table-layout:fixed with a <colgroup> so
-   we have absolute control over every column width.
    Column widths (desktop, 7 cols):
      rank:40 | photo:58 | name:120 | wealth:96 | age:46 | industry:108 | change:40 = 508px
-   Name column is narrow at 120px — truncates with ellipsis.
-   Mobile (≤640px): 4 cols — rank:40 | name:auto | wealth:96 | change:40
    ══════════════════════════════════════════════════════ */
-/* tbl-wrap: the page itself scrolls so sticky th works correctly.
-   DO NOT set overflow on this wrapper — that would break position:sticky on th */
+
+/* STICKY TABLE HEADER — THE ONLY WORKING APPROACH:
+   No overflow whatsoever on tbl-wrap or any ancestor between
+   tbl-wrap and the page root. Any overflow (even overflow-x:auto)
+   creates a scroll container that breaks position:sticky on th.
+   We prevent horizontal overflow by ensuring min-width:508px on
+   the table fits within the padded .main container on all viewports.
+   On very narrow screens the table stays within max-width with padding. */
 .tbl-wrap{margin-top:0;width:100%;}
-.tbl-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 
 .tbl{
   width:100%;
   border-collapse:collapse;
   table-layout:fixed;
-  /* sum of all 7 desktop col widths: 40+58+120+96+46+108+40 = 508px */
-  min-width:508px;
+  /* No min-width — table must fit within .main container at all sizes.
+     Desktop padded main = up to 1160px; colgroup controls exact widths.
+     Mobile colgroup overrides applied in @media below. */
 }
 
-/* ── STICKY: apply to TH not THEAD
-   thead inside an overflow container breaks sticky.
-   Here the scroll is on .tbl-scroll but page itself scrolls too,
-   so sticky on th works against the viewport. ── */
-.tbl thead tr{border-bottom:none;} /* replaced by box-shadow on th */
+/* STICKY TH — sticks to viewport below header + fbar
+   top = --sticky-top (set precisely in JS by measuring both elements) */
+.tbl thead tr{border-bottom:none;}
 .tbl thead th{
   position:sticky;
-  top:calc(var(--hh) + 44px);
+  top:var(--sticky-top, 88px); /* fallback 88px ≈ header(44) + fbar(44) */
   z-index:60;
   font-family:var(--body);font-size:10px;letter-spacing:.15em;
   color:var(--mid);text-transform:uppercase;
   padding:10px 8px;text-align:left;white-space:nowrap;
   background:#fff;
   user-select:none;
-  /* Box-shadow replaces border-bottom (borders don't render on sticky cells) */
   box-shadow:inset 0 -2px 0 0 var(--ink);
 }
 /* Sortable headers */
@@ -307,24 +306,25 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .p-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
 .xbio{font-family:var(--body);font-size:13px;line-height:1.7;color:#555;max-width:680px;}
 
-/* ═══════════════════════════════
-   MOBILE ≤ 640px — 4 visible cols
-   rank | name | wealth | change
-   ═══════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   MOBILE ≤ 640px — 4 visible cols only
+   Rank | Name | Net Worth | ±
+   ═══════════════════════════════════════════════ */
 @media(max-width:640px){
-  .tbl{min-width:0;table-layout:fixed;}
-  /* Hide photo col */
-  .tbl col.c-photo,.tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
-  /* Hide desktop-only cols */
+  .tbl{table-layout:fixed;}
+  .tbl col.c-rank  { width:32px; }
+  .tbl col.c-photo { width:0; }
+  .tbl col.c-name  { width:auto; }
+  .tbl col.c-wealth{ width:78px; }
+  .tbl col.c-age   { width:0; }
+  .tbl col.c-ind   { width:0; }
+  .tbl col.c-chg   { width:32px; }
+  .tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
   .dsk{display:none !important;}
-  /* Name fills remaining space */
-  .tbl col.c-name{width:auto;}
-  /* Tighten padding */
   .tbl td{padding:7px 5px;}
   .tbl thead th{padding:8px 5px;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
-  /* No left indent in expand */
   .xinner{padding:10px 10px 14px 10px;}
 }
 @media(min-width:641px)and(max-width:900px){
@@ -520,7 +520,6 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 <!-- ══ TABLE ══ -->
 <div class="main">
   <div class="tbl-wrap">
-    <div class="tbl-scroll">
     <table class="tbl" id="tbl">
       <colgroup>
         <col class="c-rank"   style="width:40px"/>
@@ -550,7 +549,6 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
       </thead>
       <tbody id="tbody"></tbody>
     </table>
-    </div>
     <div class="nores" id="nores">No entries match the filters.</div>
   </div>
 
@@ -835,13 +833,17 @@ document.querySelectorAll('.tbl thead th.sortable').forEach(th=>{
   });
 });
 
-/* header height for sticky fbar */
-function setHH(){
-  const h=document.getElementById('hdrmain');
-  if(h) document.documentElement.style.setProperty('--hh',h.offsetHeight+'px');
+/* Compute exact sticky offsets by measuring live element heights */
+function setOffsets(){
+  const hdr  = document.getElementById('hdrmain');
+  const fbar = document.getElementById('fbarwrap');
+  const hh   = hdr  ? hdr.offsetHeight  : 0;
+  const fh   = fbar ? fbar.offsetHeight : 44;
+  document.documentElement.style.setProperty('--hh', hh + 'px');
+  document.documentElement.style.setProperty('--sticky-top', (hh + fh) + 'px');
 }
-setHH();
-window.addEventListener('resize',setHH,{passive:true});
+setOffsets();
+window.addEventListener('resize', setOffsets, {passive:true});
 
 /* sidebar */
 function openSb(){document.getElementById('sb').classList.add('on');document.body.style.overflow='hidden';}
