@@ -92,46 +92,35 @@ img{display:block;max-width:100%;}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 80% at 68% 50%,rgba(204,0,0,.10),transparent),
              radial-gradient(ellipse 40% 40% at 5% 90%,rgba(184,150,46,.07),transparent);}
-/* Desktop: two-col grid — left content, right image */
-.hero-inner{position:relative;z-index:1;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:stretch;}
+/* Desktop: left content gets 60%, right image gets 40% — always wider than tall = rectangle */
+.hero-inner{position:relative;z-index:1;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:60% 40%;align-items:stretch;}
 .hero-content{padding:36px var(--pad) 36px;display:flex;flex-direction:column;min-width:0;}
 
-/* ── Right image column: fills the full height of the content col
-   Width is clamped; height is driven by the left column.
-   The image itself covers the space with object-fit:cover ── */
-.hero-img-col{
-  flex-shrink:0;
-  width:clamp(260px,36vw,460px);
-  align-self:stretch;
-  overflow:hidden;
-  position:relative;
-  min-height:200px;
-}
+/* Right image: height = left column height, width = 40% of max-width.
+   At 1160px max-width that's 464px wide, left col ~220-280px tall → always landscape */
+.hero-img-col{overflow:hidden;position:relative;}
 .hero-img-col img{
   position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;
-  object-position:center 15%;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 18%,#000 40%);
-  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 18%,#000 40%);
+  object-position:center 20%;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 16%,#000 38%);
+  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.5) 16%,#000 38%);
 }
 
-/* Mobile: image spans full width, 16:9 ratio, stacks above content */
+/* Mobile: image on top, explicit landscape height */
 @media(max-width:767px){
   .hero-inner{grid-template-columns:1fr;}
-  .hero-img-col{
-    width:100%;
-    height:0;
-    padding-bottom:52%;
-    align-self:auto;
-    order:-1;
-  }
+  .hero-img-col{order:-1;height:56vw;max-height:240px;}
   .hero-img-col img{
     object-position:center 20%;
     -webkit-mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
     mask-image:linear-gradient(to bottom,#000 60%,transparent 100%);
   }
   .hero-content{padding:20px 16px 28px;}
+}
+@media(min-width:768px)and(max-width:1024px){
+  .hero-inner{grid-template-columns:58% 42%;}
 }
 
 /* Eyebrow */
@@ -142,9 +131,8 @@ img{display:block;max-width:100%;}
 .identity{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
 .list-logo{flex-shrink:0;}
 .list-logo img{
-  /* 1:1 square badge sized to match one line of the title font */
-  width:clamp(44px,4.4vw,58px);
-  height:clamp(44px,4.4vw,58px);
+  width:clamp(44px,4.2vw,56px);
+  height:clamp(44px,4.2vw,56px);
   object-fit:cover;
   object-position:center top;
   border-radius:4px;
@@ -308,21 +296,24 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .xbio{font-family:var(--body);font-size:13px;line-height:1.7;color:#555;max-width:680px;}
 
 @media(max-width:640px){
-  /* Switch to auto layout on mobile — browser sizes name column to content naturally */
-  .tbl{table-layout:auto;}
+  /* Fixed layout with % widths: rank 8% | name fills | wealth 22% | change 8% */
+  .tbl{table-layout:fixed;}
+  .tbl col.c-rank  {width:8%;}
+  .tbl col.c-photo {width:0;}   /* hidden */
+  .tbl col.c-name  {width:auto;}/* gets all remaining space */
+  .tbl col.c-wealth{width:22%;}
+  .tbl col.c-age   {width:0;}   /* hidden */
+  .tbl col.c-ind   {width:0;}   /* hidden */
+  .tbl col.c-chg   {width:8%;}
   /* Hide photo + desktop cols */
   .tbl thead th.tc-photo,.tbl td.td-photo{display:none;}
   .dsk{display:none !important;}
-  /* Let name wrap on mobile — no truncation */
-  .nname{white-space:normal;overflow:visible;text-overflow:clip;font-size:13px;}
-  .nco{white-space:normal;overflow:visible;text-overflow:clip;font-size:10px;}
-  /* Constrain wealth and change so name gets the bulk of space */
-  .tbl thead th.tc-wealth{width:78px;}
-  .tbl thead th.tc-chg   {width:30px;}
-  .tbl thead th.tc-rank  {width:30px;}
+  /* Keep single-line names on mobile with ellipsis — name col is wide enough */
+  .nname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;}
+  .nco{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;}
   /* Tighten padding */
-  .tbl td{padding:8px 5px;}
-  .tbl thead th{padding:8px 5px;}
+  .tbl td{padding:9px 5px;}
+  .tbl thead th{padding:9px 5px;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
   .xinner{padding:10px 10px 14px 10px;}
@@ -522,13 +513,13 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   <div class="tbl-wrap">
     <table class="tbl" id="tbl">
       <colgroup>
-        <col class="c-rank"   style="width:44px"/>
-        <col class="c-photo"  style="width:62px"/>
-        <col class="c-name"/><!-- no width = fills all remaining space -->
-        <col class="c-wealth" style="width:110px"/>
-        <col class="c-age"    style="width:52px"/>
-        <col class="c-ind"    style="width:120px"/>
-        <col class="c-chg"    style="width:44px"/>
+        <col class="c-rank"   style="width:4%"/>
+        <col class="c-photo"  style="width:6%"/>
+        <col class="c-name"   style="width:26%"/>
+        <col class="c-wealth" style="width:11%"/>
+        <col class="c-age"    style="width:5%"/>
+        <col class="c-ind"    style="width:13%"/>
+        <col class="c-chg"    style="width:5%"/>
       </colgroup>
       <thead>
         <tr>
