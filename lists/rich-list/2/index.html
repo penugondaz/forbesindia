@@ -240,12 +240,12 @@ img{display:block;max-width:100%;}
 .nwrap{min-width:0;width:100%;}
 .nname{
   font-family:var(--body);font-size:13px;color:var(--ink);
-  line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  line-height:1.3;white-space:normal;word-break:break-word;overflow-wrap:break-word;
   display:block;
 }
 .nco{
   font-family:var(--body);font-size:10px;color:var(--mid);margin-top:1px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;
+  white-space:normal;word-break:break-word;overflow-wrap:break-word;display:block;
 }
 .ncaret{float:right;color:var(--mid);font-size:11px;margin-top:2px;transition:transform .2s;padding-left:5px;flex-shrink:0;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
@@ -255,7 +255,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;}
 .wlth small{font-size:10px;color:var(--mid);}
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
-.ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:normal;word-break:break-word;}
 .chg{text-align:center;font-size:15px;line-height:1;}
 .a-up{color:#2e7d32;}
 .a-dn{color:var(--red);}
@@ -290,10 +290,10 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .tbl col.c-stat{display:none;}
   .dsk{display:none !important;}
   .stamp{width:36px;height:48px;font-size:9px;}
-  .nname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px;
-    display:flex;align-items:center;gap:4px;}
-  .nname .mob-only{flex-shrink:0;}
-  .nco{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10px;}
+  .nname{white-space:normal;word-break:break-word;font-size:13px;
+    display:block;line-height:1.35;}
+  .nname .mob-only{float:right;margin-left:4px;}
+  .nco{white-space:normal;word-break:break-word;font-size:10px;}
   .mob-only{display:inline;}
   .tbl tbody tr.erow{cursor:pointer;}
   .tbl tbody tr.erow:hover{background:#faf8f4;}
