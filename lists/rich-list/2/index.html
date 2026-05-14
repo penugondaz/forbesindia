@@ -165,13 +165,8 @@ img{display:block;max-width:100%;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .mob-only{display:none;}
 .tbl tbody tr.erow{cursor:default;}
-.wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;gap:4px;}
+.wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;}
 .wlth small{font-size:10px;color:var(--mid);}
-/* Inline change icon shown inside Net Worth on mobile only */
-.wlth-chg-mob{display:inline-flex;align-items:center;line-height:1;}
-.wlth-chg-mob .chg{font-size:13px;}
-.wlth-chg-mob .sc-badge{font-size:13px;}
-@media(min-width:641px){.wlth-chg-mob{display:none;}}
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
 .ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:normal;word-break:break-word;}
 .dsk{display:table-cell;}
@@ -202,10 +197,11 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 @media(max-width:640px){
   .tbl{table-layout:fixed;}
   .tbl col.c-rank{width:7%;}
-  .tbl col.c-photo{width:12%;}
+  .tbl col.c-photo{width:11%;}
   .tbl col.c-name{width:auto;}
-  .tbl col.c-wealth{width:30%;}
-  .tbl col.c-age,.tbl col.c-ind,.tbl col.c-chg{display:none;}
+  .tbl col.c-wealth{width:22%;}
+  .tbl col.c-chg{width:10%;}
+  .tbl col.c-age,.tbl col.c-ind{display:none;}
   .dsk{display:none !important;}
   .stamp{width:36px;height:48px;font-size:9px;}
   .nname{white-space:normal;word-break:break-word;font-size:13px;display:block;line-height:1.35;}
@@ -446,7 +442,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
       <colgroup>
         <col class="c-rank"   style="width:4%"/>
         <col class="c-photo"  style="width:6%"/>
-        <col class="c-name"   style="width:26%"/>
+        <col class="c-name"   style="width:24%"/>
         <col class="c-wealth" style="width:11%"/>
         <col class="c-chg"    style="width:8%"/>
         <col class="c-age"    style="width:5%"/>
@@ -462,7 +458,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
           <th class="tc-wealth sortable" id="th-wealth" data-col="wealth" style="text-align:right">
             Net Worth <span class="sort-icon"></span>
           </th>
-          <th class="tc-chg dsk" style="text-align:center">Change</th>
+          <th class="tc-chg" style="text-align:center">Change</th>
           <th class="tc-age dsk sortable" id="th-age" data-col="age" style="text-align:center">
             Age <span class="sort-icon"></span>
           </th>
@@ -676,20 +672,6 @@ function statusChangeHTML(e){
   return html;
 }
 
-/* Mobile expand: show status badge OR wealth-change pill */
-function chgPillHTML(e){
-  const isNew    = e.st==='new';
-  const isReturn = e.st==='return';
-  const isSplit  = e.sp;
-  if(isNew)    return `<span class="pill" style="background:#fff9e6;color:#7a5c00;border:1px solid #e8c700">🆕 New</span>`;
-  if(isReturn) return `<span class="pill" style="background:#f0ece4;color:#6b6b6b;border:1px solid #d9d0c4">↩ Returnee</span>`;
-  if(isSplit)  return `<span class="pill" style="background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee">🔀 Split</span>`;
-  const t = ct(e);
-  if(t==='up')   return `<span class="pill p-up">▲ Up</span>`;
-  if(t==='down') return `<span class="pill p-dn">▼ Down</span>`;
-  return `<span class="pill p-fl">— Flat</span>`;
-}
-
 function isMob(){ return window.innerWidth <= 640; }
 
 function build(data){
@@ -713,12 +695,8 @@ function build(data){
           <div class="nco">${e.co}</div>
         </div>
       </td>
-      <td style="text-align:right">
-        <div class="wlth">
-          <span class="wlth-chg-mob">${statusChangeHTML(e)}</span>$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small>
-        </div>
-      </td>
-      <td class="dsk" style="text-align:center">${statusChangeHTML(e)}</td>
+      <td style="text-align:right"><div class="wlth">$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small></div></td>
+      <td style="text-align:center">${statusChangeHTML(e)}</td>
       <td class="td-age dsk" style="text-align:center"><div class="age">${ageDisplay}</div></td>
       <td class="td-ind dsk"><div class="ind">${e.ind}</div></td>
     `;
@@ -729,7 +707,6 @@ function build(data){
     xtr.innerHTML = `<td colspan="5"><div class="xinner"><div class="xpills">
       <span class="pill p-age">Age ${ageDisplay}</span>
       <span class="pill p-ind">${e.ind}</span>
-      ${chgPillHTML(e)}
     </div></div></td>`;
 
     tb.appendChild(tr);
