@@ -44,7 +44,6 @@ img{display:block;max-width:100%;}
 @media(min-width:1024px){.hbtn{font-size:14px;padding:8px 18px;}}
 .hmopt{cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:3px;}
 .hmopt span{display:block;width:20px;height:2px;background:#000;}
-/* Desktop nav */
 .l1wrp{background:#f6f6f6;box-shadow:0 2px 4px rgba(0,0,0,.12);display:none;}
 @media(min-width:1024px){.l1wrp{display:block;}}
 .l1inner{max-width:var(--max);margin:0 auto;padding:0 var(--pad);display:flex;}
@@ -57,7 +56,6 @@ img{display:block;max-width:100%;}
 .submnu a{font-family:"Work Sans",sans-serif;font-size:12px;font-weight:500;color:#333;display:block;padding:8px 16px;border-bottom:1px solid #f0f0f0;text-transform:none;}
 .submnu a:last-child{border:none;}
 .submnu a:hover{color:#dc0000;background:#fafafa;}
-/* Mobile sidebar */
 .sdrout{position:fixed;inset:0;z-index:999;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;}
 .sdrout.on{opacity:1;visibility:visible;}
 .sdmask{position:absolute;inset:0;background:rgba(0,0,0,.5);}
@@ -92,67 +90,22 @@ img{display:block;max-width:100%;}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 80% at 68% 50%,rgba(204,0,0,.10),transparent),
              radial-gradient(ellipse 40% 40% at 5% 90%,rgba(184,150,46,.07),transparent);}
-
-.hero-inner{
-  position:relative;z-index:1;
-  max-width:var(--max);margin:0 auto;
-  display:grid;
-  grid-template-columns:1fr auto;
-  align-items:center;
-}
+.hero-inner{position:relative;z-index:1;max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:center;}
 .hero-content{padding:32px var(--pad) 32px;display:flex;flex-direction:column;min-width:0;}
-
-.hero-img-col{
-  width:clamp(280px,40vw,500px);
-  align-self:center;
-  position:relative;
-  flex-shrink:0;
-}
-.hero-img-col img{
-  display:block;
-  width:100%;
-  height:auto;
-  object-fit:contain;
-  object-position:center center;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
-  mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
-}
-
-/* Mobile: image on top full-width, content below */
+.hero-img-col{width:clamp(280px,40vw,500px);align-self:center;position:relative;flex-shrink:0;}
+.hero-img-col img{display:block;width:100%;height:auto;object-fit:contain;object-position:center center;-webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);}
 @media(max-width:767px){
   .hero-inner{grid-template-columns:1fr;}
-  .hero-img-col{
-    width:100%;
-    order:-1;
-    align-self:auto;
-  }
-  .hero-img-col img{
-    width:100%;height:auto;
-    object-fit:cover;
-    object-position:center 20%;
-    -webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);
-    mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);
-  }
+  .hero-img-col{width:100%;order:-1;align-self:auto;}
+  .hero-img-col img{width:100%;height:auto;object-fit:cover;object-position:center 20%;-webkit-mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);mask-image:linear-gradient(to bottom,#000 55%,transparent 100%);}
   .hero-content{padding:20px 16px 28px;}
 }
-@media(min-width:768px)and(max-width:1023px){
-  .hero-img-col{width:clamp(240px,44vw,400px);}
-}
-
-/* Eyebrow */
+@media(min-width:768px)and(max-width:1023px){.hero-img-col{width:clamp(240px,44vw,400px);}}
 .eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .eyebrow::before{content:'';width:24px;height:2px;background:var(--red);flex-shrink:0;}
-
 .identity{display:flex;align-items:center;gap:22px;margin-bottom:20px;flex-wrap:wrap;}
 .list-logo{flex-shrink:0;}
-.list-logo img{
-  height:clamp(90px,13vw,140px);
-  width:auto;
-  object-fit:contain;
-  display:block;
-  border-radius:6px;
-  filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));
-}
+.list-logo img{height:clamp(90px,13vw,140px);width:auto;object-fit:contain;display:block;border-radius:6px;filter:drop-shadow(0 4px 16px rgba(0,0,0,.5));}
 .hero-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.8vw,58px);line-height:1.0;letter-spacing:0.5px;color:#fff;margin-left:-24px}
 @media(max-width:480px){.hero-title{font-size:clamp(26px,9vw,36px);}}
 .hero-desc{font-family:var(--body);font-size:clamp(13px,1.4vw,15px);color:rgba(255,255,255,.72);max-width:540px;line-height:1.75;margin-bottom:24px}
@@ -175,86 +128,67 @@ img{display:block;max-width:100%;}
 
 /* ══════════════ MAIN ══════════════ */
 .main{max-width:var(--max);margin:0 auto;padding:24px var(--pad) 60px;}
-
 .tbl-wrap{margin-top:0;width:100%;}
-
-.tbl{
-  width:100%;
-  border-collapse:collapse;
-  table-layout:fixed;
-}
-
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed;}
 .tbl thead tr{border-bottom:none;}
 .tbl thead th{
-  position:sticky;
-  top:var(--sticky-top, 88px);
-  z-index:60;
+  position:sticky;top:var(--sticky-top,88px);z-index:60;
   font-family:var(--body);font-size:10px;letter-spacing:.15em;
   color:var(--mid);text-transform:uppercase;
   padding:10px 8px;text-align:left;white-space:nowrap;
-  background:#fbf1de;
-  user-select:none;
+  background:#fbf1de;user-select:none;
   box-shadow:inset 0 -2px 0 0 var(--ink);
 }
 .tbl thead th.sortable{cursor:pointer;}
 .tbl thead th.sortable:hover{color:var(--ink);}
-.tbl thead th .sort-icon{
-  display:inline-block;margin-left:4px;font-size:9px;
-  opacity:.35;vertical-align:middle;transition:opacity .15s;
-}
-.tbl thead th.sort-asc .sort-icon,
-.tbl thead th.sort-desc .sort-icon{opacity:1;color:var(--red);}
+.tbl thead th .sort-icon{display:inline-block;margin-left:4px;font-size:9px;opacity:.35;vertical-align:middle;transition:opacity .15s;}
+.tbl thead th.sort-asc .sort-icon,.tbl thead th.sort-desc .sort-icon{opacity:1;color:var(--red);}
 .tbl thead th.sort-asc .sort-icon::after{content:"▲";}
 .tbl thead th.sort-desc .sort-icon::after{content:"▼";}
 .tbl thead th:not(.sort-asc):not(.sort-desc) .sort-icon::after{content:"⇅";}
-
-.tbl thead th.tc-rank  {text-align:center;}
+.tbl thead th.tc-rank{text-align:center;}
 .tbl thead th.tc-wealth{text-align:right;}
-.tbl thead th.tc-age   {text-align:center;}
-.tbl thead th.tc-chg   {text-align:center;}
-
-.tbl tbody tr.erow{border-bottom:1px solid #ebebef;cursor:pointer;transition:background .12s;}
+.tbl thead th.tc-age{text-align:center;}
+.tbl thead th.tc-chg{text-align:center;}
+.tbl tbody tr.erow{border-bottom:1px solid #ebebef;transition:background .12s;}
 .tbl tbody tr.erow:hover{background:#edd5a642;}
 .tbl tbody tr.erow.open{background:#faf8f4;border-bottom:none;}
 .tbl td{padding:8px 8px;vertical-align:middle;overflow:hidden;}
-
 .rnk{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);text-align:center;line-height:1;}
 .rnk-top{color:#000000;}
-
-.stamp{
-  width:49px;height:63px;overflow:hidden;
-  border:1.5px solid var(--rule);background:#e8e1d8;border-radius:1px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--body);font-size:10px;color:var(--mid);
-  text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;
-}
+.stamp{width:49px;height:63px;overflow:hidden;border:1.5px solid var(--rule);background:#e8e1d8;border-radius:1px;display:flex;align-items:center;justify-content:center;font-family:var(--body);font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;}
 .stamp img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
-
 .nwrap{min-width:0;width:100%;}
-.nname{
-  font-family:var(--body);font-size:13px;color:var(--ink);
-  line-height:1.3;white-space:normal;word-break:break-word;overflow-wrap:break-word;
-  display:block;
-}
-.nco{
-  font-family:var(--body);font-size:10px;color:var(--mid);margin-top:1px;
-  white-space:normal;word-break:break-word;overflow-wrap:break-word;display:block;
-}
+.nname{font-family:var(--body);font-size:13px;color:var(--ink);line-height:1.3;white-space:normal;word-break:break-word;overflow-wrap:break-word;display:block;}
+.nco{font-family:var(--body);font-size:10px;color:var(--mid);margin-top:1px;white-space:normal;word-break:break-word;overflow-wrap:break-word;display:block;}
 .ncaret{float:right;color:var(--mid);font-size:11px;margin-top:2px;transition:transform .2s;padding-left:5px;flex-shrink:0;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .mob-only{display:none;}
 .tbl tbody tr.erow{cursor:default;}
-
 .wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;}
 .wlth small{font-size:10px;color:var(--mid);}
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
 .ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:normal;word-break:break-word;}
+.dsk{display:table-cell;}
+
+/* ══ COMBINED CHANGE/STATUS COLUMN ══ */
+/* Arrow for plain wealth change */
 .chg{text-align:center;font-size:15px;line-height:1;}
 .a-up{color:#2e7d32;}
 .a-dn{color:var(--red);}
 .a-fl{color:#bbb;font-size:12px;}
-.dsk{display:table-cell;}
+/* Status badges (New / Returnee / Split) — replace arrow entirely */
+.sc-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
+.sc-badge{
+  font-family:var(--body);font-size:9px;font-weight:600;
+  letter-spacing:.04em;text-transform:uppercase;
+  padding:2px 5px;border-radius:2px;white-space:nowrap;line-height:1.5;display:inline-block;
+}
+.sc-new{background:#fff9e6;color:#7a5c00;border:1px solid #e8c700;}
+.sc-ret{background:#f0ece4;color:var(--mid);border:1px solid var(--rule);}
+.sc-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
 
+/* Mobile expand row */
 .xrow{display:none;}
 .xrow.open{display:table-row;}
 .xrow td{padding:0;background:#fbf1de;border-bottom:2px solid #c8b87a;}
@@ -263,28 +197,21 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .pill{font-family:var(--body);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:1px;white-space:nowrap;}
 .p-age{background:#f0ece4;color:var(--ash);border:1px solid var(--rule);}
 .p-ind{background:#f0ece4;color:var(--ash);border:1px solid var(--rule);}
-.p-up {background:#f0fff0;color:#2e7d32;border:1px solid #a5d6a7;}
-.p-dn {background:#fff0f0;color:var(--red);border:1px solid #f5c6c6;}
-.p-fl {background:#f5f5f5;color:#999;border:1px solid #ddd;}
-.p-new{background:#fff9e6;color:#7a5c00;border:1px solid #e8c700;}
-.p-ret{background:#f0ece4;color:var(--mid);border:1px solid var(--rule);}
-.p-drp{background:#fff0f0;color:var(--red);border:1px solid #f5c6c6;}
-.p-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
+.p-up{background:#f0fff0;color:#2e7d32;border:1px solid #a5d6a7;}
+.p-dn{background:#fff0f0;color:var(--red);border:1px solid #f5c6c6;}
+.p-fl{background:#f5f5f5;color:#999;border:1px solid #ddd;}
 
 @media(max-width:640px){
   .tbl{table-layout:fixed;}
-  .tbl col.c-rank  {width:7%;}
-  .tbl col.c-photo {width:12%;}
-  .tbl col.c-name  {width:auto;}
+  .tbl col.c-rank{width:7%;}
+  .tbl col.c-photo{width:12%;}
+  .tbl col.c-name{width:auto;}
   .tbl col.c-wealth{width:24%;}
-  .tbl col.c-chg   {width:8%;}
-  .tbl col.c-age,
-  .tbl col.c-ind,
-  .tbl col.c-stat{display:none;}
+  .tbl col.c-chg{width:12%;}
+  .tbl col.c-age,.tbl col.c-ind{display:none;}
   .dsk{display:none !important;}
   .stamp{width:36px;height:48px;font-size:9px;}
-  .nname{white-space:normal;word-break:break-word;font-size:13px;
-    display:block;line-height:1.35;}
+  .nname{white-space:normal;word-break:break-word;font-size:13px;display:block;line-height:1.35;}
   .nname .mob-only{float:right;margin-left:4px;}
   .nco{white-space:normal;word-break:break-word;font-size:10px;}
   .mob-only{display:inline;}
@@ -299,13 +226,12 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .wlth{font-size:12px;}
   .chg{font-size:14px;}
   .tbl thead th.tc-wealth{font-size:9px;}
+  .sc-badge{font-size:8px;padding:2px 4px;}
   .stat-num{font-size:18px;}
   .stat-lbl{font-size:9px;letter-spacing:.10em;}
   .hero-stats{gap:16px;}
 }
-@media(min-width:641px)and(max-width:900px){
-  .tbl td{padding:7px 6px;}
-}
+@media(min-width:641px)and(max-width:900px){.tbl td{padding:7px 6px;}}
 
 /* ══════════════ NOTE ══════════════ */
 .note{margin-top:36px;padding:13px 16px;background:#fff;border-left:3px solid var(--gold);font-family:var(--body);font-size:12px;color:var(--ash);line-height:1.7;}
@@ -338,147 +264,41 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .ft-col ul li a:hover{color:#fff;}
 .ft-bot{display:flex;justify-content:center;padding-top:14px;}
 .ft-bot img{height:24px;}
-
-/* Scroll to top */
 #stt{position:fixed;bottom:22px;right:18px;width:40px;height:40px;background:var(--red);color:#fff;border:none;border-radius:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s,transform .2s;box-shadow:0 4px 12px rgba(200,0,0,.3);z-index:200;}
 #stt.on{opacity:1;pointer-events:all;}
 #stt:hover{transform:translateY(-2px);}
 #stt svg{width:16px;height:16px;}
 </style>
 
-<!-- ══════════════ DESKTOP DENSITY OVERRIDES (110% zoom feel) ══════════════
-     Strictly desktop only — min-width:1024px. Zero mobile impact.
-     Goal: tighter horizontal margins + slightly larger text to match
-     the comfortable density seen at browser zoom 110%.
--->
+<!-- ══════════════ DESKTOP DENSITY OVERRIDES ══════════════ -->
 <style>
 @media(min-width:1024px){
-
-  /* Tighter horizontal padding — was clamp(16px,3vw,40px), now clamp(14px,2vw,24px) */
-  :root{
-    --pad: clamp(14px, 2vw, 24px);
-  }
-
-  /* Main content area: less top/bottom breathing room */
-  .main{
-    padding-top: 18px;
-    padding-bottom: 44px;
-  }
-
-  /* Hero content: less left padding so text feels closer to edge */
-  .hero-content{
-    padding-top: 26px;
-    padding-bottom: 26px;
-  }
-
-  /* Table header: larger font, tighter padding */
-  .tbl thead th{
-    font-size: 11px;
-    padding: 9px 10px;
-  }
-
-  /* Table cells: more breathing room in each cell to match zoomed-in feel */
-  .tbl td{
-    padding: 9px 10px;
-  }
-
-  /* Person name: step up one size */
-  .nname{
-    font-size: 14px;
-  }
-
-  /* Company sub-label: slightly larger */
-  .nco{
-    font-size: 11px;
-  }
-
-  /* Net worth figure */
-  .wlth{
-    font-size: 14px;
-  }
-
-  .wlth small{
-    font-size: 11px;
-  }
-
-  /* Industry label */
-  .ind{
-    font-size: 12px;
-  }
-
-  /* Age */
-  .age{
-    font-size: 13px;
-  }
-
-  /* Rank number */
-  .rnk{
-    font-size: 16px;
-  }
-
-  /* Stamp (photo thumbnail): slightly larger */
-  .stamp{
-    width: 54px;
-    height: 69px;
-  }
-
-  /* Hero description text */
-  .hero-desc{
-    font-size: clamp(14px, 1.5vw, 16px);
-  }
-
-  /* Hero stats: larger numbers */
-  .stat-num{
-    font-size: clamp(22px, 3vw, 32px);
-  }
-
-  .stat-lbl{
-    font-size: 11px;
-  }
-
-  /* Filter bar: slightly taller, larger text */
-  .fbar{
-    height: 46px;
-  }
-
-  .flabel{
-    font-size: 11px;
-  }
-
-  .fbtn{
-    font-size: 12px;
-    height: 26px;
-    padding: 0 12px;
-  }
-
-  .fsel{
-    font-size: 12px;
-    height: 26px;
-  }
-
-  .fcount{
-    font-size: 12px;
-  }
-
-  /* Note at bottom */
-  .note{
-    font-size: 13px;
-  }
-
-  /* Breadcrumb */
-  .bc li{
-    font-size: 12px;
-  }
-
-  /* Pill badges in status column */
-  .pill{
-    font-size: 11px;
-    padding: 3px 9px;
-  }
-
+  :root{--pad:clamp(14px,2vw,24px);}
+  .main{padding-top:18px;padding-bottom:44px;}
+  .hero-content{padding-top:26px;padding-bottom:26px;}
+  .tbl thead th{font-size:11px;padding:9px 10px;}
+  .tbl td{padding:9px 10px;}
+  .nname{font-size:14px;}
+  .nco{font-size:11px;}
+  .wlth{font-size:14px;}
+  .wlth small{font-size:11px;}
+  .ind{font-size:12px;}
+  .age{font-size:13px;}
+  .rnk{font-size:16px;}
+  .stamp{width:54px;height:69px;}
+  .hero-desc{font-size:clamp(14px,1.5vw,16px);}
+  .stat-num{font-size:clamp(22px,3vw,32px);}
+  .stat-lbl{font-size:11px;}
+  .fbar{height:46px;}
+  .flabel{font-size:11px;}
+  .fbtn{font-size:12px;height:26px;padding:0 12px;}
+  .fsel{font-size:12px;height:26px;}
+  .fcount{font-size:12px;}
+  .note{font-size:13px;}
+  .bc li{font-size:12px;}
+  .sc-badge{font-size:10px;padding:2px 7px;}
 }
 </style>
-
 </head>
 <body>
 
@@ -569,8 +389,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
     <div class="hero-content">
       <div class="eyebrow">Forbes India Lists</div>
       <div class="identity">
-        <div class="list-logo">
-        </div>
+        <div class="list-logo"></div>
         <h1 class="hero-title">India Rich List 2025</h1>
       </div>
       <p class="hero-desc">India's billionaires, whose fortunes are closely tied to a rapidly growing economy, saw their wealth decline by 9 percent or $100billion in the 2025 Forbes list of India's 100 Richest. A weaker rupee and 3 percent fall in the Sensex didn't help either although India's richest Mukesh Ambani remains a 'centibillionaire' with a net worth of $105 billion. All in all India's 100 richest have a combined net wealth of $1 trillion.</p>
@@ -632,16 +451,15 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
       <colgroup>
         <col class="c-rank"   style="width:4%"/>
         <col class="c-photo"  style="width:6%"/>
-        <col class="c-name"   style="width:24%"/>
+        <col class="c-name"   style="width:26%"/>
         <col class="c-wealth" style="width:11%"/>
         <col class="c-age"    style="width:5%"/>
-        <col class="c-ind"    style="width:13%"/>
-        <col class="c-stat"   style="width:10%"/>
-        <col class="c-chg"    style="width:5%"/>
+        <col class="c-ind"    style="width:14%"/>
+        <col class="c-chg"    style="width:8%"/>
       </colgroup>
       <thead>
         <tr>
-          <th class="tc-rank sortable" id="th-wealth" data-col="wealth">
+          <th class="tc-rank sortable" id="th-rank" data-col="rank">
             # <span class="sort-icon sort-desc"></span>
           </th>
           <th class="tc-photo"></th>
@@ -653,8 +471,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
             Age <span class="sort-icon"></span>
           </th>
           <th class="tc-ind dsk">Industry</th>
-          <th class="tc-stat dsk" style="text-align:center">Status</th>
-          <th class="tc-chg" style="text-align:center">💰</th>
+          <th class="tc-chg" style="text-align:center">Change</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -663,7 +480,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   </div>
 
   <div class="note">
-    <strong>Note:</strong> Compiled using data up to August 31, 2025. Ranks individuals by estimated net worth — publicly traded stocks, closely held businesses, real estate and other assets, with debt subtracted. All figures in USD. Includes Indian citizens and Persons of Indian Origin (PIOs) with significant business ties to India. <strong>New to List</strong> = first-time entrant; <strong>Returnee</strong> = previously listed after a gap; <strong>Split</strong> = wealth formally divided among family members.
+    <strong>Note:</strong> Compiled using data up to August 31, 2025. Ranks individuals by estimated net worth — publicly traded stocks, closely held businesses, real estate and other assets, with debt subtracted. All figures in USD. Includes Indian citizens and Persons of Indian Origin (PIOs) with significant business ties to India. <strong>New</strong> = first-time entrant on this list; <strong>Returnee</strong> = previously listed after a gap; <strong>Split</strong> = wealth formally divided among family members. ▲▼ arrows indicate year-on-year wealth change for all others.
   </div>
 </div>
 
@@ -700,226 +517,130 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
-<!-- ══ SCRIPT ══ -->
 <script>
-/* ── DATA ── */
 const D=[
   {r:1,  n:"Mukesh Ambani",          ini:"MA",img:"https://images.news18.com/ms/prod/forbesindia/Mukesh_Ambani1_f1f8c2f6c6.jpg",
-         g:"M",a:68,co:"Reliance Industries",    ind:"Diversified",        w:105.0,wp:110.0,st:"",sp:false,
-         bio:"Mukesh Ambani chairs Reliance Industries, India's largest company by revenue. Under his leadership, Reliance expanded from petrochemicals and refining into retail (Reliance Retail) and digital services (Jio), transforming consumer behaviour across 1.4 billion people."},
+         g:"M",a:68,co:"Reliance Industries",    ind:"Diversified",        w:105.0,wp:110.0,st:"",sp:false},
   {r:2,  n:"Gautam Adani & Family",  ini:"GA",img:"https://images.news18.com/ms/prod/forbesindia/Gautam_Adani_FO_041922_PR_e449b7ecdd.jpg",
-         g:"M",a:63,co:"Adani Enterprises",      ind:"Diversified",        w:92.0, wp:100.0,st:"return",sp:false,
-         bio:"Gautam Adani built the Adani Group into India's largest infrastructure conglomerate, spanning ports, airports, energy, data centres, and defence."},
+         g:"M",a:63,co:"Adani Enterprises",      ind:"Diversified",        w:92.0, wp:100.0,st:"",sp:false},
   {r:3,  n:"Savitri Jindal",         ini:"SJ",img:"https://images.news18.com/ms/prod/forbesindia/Savitri_Jindal_Getty_Images_486155090_00eea26b23.jpg",
-         g:"F",a:75,co:"O.P. Jindal Group",      ind:"Metals & Mining",    w:40.2, wp:42.0,st:"return",sp:false,
-         bio:"Savitri Jindal chairs the OP Jindal Group following the passing of her husband OM Prakash Jindal. The conglomerate spans steel, power, cement and infrastructure. She is one of the wealthiest women in Asia."},
+         g:"F",a:75,co:"O.P. Jindal Group",      ind:"Metals & Mining",    w:40.2, wp:42.0,st:"",sp:false},
   {r:4,  n:"Sunil Mittal & Family",  ini:"SM",img:"https://images.news18.com/ms/prod/forbesindia/Sunil_Mittal_Getty_Images_2148577403_3b1724a8ca.jpg",
-         g:"M",a:67,co:"Bharti Airtel",          ind:"Telecom",            w:34.2, wp:30.0,st:"return",sp:false,
-         bio:"Sunil Mittal founded Bharti Airtel which has grown into a pan-African and Indian telecom powerhouse."},
+         g:"M",a:67,co:"Bharti Airtel",          ind:"Telecom",            w:34.2, wp:30.0,st:"",sp:false},
   {r:5,  n:"Shiv Nadar",             ini:"SN",img:"https://images.news18.com/ms/prod/forbesindia/Shiv_Nadar_1_a12a5f2713.jpg",
-         g:"M",a:80,co:"HCL Technologies",       ind:"Technology",         w:33.2, wp:35.0,st:"return",sp:false,
-         bio:"Shiv Nadar founded HCL in 1976, which today is a $13B IT services giant. He transitioned to chairman emeritus and is now among India's biggest philanthropists through Shiv Nadar Foundation."},
+         g:"M",a:80,co:"HCL Technologies",       ind:"Technology",         w:33.2, wp:35.0,st:"",sp:false},
   {r:6,  n:"Radhakishan Damani & Family",ini:"RD",img:"https://images.news18.com/ms/prod/forbesindia/Radhakishan_Damani_1a6411d3fc.jpg",
-         g:"M",a:70,co:"Avenue Supermarts",      ind:"Fashion & Retail",   w:28.2, wp:30.0,st:"return",sp:false,
-         bio:"Radhakishan Damani is the founder of Avenue Supermarts which runs DMart, one of India's most profitable retail chains."},
+         g:"M",a:70,co:"Avenue Supermarts",      ind:"Fashion & Retail",   w:28.2, wp:30.0,st:"",sp:false},
   {r:7,  n:"Dilip Shanghvi",         ini:"DS",img:"https://images.news18.com/ms/prod/forbesindia/Dilip_Shanghvi_Feb25_MX_53_34c9093cde.jpg",
-         g:"M",a:70,co:"Sun Pharmaceutical Industries",ind:"Healthcare",   w:26.3, wp:28.0,st:"return",sp:false,
-         bio:"Dilip Shanghvi built Sun Pharma from a tiny operation in Vapi into India's largest pharmaceutical company and among the top five specialty generic drug makers globally."},
+         g:"M",a:70,co:"Sun Pharmaceutical Industries",ind:"Healthcare",   w:26.3, wp:28.0,st:"",sp:false},
   {r:8,  n:"Bajaj Family",           ini:"BF",img:"https://images.news18.com/ms/prod/forbesindia/Rajiv_Bajaj_NS_C1446_a5a4b07ffd.jpg",
-         g:"M",a:0, co:"Bajaj Auto",              ind:"Diversified",        w:21.8, wp:23.0,st:"return",sp:true,
-         bio:"The Bajaj family's diversified empire spans two-wheelers, financial services and consumer goods through Bajaj Auto and Bajaj Finserv."},
+         g:"M",a:0, co:"Bajaj Auto",              ind:"Diversified",        w:21.8, wp:23.0,st:"",sp:true},
   {r:9,  n:"Cyrus Poonawalla",       ini:"CP",img:"https://images.news18.com/ms/prod/forbesindia/Cyrus_Poonawall2_d9cf0b2157.jpg",
-         g:"M",a:84,co:"Serum Institute of India",ind:"Healthcare",        w:21.4, wp:23.0,st:"return",sp:false,
-         bio:"Cyrus Poonawalla founded Serum Institute, the world's largest vaccine manufacturer by doses. His prominence soared during Covid-19 when Serum produced the Covishield vaccine."},
+         g:"M",a:84,co:"Serum Institute of India",ind:"Healthcare",        w:21.4, wp:23.0,st:"",sp:false},
   {r:10, n:"Kumar Birla",            ini:"KB",img:"https://images.news18.com/ms/prod/forbesindia/K_M_Birla_DSC_8113_5d04850675.jpg",
-         g:"M",a:58,co:"Aditya Birla Group",      ind:"Diversified",        w:20.7, wp:22.0,st:"return",sp:false,
-         bio:"Kumar Mangalam Birla heads the $60B Aditya Birla Group, with interests in cement (UltraTech), telecom (Vi), financial services, aluminium and retail."},
+         g:"M",a:58,co:"Aditya Birla Group",      ind:"Diversified",        w:20.7, wp:22.0,st:"",sp:false},
   {r:11, n:"Hinduja Family",         ini:"HF",img:"https://images.news18.com/ms/prod/forbesindia/Mq8_Ubf5_Wo_L_8b9b92aaa5.jpg",
-         g:"M",a:0, co:"Ashok Leyland",           ind:"Diversified",        w:20.6, wp:19.0,st:"new",   sp:false,bio:""},
+         g:"M",a:0, co:"Ashok Leyland",           ind:"Diversified",        w:20.6, wp:19.0,st:"new",  sp:false},
   {r:12, n:"Lakshmi Mittal",         ini:"LM",img:"https://images.news18.com/ms/prod/forbesindia/A_Kpfe_Wkm_Vj_a44b77c974.jpg",
-         g:"M",a:75,co:"ArcelorMittal",           ind:"Metals & Mining",    w:20.0, wp:18.0,st:"return",sp:false,bio:""},
+         g:"M",a:75,co:"ArcelorMittal",           ind:"Metals & Mining",    w:20.0, wp:18.0,st:"return",sp:false},
   {r:13, n:"Kushal Pal Singh",       ini:"KS",img:"",
-         g:"M",a:94,co:"DLF",                    ind:"Real Estate",         w:16.7, wp:18.0,st:"return",sp:false,bio:""},
+         g:"M",a:94,co:"DLF",                    ind:"Real Estate",         w:16.7, wp:18.0,st:"",sp:false},
   {r:14, n:"Uday Kotak",             ini:"UK",img:"https://images.news18.com/ms/prod/forbesindia/f_Pcm16_Cq_Y3_62faa90edf.jpg",
-         g:"M",a:66,co:"Kotak Mahindra Bank",     ind:"Finance & Investments",w:14.6,wp:13.0,st:"return",sp:false,
-         bio:"Uday Kotak founded and built Kotak Mahindra Bank from a bill-discounting outfit into a full-service financial services empire."},
-  {r:15, n:"Sudhir & Samir Mehta",   ini:"SM",img:"",
-         g:"M",a:71,co:"Torrent Group",           ind:"Diversified",         w:14.1, wp:15.0,st:"return",sp:false,bio:""},
-  {r:16, n:"Shapoor Mistry & Family",ini:"SF",img:"",
-         g:"M",a:61,co:"Shapoorji Pallonji Group",ind:"Diversified",         w:13.7, wp:15.0,st:"return",sp:false,bio:""},
+         g:"M",a:66,co:"Kotak Mahindra Bank",     ind:"Finance & Investments",w:14.6,wp:13.0,st:"",sp:false},
+  {r:15, n:"Sudhir & Samir Mehta",   ini:"SM",img:"",g:"M",a:71,co:"Torrent Group",ind:"Diversified",w:14.1,wp:15.0,st:"",sp:false},
+  {r:16, n:"Shapoor Mistry & Family",ini:"SF",img:"",g:"M",a:61,co:"Shapoorji Pallonji Group",ind:"Diversified",w:13.7,wp:15.0,st:"",sp:false},
   {r:17, n:"Ravi Jaipuria",          ini:"RJ",img:"https://images.news18.com/ms/prod/forbesindia/HSX_7w_L_Bl0_O_8099de55f3.jpg",
-         g:"M",a:70,co:"Varun Beverages",         ind:"Food & Beverage",     w:13.3, wp:14.0,st:"return",sp:false,bio:""},
-  {r:18, n:"Madhukar Parekh",        ini:"MP",img:"",
-         g:"M",a:79,co:"Pidilite Industries",     ind:"Manufacturing",       w:12.7, wp:14.0,st:"return",sp:false,bio:""},
+         g:"M",a:70,co:"Varun Beverages",         ind:"Food & Beverage",     w:13.3, wp:14.0,st:"",sp:false},
+  {r:18, n:"Madhukar Parekh",        ini:"MP",img:"",g:"M",a:79,co:"Pidilite Industries",ind:"Manufacturing",w:12.7,wp:14.0,st:"",sp:false},
   {r:19, n:"Vikram Lal",             ini:"VL",img:"https://images.news18.com/ms/prod/forbesindia/gn6_Ch_H_Vs_AI_be0b155642.jpg",
-         g:"M",a:83,co:"Eicher Motors",           ind:"Automotive",          w:11.4, wp:10.0,st:"return",sp:false,bio:""},
+         g:"M",a:83,co:"Eicher Motors",           ind:"Automotive",          w:11.4, wp:10.0,st:"",sp:false},
   {r:20, n:"Jamshyd Godrej & Smita Godrej Crishna",ini:"JG",img:"https://images.news18.com/ms/prod/forbesindia/0ahl_Pj_Qof_J_8d3480f523.jpg",
-         g:"M",a:76,co:"Godrej Enterprises Group",ind:"Diversified",         w:11.2, wp:10.0,st:"return",sp:false,bio:""},
-  {r:21, n:"Kapil & Rahul Bhatia",   ini:"KB",img:"",
-         g:"M",a:93,co:"Interglobe Aviation",     ind:"Service",             w:10.9, wp:9.5, st:"return",sp:false,bio:""},
+         g:"M",a:76,co:"Godrej Enterprises Group",ind:"Diversified",w:11.2,wp:10.0,st:"",sp:false},
+  {r:21, n:"Kapil & Rahul Bhatia",   ini:"KB",img:"",g:"M",a:93,co:"Interglobe Aviation",ind:"Service",w:10.9,wp:9.5,st:"",sp:false},
   {r:22, n:"Azim Premji",            ini:"AP",img:"https://images.news18.com/ms/prod/forbesindia/Mno_YG_8d5l4_60c5419db5.jpg",
-         g:"M",a:80,co:"Wipro",                   ind:"Technology",          w:10.8, wp:12.0,st:"return",sp:false,bio:""},
-  {r:23, n:"Muthoot Family",         ini:"MF",img:"",
-         g:"M",a:0, co:"Muthoot Finance",         ind:"Finance & Investments",w:10.4,wp:9.0, st:"return",sp:false,bio:""},
-  {r:24, n:"Adi & Nadir Godrej",     ini:"AG",img:"",
-         g:"M",a:83,co:"Godrej Industries Group", ind:"Diversified",         w:10.2, wp:11.0,st:"return",sp:false,bio:""},
-  {r:25, n:"Murali Divi",            ini:"MD",img:"",
-         g:"M",a:74,co:"Divi's Laboratories",     ind:"Healthcare",          w:10.0, wp:9.0, st:"return",sp:false,bio:""},
-  {r:26, n:"Ramesh & Rajeev Juneja", ini:"RJ",img:"",
-         g:"M",a:70,co:"Mankind Pharma",          ind:"Healthcare",          w:9.7,  wp:8.5, st:"return",sp:false,bio:""},
-  {r:27, n:"Pankaj Patel",           ini:"PP",img:"",
-         g:"M",a:72,co:"Zydus Lifesciences",      ind:"Healthcare",          w:9.5,  wp:10.5,st:"return",sp:false,bio:""},
-  {r:28, n:"Shiv Kishan Agrawal & Family",ini:"SK",img:"",
-         g:"M",a:84,co:"Haldiram Snacks Food",    ind:"Food & Beverage",     w:9.0,  wp:9.0, st:"return",sp:false,bio:""},
-  {r:29, n:"Burman Family",          ini:"BF",img:"",
-         g:"M",a:0, co:"Dabur",                   ind:"Consumer Goods",      w:8.8,  wp:9.5, st:"return",sp:false,bio:""},
-  {r:30, n:"Rekha Jhunjhunwala",     ini:"RJ",img:"",
-         g:"F",a:62,co:"Rare Enterprises",        ind:"Finance & Investments",w:8.7, wp:9.5, st:"return",sp:false,bio:""},
-  {r:31, n:"Vijay Chauhan",          ini:"VC",img:"",
-         g:"M",a:89,co:"Parle Products",          ind:"Food & Beverage",     w:8.6,  wp:8.0, st:"return",sp:false,bio:""},
-  {r:32, n:"Inder Jaisinghani",      ini:"IJ",img:"",
-         g:"M",a:72,co:"Polycab India",           ind:"Manufacturing",       w:8.5,  wp:9.0, st:"return",sp:false,bio:""},
-  {r:33, n:"Murugappa Family",       ini:"MF",img:"",
-         g:"M",a:0, co:"Murugappa Group",         ind:"Diversified",         w:8.3,  wp:9.0, st:"return",sp:false,bio:""},
-  {r:34, n:"Benu Gopal Bangur",      ini:"BB",img:"",
-         g:"M",a:94,co:"Shree Cement",            ind:"Manufacturing",       w:7.8,  wp:7.0, st:"return",sp:false,bio:""},
-  {r:35, n:"Mangal Prabhat Lodha",   ini:"ML",img:"",
-         g:"M",a:69,co:"Lodha Developers",        ind:"Real Estate",         w:7.7,  wp:8.5, st:"return",sp:false,bio:""},
-  {r:36, n:"Hasmukh Chudgar",        ini:"HC",img:"",
-         g:"M",a:92,co:"Intas Pharmaceuticals",   ind:"Healthcare",          w:7.6,  wp:8.5, st:"return",sp:false,bio:""},
-  {r:37, n:"Doshi Siblings",         ini:"DS",img:"",
-         g:"M",a:0, co:"Waaree Energies",         ind:"Manufacturing",       w:7.5,  wp:0.0, st:"new",   sp:false,bio:""},
-  {r:38, n:"Vinod & Anil Rai Gupta", ini:"VG",img:"",
-         g:"M",a:80,co:"Havells India",           ind:"Manufacturing",       w:7.2,  wp:8.0, st:"return",sp:false,bio:""},
-  {r:39, n:"Harsh Mariwala",         ini:"HM",img:"",
-         g:"M",a:74,co:"Marico",                  ind:"Food & Beverage",     w:6.9,  wp:6.9, st:"return",sp:true, bio:""},
-  {r:40, n:"Nithin & Nikhil Kamath", ini:"NK",img:"",
-         g:"M",a:46,co:"Zerodha Broking",         ind:"Finance & Investments",w:6.8, wp:7.5, st:"return",sp:false,bio:""},
-  {r:41, n:"Satyanarayan Nuwal",     ini:"SN",img:"",
-         g:"M",a:73,co:"Solar Industries India",  ind:"Manufacturing",       w:6.6,  wp:6.0, st:"return",sp:false,bio:""},
-  {r:42, n:"Vivek Chaand Sehgal",    ini:"VS",img:"",
-         g:"M",a:69,co:"Samvardhana Motherson International",ind:"Automotive",w:6.5, wp:7.0,st:"return",sp:false,bio:""},
-  {r:43, n:"Singh Family",           ini:"SF",img:"",
-         g:"M",a:0, co:"Alkem Laboratories",      ind:"Healthcare",          w:6.4,  wp:7.0, st:"return",sp:false,bio:""},
+         g:"M",a:80,co:"Wipro",                   ind:"Technology",          w:10.8, wp:12.0,st:"",sp:false},
+  {r:23, n:"Muthoot Family",         ini:"MF",img:"",g:"M",a:0,co:"Muthoot Finance",ind:"Finance & Investments",w:10.4,wp:9.0,st:"",sp:false},
+  {r:24, n:"Adi & Nadir Godrej",     ini:"AG",img:"",g:"M",a:83,co:"Godrej Industries Group",ind:"Diversified",w:10.2,wp:11.0,st:"",sp:false},
+  {r:25, n:"Murali Divi",            ini:"MD",img:"",g:"M",a:74,co:"Divi's Laboratories",ind:"Healthcare",w:10.0,wp:9.0,st:"",sp:false},
+  {r:26, n:"Ramesh & Rajeev Juneja", ini:"RJ",img:"",g:"M",a:70,co:"Mankind Pharma",ind:"Healthcare",w:9.7,wp:8.5,st:"",sp:false},
+  {r:27, n:"Pankaj Patel",           ini:"PP",img:"",g:"M",a:72,co:"Zydus Lifesciences",ind:"Healthcare",w:9.5,wp:10.5,st:"",sp:false},
+  {r:28, n:"Shiv Kishan Agrawal & Family",ini:"SK",img:"",g:"M",a:84,co:"Haldiram Snacks Food",ind:"Food & Beverage",w:9.0,wp:9.0,st:"",sp:false},
+  {r:29, n:"Burman Family",          ini:"BF",img:"",g:"M",a:0,co:"Dabur",ind:"Consumer Goods",w:8.8,wp:9.5,st:"",sp:false},
+  {r:30, n:"Rekha Jhunjhunwala",     ini:"RJ",img:"",g:"F",a:62,co:"Rare Enterprises",ind:"Finance & Investments",w:8.7,wp:9.5,st:"",sp:false},
+  {r:31, n:"Vijay Chauhan",          ini:"VC",img:"",g:"M",a:89,co:"Parle Products",ind:"Food & Beverage",w:8.6,wp:8.0,st:"",sp:true},
+  {r:32, n:"Inder Jaisinghani",      ini:"IJ",img:"",g:"M",a:72,co:"Polycab India",ind:"Manufacturing",w:8.5,wp:9.0,st:"",sp:false},
+  {r:33, n:"Murugappa Family",       ini:"MF",img:"",g:"M",a:0,co:"Murugappa Group",ind:"Diversified",w:8.3,wp:9.0,st:"",sp:false},
+  {r:34, n:"Benu Gopal Bangur",      ini:"BB",img:"",g:"M",a:94,co:"Shree Cement",ind:"Manufacturing",w:7.8,wp:7.0,st:"",sp:false},
+  {r:35, n:"Mangal Prabhat Lodha",   ini:"ML",img:"",g:"M",a:69,co:"Lodha Developers",ind:"Real Estate",w:7.7,wp:8.5,st:"",sp:false},
+  {r:36, n:"Hasmukh Chudgar",        ini:"HC",img:"",g:"M",a:92,co:"Intas Pharmaceuticals",ind:"Healthcare",w:7.6,wp:8.5,st:"",sp:false},
+  {r:37, n:"Doshi Siblings",         ini:"DS",img:"",g:"M",a:0,co:"Waaree Energies",ind:"Manufacturing",w:7.5,wp:0.0,st:"new",sp:false},
+  {r:38, n:"Vinod & Anil Rai Gupta", ini:"VG",img:"",g:"M",a:80,co:"Havells India",ind:"Manufacturing",w:7.2,wp:8.0,st:"",sp:false},
+  {r:39, n:"Harsh Mariwala",         ini:"HM",img:"",g:"M",a:74,co:"Marico",ind:"Food & Beverage",w:6.9,wp:6.9,st:"",sp:true},
+  {r:40, n:"Nithin & Nikhil Kamath", ini:"NK",img:"",g:"M",a:46,co:"Zerodha Broking",ind:"Finance & Investments",w:6.8,wp:7.5,st:"",sp:false},
+  {r:41, n:"Satyanarayan Nuwal",     ini:"SN",img:"",g:"M",a:73,co:"Solar Industries India",ind:"Manufacturing",w:6.6,wp:6.0,st:"",sp:false},
+  {r:42, n:"Vivek Chaand Sehgal",    ini:"VS",img:"",g:"M",a:69,co:"Samvardhana Motherson International",ind:"Automotive",w:6.5,wp:7.0,st:"",sp:false},
+  {r:43, n:"Singh Family",           ini:"SF",img:"",g:"M",a:0,co:"Alkem Laboratories",ind:"Healthcare",w:6.4,wp:7.0,st:"",sp:false},
   {r:44, n:"Nusli Wadia",            ini:"NW",img:"https://images.news18.com/ms/prod/forbesindia/W_Nm24_Ki_APX_b075324036.jpg",
-         g:"M",a:81,co:"Britannia Industries",    ind:"Food & Beverage",     w:6.35, wp:7.0, st:"return",sp:false,bio:""},
-  {r:45, n:"Girdhari Lal Bawri & Family",ini:"GB",img:"",
-         g:"M",a:78,co:"Macleods Pharmaceuticals",ind:"Healthcare",          w:6.3,  wp:7.0, st:"return",sp:false,bio:""},
-  {r:46, n:"Kuldip & Gurbachan Singh Dhingra",ini:"KD",img:"",
-         g:"M",a:78,co:"Berger Paints India",     ind:"Manufacturing",       w:6.2,  wp:7.0, st:"return",sp:false,bio:""},
-  {r:47, n:"Sridhar Vembu & Siblings",ini:"SV",img:"",
-         g:"M",a:57,co:"Zoho Corporation",        ind:"Technology",          w:6.0,  wp:5.5, st:"return",sp:false,
-         bio:"Sridhar Vembu co-founded Zoho Corporation. Zoho's bootstrapped model and refusal to go public has become a global case study."},
-  {r:48, n:"Chandru Raheja",         ini:"CR",img:"",
-         g:"M",a:85,co:"Mindspace Business Parks REIT",ind:"Real Estate",    w:5.9,  wp:5.5, st:"return",sp:false,bio:""},
-  {r:49, n:"M.A. Yusuff Ali",        ini:"MY",img:"",
-         g:"M",a:69,co:"Lulu Retail Holdings",    ind:"Fashion & Retail",    w:5.85, wp:6.5, st:"return",sp:false,bio:""},
-  {r:50, n:"Venu Srinivasan",        ini:"VS",img:"",
-         g:"M",a:72,co:"TVS Motor Company",       ind:"Automotive",          w:5.8,  wp:5.3, st:"return",sp:false,bio:""},
-  {r:51, n:"Dani Family",            ini:"DF",img:"",
-         g:"M",a:0, co:"Asian Paints",            ind:"Manufacturing",       w:5.7,  wp:6.5, st:"return",sp:false,bio:""},
-  {r:52, n:"Pawan Munjal",           ini:"PM",img:"",
-         g:"M",a:71,co:"Hero Motocorp",           ind:"Automotive",          w:5.65, wp:6.5, st:"return",sp:false,bio:""},
-  {r:53, n:"Renuka Jagtiani",        ini:"RJ",img:"",
-         g:"F",a:71,co:"Landmark Group",          ind:"Fashion & Retail",    w:5.6,  wp:5.6, st:"return",sp:true, bio:""},
-  {r:54, n:"Joy Alukkas",            ini:"JA",img:"",
-         g:"M",a:69,co:"Joyalukkas India",        ind:"Fashion & Retail",    w:5.3,  wp:5.0, st:"return",sp:false,bio:""},
-  {r:55, n:"Yusuf Hamied",           ini:"YH",img:"",
-         g:"M",a:89,co:"Cipla",                   ind:"Healthcare",          w:5.25, wp:5.8, st:"return",sp:false,bio:""},
-  {r:56, n:"Vikas Oberoi",           ini:"VO",img:"",
-         g:"M",a:55,co:"Oberoi Realty",           ind:"Real Estate",         w:5.2,  wp:5.8, st:"return",sp:false,bio:""},
-  {r:57, n:"Gupta Family",           ini:"GF",img:"",
-         g:"M",a:0, co:"Lupin",                   ind:"Healthcare",          w:5.1,  wp:5.8, st:"return",sp:false,bio:""},
-  {r:58, n:"Nirmal Minda",           ini:"NM",img:"",
-         g:"M",a:67,co:"Uno Minda",               ind:"Automotive",          w:5.05, wp:4.5, st:"return",sp:false,bio:""},
-  {r:59, n:"Irfan Razack & Siblings",ini:"IR",img:"",
-         g:"M",a:71,co:"Prestige Estates Projects",ind:"Real Estate",        w:5.0,  wp:5.5, st:"return",sp:false,bio:""},
-  {r:60, n:"Lachhman Das Mittal",    ini:"LM",img:"",
-         g:"M",a:94,co:"Sonalika Group",          ind:"Automotive",          w:4.9,  wp:5.5, st:"return",sp:false,bio:""},
-  {r:61, n:"Abhay Firodia",          ini:"AF",img:"",
-         g:"M",a:80,co:"Force Motors",            ind:"Automotive",          w:4.8,  wp:4.5, st:"return",sp:false,bio:""},
-  {r:62, n:"N.R. Narayana Murthy",   ini:"NM",img:"",
-         g:"M",a:79,co:"Infosys",                 ind:"Technology",          w:4.6,  wp:5.0, st:"return",sp:false,bio:""},
-  {r:63, n:"Mahendra Choksi",        ini:"MC",img:"",
-         g:"M",a:84,co:"Asian Paints",            ind:"Manufacturing",       w:4.5,  wp:5.0, st:"return",sp:false,bio:""},
-  {r:64, n:"Kailashchandra Nuwal",   ini:"KN",img:"",
-         g:"M",a:68,co:"Solar Industries India",  ind:"Manufacturing",       w:4.45, wp:4.0, st:"return",sp:false,bio:""},
-  {r:65, n:"Vivek Jain",             ini:"VJ",img:"",
-         g:"M",a:70,co:"Inoxgfl Group",           ind:"Chemicals",           w:4.4,  wp:5.0, st:"return",sp:false,bio:""},
-  {r:66, n:"Karsanbhai Patel",       ini:"KP",img:"",
-         g:"M",a:81,co:"Nirma",                   ind:"Diversified",         w:4.35, wp:5.0, st:"return",sp:false,bio:""},
-  {r:67, n:"Alpana Dangi",           ini:"AD",img:"",
-         g:"F",a:52,co:"Authum Investment & Infrastructure",ind:"Finance & Investments",w:4.3,wp:0.0,st:"new",sp:false,bio:""},
-  {r:68, n:"Shyam & Hari Bhartia",   ini:"SB",img:"",
-         g:"M",a:72,co:"Jubilant Bhartia Group",  ind:"Diversified",         w:4.25, wp:4.8, st:"return",sp:false,bio:""},
-  {r:69, n:"Anand Mahindra",         ini:"AM",img:"",
-         g:"M",a:70,co:"Mahindra & Mahindra",     ind:"Diversified",         w:4.23, wp:4.0, st:"return",sp:false,bio:""},
-  {r:70, n:"P.P. Reddy & P.V. Krishna Reddy",ini:"PR",img:"",
-         g:"M",a:68,co:"Megha Engineering & Infrastructures",ind:"Construction & Engineering",w:4.22,wp:4.8,st:"return",sp:false,bio:""},
-  {r:71, n:"Falguni Nayar",          ini:"FN",img:"",
-         g:"F",a:62,co:"Nykaa",                   ind:"Fashion & Retail",    w:4.2,  wp:3.8, st:"return",sp:false,
-         bio:"Falguni Nayar founded Nykaa, India's leading beauty and lifestyle platform."},
-  {r:72, n:"Sanjiv Goenka",          ini:"SG",img:"",
-         g:"M",a:64,co:"RP-Sanjiv Goenka Group",  ind:"Diversified",         w:4.15, wp:4.8, st:"return",sp:false,bio:""},
-  {r:73, n:"Ravi Pillai",            ini:"RP",img:"",
-         g:"M",a:72,co:"RP Group",                ind:"Construction & Engineering",w:4.1,wp:3.8,st:"return",sp:false,bio:""},
+         g:"M",a:81,co:"Britannia Industries",    ind:"Food & Beverage",     w:6.35,wp:7.0,st:"",sp:false},
+  {r:45, n:"Girdhari Lal Bawri & Family",ini:"GB",img:"",g:"M",a:78,co:"Macleods Pharmaceuticals",ind:"Healthcare",w:6.3,wp:7.0,st:"",sp:false},
+  {r:46, n:"Kuldip & Gurbachan Singh Dhingra",ini:"KD",img:"",g:"M",a:78,co:"Berger Paints India",ind:"Manufacturing",w:6.2,wp:7.0,st:"",sp:false},
+  {r:47, n:"Sridhar Vembu & Siblings",ini:"SV",img:"",g:"M",a:57,co:"Zoho Corporation",ind:"Technology",w:6.0,wp:5.5,st:"",sp:false},
+  {r:48, n:"Chandru Raheja",         ini:"CR",img:"",g:"M",a:85,co:"Mindspace Business Parks REIT",ind:"Real Estate",w:5.9,wp:5.5,st:"",sp:false},
+  {r:49, n:"M.A. Yusuff Ali",        ini:"MY",img:"",g:"M",a:69,co:"Lulu Retail Holdings",ind:"Fashion & Retail",w:5.85,wp:6.5,st:"",sp:false},
+  {r:50, n:"Venu Srinivasan",        ini:"VS",img:"",g:"M",a:72,co:"TVS Motor Company",ind:"Automotive",w:5.8,wp:5.3,st:"",sp:false},
+  {r:51, n:"Dani Family",            ini:"DF",img:"",g:"M",a:0,co:"Asian Paints",ind:"Manufacturing",w:5.7,wp:6.5,st:"",sp:false},
+  {r:52, n:"Pawan Munjal",           ini:"PM",img:"",g:"M",a:71,co:"Hero Motocorp",ind:"Automotive",w:5.65,wp:6.5,st:"",sp:false},
+  {r:53, n:"Renuka Jagtiani",        ini:"RJ",img:"",g:"F",a:71,co:"Landmark Group",ind:"Fashion & Retail",w:5.6,wp:5.6,st:"",sp:true},
+  {r:54, n:"Joy Alukkas",            ini:"JA",img:"",g:"M",a:69,co:"Joyalukkas India",ind:"Fashion & Retail",w:5.3,wp:5.0,st:"",sp:false},
+  {r:55, n:"Yusuf Hamied",           ini:"YH",img:"",g:"M",a:89,co:"Cipla",ind:"Healthcare",w:5.25,wp:5.8,st:"",sp:false},
+  {r:56, n:"Vikas Oberoi",           ini:"VO",img:"",g:"M",a:55,co:"Oberoi Realty",ind:"Real Estate",w:5.2,wp:5.8,st:"",sp:false},
+  {r:57, n:"Gupta Family",           ini:"GF",img:"",g:"M",a:0,co:"Lupin",ind:"Healthcare",w:5.1,wp:5.8,st:"",sp:false},
+  {r:58, n:"Nirmal Minda",           ini:"NM",img:"",g:"M",a:67,co:"Uno Minda",ind:"Automotive",w:5.05,wp:4.5,st:"",sp:false},
+  {r:59, n:"Irfan Razack & Siblings",ini:"IR",img:"",g:"M",a:71,co:"Prestige Estates Projects",ind:"Real Estate",w:5.0,wp:5.5,st:"",sp:false},
+  {r:60, n:"Lachhman Das Mittal",    ini:"LM",img:"",g:"M",a:94,co:"Sonalika Group",ind:"Automotive",w:4.9,wp:5.5,st:"",sp:false},
+  {r:61, n:"Abhay Firodia",          ini:"AF",img:"",g:"M",a:80,co:"Force Motors",ind:"Automotive",w:4.8,wp:4.5,st:"",sp:false},
+  {r:62, n:"N.R. Narayana Murthy",   ini:"NM",img:"",g:"M",a:79,co:"Infosys",ind:"Technology",w:4.6,wp:5.0,st:"",sp:false},
+  {r:63, n:"Mahendra Choksi",        ini:"MC",img:"",g:"M",a:84,co:"Asian Paints",ind:"Manufacturing",w:4.5,wp:5.0,st:"",sp:false},
+  {r:64, n:"Kailashchandra Nuwal",   ini:"KN",img:"",g:"M",a:68,co:"Solar Industries India",ind:"Manufacturing",w:4.45,wp:4.0,st:"",sp:false},
+  {r:65, n:"Vivek Jain",             ini:"VJ",img:"",g:"M",a:70,co:"Inoxgfl Group",ind:"Chemicals",w:4.4,wp:5.0,st:"",sp:false},
+  {r:66, n:"Karsanbhai Patel",       ini:"KP",img:"",g:"M",a:81,co:"Nirma",ind:"Diversified",w:4.35,wp:5.0,st:"",sp:false},
+  {r:67, n:"Alpana Dangi",           ini:"AD",img:"",g:"F",a:52,co:"Authum Investment & Infrastructure",ind:"Finance & Investments",w:4.3,wp:0.0,st:"new",sp:false},
+  {r:68, n:"Shyam & Hari Bhartia",   ini:"SB",img:"",g:"M",a:72,co:"Jubilant Bhartia Group",ind:"Diversified",w:4.25,wp:4.8,st:"",sp:false},
+  {r:69, n:"Anand Mahindra",         ini:"AM",img:"",g:"M",a:70,co:"Mahindra & Mahindra",ind:"Diversified",w:4.23,wp:4.0,st:"",sp:false},
+  {r:70, n:"P.P. Reddy & P.V. Krishna Reddy",ini:"PR",img:"",g:"M",a:68,co:"Megha Engineering & Infrastructures",ind:"Construction & Engineering",w:4.22,wp:4.8,st:"",sp:false},
+  {r:71, n:"Falguni Nayar",          ini:"FN",img:"",g:"F",a:62,co:"Nykaa",ind:"Fashion & Retail",w:4.2,wp:3.8,st:"",sp:false},
+  {r:72, n:"Sanjiv Goenka",          ini:"SG",img:"",g:"M",a:64,co:"RP-Sanjiv Goenka Group",ind:"Diversified",w:4.15,wp:4.8,st:"",sp:false},
+  {r:73, n:"Ravi Pillai",            ini:"RP",img:"",g:"M",a:72,co:"RP Group",ind:"Construction & Engineering",w:4.1,wp:3.8,st:"",sp:false},
   {r:74, n:"Baba Kalyani",           ini:"BK",img:"https://images.news18.com/ms/prod/forbesindia/n_RWY_Nke1rf_b4f0b540de.jpg",
-         g:"M",a:76,co:"Bharat Forge",            ind:"Automotive",          w:4.08, wp:4.5, st:"return",sp:false,bio:""},
-  {r:75, n:"Anurang Jain & Family",  ini:"AJ",img:"",
-         g:"M",a:63,co:"Endurance Technologies",  ind:"Manufacturing",       w:4.07, wp:3.8, st:"return",sp:false,bio:""},
-  {r:76, n:"Rajan Raheja",           ini:"RR",img:"",
-         g:"M",a:71,co:"Exide Industries",        ind:"Diversified",         w:4.05, wp:4.5, st:"return",sp:false,bio:""},
-  {r:77, n:"Harsh Goenka",           ini:"HG",img:"",
-         g:"M",a:67,co:"RPG Enterprises",         ind:"Diversified",         w:4.03, wp:4.5, st:"return",sp:false,bio:""},
-  {r:78, n:"Sunny Varkey",           ini:"SV",img:"",
-         g:"M",a:68,co:"GEMS Education",          ind:"Education",           w:4.0,  wp:3.7, st:"return",sp:false,bio:""},
-  {r:79, n:"Vakil Family",           ini:"VF",img:"",
-         g:"M",a:0, co:"Asian Paints",            ind:"Manufacturing",       w:3.9,  wp:4.5, st:"return",sp:false,bio:""},
-  {r:80, n:"Sunil Vachani",          ini:"SV",img:"",
-         g:"M",a:56,co:"Dixon Technologies (India)",ind:"Manufacturing",     w:3.85, wp:0.0, st:"new",   sp:false,bio:""},
-  {r:81, n:"Arun Bharat Ram",        ini:"AB",img:"",
-         g:"M",a:84,co:"SRF",                     ind:"Manufacturing",       w:3.81, wp:3.5, st:"return",sp:false,bio:""},
+         g:"M",a:76,co:"Bharat Forge",            ind:"Automotive",          w:4.08,wp:4.5,st:"",sp:false},
+  {r:75, n:"Anurang Jain & Family",  ini:"AJ",img:"",g:"M",a:63,co:"Endurance Technologies",ind:"Manufacturing",w:4.07,wp:3.8,st:"",sp:false},
+  {r:76, n:"Rajan Raheja",           ini:"RR",img:"",g:"M",a:71,co:"Exide Industries",ind:"Diversified",w:4.05,wp:4.5,st:"",sp:false},
+  {r:77, n:"Harsh Goenka",           ini:"HG",img:"",g:"M",a:67,co:"RPG Enterprises",ind:"Diversified",w:4.03,wp:4.5,st:"",sp:false},
+  {r:78, n:"Sunny Varkey",           ini:"SV",img:"",g:"M",a:68,co:"GEMS Education",ind:"Education",w:4.0,wp:3.7,st:"",sp:false},
+  {r:79, n:"Vakil Family",           ini:"VF",img:"",g:"M",a:0,co:"Asian Paints",ind:"Manufacturing",w:3.9,wp:4.5,st:"",sp:false},
+  {r:80, n:"Sunil Vachani",          ini:"SV",img:"",g:"M",a:56,co:"Dixon Technologies (India)",ind:"Manufacturing",w:3.85,wp:0.0,st:"new",sp:false},
+  {r:81, n:"Arun Bharat Ram",        ini:"AB",img:"",g:"M",a:84,co:"SRF",ind:"Manufacturing",w:3.81,wp:3.5,st:"",sp:false},
   {r:82, n:"Leena Tewari",           ini:"LT",img:"https://images.news18.com/ms/prod/forbesindia/Yts7_V_Ifr_Aj_9a3d0f0137_0d321019d5.jpg",
-         g:"F",a:68,co:"USV",                     ind:"Healthcare",          w:3.8,  wp:3.8, st:"return",sp:false,
-         bio:"Leena Gandhi Tewari is managing director of USV, a pharmaceutical and API maker with a strong presence in diabetes and CVS care."},
-  {r:83, n:"G.M. Rao",               ini:"GR",img:"",
-         g:"M",a:75,co:"GMR Airports",            ind:"Construction & Engineering",w:3.75,wp:4.0,st:"return",sp:false,bio:""},
-  {r:84, n:"Senapathy Gopalakrishnan",ini:"KG",img:"",
-         g:"M",a:70,co:"Infosys",                 ind:"Technology",          w:3.7,  wp:4.0, st:"return",sp:false,bio:""},
-  {r:85, n:"Salil Singhal",          ini:"SS",img:"",
-         g:"M",a:78,co:"PI Industries",           ind:"Manufacturing",       w:3.68, wp:4.0, st:"return",sp:false,bio:""},
-  {r:86, n:"Prathap Reddy",          ini:"PR",img:"",
-         g:"M",a:93,co:"Apollo Hospitals Enterprise",ind:"Healthcare",       w:3.65, wp:3.5, st:"return",sp:false,bio:""},
-  {r:87, n:"P.N.C. Menon",           ini:"PM",img:"",
-         g:"M",a:76,co:"Sobha",                   ind:"Real Estate",         w:3.6,  wp:3.6, st:"return",sp:false,bio:""},
-  {r:88, n:"Surender Saluja",        ini:"SS",img:"",
-         g:"M",a:78,co:"Premier Energies",        ind:"Manufacturing",       w:3.55, wp:4.0, st:"return",sp:false,bio:""},
-  {r:89, n:"B. Partha Saradhi Reddy",ini:"BR",img:"",
-         g:"M",a:71,co:"Hetero Labs",             ind:"Healthcare",          w:3.5,  wp:4.0, st:"return",sp:false,bio:""},
-  {r:90, n:"Arvind Poddar",          ini:"AP",img:"",
-         g:"M",a:67,co:"Balkrishna Industries",   ind:"Automotive",          w:3.46, wp:4.0, st:"return",sp:false,bio:""},
-  {r:91, n:"Reddy Family",           ini:"RF",img:"",
-         g:"M",a:0, co:"Dr. Reddy's Laboratories",ind:"Healthcare",          w:3.45, wp:4.0, st:"return",sp:false,bio:""},
-  {r:92, n:"Sanjeev Bikhchandani",   ini:"SB",img:"",
-         g:"M",a:62,co:"Info Edge India",         ind:"Technology",          w:3.43, wp:4.0, st:"return",sp:false,bio:""},
+         g:"F",a:68,co:"USV",                     ind:"Healthcare",          w:3.8, wp:3.8,st:"",sp:false},
+  {r:83, n:"G.M. Rao",               ini:"GR",img:"",g:"M",a:75,co:"GMR Airports",ind:"Construction & Engineering",w:3.75,wp:4.0,st:"",sp:false},
+  {r:84, n:"Senapathy Gopalakrishnan",ini:"KG",img:"",g:"M",a:70,co:"Infosys",ind:"Technology",w:3.7,wp:4.0,st:"",sp:false},
+  {r:85, n:"Salil Singhal",          ini:"SS",img:"",g:"M",a:78,co:"PI Industries",ind:"Manufacturing",w:3.68,wp:4.0,st:"",sp:false},
+  {r:86, n:"Prathap Reddy",          ini:"PR",img:"",g:"M",a:93,co:"Apollo Hospitals Enterprise",ind:"Healthcare",w:3.65,wp:3.5,st:"",sp:false},
+  {r:87, n:"P.N.C. Menon",           ini:"PM",img:"",g:"M",a:76,co:"Sobha",ind:"Real Estate",w:3.6,wp:3.6,st:"",sp:false},
+  {r:88, n:"Surender Saluja",        ini:"SS",img:"",g:"M",a:78,co:"Premier Energies",ind:"Manufacturing",w:3.55,wp:4.0,st:"",sp:false},
+  {r:89, n:"B. Partha Saradhi Reddy",ini:"BR",img:"",g:"M",a:71,co:"Hetero Labs",ind:"Healthcare",w:3.5,wp:4.0,st:"",sp:false},
+  {r:90, n:"Arvind Poddar",          ini:"AP",img:"",g:"M",a:67,co:"Balkrishna Industries",ind:"Automotive",w:3.46,wp:4.0,st:"",sp:false},
+  {r:91, n:"Reddy Family",           ini:"RF",img:"",g:"M",a:0,co:"Dr. Reddy's Laboratories",ind:"Healthcare",w:3.45,wp:4.0,st:"",sp:false},
+  {r:92, n:"Sanjeev Bikhchandani",   ini:"SB",img:"",g:"M",a:62,co:"Info Edge India",ind:"Technology",w:3.43,wp:4.0,st:"",sp:false},
   {r:93, n:"Kiran Mazumdar-Shaw",    ini:"KM",img:"https://images.news18.com/ms/prod/forbesindia/ml2_Y7g1f_Gi_4030a71de6.jpg",
-         g:"F",a:72,co:"Biocon",                  ind:"Healthcare",          w:3.42, wp:4.0, st:"return",sp:false,
-         bio:"Kiran Mazumdar-Shaw founded Biocon in a garage in 1978 and built it into Asia's largest biopharmaceuticals company."},
-  {r:94, n:"Harish Ahuja",           ini:"HA",img:"",
-         g:"M",a:70,co:"Shahi Exports",           ind:"Manufacturing",       w:3.4,  wp:4.0, st:"return",sp:false,bio:""},
-  {r:95, n:"Ajay Piramal",           ini:"AP",img:"",
-         g:"M",a:70,co:"Piramal Enterprises",     ind:"Diversified",         w:3.38, wp:4.0, st:"return",sp:false,bio:""},
-  {r:96, n:"Amalgamations Family",   ini:"AF",img:"",
-         g:"M",a:0, co:"Tractors and Farm Equipment",ind:"Manufacturing",    w:3.35, wp:4.0, st:"return",sp:false,bio:""},
-  {r:97, n:"K.P. Ramasamy & Family", ini:"KR",img:"",
-         g:"M",a:76,co:"KPR Mill",                ind:"Manufacturing",       w:3.3,  wp:3.3, st:"return",sp:false,bio:""},
-  {r:98, n:"T.S. Kalyanaraman",      ini:"TK",img:"",
-         g:"M",a:78,co:"Kalyan Jewellers India",  ind:"Fashion & Retail",    w:3.25, wp:4.0, st:"return",sp:false,bio:""},
-  {r:99, n:"Bajranglal Taparia & Family",ini:"BT",img:"",
-         g:"M",a:90,co:"Supreme Industries",      ind:"Manufacturing",       w:3.22, wp:4.0, st:"return",sp:false,bio:""},
-  {r:100,n:"Nandan Nilekani",         ini:"NN",img:"",
-         g:"M",a:70,co:"Infosys",                 ind:"Technology",          w:3.2,  wp:4.0, st:"return",sp:false,
-         bio:"Nandan Nilekani co-founded Infosys and later spearheaded the Aadhaar biometric identity project as UIDAI chairman."}
+         g:"F",a:72,co:"Biocon",                  ind:"Healthcare",          w:3.42,wp:4.0,st:"",sp:false},
+  {r:94, n:"Harish Ahuja",           ini:"HA",img:"",g:"M",a:70,co:"Shahi Exports",ind:"Manufacturing",w:3.4,wp:4.0,st:"",sp:false},
+  {r:95, n:"Ajay Piramal",           ini:"AP",img:"",g:"M",a:70,co:"Piramal Enterprises",ind:"Diversified",w:3.38,wp:4.0,st:"",sp:false},
+  {r:96, n:"Amalgamations Family",   ini:"AF",img:"",g:"M",a:0,co:"Tractors and Farm Equipment",ind:"Manufacturing",w:3.35,wp:4.0,st:"",sp:false},
+  {r:97, n:"K.P. Ramasamy & Family", ini:"KR",img:"",g:"M",a:76,co:"KPR Mill",ind:"Manufacturing",w:3.3,wp:3.3,st:"",sp:false},
+  {r:98, n:"T.S. Kalyanaraman",      ini:"TK",img:"",g:"M",a:78,co:"Kalyan Jewellers India",ind:"Fashion & Retail",w:3.25,wp:4.0,st:"",sp:false},
+  {r:99, n:"Bajranglal Taparia & Family",ini:"BT",img:"",g:"M",a:90,co:"Supreme Industries",ind:"Manufacturing",w:3.22,wp:4.0,st:"",sp:false},
+  {r:100,n:"Nandan Nilekani",        ini:"NN",img:"",g:"M",a:70,co:"Infosys",ind:"Technology",w:3.2,wp:4.0,st:"",sp:false}
 ];
 
 /* ── helpers ── */
@@ -928,40 +649,63 @@ function ct(e){
   return d>0.05?'up':d<-0.05?'down':'flat';
 }
 
-function arrowHTML(e){
-  const t=ct(e);
-  if(t==='up')   return `<span class="a-up" title="Wealth increased">▲</span>`;
-  if(t==='down') return `<span class="a-dn" title="Wealth decreased">▼</span>`;
-  return `<span class="a-fl" title="Unchanged">—</span>`;
+/*
+  statusChangeHTML — the single "Change" column logic:
+  Priority order:
+    1. st==="new"    → yellow "New" badge. No arrow.
+    2. st==="return" → grey "Returnee" badge. No arrow.
+    3. sp===true     → blue "Split" badge. No arrow.
+    4. All else      → ▲ ▼ — wealth-change arrow.
+  
+  If an entry has both st="return" and sp=true, both badges stack.
+*/
+function statusChangeHTML(e){
+  const isNew    = e.st === 'new';
+  const isReturn = e.st === 'return';
+  const isSplit  = e.sp === true;
+
+  if(!isNew && !isReturn && !isSplit){
+    /* Plain entry: show wealth-change arrow */
+    const t = ct(e);
+    if(t==='up')   return `<div class="chg"><span class="a-up" title="Wealth increased">▲</span></div>`;
+    if(t==='down') return `<div class="chg"><span class="a-dn" title="Wealth decreased">▼</span></div>`;
+    return `<div class="chg"><span class="a-fl" title="Unchanged">—</span></div>`;
+  }
+
+  /* Special status: show badge(s), never an arrow */
+  let html = '<div class="sc-wrap">';
+  if(isNew)    html += `<span class="sc-badge sc-new" title="New to list this year">New</span>`;
+  if(isReturn) html += `<span class="sc-badge sc-ret" title="Returned to list after a gap">Returnee</span>`;
+  if(isSplit)  html += `<span class="sc-badge sc-spl" title="Wealth split among family members">Split</span>`;
+  html += '</div>';
+  return html;
+}
+
+/* Mobile expand pill for wealth change */
+function chgPillHTML(e){
+  const isSpecial = e.st==='new' || e.st==='return' || e.sp;
+  if(isSpecial) return ''; /* badges already visible in last col on mobile */
+  const t = ct(e);
+  if(t==='up')   return `<span class="pill p-up">▲ Up</span>`;
+  if(t==='down') return `<span class="pill p-dn">▼ Down</span>`;
+  return `<span class="pill p-fl">— Flat</span>`;
 }
 
 function isMob(){ return window.innerWidth <= 640; }
-function vcols(){ return isMob() ? 5 : 8; }
-
-function statusBadge(e){
-  if(e.st==='new')   return `<span class="pill p-new" style="font-size:9px;padding:2px 6px">New</span>`;
-  if(e.st==='drop')  return `<span class="pill p-drp" style="font-size:9px;padding:2px 6px">Dropped</span>`;
-  const base = `<span class="pill p-ret" style="font-size:9px;padding:2px 6px">Returnee</span>`;
-  const sp   = e.sp ? ` <span class="pill p-spl" style="font-size:9px;padding:2px 6px">Split</span>` : '';
-  return base + sp;
-}
-
-let AF={tag:'all',ind:'',chg:'',sort:'rank'};
 
 function build(data){
-  const tb=document.getElementById('tbody');
-  tb.innerHTML='';
+  const tb = document.getElementById('tbody');
+  tb.innerHTML = '';
   data.forEach(e=>{
-    const rc=e.r<=3?'rnk rnk-top':'rnk';
-    const stampInner=e.img
-      ? `<img src="${e.img}" alt="${e.n}" onerror="this.style.display='none';this.nextSibling&&(this.nextSibling.style.display='flex')"  /><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center">${e.ini}</span>`
+    const rc = e.r<=3 ? 'rnk rnk-top' : 'rnk';
+    const stampInner = e.img
+      ? `<img src="${e.img}" alt="${e.n}" onerror="this.style.display='none';this.nextSibling&&(this.nextSibling.style.display='flex')"/><span style="display:none;width:100%;height:100%;align-items:center;justify-content:center">${e.ini}</span>`
       : e.ini;
-
     const ageDisplay = e.a===0 ? '—' : e.a;
 
-    const tr=document.createElement('tr');
-    tr.className='erow';
-    tr.innerHTML=`
+    const tr = document.createElement('tr');
+    tr.className = 'erow';
+    tr.innerHTML = `
       <td style="text-align:center"><div class="${rc}">${e.r}</div></td>
       <td class="td-photo"><div class="stamp">${stampInner}</div></td>
       <td>
@@ -973,81 +717,82 @@ function build(data){
       <td style="text-align:right"><div class="wlth">$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small></div></td>
       <td class="td-age dsk" style="text-align:center"><div class="age">${ageDisplay}</div></td>
       <td class="td-ind dsk"><div class="ind">${e.ind}</div></td>
-      <td class="td-stat dsk" style="text-align:center">${statusBadge(e)}</td>
-      <td style="text-align:center"><div class="chg">${arrowHTML(e)}</div></td>
+      <td style="text-align:center">${statusChangeHTML(e)}</td>
     `;
 
-    const xtr=document.createElement('tr');
-    xtr.className='xrow mob-xrow';
-    xtr.innerHTML=`<td colspan="5"><div class="xinner">
-      <div class="xpills">
-        <span class="pill p-age">Age ${ageDisplay}</span>
-        <span class="pill p-ind">${e.ind}</span>
-        ${statusBadge(e)}
-      </div>
-    </div></td>`;
+    /* Mobile expand row */
+    const xtr = document.createElement('tr');
+    xtr.className = 'xrow mob-xrow';
+    xtr.innerHTML = `<td colspan="5"><div class="xinner"><div class="xpills">
+      <span class="pill p-age">Age ${ageDisplay}</span>
+      <span class="pill p-ind">${e.ind}</span>
+      ${chgPillHTML(e)}
+    </div></div></td>`;
 
     tb.appendChild(tr);
     tb.appendChild(xtr);
 
-    tr.addEventListener('click',()=>{
+    tr.addEventListener('click', ()=>{
       if(!isMob()) return;
-      const wasOpen=xtr.classList.contains('open');
-      xtr.classList.toggle('open',!wasOpen);
-      tr.classList.toggle('open',!wasOpen);
+      const wasOpen = xtr.classList.contains('open');
+      xtr.classList.toggle('open', !wasOpen);
+      tr.classList.toggle('open', !wasOpen);
     });
   });
 }
 
+let AF = {tag:'all', ind:'', chg:'', sort:'rank'};
+
 function render(){
-  let d=[...D];
-  if(AF.tag==='women') d=d.filter(e=>e.g==='F');
-  if(AF.tag==='new')   d=d.filter(e=>e.st==='new');
-  if(AF.tag==='split') d=d.filter(e=>e.sp);
-  if(AF.ind)  d=d.filter(e=>e.ind===AF.ind);
-  if(AF.chg)  d=d.filter(e=>ct(e)===AF.chg);
-  if(AF.sort==='wd')   d.sort((a,b)=>b.w-a.w);
-  else if(AF.sort==='wa')   d.sort((a,b)=>a.w-b.w);
-  else if(AF.sort==='ya')   d.sort((a,b)=>{const aa=a.a||999,ba=b.a||999;return aa-ba;});
-  else if(AF.sort==='yo')   d.sort((a,b)=>{const aa=a.a||0,ba=b.a||0;return ba-aa;});
+  let d = [...D];
+  if(AF.tag==='women') d = d.filter(e=>e.g==='F');
+  if(AF.tag==='new')   d = d.filter(e=>e.st==='new');
+  if(AF.tag==='split') d = d.filter(e=>e.sp);
+  if(AF.ind) d = d.filter(e=>e.ind===AF.ind);
+  if(AF.chg) d = d.filter(e=>ct(e)===AF.chg);
+  if     (AF.sort==='wd') d.sort((a,b)=>b.w-a.w);
+  else if(AF.sort==='wa') d.sort((a,b)=>a.w-b.w);
+  else if(AF.sort==='ya') d.sort((a,b)=>{const aa=a.a||999,ba=b.a||999;return aa-ba;});
+  else if(AF.sort==='yo') d.sort((a,b)=>{const aa=a.a||0,ba=b.a||0;return ba-aa;});
   else d.sort((a,b)=>a.r-b.r);
   build(d);
-  document.getElementById('fcnt').textContent=d.length;
-  document.getElementById('nores').style.display=d.length===0?'block':'none';
+  document.getElementById('fcnt').textContent = d.length;
+  document.getElementById('nores').style.display = d.length===0 ? 'block' : 'none';
   syncSortHeaders();
 }
 
 document.querySelectorAll('[data-f]').forEach(b=>{
-  b.addEventListener('click',()=>{
+  b.addEventListener('click', ()=>{
     document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));
     b.classList.add('on');
-    AF.tag=b.dataset.f;
+    AF.tag = b.dataset.f;
     render();
   });
 });
-document.getElementById('selInd').addEventListener('change',e=>{AF.ind=e.target.value;render();});
-document.getElementById('selChg').addEventListener('change',e=>{AF.chg=e.target.value;render();});
-document.getElementById('selSort').addEventListener('change',e=>{AF.sort=e.target.value;render();});
+document.getElementById('selInd').addEventListener('change', e=>{AF.ind=e.target.value;render();});
+document.getElementById('selChg').addEventListener('change', e=>{AF.chg=e.target.value;render();});
+document.getElementById('selSort').addEventListener('change', e=>{AF.sort=e.target.value;render();});
 
-const SORT_MAP={rank:['rank','wd'],wealth:['wd','wa'],age:['ya','yo']};
+const SORT_MAP = {rank:['rank','wd'], wealth:['wd','wa'], age:['ya','yo']};
 function syncSortHeaders(){
-  ['rank','wealth','age'].forEach(col=>{
-    const th=document.getElementById('th-'+col);
-    if(!th) return;
+  document.querySelectorAll('.tbl thead th[data-col]').forEach(th=>{
     th.classList.remove('sort-asc','sort-desc');
-    const [asc,desc]=SORT_MAP[col];
+    const [asc,desc] = SORT_MAP[th.dataset.col]||[];
+    if(!asc) return;
     if(AF.sort===asc)  th.classList.add('sort-asc');
     if(AF.sort===desc) th.classList.add('sort-desc');
   });
 }
 document.querySelectorAll('.tbl thead th.sortable').forEach(th=>{
-  th.addEventListener('click',()=>{
-    const col=th.dataset.col;
-    const [asc,desc]=SORT_MAP[col];
-    if(AF.sort===asc)       AF.sort=desc;
-    else if(AF.sort===desc) AF.sort='rank';
-    else                    AF.sort=asc;
-    document.getElementById('selSort').value=AF.sort;
+  th.addEventListener('click', ()=>{
+    const col = th.dataset.col;
+    const pair = SORT_MAP[col];
+    if(!pair) return;
+    const [asc,desc] = pair;
+    if     (AF.sort===asc)  AF.sort = desc;
+    else if(AF.sort===desc) AF.sort = 'rank';
+    else                    AF.sort = asc;
+    document.getElementById('selSort').value = AF.sort;
     render();
   });
 });
@@ -1057,15 +802,14 @@ function setOffsets(){
   const fbar = document.getElementById('fbarwrap');
   const hh   = hdr  ? hdr.offsetHeight  : 0;
   const fh   = fbar ? fbar.offsetHeight : 44;
-  document.documentElement.style.setProperty('--hh', hh + 'px');
-  document.documentElement.style.setProperty('--sticky-top', (hh + fh) + 'px');
+  document.documentElement.style.setProperty('--hh', hh+'px');
+  document.documentElement.style.setProperty('--sticky-top', (hh+fh)+'px');
 }
 setOffsets();
 window.addEventListener('resize', setOffsets, {passive:true});
 
 function openSb(){document.getElementById('sb').classList.add('on');document.body.style.overflow='hidden';}
 function closeSb(){document.getElementById('sb').classList.remove('on');document.body.style.overflow='';}
-
 window.addEventListener('scroll',()=>document.getElementById('stt').classList.toggle('on',scrollY>400),{passive:true});
 
 render();
