@@ -165,8 +165,13 @@ img{display:block;max-width:100%;}
 tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .mob-only{display:none;}
 .tbl tbody tr.erow{cursor:default;}
-.wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;}
+.wlth{font-family:var(--body);font-size:13px;color:var(--ink);text-align:right;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;gap:4px;}
 .wlth small{font-size:10px;color:var(--mid);}
+/* Inline change icon shown inside Net Worth on mobile only */
+.wlth-chg-mob{display:inline-flex;align-items:center;line-height:1;}
+.wlth-chg-mob .chg{font-size:13px;}
+.wlth-chg-mob .sc-badge{font-size:13px;}
+@media(min-width:641px){.wlth-chg-mob{display:none;}}
 .age{font-family:var(--body);font-size:12px;color:var(--ash);text-align:center;}
 .ind{font-family:var(--body);font-size:11px;color:var(--ash);white-space:normal;word-break:break-word;}
 .dsk{display:table-cell;}
@@ -177,16 +182,9 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 .a-up{color:#2e7d32;}
 .a-dn{color:var(--red);}
 .a-fl{color:#bbb;font-size:12px;}
-/* Status badges (New / Returnee / Split) — replace arrow entirely */
-.sc-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;}
-.sc-badge{
-  font-family:var(--body);font-size:9px;font-weight:600;
-  letter-spacing:.04em;text-transform:uppercase;
-  padding:2px 5px;border-radius:2px;white-space:nowrap;line-height:1.5;display:inline-block;
-}
-.sc-new{background:#fff9e6;color:#7a5c00;border:1px solid #e8c700;}
-.sc-ret{background:#f0ece4;color:var(--mid);border:1px solid var(--rule);}
-.sc-spl{background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee;}
+/* Status icons — bare emoji, same visual weight as arrows, no border/bg */
+.sc-wrap{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.sc-badge{font-size:15px;line-height:1.2;display:block;background:none;border:none;padding:0;margin:0;}
 
 /* Mobile expand row */
 .xrow{display:none;}
@@ -225,7 +223,6 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .wlth{font-size:12px;}
   .chg{font-size:14px;}
   .tbl thead th.tc-wealth{font-size:9px;}
-  .sc-badge{font-size:8px;padding:2px 4px;}
   .stat-num{font-size:18px;}
   .stat-lbl{font-size:9px;letter-spacing:.10em;}
   .hero-stats{gap:16px;}
@@ -295,7 +292,6 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .fcount{font-size:12px;}
   .note{font-size:13px;}
   .bc li{font-size:12px;}
-  .sc-badge{font-size:10px;padding:2px 7px;}
 }
 </style>
 </head>
@@ -673,9 +669,9 @@ function statusChangeHTML(e){
 
   /* Special status: show badge(s), never an arrow */
   let html = '<div class="sc-wrap">';
-  if(isNew)    html += `<span class="sc-badge sc-new" title="New to list this year">🆕</span>`;
-  if(isReturn) html += `<span class="sc-badge sc-ret" title="Returned to list after a gap">↩</span>`;
-  if(isSplit)  html += `<span class="sc-badge sc-spl" title="Wealth split among family members">🔀</span>`;
+  if(isNew)    html += `<span class="sc-badge" title="New to list this year">🆕</span>`;
+  if(isReturn) html += `<span class="sc-badge" title="Returned to list after a gap">↩</span>`;
+  if(isSplit)  html += `<span class="sc-badge" title="Wealth split among family members">🔀</span>`;
   html += '</div>';
   return html;
 }
@@ -717,7 +713,11 @@ function build(data){
           <div class="nco">${e.co}</div>
         </div>
       </td>
-      <td style="text-align:right"><div class="wlth">$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small></div></td>
+      <td style="text-align:right">
+        <div class="wlth">
+          <span class="wlth-chg-mob">${statusChangeHTML(e)}</span>$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small>
+        </div>
+      </td>
       <td class="dsk" style="text-align:center">${statusChangeHTML(e)}</td>
       <td class="td-age dsk" style="text-align:center"><div class="age">${ageDisplay}</div></td>
       <td class="td-ind dsk"><div class="ind">${e.ind}</div></td>
