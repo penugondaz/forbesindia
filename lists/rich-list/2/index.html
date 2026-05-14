@@ -87,37 +87,33 @@ img{display:block;max-width:100%;}
 .bc li a:hover{color:var(--red);}
 .bc li+li::before{content:"›";padding:0 5px;color:#bbb;}
 
-/* ══════════════ HERO — matches 30U30 layout exactly ══════════════ */
+/* ══════════════ HERO ══════════════ */
 .hero{background:var(--black);overflow:hidden;position:relative;}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
   background:radial-gradient(ellipse 60% 80% at 68% 50%,rgba(204,0,0,.10),transparent),
              radial-gradient(ellipse 40% 40% at 5% 90%,rgba(184,150,46,.07),transparent);}
 
-/* Two-col: content gets natural width, image col is auto-sized */
 .hero-inner{
   position:relative;z-index:1;
   max-width:var(--max);margin:0 auto;
   display:grid;
   grid-template-columns:1fr auto;
-  align-items:center; /* vertically centre both columns */
+  align-items:center;
 }
 .hero-content{padding:32px var(--pad) 32px;display:flex;flex-direction:column;min-width:0;}
 
-/* Image col: constrain width, let height follow content col via align-self:stretch */
 .hero-img-col{
   width:clamp(280px,40vw,500px);
   align-self:center;
   position:relative;
   flex-shrink:0;
 }
-/* Let image render at natural height (no forced height) so it shows full rectangle */
 .hero-img-col img{
   display:block;
   width:100%;
   height:auto;
   object-fit:contain;
   object-position:center center;
-  /* Fade left edge to blend into dark hero */
   -webkit-mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
   mask-image:linear-gradient(to right,transparent 0%,rgba(0,0,0,.55) 20%,#000 44%);
 }
@@ -147,7 +143,6 @@ img{display:block;max-width:100%;}
 .eyebrow{font-family:var(--body);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--red);display:flex;align-items:center;gap:10px;margin-bottom:16px;}
 .eyebrow::before{content:'';width:24px;height:2px;background:var(--red);flex-shrink:0;}
 
-/* Identity row: small square badge + title — like 30U30 */
 .identity{display:flex;align-items:center;gap:22px;margin-bottom:20px;flex-wrap:wrap;}
 .list-logo{flex-shrink:0;}
 .list-logo img{
@@ -160,9 +155,7 @@ img{display:block;max-width:100%;}
 }
 .hero-title{font-family:var(--serif);font-weight:900;font-size:clamp(30px,4.8vw,58px);line-height:1.0;letter-spacing:0.5px;color:#fff;margin-left:-24px}
 @media(max-width:480px){.hero-title{font-size:clamp(26px,9vw,36px);}}
-/* Desc */
 .hero-desc{font-family:var(--body);font-size:clamp(13px,1.4vw,15px);color:rgba(255,255,255,.72);max-width:540px;line-height:1.75;margin-bottom:24px}
-/* Stats */
 .hero-stats{display:flex;gap:17px;flex-wrap:wrap;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);}
 .stat-num{font-family:var(--serif);font-size:clamp(20px,2.8vw,29px);font-weight:700;color:#ffd554;line-height:1;}
 .stat-lbl{font-family:var(--body);font-size:10px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:4px;}
@@ -352,6 +345,140 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 #stt:hover{transform:translateY(-2px);}
 #stt svg{width:16px;height:16px;}
 </style>
+
+<!-- ══════════════ DESKTOP DENSITY OVERRIDES (110% zoom feel) ══════════════
+     Strictly desktop only — min-width:1024px. Zero mobile impact.
+     Goal: tighter horizontal margins + slightly larger text to match
+     the comfortable density seen at browser zoom 110%.
+-->
+<style>
+@media(min-width:1024px){
+
+  /* Tighter horizontal padding — was clamp(16px,3vw,40px), now clamp(14px,2vw,24px) */
+  :root{
+    --pad: clamp(14px, 2vw, 24px);
+  }
+
+  /* Main content area: less top/bottom breathing room */
+  .main{
+    padding-top: 18px;
+    padding-bottom: 44px;
+  }
+
+  /* Hero content: less left padding so text feels closer to edge */
+  .hero-content{
+    padding-top: 26px;
+    padding-bottom: 26px;
+  }
+
+  /* Table header: larger font, tighter padding */
+  .tbl thead th{
+    font-size: 11px;
+    padding: 9px 10px;
+  }
+
+  /* Table cells: more breathing room in each cell to match zoomed-in feel */
+  .tbl td{
+    padding: 9px 10px;
+  }
+
+  /* Person name: step up one size */
+  .nname{
+    font-size: 14px;
+  }
+
+  /* Company sub-label: slightly larger */
+  .nco{
+    font-size: 11px;
+  }
+
+  /* Net worth figure */
+  .wlth{
+    font-size: 14px;
+  }
+
+  .wlth small{
+    font-size: 11px;
+  }
+
+  /* Industry label */
+  .ind{
+    font-size: 12px;
+  }
+
+  /* Age */
+  .age{
+    font-size: 13px;
+  }
+
+  /* Rank number */
+  .rnk{
+    font-size: 16px;
+  }
+
+  /* Stamp (photo thumbnail): slightly larger */
+  .stamp{
+    width: 54px;
+    height: 69px;
+  }
+
+  /* Hero description text */
+  .hero-desc{
+    font-size: clamp(14px, 1.5vw, 16px);
+  }
+
+  /* Hero stats: larger numbers */
+  .stat-num{
+    font-size: clamp(22px, 3vw, 32px);
+  }
+
+  .stat-lbl{
+    font-size: 11px;
+  }
+
+  /* Filter bar: slightly taller, larger text */
+  .fbar{
+    height: 46px;
+  }
+
+  .flabel{
+    font-size: 11px;
+  }
+
+  .fbtn{
+    font-size: 12px;
+    height: 26px;
+    padding: 0 12px;
+  }
+
+  .fsel{
+    font-size: 12px;
+    height: 26px;
+  }
+
+  .fcount{
+    font-size: 12px;
+  }
+
+  /* Note at bottom */
+  .note{
+    font-size: 13px;
+  }
+
+  /* Breadcrumb */
+  .bc li{
+    font-size: 12px;
+  }
+
+  /* Pill badges in status column */
+  .pill{
+    font-size: 11px;
+    padding: 3px 9px;
+  }
+
+}
+</style>
+
 </head>
 <body>
 
@@ -446,7 +573,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
         </div>
         <h1 class="hero-title">India Rich List 2025</h1>
       </div>
-      <p class="hero-desc">India's billionaires, whose fortunes are closely tied to a rapidly growing economy, saw their wealth decline by 9 percent or $100billion in the 2025 Forbes list of India’s 100 Richest. A weaker rupee and 3 percent fall in the Sensex didn't help either although India's richest Mukesh Ambani remains a 'centibillionaire' with a net worth of $105 billion. All in all India's 100 richest have a combined net wealth of $1 trillion.</p>
+      <p class="hero-desc">India's billionaires, whose fortunes are closely tied to a rapidly growing economy, saw their wealth decline by 9 percent or $100billion in the 2025 Forbes list of India's 100 Richest. A weaker rupee and 3 percent fall in the Sensex didn't help either although India's richest Mukesh Ambani remains a 'centibillionaire' with a net worth of $105 billion. All in all India's 100 richest have a combined net wealth of $1 trillion.</p>
       <div class="hero-stats">
         <div class="stat"><div class="stat-num">$1.16T</div><div class="stat-lbl">Combined Net Worth</div></div>
         <div class="stat"><div class="stat-num">9</div><div class="stat-lbl">Industries</div></div>
@@ -454,7 +581,6 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
         <div class="stat"><div class="stat-num">8</div><div class="stat-lbl">Women on List</div></div>
       </div>
     </div>
-    <!-- Desktop-only right image column (hidden on mobile via grid) -->
     <div class="hero-img-col">
       <img src="https://images.news18.com/ms/prod/forbesindia/sq_PC_Ir_B0m5_350ab1ee9d.jpg"
            alt="India's 100 Richest 2025"
@@ -576,14 +702,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 
 <!-- ══ SCRIPT ══ -->
 <script>
-/* ── DATA — updated from Forbes India Rich List 2025 ── */
-/* chg: "up"=increase, "down"=decrease, "flat"=unchanged/returnee/split with no direction */
-/* st: "return"=returnee, "new"=new to list, "drop"=dropped (not applicable here—all are on list) */
-/* sp: split flag */
-/* wp: previous wealth (estimated for arrow logic; set equal to w when direction is known from data) */
-/* For chg arrow logic: up → wp < w, down → wp > w, flat → wp ≈ w */
-/* Ages: "Not Specified" in source → stored as 0, displayed as "—" */
-
+/* ── DATA ── */
 const D=[
   {r:1,  n:"Mukesh Ambani",          ini:"MA",img:"https://images.news18.com/ms/prod/forbesindia/Mukesh_Ambani1_f1f8c2f6c6.jpg",
          g:"M",a:68,co:"Reliance Industries",    ind:"Diversified",        w:105.0,wp:110.0,st:"",sp:false,
@@ -606,7 +725,7 @@ const D=[
   {r:7,  n:"Dilip Shanghvi",         ini:"DS",img:"https://images.news18.com/ms/prod/forbesindia/Dilip_Shanghvi_Feb25_MX_53_34c9093cde.jpg",
          g:"M",a:70,co:"Sun Pharmaceutical Industries",ind:"Healthcare",   w:26.3, wp:28.0,st:"return",sp:false,
          bio:"Dilip Shanghvi built Sun Pharma from a tiny operation in Vapi into India's largest pharmaceutical company and among the top five specialty generic drug makers globally."},
-  {r:8,  n:"Bajaj Family",           ini:"BF",img:"https://images.news18.com/ms/prod/for  besindia/Rajiv_Bajaj_NS_C1446_a5a4b07ffd.jpg",
+  {r:8,  n:"Bajaj Family",           ini:"BF",img:"https://images.news18.com/ms/prod/forbesindia/Rajiv_Bajaj_NS_C1446_a5a4b07ffd.jpg",
          g:"M",a:0, co:"Bajaj Auto",              ind:"Diversified",        w:21.8, wp:23.0,st:"return",sp:true,
          bio:"The Bajaj family's diversified empire spans two-wheelers, financial services and consumer goods through Bajaj Auto and Bajaj Finserv."},
   {r:9,  n:"Cyrus Poonawalla",       ini:"CP",img:"https://images.news18.com/ms/prod/forbesindia/Cyrus_Poonawall2_d9cf0b2157.jpg",
@@ -805,7 +924,6 @@ const D=[
 
 /* ── helpers ── */
 function ct(e){
-  /* Use stored chg direction derived from wp vs w */
   const d=e.w-e.wp;
   return d>0.05?'up':d<-0.05?'down':'flat';
 }
@@ -817,11 +935,9 @@ function arrowHTML(e){
   return `<span class="a-fl" title="Unchanged">—</span>`;
 }
 
-/* ── visible column count for mobile expand colspan ── */
 function isMob(){ return window.innerWidth <= 640; }
 function vcols(){ return isMob() ? 5 : 8; }
 
-/* Status badge HTML */
 function statusBadge(e){
   if(e.st==='new')   return `<span class="pill p-new" style="font-size:9px;padding:2px 6px">New</span>`;
   if(e.st==='drop')  return `<span class="pill p-drp" style="font-size:9px;padding:2px 6px">Dropped</span>`;
@@ -830,7 +946,6 @@ function statusBadge(e){
   return base + sp;
 }
 
-/* ── build ── */
 let AF={tag:'all',ind:'',chg:'',sort:'rank'};
 
 function build(data){
@@ -862,7 +977,6 @@ function build(data){
       <td style="text-align:center"><div class="chg">${arrowHTML(e)}</div></td>
     `;
 
-    /* ── Expand row — mobile only ── */
     const xtr=document.createElement('tr');
     xtr.className='xrow mob-xrow';
     xtr.innerHTML=`<td colspan="5"><div class="xinner">
@@ -876,7 +990,6 @@ function build(data){
     tb.appendChild(tr);
     tb.appendChild(xtr);
 
-    /* Click only active on mobile */
     tr.addEventListener('click',()=>{
       if(!isMob()) return;
       const wasOpen=xtr.classList.contains('open');
@@ -904,7 +1017,6 @@ function render(){
   syncSortHeaders();
 }
 
-/* filters */
 document.querySelectorAll('[data-f]').forEach(b=>{
   b.addEventListener('click',()=>{
     document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));
@@ -917,7 +1029,6 @@ document.getElementById('selInd').addEventListener('change',e=>{AF.ind=e.target.
 document.getElementById('selChg').addEventListener('change',e=>{AF.chg=e.target.value;render();});
 document.getElementById('selSort').addEventListener('change',e=>{AF.sort=e.target.value;render();});
 
-/* Sortable column headers */
 const SORT_MAP={rank:['rank','wd'],wealth:['wd','wa'],age:['ya','yo']};
 function syncSortHeaders(){
   ['rank','wealth','age'].forEach(col=>{
@@ -941,7 +1052,6 @@ document.querySelectorAll('.tbl thead th.sortable').forEach(th=>{
   });
 });
 
-/* Compute exact sticky offsets */
 function setOffsets(){
   const hdr  = document.getElementById('hdrmain');
   const fbar = document.getElementById('fbarwrap');
@@ -953,11 +1063,9 @@ function setOffsets(){
 setOffsets();
 window.addEventListener('resize', setOffsets, {passive:true});
 
-/* sidebar */
 function openSb(){document.getElementById('sb').classList.add('on');document.body.style.overflow='hidden';}
 function closeSb(){document.getElementById('sb').classList.remove('on');document.body.style.overflow='';}
 
-/* scroll to top */
 window.addEventListener('scroll',()=>document.getElementById('stt').classList.toggle('on',scrollY>400),{passive:true});
 
 render();
