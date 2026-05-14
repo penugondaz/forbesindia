@@ -196,13 +196,16 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
 
 @media(max-width:640px){
   .tbl{table-layout:fixed;}
-  .tbl col.c-rank{width:7%;}
+  .tbl col.c-rank{width:8%;}
   .tbl col.c-photo{width:11%;}
   .tbl col.c-name{width:auto;}
-  .tbl col.c-wealth{width:22%;}
-  .tbl col.c-chg{width:10%;}
+  .tbl col.c-wealth{width:24%;}
+  .tbl col.c-chg{width:11%;}
   .tbl col.c-age,.tbl col.c-ind{display:none;}
   .dsk{display:none !important;}
+  /* Give rank and change headers breathing room on mobile */
+  .tbl thead th.tc-rank{font-size:9px;padding-left:4px;padding-right:2px;}
+  .tbl thead th.tc-chg{font-size:9px;padding-left:5px;letter-spacing:.06em;}
   .stamp{width:36px;height:48px;font-size:9px;}
   .nname{white-space:normal;word-break:break-word;font-size:13px;display:block;line-height:1.35;}
   .nname .mob-only{float:right;margin-left:4px;}
@@ -214,11 +217,11 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .mob-xrow{display:none;}
   .mob-xrow.open{display:table-row;}
   .tbl td{padding:8px 4px;}
-  .tbl thead th{padding:8px 4px;}
+  .tbl thead th{padding:8px 4px;letter-spacing:.08em;}
   .rnk{font-size:14px;}
   .wlth{font-size:12px;}
   .chg{font-size:14px;}
-  .tbl thead th.tc-wealth{font-size:9px;}
+  .tbl thead th.tc-wealth{font-size:9px;letter-spacing:.06em;}
   .stat-num{font-size:18px;}
   .stat-lbl{font-size:9px;letter-spacing:.10em;}
   .hero-stats{gap:16px;}
@@ -442,7 +445,7 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
       <colgroup>
         <col class="c-rank"   style="width:4%"/>
         <col class="c-photo"  style="width:6%"/>
-        <col class="c-name"   style="width:24%"/>
+        <col class="c-name"   style="width:26%"/>
         <col class="c-wealth" style="width:11%"/>
         <col class="c-chg"    style="width:8%"/>
         <col class="c-age"    style="width:5%"/>
