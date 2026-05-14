@@ -206,9 +206,8 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
   .tbl col.c-rank{width:7%;}
   .tbl col.c-photo{width:12%;}
   .tbl col.c-name{width:auto;}
-  .tbl col.c-wealth{width:24%;}
-  .tbl col.c-chg{width:12%;}
-  .tbl col.c-age,.tbl col.c-ind{display:none;}
+  .tbl col.c-wealth{width:30%;}
+  .tbl col.c-age,.tbl col.c-ind,.tbl col.c-chg{display:none;}
   .dsk{display:none !important;}
   .stamp{width:36px;height:48px;font-size:9px;}
   .nname{white-space:normal;word-break:break-word;font-size:13px;display:block;line-height:1.35;}
@@ -453,9 +452,9 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
         <col class="c-photo"  style="width:6%"/>
         <col class="c-name"   style="width:26%"/>
         <col class="c-wealth" style="width:11%"/>
+        <col class="c-chg"    style="width:8%"/>
         <col class="c-age"    style="width:5%"/>
         <col class="c-ind"    style="width:14%"/>
-        <col class="c-chg"    style="width:8%"/>
       </colgroup>
       <thead>
         <tr>
@@ -467,11 +466,11 @@ tr.erow.open .ncaret{transform:rotate(180deg);color:var(--red);}
           <th class="tc-wealth sortable" id="th-wealth" data-col="wealth" style="text-align:right">
             Net Worth <span class="sort-icon"></span>
           </th>
+          <th class="tc-chg dsk" style="text-align:center">Change</th>
           <th class="tc-age dsk sortable" id="th-age" data-col="age" style="text-align:center">
             Age <span class="sort-icon"></span>
           </th>
           <th class="tc-ind dsk">Industry</th>
-          <th class="tc-chg" style="text-align:center">Change</th>
         </tr>
       </thead>
       <tbody id="tbody"></tbody>
@@ -674,17 +673,21 @@ function statusChangeHTML(e){
 
   /* Special status: show badge(s), never an arrow */
   let html = '<div class="sc-wrap">';
-  if(isNew)    html += `<span class="sc-badge sc-new" title="New to list this year">New</span>`;
-  if(isReturn) html += `<span class="sc-badge sc-ret" title="Returned to list after a gap">Returnee</span>`;
-  if(isSplit)  html += `<span class="sc-badge sc-spl" title="Wealth split among family members">Split</span>`;
+  if(isNew)    html += `<span class="sc-badge sc-new" title="New to list this year">🆕</span>`;
+  if(isReturn) html += `<span class="sc-badge sc-ret" title="Returned to list after a gap">↩</span>`;
+  if(isSplit)  html += `<span class="sc-badge sc-spl" title="Wealth split among family members">🔀</span>`;
   html += '</div>';
   return html;
 }
 
-/* Mobile expand pill for wealth change */
+/* Mobile expand: show status badge OR wealth-change pill */
 function chgPillHTML(e){
-  const isSpecial = e.st==='new' || e.st==='return' || e.sp;
-  if(isSpecial) return ''; /* badges already visible in last col on mobile */
+  const isNew    = e.st==='new';
+  const isReturn = e.st==='return';
+  const isSplit  = e.sp;
+  if(isNew)    return `<span class="pill" style="background:#fff9e6;color:#7a5c00;border:1px solid #e8c700">🆕 New</span>`;
+  if(isReturn) return `<span class="pill" style="background:#f0ece4;color:#6b6b6b;border:1px solid #d9d0c4">↩ Returnee</span>`;
+  if(isSplit)  return `<span class="pill" style="background:#f0f0ff;color:#3a3a99;border:1px solid #c0c0ee">🔀 Split</span>`;
   const t = ct(e);
   if(t==='up')   return `<span class="pill p-up">▲ Up</span>`;
   if(t==='down') return `<span class="pill p-dn">▼ Down</span>`;
@@ -715,9 +718,9 @@ function build(data){
         </div>
       </td>
       <td style="text-align:right"><div class="wlth">$${e.w.toFixed(2).replace(/\.?0+$/,'').replace(/(\.\d)$/,'$10')}<small> B</small></div></td>
+      <td class="dsk" style="text-align:center">${statusChangeHTML(e)}</td>
       <td class="td-age dsk" style="text-align:center"><div class="age">${ageDisplay}</div></td>
       <td class="td-ind dsk"><div class="ind">${e.ind}</div></td>
-      <td style="text-align:center">${statusChangeHTML(e)}</td>
     `;
 
     /* Mobile expand row */
