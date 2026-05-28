@@ -45,39 +45,28 @@ const REPORTERS=["Priya Nair","Arjun Mehta","Sneha Kapoor","Rahul Sharma","Deepa
 const EDITORS=["Anand Menon","Shalini Roy","Rajesh Kumar","Meera Pillai"];
 const ROLES=["reporter","editor","admin"];
 
-// ── GOOGLE SHEETS CONFIG ──────────────────────────────────────────────
-const SHEETS_API = "https://script.google.com/macros/u/1/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
+/* ── GOOGLE SHEETS CONFIG ───────────────────────────────────────────── */
+// FIX 1: Removed /u/1/ from the URL — that segment forces a Google login
+// redirect which breaks requests from GitHub Pages (not logged in).
+const SHEETS_API = "https://script.google.com/macros/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
 
-// Google Sheet ID
-const SHEET_ID = "1lhTMduCFEATA5Q8IRDvgahQI3H-En_o39OxxNdr_va8";
-
-// Helper to call the API
-async function api(action, payload = {}) {
-try {
-const res = await fetch(SHEETS_API, {
-method: "POST",
-headers: {
-"Content-Type": "application/json",
-},
-body: JSON.stringify({
-action,
-...payload
-}),
-});
-
-```
-return await res.json();
-```
-
-} catch (err) {
-console.error("API error:", err);
-return { error: err.message };
+async function sheetsApi(action, payload={}) {
+  try {
+    // FIX 2: No "Content-Type: application/json" header.
+    // Apps Script rejects pre-flight CORS OPTIONS requests triggered by
+    // that header. Sending as plain text avoids the preflight entirely.
+    const res = await fetch(SHEETS_API, {
+      method: "POST",
+      body: JSON.stringify({action, ...payload}),
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch(e) { console.error("Non-JSON response:", text); return {error:"Bad response"}; }
+  } catch(err) {
+    console.error("API error:", err);
+    return {error: err.message};
+  }
 }
-}
-
-// Empty initial stories array
-const STORIES = [];
-
 
 /* ── HELPERS ────────────────────────────────────────────────────────── */
 const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
@@ -366,7 +355,6 @@ function Analytics({stories}){
 
   const KPIs=[["Total Stories",total,"#1e293b","📰"],["Published",pub,"#22c55e","✅"],["Overdue",ov,"#ef4444","⚠️"],["Critical",crit,RED,"🔥"],["Sponsored",spon,"#f97316","💰"]];
   const card={background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",padding:"16px 18px"};
-
   const deadlines=stories.filter(s=>s.eta&&!["Published","Hold/Dropped"].includes(s.status)&&daysLeft(s.eta)<=7).sort((a,b)=>new Date(a.eta)-new Date(b.eta));
 
   return(
@@ -477,17 +465,26 @@ function MeetingMode({stories,onClose,onStatus}){
 
 /* ── APP ────────────────────────────────────────────────────────────── */
 function App(){
-const [stories,setStories]=useState([]);
-const [loading,setLoading]=useState(true);
+  const [stories,setStories]=useState([]);
+  const [loading,setLoading]=useState(true);
+  const [error,setError]=useState(null);
 
-useEffect(() => {
-api("getAll").then(res => {
-if (res.stories) {
-setStories(res.stories);
-}
-setLoading(false);
-});
-}, []);
+  useEffect(()=>{
+    sheetsApi("getAll")
+      .then(res=>{
+        if(res.error){
+          setError(res.error);
+          setLoading(false);
+        } else if(res.stories){
+          setStories(res.stories);
+          setLoading(false);
+        } else {
+          setError("Unexpected response: " + JSON.stringify(res));
+          setLoading(false);
+        }
+      })
+      .catch(err=>{ setError(err.message); setLoading(false); });
+  },[]);
 
   const [view,setView]=useState("table");
   const [showForm,setShowForm]=useState(false);
@@ -505,126 +502,58 @@ setLoading(false);
   const [sync,setSync]=useState("synced");
   const [sideOpen,setSideOpen]=useState(true);
 
-  if (loading) {
-return (
-<div style={{
-display:"flex",
-alignItems:"center",
-justifyContent:"center",
-height:"100vh",
-flexDirection:"column",
-gap:16,
-background:"#111827"
-}}>
-<div style={{
-width:42,
-height:42,
-background:"#c8102e",
-borderRadius:10,
-display:"flex",
-alignItems:"center",
-justifyContent:"center"
-}}>
-<span style={{
-color:"#fff",
-fontWeight:900,
-fontSize:18
-}}>F</span> </div>
-
-```
-  <div style={{
-    color:"#94a3b8",
-    fontSize:14
-  }}>
-    Loading stories from Google Sheets...
-  </div>
-</div>
-```
-
-);
-}
-
-// Save state indicator
-const save = () => {
-setSync("saving");
-setTimeout(() => setSync("synced"), 1200);
-};
-
-// Submit/Create/Update
-const handleSubmit = useCallback(async (form) => {
-setSync("saving");
-
-if (editing) {
-const res = await api("update", {
-id: editing.id,
-story: form
-});
-
-```
-if (res.success) {
-  setStories(s =>
-    s.map(x => x.id === editing.id ? res.story : x)
+  if(loading) return(
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:16,background:"#111827"}}>
+      <div style={{width:44,height:44,background:"#c8102e",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+        <span style={{color:"#fff",fontWeight:900,fontSize:20}}>F</span>
+      </div>
+      <div style={{color:"#94a3b8",fontSize:14,fontWeight:500}}>Loading from Google Sheets…</div>
+    </div>
   );
-}
-```
 
-} else {
+  if(error) return(
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:16,background:"#111827",padding:32}}>
+      <div style={{fontSize:40}}>⚠️</div>
+      <div style={{color:"#f87171",fontSize:16,fontWeight:700}}>Could not load from Google Sheets</div>
+      <div style={{color:"#64748b",fontSize:13,maxWidth:500,textAlign:"center",lineHeight:1.6}}>Error: {error}</div>
+      <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:10,padding:"16px 20px",maxWidth:500,width:"100%"}}>
+        <div style={{color:"#94a3b8",fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>Checklist</div>
+        {["Apps Script deployed as Web App (not just saved)","Who has access: set to Anyone (not just Google account users)","URL does NOT contain /u/1/ in the path","Apps Script is authorized — run any function manually first to trigger auth","Re-deploy after any script changes (Deploy → Manage → New version)"].map((t,i)=>(
+          <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",marginBottom:6,fontSize:12,color:"#94a3b8"}}>
+            <span style={{color:"#f97316",fontWeight:700,flexShrink:0}}>{i+1}.</span>{t}
+          </div>
+        ))}
+      </div>
+      <button onClick={()=>{setError(null);setLoading(true);sheetsApi("getAll").then(res=>{if(res.stories)setStories(res.stories);else setError(res.error||"Failed");setLoading(false);});}} style={{padding:"9px 24px",background:"#c8102e",color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13,cursor:"pointer"}}>Retry</button>
+    </div>
+  );
 
-```
-const res = await api("create", {
-  story: form
-});
+  const handleSubmit=useCallback(async form=>{
+    setSync("saving");
+    if(editing){
+      const res=await sheetsApi("update",{id:editing.id,story:form});
+      if(res.success)setStories(s=>s.map(x=>x.id===editing.id?res.story:x));
+    } else {
+      const res=await sheetsApi("create",{story:form});
+      if(res.story)setStories(s=>[...s,res.story]);
+    }
+    setShowForm(false);setEditing(null);setSync("synced");
+  },[editing]);
 
-if (res.story) {
-  setStories(s => [...s, res.story]);
-}
-```
+  const handleDel=useCallback(async id=>{
+    setSync("saving");
+    await sheetsApi("delete",{id});
+    setStories(s=>s.filter(x=>x.id!==id));
+    setSelected(null);setSync("synced");
+  },[]);
 
-}
-
-setShowForm(false);
-setEditing(null);
-setSync("synced");
-
-}, [editing]);
-
-// Delete Story
-const handleDel = useCallback(async (id) => {
-setSync("saving");
-
-await api("delete", { id });
-
-setStories(s => s.filter(x => x.id !== id));
-
-setSelected(null);
-
-setSync("synced");
-
-}, []);
-
-// Update Status
-const handleStatus = useCallback(async (id, status) => {
-setSync("saving");
-
-await api("updateStatus", {
-id,
-status
-});
-
-setStories(s =>
-s.map(x =>
-x.id === id ? { ...x, status } : x
-)
-);
-
-if (selected?.id === id) {
-setSelected(p => ({ ...p, status }));
-}
-
-setSync("synced");
-
-}, [selected]);
-
+  const handleStatus=useCallback(async(id,status)=>{
+    setSync("saving");
+    await sheetsApi("updateStatus",{id,status});
+    setStories(s=>s.map(x=>x.id===id?{...x,status}:x));
+    if(selected?.id===id)setSelected(p=>({...p,status}));
+    setSync("synced");
+  },[selected]);
 
   const filtered=useMemo(()=>{
     let s=[...stories];
@@ -646,15 +575,11 @@ setSync("synced");
   const TP=dark?"#f1f5f9":"#1e293b";
   const TS=dark?"#94a3b8":"#64748b";
   const BC=dark?"#334155":"#e2e8f0";
-
   const VIEWS=[{id:"analytics",l:"Dashboard",i:"📊"},{id:"table",l:"Table View",i:"📋"},{id:"kanban",l:"Kanban Board",i:"🗂"},{id:"calendar",l:"Calendar",i:"📅"}];
-
   const selStyle={padding:"5px 8px",borderRadius:7,border:`1px solid ${BC}`,background:dark?"#1e293b":"#f8fafc",color:TS,fontSize:11,fontFamily:"inherit"};
 
   return(
     <div style={{display:"flex",minHeight:"100vh",background:BG,color:TP}}>
-
-      {/* ── SIDEBAR ── */}
       <div style={{width:sideOpen?230:54,background:dark?"#060d1f":"#111827",transition:"width 0.22s ease",flexShrink:0,display:"flex",flexDirection:"column",position:"sticky",top:0,height:"100vh",overflowY:"auto",overflowX:"hidden",zIndex:50}}>
         <div style={{padding:"16px 12px",borderBottom:"1px solid rgba(255,255,255,0.07)",minHeight:60,display:"flex",alignItems:"center"}}>
           <div style={{width:32,height:32,background:RED,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
@@ -665,7 +590,6 @@ setSync("synced");
             <div style={{color:"#4b5563",fontSize:10,marginTop:1}}>Editorial Workflow</div>
           </div>}
         </div>
-
         <nav style={{padding:"12px 6px",flex:1}}>
           {VIEWS.map(v=>(
             <button key={v.id} className="nav-btn" onClick={()=>setView(v.id)} style={{width:"100%",display:"flex",alignItems:"center",gap:9,padding:"9px 10px",borderRadius:7,border:"none",cursor:"pointer",marginBottom:1,background:view===v.id?"rgba(200,16,46,0.18)":"transparent",color:view===v.id?"#f87171":"#6b7280",textAlign:"left",fontSize:13,fontWeight:view===v.id?700:400,transition:"background 0.15s"}}>
@@ -680,7 +604,6 @@ setSync("synced");
             ))}
           </div>}
         </nav>
-
         <div style={{padding:"10px 6px",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
           {sideOpen&&<div style={{padding:"8px 10px",background:"rgba(255,255,255,0.04)",borderRadius:7,marginBottom:8}}>
             <div style={{fontSize:9,color:"#4b5563",fontWeight:700,textTransform:"uppercase",marginBottom:5}}>Role</div>
@@ -691,11 +614,7 @@ setSync("synced");
           <button onClick={()=>setSideOpen(o=>!o)} style={{width:"100%",padding:"6px",background:"transparent",border:"none",color:"#4b5563",cursor:"pointer",fontSize:14,textAlign:"center"}}>{sideOpen?"← Collapse":"→"}</button>
         </div>
       </div>
-
-      {/* ── MAIN ── */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
-
-        {/* Top bar */}
         <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"11px 20px",display:"flex",alignItems:"center",gap:8,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:8}}>
           <div style={{flex:"1 1 160px"}}>
             <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
@@ -709,14 +628,12 @@ setSync("synced");
           <select value={fStatus} onChange={e=>setFStatus(e.target.value)} style={selStyle}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
           <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
           <button onClick={()=>setDark(d=>!d)} style={{padding:"5px 9px",background:dark?"#334155":"#f1f5f9",border:"none",borderRadius:7,fontSize:13,cursor:"pointer"}}>{dark?"☀️":"🌙"}</button>
-          <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
+          <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600}}>{sync==="saving"?"⏳ Saving…":"✓ Sheets Synced"}</div>
           {(role==="editor"||role==="admin")&&<>
             <button onClick={()=>setMeeting(true)} style={{padding:"6px 12px",background:"#1e293b",color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>🎙 Meeting</button>
             <button onClick={()=>{setEditing(null);setShowForm(true);}} style={{padding:"6px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>+ Add Story</button>
           </>}
         </div>
-
-        {/* Content */}
         <div style={{flex:1,padding:"18px 20px",overflowY:"auto"}}>
           {view==="analytics"&&<Analytics stories={stories}/>}
           {view==="table"&&<div style={{background:CARD,borderRadius:12,border:`1px solid ${BC}`,overflow:"hidden"}}><TableView stories={filtered} onRow={setSelected} sk={sk} setSk={setSk} sd={sd} setSd={setSd}/></div>}
@@ -724,19 +641,15 @@ setSync("synced");
           {view==="calendar"&&<div style={{background:CARD,borderRadius:12,border:`1px solid ${BC}`,padding:18}}><CalendarView stories={stories} onStory={setSelected}/></div>}
         </div>
       </div>
-
-      {/* ── MODALS ── */}
       {(showForm||editing)&&<Modal title={editing?"Edit Story":"Submit New Story"} onClose={()=>{setShowForm(false);setEditing(null);}} wide>
         <StoryForm onSubmit={handleSubmit} init={editing} onCancel={()=>{setShowForm(false);setEditing(null);}}/>
       </Modal>}
-
       {selected&&!editing&&<Modal title={selected.title} onClose={()=>setSelected(null)} wide>
         <StoryDetail story={selected} role={role}
           onEdit={s=>{setEditing(s);setSelected(null);}}
           onDelete={id=>{handleDel(id);setSelected(null);}}
           onStatus={handleStatus}/>
       </Modal>}
-
       {meeting&&<Modal title="🎙 Editorial Meeting Mode" onClose={()=>setMeeting(false)} wide>
         <MeetingMode stories={filtered} onClose={()=>setMeeting(false)} onStatus={handleStatus}/>
       </Modal>}
