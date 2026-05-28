@@ -26,6 +26,8 @@ body{background:#f1f5f9;color:#1e293b}
 input,select,textarea{font-family:inherit}
 button{font-family:inherit;cursor:pointer}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
+.status-chip{display:inline-flex;align-items:center;padding:4px 11px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid transparent;transition:all 0.15s;white-space:nowrap;user-select:none}
+.status-chip:hover{opacity:0.85}
 @media(max-width:768px){
   .sidebar-overlay{display:block}
   .desktop-only{display:none!important}
@@ -39,6 +41,7 @@ button{font-family:inherit;cursor:pointer}
   .modal-box{border-radius:14px 14px 0 0!important;max-height:92vh;overflow-y:auto}
   .form-grid{grid-template-columns:1fr!important}
   .detail-grid{grid-template-columns:1fr 1fr!important}
+  .status-filter-bar{flex-wrap:wrap!important;gap:5px!important}
 }
 .mobile-filter-row{display:none;gap:6px;overflow-x:auto;padding:8px 14px;background:#fff;border-bottom:1px solid #e2e8f0}
 .mobile-filter-row select,.mobile-filter-row input{flex-shrink:0;padding:5px 8px;border-radius:7px;border:1px solid #e2e8f0;background:#f8fafc;font-size:12px;color:#475569;font-family:inherit}
@@ -52,12 +55,17 @@ const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
 const RED="#c8102e";
 const STATUSES=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped"];
-const SC={"Idea Proposed":"#6366f1","Approved":"#0ea5e9","Researching":"#f59e0b","Interview Scheduled":"#10b981","Writing":"#3b82f6","Editing":"#f97316","Fact Check":"#ec4899","Design":"#14b8a6","Scheduled":"#a855f7","Published":"#22c55e","Hold/Dropped":"#94a3b8"};
-const CATS=["News", "Deep Dive", "Explainer", "Take One", "Leadership", "Innovation", "Startups", "Billionaires", "30 Under 30", "W-Power", "Rich List", "Ai List", "Magazine", "Life", "Slideshow", "Graphic of the day", "Others"];
+const SC={
+  "Idea Proposed":"#6366f1","Approved":"#0ea5e9","Researching":"#f59e0b",
+  "Interview Scheduled":"#10b981","Writing":"#3b82f6","Editing":"#f97316",
+  "Fact Check":"#ec4899","Design":"#14b8a6","Scheduled":"#a855f7",
+  "Published":"#22c55e","Hold/Dropped":"#94a3b8"
+};
+const CATS=["News","Deep Dive","Explainer","Take One","Leadership","Innovation","Startups","Billionaires","30 Under 30","W-Power","Rich List","Ai List","Magazine","Life","Slideshow","Graphic of the day","Others"];
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
 const PRIS=["Critical","High","Medium","Low"];
 const PC={"Critical":"#ef4444","High":"#f97316","Medium":"#f59e0b","Low":"#6366f1"};
-const REPORTERS=["Samreen Wani", "Naini Thaker", "Payal Ganguly", "Himani Kothari", "Samidha Jain", "Kathakali Chanda", "Vasudha Mukherjee", "Samar Srivastava", "Benu Joshi Routh", "Kunal Purandare", "Nasrin Sultana", "Jasodhara Banerjee", "Neha Bothra", "Monica Bathija", "Siddhant Konduskar", "Pankti Mehta Kadakia", "Sarthak Choudhury"];
+const REPORTERS=["Samreen Wani","Naini Thaker","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury"];
 
 const SHEETS_API="https://script.google.com/macros/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
 
@@ -72,6 +80,29 @@ async function sheetsApi(action,payload={}){
 const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
 const daysLeft=eta=>Math.ceil((new Date(eta)-new Date())/86400000);
 const fmt=d=>d?new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):"—";
+
+/* FIX 1: normaliseEta — Google Sheets sometimes returns dates as "dd/mm/yyyy"
+   or locale strings. We normalise everything to "yyyy-mm-dd" so the date input
+   displays correctly and fmt() shows the right value after refresh. */
+function normaliseDate(val){
+  if(!val||typeof val!=="string")return val||"";
+  // Already ISO yyyy-mm-dd
+  if(/^\d{4}-\d{2}-\d{2}$/.test(val.trim()))return val.trim();
+  // dd/mm/yyyy
+  const dmy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(val.trim());
+  if(dmy)return `${dmy[3]}-${dmy[2].padStart(2,"0")}-${dmy[1].padStart(2,"0")}`;
+  // mm/dd/yyyy
+  const mdy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(val.trim());
+  if(mdy)return `${mdy[3]}-${mdy[1].padStart(2,"0")}-${mdy[2].padStart(2,"0")}`;
+  // Try native parse as fallback
+  const d=new Date(val);
+  if(!isNaN(d))return d.toISOString().split("T")[0];
+  return val;
+}
+
+function normaliseStory(s){
+  return{...s,eta:normaliseDate(s.eta),pubDate:normaliseDate(s.pubDate)};
+}
 
 const Badge=({label,color,sm})=>(
   <span style={{display:"inline-flex",alignItems:"center",padding:sm?"2px 8px":"3px 11px",borderRadius:20,fontSize:sm?11:13,fontWeight:600,background:color+"20",color,border:`1px solid ${color}35`,whiteSpace:"nowrap",lineHeight:1.4}}>{label}</span>
@@ -104,10 +135,9 @@ function Modal({title,children,onClose,wide}){
   );
 }
 
-/* ── FORM — removed: Editor, SEO Keyword, Traffic Potential, Sponsorship; Desk→Category ── */
 const EF={title:"",desc:"",reporter:REPORTERS[0],desk:CATS[0],format:FORMATS[0],pub:"Web",pri:"Medium",status:"Idea Proposed",eta:"",pubDate:"",issue:"",notes:"",refs:""};
 function StoryForm({onSubmit,init,onCancel}){
-  const [f,setF]=useState(init||EF);
+  const [f,setF]=useState(init?normaliseStory(init):EF);
   const set=k=>e=>setF(p=>({...p,[k]:e.target.value}));
   const I={width:"100%",padding:"9px 12px",borderRadius:7,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:14,color:"#1e293b",outline:"none",fontFamily:"inherit"};
   const L={fontSize:12,fontWeight:700,color:"#64748b",marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.06em"};
@@ -137,14 +167,12 @@ function StoryForm({onSubmit,init,onCancel}){
   );
 }
 
-/* ── STORY DETAIL ── */
 function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,hasNext,onSaveComment}){
   const [c,setC]=useState("");
   const [commenter,setCommenter]=useState("");
   const [comments,setComments]=useState(story.comments||[]);
   const ov=isOverdue(story);
   const dl=story.eta?daysLeft(story.eta):null;
-
   useEffect(()=>setComments(story.comments||[]),[story.id]);
 
   const addC=()=>{
@@ -156,12 +184,10 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
     onSaveComment(story.id,updated);
     setC("");
   };
-
   const IS={padding:"4px 7px",borderRadius:6,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:13,color:"#475569",fontFamily:"inherit",width:"100%"};
 
   return(
     <div>
-      {/* Prev / Next */}
       <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14,gap:8}}>
         <button onClick={onPrev} disabled={!hasPrev} style={{padding:"6px 16px",borderRadius:7,border:"1px solid #e2e8f0",background:hasPrev?"#f8fafc":"#f1f5f9",color:hasPrev?"#475569":"#cbd5e1",fontWeight:700,fontSize:13,cursor:hasPrev?"pointer":"default"}}>← Prev</button>
         <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center"}}>
@@ -174,16 +200,13 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
 
       <p style={{color:"#475569",fontSize:14,lineHeight:1.75,marginBottom:14}}>{story.desc}</p>
 
-      {/* Quick Edit */}
       <div style={{background:"#f8fafc",borderRadius:10,border:"1px solid #e2e8f0",padding:"13px 15px",marginBottom:14}}>
         <div style={{fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Quick Edit</div>
         <div className="detail-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:"9px 13px"}}>
           {[["Status","status",STATUSES],["Reporter","reporter",REPORTERS],["Priority","pri",PRIS],["Type","pub",["Web","Magazine","Both"]],["Category","desk",CATS]].map(([lbl,key,opts])=>(
             <div key={key}>
               <div style={{fontSize:11,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{lbl}</div>
-              <select value={story[key]||""} onChange={e=>onFieldChange(story.id,key,e.target.value)} style={IS}>
-                {opts.map(o=><option key={o}>{o}</option>)}
-              </select>
+              <select value={story[key]||""} onChange={e=>onFieldChange(story.id,key,e.target.value)} style={IS}>{opts.map(o=><option key={o}>{o}</option>)}</select>
             </div>
           ))}
           <div>
@@ -200,7 +223,7 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
       )}
 
       <div className="detail-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"9px 18px",fontSize:13,marginBottom:14}}>
-        {[["Format",story.format],["Publish Date",fmt(story.pubDate)],["Issue",story.issue||"—"],["Created",fmt(story.created)]].map(([k,v])=>(
+        {[["Format",story.format],["ETA",fmt(story.eta)],["Publish Date",fmt(story.pubDate)],["Issue",story.issue||"—"],["Created",fmt(story.created)]].map(([k,v])=>(
           <div key={k}><div style={{fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:2}}>{k}</div><div style={{fontWeight:600,color:"#1e293b"}}>{v}</div></div>
         ))}
       </div>
@@ -208,7 +231,6 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
       {story.notes&&<div style={{background:"#fffbeb",border:"1px solid #fde68a",borderRadius:8,padding:"9px 13px",marginBottom:12,fontSize:13,color:"#92400e"}}>📝 {story.notes}</div>}
       {story.refs&&<div style={{background:"#f0f9ff",border:"1px solid #bae6fd",borderRadius:8,padding:"9px 13px",marginBottom:12,fontSize:13,color:"#0369a1"}}>🔗 <a href={story.refs} target="_blank" rel="noreferrer" style={{color:"#0369a1"}}>{story.refs}</a></div>}
 
-      {/* Comments */}
       <div style={{borderTop:"1px solid #f1f5f9",paddingTop:13,marginBottom:12}}>
         <div style={{fontSize:12,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:9}}>Comments ({comments.length})</div>
         {comments.map(x=>(
@@ -220,7 +242,6 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
             <p style={{margin:0,color:"#475569",lineHeight:1.6}}>{x.text}</p>
           </div>
         ))}
-        {/* Comment box with name field */}
         <div style={{background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:9,padding:"11px 13px",marginTop:8}}>
           <div style={{marginBottom:8}}>
             <label style={{fontSize:11,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.05em",display:"block",marginBottom:4}}>Your Name</label>
@@ -242,9 +263,8 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
   );
 }
 
-/* ── TABLE VIEW — no checkbox column, role is always admin-level ── */
 function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
-  const COLS=[{k:"title",l:"Title",w:"24%"},{k:"reporter",l:"Reporter",w:"11%"},{k:"desk",l:"Category",w:"10%"},{k:"status",l:"Status",w:"13%"},{k:"pri",l:"Priority",w:"10%"},{k:"pub",l:"Type",w:"7%"},{k:"eta",l:"ETA",w:"10%"},{k:"_act",l:"",w:"9%"}];
+  const COLS=[{k:"title",l:"Title",w:"22%"},{k:"reporter",l:"Reporter",w:"12%"},{k:"desk",l:"Category",w:"10%"},{k:"status",l:"Status",w:"13%"},{k:"pri",l:"Priority",w:"9%"},{k:"pub",l:"Type",w:"7%"},{k:"eta",l:"ETA",w:"12%"},{k:"_act",l:"",w:"8%"}];
   const sort=k=>{if(k==="_act")return;if(sk===k)setSd(d=>d==="asc"?"desc":"asc");else{setSk(k);setSd("asc");}};
   const IS={padding:"3px 6px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
   return(
@@ -260,6 +280,8 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
         <tbody>
           {stories.map((s,i)=>{
             const ov=isOverdue(s);
+            /* FIX 1: normalise eta before rendering into the date input */
+            const etaVal=normaliseDate(s.eta);
             return(
               <tr key={s.id} className="hover-row" style={{background:ov?"#fff5f5":i%2?"#fafafa":"#fff",borderBottom:"1px solid #f1f5f9"}}>
                 <td style={{padding:"10px 12px",cursor:"pointer"}} onClick={()=>onRow(s)}>
@@ -269,9 +291,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
                 <td style={{padding:"10px 12px"}}>
                   <select value={s.reporter} onChange={e=>onFieldChange(s.id,"reporter",e.target.value)} style={IS}>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
-                <td style={{padding:"10px 12px"}}>
-                  <Badge label={s.desk} color="#6366f1" sm/>
-                </td>
+                <td style={{padding:"10px 12px"}}><Badge label={s.desk} color="#6366f1" sm/></td>
                 <td style={{padding:"10px 12px"}}>
                   <select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
@@ -282,7 +302,9 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
                   <select value={s.pub} onChange={e=>onFieldChange(s.id,"pub",e.target.value)} style={IS}>{["Web","Magazine","Both"].map(o=><option key={o}>{o}</option>)}</select>
                 </td>
                 <td style={{padding:"10px 12px"}}>
-                  <input type="date" value={s.eta||""} onChange={e=>onFieldChange(s.id,"eta",e.target.value)} style={{...IS,width:116}}/>
+                  {/* FIX 1: use normalised etaVal so the date input always shows correctly */}
+                  <input type="date" value={etaVal} onChange={e=>onFieldChange(s.id,"eta",e.target.value)} style={{...IS,width:120}}/>
+                  {etaVal&&<div style={{fontSize:10,color:ov?RED:"#94a3b8",marginTop:2,fontWeight:ov?700:400}}>{fmt(etaVal)}</div>}
                 </td>
                 <td style={{padding:"10px 12px"}}>
                   <div style={{display:"flex",gap:4,alignItems:"center"}}>
@@ -301,7 +323,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
 }
 
 function KanbanView({stories,onCard}){
-  const COLS=["Idea Proposed","Approved","Assigned","Researching","Writing","Editing","Fact Check","SEO Review","Scheduled","Published"];
+  const COLS=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped"];
   return(
     <div style={{overflowX:"auto",paddingBottom:8}}>
       <div style={{display:"flex",gap:10,minWidth:COLS.length*200+COLS.length*10}}>
@@ -309,10 +331,10 @@ function KanbanView({stories,onCard}){
           const cs=stories.filter(s=>s.status===col);
           return(
             <div key={col} style={{width:192,flexShrink:0}}>
-              <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8,padding:"5px 9px",borderRadius:7,background:SC[col]+"15",border:`1px solid ${SC[col]}30`}}>
-                <div style={{width:7,height:7,borderRadius:"50%",background:SC[col],flexShrink:0}}></div>
-                <span style={{fontSize:11,fontWeight:700,color:SC[col],flex:1}}>{col}</span>
-                <span style={{fontSize:11,background:SC[col]+"30",color:SC[col],borderRadius:10,padding:"1px 6px",fontWeight:700}}>{cs.length}</span>
+              <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:8,padding:"5px 9px",borderRadius:7,background:(SC[col]||"#888")+"15",border:`1px solid ${SC[col]||"#888"}30`}}>
+                <div style={{width:7,height:7,borderRadius:"50%",background:SC[col]||"#888",flexShrink:0}}></div>
+                <span style={{fontSize:11,fontWeight:700,color:SC[col]||"#888",flex:1}}>{col}</span>
+                <span style={{fontSize:11,background:(SC[col]||"#888")+"30",color:SC[col]||"#888",borderRadius:10,padding:"1px 6px",fontWeight:700}}>{cs.length}</span>
               </div>
               <div style={{display:"flex",flexDirection:"column",gap:7,minHeight:160}}>
                 {cs.map(s=>{
@@ -326,7 +348,7 @@ function KanbanView({stories,onCard}){
                       </div>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
                         <span style={{fontSize:10,color:"#94a3b8"}}>👤 {s.reporter.split(" ")[0]}</span>
-                        {s.eta&&<span style={{fontSize:10,color:ov?RED:"#94a3b8",fontWeight:ov?700:400}}>📅 {fmt(s.eta)}</span>}
+                        {s.eta&&<span style={{fontSize:10,color:ov?RED:"#94a3b8",fontWeight:ov?700:400}}>📅 {fmt(normaliseDate(s.eta))}</span>}
                       </div>
                     </div>
                   );
@@ -348,7 +370,7 @@ function CalendarView({stories,onStory}){
   const fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
   const byDay={};
   stories.forEach(s=>{
-    const d=s.pubDate||s.eta;if(!d)return;
+    const d=normaliseDate(s.pubDate)||normaliseDate(s.eta);if(!d)return;
     const dt=new Date(d);
     if(dt.getMonth()===mo&&dt.getFullYear()===yr){const k=dt.getDate();byDay[k]=byDay[k]||[];byDay[k].push(s);}
   });
@@ -374,7 +396,7 @@ function CalendarView({stories,onStory}){
               {day&&<>
                 <div style={{width:22,height:22,borderRadius:"50%",background:isTd?RED:"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:isTd?800:500,color:isTd?"#fff":"#1e293b",marginBottom:3}}>{day}</div>
                 {ds.slice(0,2).map(s=>(
-                  <div key={s.id} onClick={()=>onStory(s)} style={{background:SC[s.status]+"20",color:SC[s.status],fontSize:9,padding:"2px 4px",borderRadius:3,marginBottom:2,cursor:"pointer",fontWeight:700,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div>
+                  <div key={s.id} onClick={()=>onStory(s)} style={{background:(SC[s.status]||"#888")+"20",color:SC[s.status]||"#888",fontSize:9,padding:"2px 4px",borderRadius:3,marginBottom:2,cursor:"pointer",fontWeight:700,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div>
                 ))}
                 {ds.length>2&&<div style={{fontSize:9,color:"#94a3b8"}}>+{ds.length-2}</div>}
               </>}
@@ -386,20 +408,52 @@ function CalendarView({stories,onStory}){
   );
 }
 
+/* FIX 2: Reporter Workload excludes Published stories */
 function Analytics({stories}){
   const total=stories.length||1;
   const pub=stories.filter(s=>s.status==="Published").length;
   const ov=stories.filter(isOverdue).length;
   const crit=stories.filter(s=>s.pri==="Critical").length;
-  const statData={labels:STATUSES.filter(s=>stories.some(x=>x.status===s)),datasets:[{data:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>stories.filter(x=>x.status===s).length),backgroundColor:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>SC[s]),borderRadius:4}]};
-  const catData={labels:CATS.filter(d=>stories.some(x=>x.desk===d)),datasets:[{data:CATS.filter(d=>stories.some(x=>x.desk===d)).map(d=>stories.filter(x=>x.desk===d).length),backgroundColor:"#6366f1",borderRadius:4}]};
-  const repData={labels:REPORTERS.map(r=>r.split(" ")[0]),datasets:[{data:REPORTERS.map(r=>stories.filter(x=>x.reporter===r).length),backgroundColor:RED,borderRadius:4}]};
-  const trendData={labels:["Apr W3","Apr W4","May W1","May W2","May W3","May W4"],datasets:[{label:"Web",data:[3,4,3,6,5,2],borderColor:"#0ea5e9",backgroundColor:"#0ea5e920",fill:true,tension:0.4,pointRadius:3},{label:"Magazine",data:[1,2,2,2,2,1],borderColor:RED,backgroundColor:RED+"20",fill:true,tension:0.4,pointRadius:3}]};
+
+  /* Stories by Status — all stories */
+  const statData={
+    labels:STATUSES.filter(s=>stories.some(x=>x.status===s)),
+    datasets:[{
+      data:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>stories.filter(x=>x.status===s).length),
+      backgroundColor:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>SC[s]||"#888"),
+      borderRadius:4
+    }]
+  };
+
+  const catData={
+    labels:CATS.filter(d=>stories.some(x=>x.desk===d)),
+    datasets:[{data:CATS.filter(d=>stories.some(x=>x.desk===d)).map(d=>stories.filter(x=>x.desk===d).length),backgroundColor:"#6366f1",borderRadius:4}]
+  };
+
+  /* FIX 2: Workload excludes Published */
+  const activeStories=stories.filter(s=>s.status!=="Published");
+  const repData={
+    labels:REPORTERS.map(r=>r.split(" ")[0]),
+    datasets:[{
+      data:REPORTERS.map(r=>activeStories.filter(x=>x.reporter===r).length),
+      backgroundColor:RED,borderRadius:4
+    }]
+  };
+
+  const trendData={
+    labels:["Apr W3","Apr W4","May W1","May W2","May W3","May W4"],
+    datasets:[
+      {label:"Web",data:[3,4,3,6,5,2],borderColor:"#0ea5e9",backgroundColor:"#0ea5e920",fill:true,tension:0.4,pointRadius:3},
+      {label:"Magazine",data:[1,2,2,2,2,1],borderColor:RED,backgroundColor:RED+"20",fill:true,tension:0.4,pointRadius:3}
+    ]
+  };
   const priData={labels:PRIS,datasets:[{data:PRIS.map(p=>stories.filter(x=>x.pri===p).length),backgroundColor:PRIS.map(p=>PC[p]),borderWidth:0}]};
   const pubData={labels:["Web","Magazine","Both"],datasets:[{data:[stories.filter(s=>s.pub==="Web").length,stories.filter(s=>s.pub==="Magazine").length,stories.filter(s=>s.pub==="Both").length],backgroundColor:["#0ea5e9",RED,"#6366f1"],borderWidth:0}]};
+
   const KPIs=[["📰 Total Stories",total,"#1e293b"],["✅ Published",pub,"#22c55e"],["⚠️ Overdue",ov,"#ef4444"],["🔥 Critical",crit,RED]];
   const card={background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",padding:"15px 18px"};
-  const deadlines=stories.filter(s=>s.eta&&!["Published","Hold/Dropped"].includes(s.status)&&daysLeft(s.eta)<=7).sort((a,b)=>new Date(a.eta)-new Date(b.eta));
+  const deadlines=stories.filter(s=>s.eta&&!["Published","Hold/Dropped"].includes(s.status)&&daysLeft(s.eta)<=7).sort((a,b)=>new Date(normaliseDate(a.eta))-new Date(normaliseDate(b.eta)));
+
   return(
     <div>
       <div className="kpi-grid" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:10,marginBottom:16}}>
@@ -422,11 +476,18 @@ function Analytics({stories}){
             <div><div style={{fontSize:11,color:"#94a3b8",fontWeight:600,marginBottom:4}}>By Priority</div><ChartBox type="doughnut" data={priData} height={130} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>{PRIS.map(p=><div key={p} style={{display:"flex",alignItems:"center",gap:4,fontSize:10,marginTop:3}}><div style={{width:8,height:8,borderRadius:2,background:PC[p]}}></div><span style={{color:"#64748b"}}>{p}: <b>{stories.filter(x=>x.pri===p).length}</b></span></div>)}</div>
           </div>
         </div>
-        <div style={{...card,gridColumn:"1/-1"}}><div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>Reporter Workload</div><ChartBox type="bar" data={repData} height={150} options={{scales:{x:{ticks:{font:{size:11}}},y:{ticks:{font:{size:10}},beginAtZero:true}},plugins:{legend:{display:false}}}}/></div>
+        {/* FIX 2: note in chart title */}
+        <div style={{...card,gridColumn:"1/-1"}}>
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
+            <div style={{fontSize:13,fontWeight:700,color:"#1e293b"}}>Reporter Workload</div>
+            <div style={{fontSize:11,color:"#94a3b8",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,padding:"2px 9px"}}>Excludes Published stories</div>
+          </div>
+          <ChartBox type="bar" data={repData} height={150} options={{scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},beginAtZero:true}},plugins:{legend:{display:false}}}}/>
+        </div>
       </div>
       <div style={card}>
         <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>⚡ Deadlines — Next 7 Days</div>
-        {deadlines.map(s=>{const d=daysLeft(s.eta);return(
+        {deadlines.map(s=>{const d=daysLeft(normaliseDate(s.eta));return(
           <div key={s.id} style={{display:"flex",alignItems:"center",gap:9,padding:"9px 11px",background:d<=0?"#fef2f2":d<=2?"#fff7ed":"#f8fafc",borderRadius:8,border:`1px solid ${d<=0?"#fecaca":d<=2?"#fed7aa":"#e2e8f0"}`,marginBottom:6}}>
             <div style={{width:36,height:36,borderRadius:7,background:d<=0?"#ef4444":d<=2?"#f97316":"#6366f1",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,flexShrink:0}}>{d<=0?"!":d}d</div>
             <div style={{flex:1,minWidth:0}}><div style={{fontWeight:700,fontSize:13,color:"#1e293b",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div><div style={{fontSize:11,color:"#94a3b8"}}>{s.reporter} · {s.desk}</div></div>
@@ -435,6 +496,70 @@ function Analytics({stories}){
         );})}
         {!deadlines.length&&<div style={{color:"#94a3b8",textAlign:"center",padding:"14px 0",fontSize:13}}>🎉 No deadlines in the next 7 days</div>}
       </div>
+    </div>
+  );
+}
+
+/* FIX 3: Multi-select Status filter bar + Add Story button in same row */
+function StatusFilterBar({selected,onChange,onAddStory,dark}){
+  const [pending,setPending]=useState(new Set(selected));
+  const [open,setOpen]=useState(false);
+  const ref=useRef(null);
+
+  /* Sync pending when external selected changes (e.g. clear all) */
+  useEffect(()=>setPending(new Set(selected)),[selected.join(",")]);
+
+  /* Close on outside click */
+  useEffect(()=>{
+    const h=e=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false);};
+    document.addEventListener("mousedown",h);
+    return()=>document.removeEventListener("mousedown",h);
+  },[]);
+
+  const toggle=s=>setPending(prev=>{
+    const n=new Set(prev);
+    if(n.has(s))n.delete(s);else n.add(s);
+    return n;
+  });
+
+  const apply=()=>{onChange([...pending]);setOpen(false);};
+  const clearAll=()=>{setPending(new Set());onChange([]);};
+
+  const activeCount=selected.length;
+
+  return(
+    <div style={{display:"flex",alignItems:"center",gap:8,padding:"8px 16px",background:dark?"#1e293b":"#fff",borderBottom:`1px solid ${dark?"#334155":"#e2e8f0"}`,flexWrap:"wrap",rowGap:6,position:"sticky",top:56,zIndex:39}}>
+      <span style={{fontSize:12,fontWeight:700,color:dark?"#94a3b8":"#64748b",whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:"0.05em"}}>Status</span>
+
+      {/* Inline status chips */}
+      <div style={{display:"flex",gap:5,flexWrap:"wrap",flex:1}}>
+        {STATUSES.map(s=>{
+          const on=selected.includes(s);
+          return(
+            <button key={s} className="status-chip"
+              onClick={()=>{
+                const cur=new Set(selected);
+                if(cur.has(s))cur.delete(s);else cur.add(s);
+                onChange([...cur]);
+              }}
+              style={{
+                background:on?SC[s]||"#888":"transparent",
+                color:on?"#fff":SC[s]||"#888",
+                borderColor:on?SC[s]||"#888":(SC[s]||"#888")+"60",
+              }}>
+              {s}
+            </button>
+          );
+        })}
+        {activeCount>0&&(
+          <button onClick={clearAll} style={{padding:"4px 10px",borderRadius:20,border:"1px solid #e2e8f0",background:"#f1f5f9",fontSize:12,color:"#64748b",fontWeight:600}}>
+            ✕ Clear ({activeCount})
+          </button>
+        )}
+      </div>
+
+      {/* Add Story button lives here */}
+      <button onClick={onAddStory} style={{padding:"7px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,marginLeft:"auto"}}>+ Add Story</button>
     </div>
   );
 }
@@ -450,7 +575,8 @@ function App(){
   const [selectedIdx,setSelectedIdx]=useState(null);
   const [search,setSearch]=useState("");
   const [fCat,setFCat]=useState("All");
-  const [fStatus,setFStatus]=useState("All");
+  /* FIX 3: multi-status filter — array of selected statuses (empty = all) */
+  const [fStatuses,setFStatuses]=useState([]);
   const [fPri,setFPri]=useState("All");
   const [fReporter,setFReporter]=useState("All");
   const [sk,setSk]=useState("eta");
@@ -466,15 +592,14 @@ function App(){
     return()=>window.removeEventListener("resize",h);
   },[]);
 
-  useEffect(()=>{
-    if(!isMobile)setSideOpen(true);
-  },[isMobile]);
+  useEffect(()=>{if(!isMobile)setSideOpen(true);},[isMobile]);
 
   useEffect(()=>{
     sheetsApi("getAll")
       .then(res=>{
         if(res.error)setError(res.error);
-        else if(res.stories)setStories(res.stories);
+        /* FIX 1: normalise all stories on load */
+        else if(res.stories)setStories(res.stories.map(normaliseStory));
         else setError("Unexpected: "+JSON.stringify(res));
         setLoading(false);
       })
@@ -483,12 +608,13 @@ function App(){
 
   const handleSubmit=useCallback(async form=>{
     setSync("saving");
+    const normForm=normaliseStory(form);
     if(editing){
-      const res=await sheetsApi("update",{id:editing.id,story:form});
-      if(res.success)setStories(s=>s.map(x=>x.id===editing.id?res.story:x));
+      const res=await sheetsApi("update",{id:editing.id,story:normForm});
+      if(res.success)setStories(s=>s.map(x=>x.id===editing.id?normaliseStory(res.story):x));
     }else{
-      const res=await sheetsApi("create",{story:form});
-      if(res.story)setStories(s=>[...s,res.story]);
+      const res=await sheetsApi("create",{story:normForm});
+      if(res.story)setStories(s=>[...s,normaliseStory(res.story)]);
     }
     setShowForm(false);setEditing(null);setSync("synced");
   },[editing]);
@@ -502,9 +628,11 @@ function App(){
   },[]);
 
   const handleFieldChange=useCallback(async(id,key,val)=>{
-    setStories(s=>s.map(x=>x.id===id?{...x,[key]:val}:x));
+    /* FIX 1: normalise date fields when saving inline */
+    const normVal=(key==="eta"||key==="pubDate")?normaliseDate(val):val;
+    setStories(s=>s.map(x=>x.id===id?{...x,[key]:normVal}:x));
     setSync("saving");
-    await sheetsApi("update",{id,story:{[key]:val}});
+    await sheetsApi("update",{id,story:{[key]:normVal}});
     setSync("synced");
   },[]);
 
@@ -519,7 +647,8 @@ function App(){
     let s=[...stories];
     if(search)s=s.filter(x=>x.title.toLowerCase().includes(search.toLowerCase())||x.reporter.toLowerCase().includes(search.toLowerCase())||x.desk.toLowerCase().includes(search.toLowerCase()));
     if(fCat!=="All")s=s.filter(x=>x.desk===fCat);
-    if(fStatus!=="All")s=s.filter(x=>x.status===fStatus);
+    /* FIX 3: multi-status filter */
+    if(fStatuses.length>0)s=s.filter(x=>fStatuses.includes(x.status));
     if(fPri!=="All")s=s.filter(x=>x.pri===fPri);
     if(fReporter!=="All")s=s.filter(x=>x.reporter===fReporter);
     s.sort((a,b)=>{
@@ -528,7 +657,7 @@ function App(){
       return sd==="asc"?(va<vb?-1:1):(va>vb?-1:1);
     });
     return s;
-  },[stories,search,fCat,fStatus,fPri,fReporter,sk,sd]);
+  },[stories,search,fCat,fStatuses,fPri,fReporter,sk,sd]);
 
   const selectedStory=selectedIdx!==null?filtered[selectedIdx]:null;
   const ovCount=stories.filter(isOverdue).length;
@@ -561,7 +690,7 @@ function App(){
           </div>
         ))}
       </div>
-      <button onClick={()=>{setError(null);setLoading(true);sheetsApi("getAll").then(res=>{if(res.stories)setStories(res.stories);else setError(res.error||"Failed");setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});}} style={{padding:"10px 24px",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14,cursor:"pointer"}}>↺ Retry</button>
+      <button onClick={()=>{setError(null);setLoading(true);sheetsApi("getAll").then(res=>{if(res.stories)setStories(res.stories.map(normaliseStory));else setError(res.error||"Failed");setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});}} style={{padding:"10px 24px",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14,cursor:"pointer"}}>↺ Retry</button>
     </div>
   );
 
@@ -573,7 +702,7 @@ function App(){
 
       {isMobile&&sideOpen&&<div className="sidebar-overlay" onClick={()=>setSideOpen(false)}/>}
 
-      {/* ── SIDEBAR ── */}
+      {/* SIDEBAR */}
       <div style={{width:sideOpen?228:0,minWidth:sideOpen?228:0,background:dark?"#060d1f":"#111827",transition:"width 0.22s ease,min-width 0.22s ease",flexShrink:0,display:"flex",flexDirection:"column",position:isMobile?"fixed":"sticky",top:0,left:0,height:"100vh",overflowY:"auto",overflowX:"hidden",zIndex:50}}>
         <div style={{padding:"15px 13px",borderBottom:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"center",minHeight:58,flexShrink:0}}>
           <div style={{width:32,height:32,background:RED,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
@@ -584,7 +713,6 @@ function App(){
             <div style={{color:"#4b5563",fontSize:10,marginTop:1}}>Editorial Workflow</div>
           </div>
         </div>
-
         <nav style={{padding:"11px 7px",flex:1}}>
           {VIEWS.map(v=>(
             <button key={v.id} className="nav-btn" onClick={()=>{setView(v.id);if(isMobile)setSideOpen(false);}} style={{width:"100%",display:"flex",alignItems:"center",gap:9,padding:"9px 10px",borderRadius:7,border:"none",cursor:"pointer",marginBottom:2,background:view===v.id?"rgba(200,16,46,0.18)":"transparent",color:view===v.id?"#f87171":"#6b7280",textAlign:"left",fontSize:13,fontWeight:view===v.id?700:400}}>
@@ -592,24 +720,20 @@ function App(){
               <span>{v.l}</span>
             </button>
           ))}
-
-          {/* Reporter filter in sidebar */}
           <div style={{marginTop:18,paddingLeft:3}}>
             <div style={{fontSize:10,color:"#374151",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:6,paddingLeft:7}}>Reporters</div>
             <button onClick={()=>setFReporter("All")} style={{width:"100%",textAlign:"left",padding:"5px 9px",borderRadius:6,border:"none",cursor:"pointer",background:fReporter==="All"?"rgba(99,102,241,0.18)":"transparent",color:fReporter==="All"?"#818cf8":"#6b7280",fontSize:12,marginBottom:1,fontFamily:"inherit",fontWeight:fReporter==="All"?700:400}}>All Reporters</button>
             {REPORTERS.map(r=>(
-              <button key={r} onClick={()=>{setFReporter(fReporter===r?"All":r);if(isMobile)setSideOpen(false);}} style={{width:"100%",textAlign:"left",padding:"5px 9px",borderRadius:6,border:"none",cursor:"pointer",background:fReporter===r?"rgba(99,102,241,0.18)":"transparent",color:fReporter===r?"#818cf8":"#6b7280",fontSize:12,marginBottom:1,fontFamily:"inherit",fontWeight:fReporter===r?700:400}}>
-                {r}
-              </button>
+              <button key={r} onClick={()=>{setFReporter(fReporter===r?"All":r);if(isMobile)setSideOpen(false);}} style={{width:"100%",textAlign:"left",padding:"5px 9px",borderRadius:6,border:"none",cursor:"pointer",background:fReporter===r?"rgba(99,102,241,0.18)":"transparent",color:fReporter===r?"#818cf8":"#6b7280",fontSize:12,marginBottom:1,fontFamily:"inherit",fontWeight:fReporter===r?700:400}}>{r}</button>
             ))}
           </div>
         </nav>
       </div>
 
-      {/* ── MAIN ── */}
+      {/* MAIN */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
 
-        {/* Top bar */}
+        {/* Top bar — removed + Add Story from here (moved to StatusFilterBar) */}
         <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"10px 16px",display:"flex",alignItems:"center",gap:9,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:7}}>
           <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"6px 9px",background:"transparent",border:"none",borderRadius:7,fontSize:19,color:TS,cursor:"pointer",flexShrink:0}}>☰</button>
           <div style={{flex:"1 1 130px"}}>
@@ -618,6 +742,7 @@ function App(){
               {filtered.length} stories
               {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
               {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter}</span>}
+              {fStatuses.length>0&&<span style={{color:"#a855f7"}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} filtered</span>}
             </div>
           </div>
 
@@ -628,21 +753,26 @@ function App(){
 
           <div className="topbar-filters desktop-only" style={{display:"flex",gap:6}}>
             <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
-            <select value={fStatus} onChange={e=>setFStatus(e.target.value)} style={selStyle}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
           </div>
 
           <button onClick={()=>setDark(d=>!d)} style={{padding:"6px 9px",background:dark?"#334155":"#f1f5f9",border:"none",borderRadius:7,fontSize:13,cursor:"pointer",flexShrink:0}}>{dark?"☀️":"🌙"}</button>
           <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
-          <button onClick={()=>{setEditing(null);setShowForm(true);}} style={{padding:"7px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap",flexShrink:0}}>+ Add Story</button>
         </div>
+
+        {/* FIX 3: Status filter bar with Add Story */}
+        <StatusFilterBar
+          selected={fStatuses}
+          onChange={setFStatuses}
+          onAddStory={()=>{setEditing(null);setShowForm(true);}}
+          dark={dark}
+        />
 
         {/* Mobile filter row */}
         <div className="mobile-filter-row">
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{minWidth:110}}/>
           <select value={fCat} onChange={e=>setFCat(e.target.value)}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
-          <select value={fStatus} onChange={e=>setFStatus(e.target.value)}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
           <select value={fPri} onChange={e=>setFPri(e.target.value)}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
         </div>
 
@@ -659,7 +789,7 @@ function App(){
         </div>
       </div>
 
-      {/* ── MODALS ── */}
+      {/* MODALS */}
       {(showForm||editing)&&(
         <Modal title={editing?"Edit Story":"Submit New Story"} onClose={()=>{setShowForm(false);setEditing(null);}} wide>
           <StoryForm onSubmit={handleSubmit} init={editing} onCancel={()=>{setShowForm(false);setEditing(null);}}/>
