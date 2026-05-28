@@ -1,8 +1,36 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Forbes India — Editorial Workflow Dashboard</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23c8102e'/><text x='16' y='23' text-anchor='middle' font-size='20' font-weight='900' fill='white' font-family='serif'>F</text></svg>" />
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/recharts@2.7.2/umd/Recharts.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body,#root{height:100%}
+body{font-family:'DM Sans','Helvetica Neue',Arial,sans-serif;background:#f8fafc}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
+select option{background:#fff;color:#1e293b}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useMemo, useCallback } = React;
+const {
   BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area
-} from "recharts";
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer, AreaChart, Area
+} = Recharts;
+
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
@@ -719,7 +747,7 @@ function MeetingMode({ stories, onClose, onStatusChange }) {
 
 // ─── MAIN APP ─────────────────────────────────────────────────────────────────
 
-export default function App() {
+function App() {
   const [stories, setStories] = useState(SEED_STORIES);
   const [view, setView] = useState("table");
   const [showForm, setShowForm] = useState(false);
@@ -948,3 +976,9 @@ export default function App() {
     </div>
   );
 }
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
