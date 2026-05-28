@@ -263,9 +263,15 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
   );
 }
 
-function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete}){
+function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete,onSort}){
   const COLS=[{k:"title",l:"Title",w:"22%"},{k:"reporter",l:"Reporter",w:"12%"},{k:"desk",l:"Category",w:"10%"},{k:"status",l:"Status",w:"13%"},{k:"pri",l:"Priority",w:"9%"},{k:"pub",l:"Type",w:"7%"},{k:"eta",l:"ETA",w:"12%"},{k:"_act",l:"",w:"8%"}];
-  const sort=k=>{if(k==="_act")return;if(sk===k)setSd(d=>d==="asc"?"desc":"asc");else{setSk(k);setSd("asc");}};
+  const sort=k=>{
+    if(k==="_act")return;
+    if(sk===k)setSd(d=>d==="asc"?"desc":"asc");
+    else{setSk(k);setSd("asc");}
+    /* Notify parent to rebuild stable order after state updates */
+    if(onSort)setTimeout(onSort,0);
+  };
   const IS={padding:"3px 6px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
   return(
     <div className="story-table-wrap">
@@ -581,6 +587,10 @@ function App(){
   const [fReporter,setFReporter]=useState("All");
   const [sk,setSk]=useState("eta");
   const [sd,setSd]=useState("asc");
+  /* Stable order: array of story IDs in sorted order.
+     Updated ONLY when: filters/search change, column header clicked, or page loads.
+     NOT updated when a field value changes mid-edit (e.g. typing in date picker). */
+  const [stableOrder,setStableOrder]=useState(null);
   const [dark,setDark]=useState(false);
   const [sync,setSync]=useState("synced");
   const [sideOpen,setSideOpen]=useState(false);
@@ -643,21 +653,52 @@ function App(){
     setSync("synced");
   },[]);
 
-  const filtered=useMemo(()=>{
+  /* Stage 1: apply filters only (no sort). Updates whenever stories data changes
+     so inline edits (status, reporter, etc.) reflect immediately in the rows. */
+  const liveFiltered=useMemo(()=>{
     let s=[...stories];
     if(search)s=s.filter(x=>x.title.toLowerCase().includes(search.toLowerCase())||x.reporter.toLowerCase().includes(search.toLowerCase())||x.desk.toLowerCase().includes(search.toLowerCase()));
     if(fCat!=="All")s=s.filter(x=>x.desk===fCat);
-    /* FIX 3: multi-status filter */
     if(fStatuses.length>0)s=s.filter(x=>fStatuses.includes(x.status));
     if(fPri!=="All")s=s.filter(x=>x.pri===fPri);
     if(fReporter!=="All")s=s.filter(x=>x.reporter===fReporter);
-    s.sort((a,b)=>{
+    return s;
+  },[stories,search,fCat,fStatuses,fPri,fReporter]);
+
+  /* Helper: compute a sorted copy of any array using current sk/sd */
+  const applySortOrder=useCallback((arr)=>{
+    const copy=[...arr];
+    copy.sort((a,b)=>{
       let va=a[sk]||"",vb=b[sk]||"";
       if(sk==="pri"){const o={Critical:0,High:1,Medium:2,Low:3};va=o[va];vb=o[vb];}
       return sd==="asc"?(va<vb?-1:1):(va>vb?-1:1);
     });
-    return s;
-  },[stories,search,fCat,fStatuses,fPri,fReporter,sk,sd]);
+    return copy.map(x=>x.id);
+  },[sk,sd]);
+
+  /* When filters/search change → rebuild stable order from freshly filtered list */
+  useEffect(()=>{
+    setStableOrder(applySortOrder(liveFiltered));
+  },[search,fCat,fStatuses,fPri,fReporter,sk,sd]);
+
+  /* On first load (stableOrder is null) also set it */
+  useEffect(()=>{
+    if(stableOrder===null&&liveFiltered.length>0){
+      setStableOrder(applySortOrder(liveFiltered));
+    }
+  },[liveFiltered.length]);
+
+  /* Stage 2: arrange liveFiltered rows in stableOrder.
+     New/unordered rows (e.g. just added) go to the end. */
+  const filtered=useMemo(()=>{
+    if(!stableOrder||stableOrder.length===0)return liveFiltered;
+    const orderMap=new Map(stableOrder.map((id,i)=>[id,i]));
+    return [...liveFiltered].sort((a,b)=>{
+      const ia=orderMap.has(a.id)?orderMap.get(a.id):Infinity;
+      const ib=orderMap.has(b.id)?orderMap.get(b.id):Infinity;
+      return ia-ib;
+    });
+  },[liveFiltered,stableOrder]);
 
   const selectedStory=selectedIdx!==null?filtered[selectedIdx]:null;
   const ovCount=stories.filter(isOverdue).length;
@@ -674,7 +715,7 @@ function App(){
       <div style={{width:46,height:46,background:RED,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
         <span style={{color:"#fff",fontWeight:900,fontSize:22}}>F</span>
       </div>
-      <div style={{color:"#94a3b8",fontSize:14}}>Dashboard is loading…</div>
+      <div style={{color:"#94a3b8",fontSize:14}}>Forbes India editorial dasboard is loading…</div>
     </div>
   );
 
@@ -781,7 +822,7 @@ function App(){
           {view==="analytics"&&<Analytics stories={stories}/>}
           {view==="table"&&(
             <div style={{background:CARD,borderRadius:10,border:`1px solid ${BC}`,overflow:"hidden"}}>
-              <TableView stories={filtered} onRow={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}} sk={sk} setSk={setSk} sd={sd} setSd={setSd} onFieldChange={handleFieldChange} onDelete={handleDel}/>
+              <TableView stories={filtered} onRow={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}} sk={sk} setSk={setSk} sd={sd} setSd={setSd} onFieldChange={handleFieldChange} onDelete={handleDel} onSort={()=>setStableOrder(applySortOrder(liveFiltered))}/>
             </div>
           )}
           {view==="kanban"&&<KanbanView stories={filtered} onCard={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}}/>}
