@@ -14,17 +14,42 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body,#root{height:100%;font-family:'DM Sans',system-ui,sans-serif}
 body{background:#f1f5f9;color:#1e293b}
-::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
 ::-webkit-scrollbar-track{background:transparent}
-.hover-row:hover{background:#f0f9ff !important}
-.kanban-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.10) !important}
-.nav-btn:hover{background:rgba(255,255,255,0.06) !important}
-.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.6);z-index:999;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
-.modal-box{background:#fff;border-radius:16px;width:100%;max-width:860px;box-shadow:0 32px 80px rgba(0,0,0,0.2);animation:slideUp 0.2s ease}
-@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hover-row:hover td{background:#f0f9ff}
+.kanban-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.10)!important}
+.nav-btn:hover{background:rgba(255,255,255,0.07)!important}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.65);z-index:999;display:flex;align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto}
+.modal-box{background:#fff;border-radius:14px;width:100%;max-width:860px;box-shadow:0 32px 80px rgba(0,0,0,0.22);animation:slideUp 0.18s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 input,select,textarea{font-family:inherit}
 button{font-family:inherit;cursor:pointer}
+.inline-sel{padding:3px 6px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;font-size:11px;color:#475569;font-family:inherit;cursor:pointer}
+.inline-sel:focus{outline:none;border-color:#94a3b8}
+.chip-btn{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600;border:none;cursor:pointer;white-space:nowrap;transition:opacity .15s}
+.chip-btn:hover{opacity:.8}
+/* Mobile sidebar overlay */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
+@media(max-width:768px){
+  .sidebar-overlay{display:block}
+  .desktop-only{display:none!important}
+  .mobile-topbar-title{font-size:15px!important}
+  .topbar-filters{display:none!important}
+  .mobile-filter-row{display:flex!important}
+  .story-table-wrap{overflow-x:auto}
+  .story-table td,.story-table th{padding:8px 10px!important;font-size:11px!important}
+  .kpi-grid{grid-template-columns:repeat(2,1fr)!important}
+  .chart-grid{grid-template-columns:1fr!important}
+  .modal-overlay{padding:8px 4px!important;align-items:flex-end}
+  .modal-box{border-radius:14px 14px 0 0!important;max-height:92vh;overflow-y:auto}
+  .form-grid{grid-template-columns:1fr!important}
+  .form-grid>div[style*="1/-1"]{grid-column:1/-1!important}
+  .detail-grid{grid-template-columns:1fr 1fr!important}
+  .meeting-meta{grid-template-columns:1fr 1fr!important}
+}
+.mobile-filter-row{display:none;gap:6px;overflow-x:auto;padding:8px 14px;background:#fff;border-bottom:1px solid #e2e8f0}
+.mobile-filter-row select{flex-shrink:0;padding:5px 8px;border-radius:7px;border:1px solid #e2e8f0;background:#f8fafc;font-size:11px;color:#475569;font-family:inherit}
 </style>
 </head>
 <body>
@@ -33,7 +58,6 @@ button{font-family:inherit;cursor:pointer}
 <script type="text/babel" data-presets="react">
 const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
-/* ── CONSTANTS ─────────────────────────────────────────────────────── */
 const RED="#c8102e";
 const STATUSES=["Idea Proposed","Approved","Assigned","Researching","Interview Scheduled","Writing","Editing","Fact Check","Design","SEO Review","Scheduled","Published","Hold/Dropped"];
 const SC={"Idea Proposed":"#6366f1","Approved":"#0ea5e9","Assigned":"#8b5cf6","Researching":"#f59e0b","Interview Scheduled":"#10b981","Writing":"#3b82f6","Editing":"#f97316","Fact Check":"#ec4899","Design":"#14b8a6","SEO Review":"#84cc16","Scheduled":"#a855f7","Published":"#22c55e","Hold/Dropped":"#94a3b8"};
@@ -45,45 +69,32 @@ const REPORTERS=["Priya Nair","Arjun Mehta","Sneha Kapoor","Rahul Sharma","Deepa
 const EDITORS=["Anand Menon","Shalini Roy","Rajesh Kumar","Meera Pillai"];
 const ROLES=["reporter","editor","admin"];
 
-/* ── GOOGLE SHEETS CONFIG ───────────────────────────────────────────── */
-// FIX 1: Removed /u/1/ from the URL — that segment forces a Google login
-// redirect which breaks requests from GitHub Pages (not logged in).
-const SHEETS_API = "https://script.google.com/macros/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
+/* Role guide: admin = full access (add/edit/delete/status change)
+               editor = add/edit/status change (no delete)
+               reporter = read-only + add comments */
 
-async function sheetsApi(action, payload={}) {
-  try {
-    // FIX 2: No "Content-Type: application/json" header.
-    // Apps Script rejects pre-flight CORS OPTIONS requests triggered by
-    // that header. Sending as plain text avoids the preflight entirely.
-    const res = await fetch(SHEETS_API, {
-      method: "POST",
-      body: JSON.stringify({action, ...payload}),
-    });
-    const text = await res.text();
-    try { return JSON.parse(text); }
-    catch(e) { console.error("Non-JSON response:", text); return {error:"Bad response"}; }
-  } catch(err) {
-    console.error("API error:", err);
-    return {error: err.message};
-  }
+const SHEETS_API="https://script.google.com/macros/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
+
+async function sheetsApi(action,payload={}){
+  try{
+    const res=await fetch(SHEETS_API,{method:"POST",body:JSON.stringify({action,...payload})});
+    const text=await res.text();
+    try{return JSON.parse(text);}catch(e){console.error("Non-JSON:",text);return{error:"Bad response"};}
+  }catch(err){console.error("API error:",err);return{error:err.message};}
 }
 
-/* ── HELPERS ────────────────────────────────────────────────────────── */
 const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
 const daysLeft=eta=>Math.ceil((new Date(eta)-new Date())/86400000);
 const fmt=d=>d?new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):"—";
 
-/* ── BADGE ──────────────────────────────────────────────────────────── */
 const Badge=({label,color,sm})=>(
-  <span style={{display:"inline-flex",alignItems:"center",padding:sm?"2px 8px":"3px 10px",borderRadius:20,fontSize:sm?11:12,fontWeight:600,background:color+"20",color,border:`1px solid ${color}35`,whiteSpace:"nowrap",lineHeight:1.4}}>{label}</span>
+  <span style={{display:"inline-flex",alignItems:"center",padding:sm?"2px 7px":"3px 10px",borderRadius:20,fontSize:sm?10:12,fontWeight:600,background:color+"20",color,border:`1px solid ${color}35`,whiteSpace:"nowrap",lineHeight:1.4}}>{label}</span>
 );
 const SBadge=({s,sm})=><Badge label={s} color={SC[s]||"#888"} sm={sm}/>;
 const PBadge=({p,sm})=><Badge label={p} color={PC[p]||"#888"} sm={sm}/>;
 
-/* ── CHART WRAPPER ──────────────────────────────────────────────────── */
-function ChartBox({id,type,data,options,height=220}){
-  const ref=useRef(null);
-  const inst=useRef(null);
+function ChartBox({type,data,options,height=220}){
+  const ref=useRef(null);const inst=useRef(null);
   useEffect(()=>{
     if(!ref.current)return;
     if(inst.current)inst.current.destroy();
@@ -93,34 +104,32 @@ function ChartBox({id,type,data,options,height=220}){
   return <div style={{position:"relative",height}}><canvas ref={ref}/></div>;
 }
 
-/* ── MODAL ──────────────────────────────────────────────────────────── */
 function Modal({title,children,onClose,wide}){
   return(
     <div className="modal-overlay" onClick={e=>{if(e.target===e.currentTarget)onClose();}}>
       <div className="modal-box" style={{maxWidth:wide?860:640}}>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"18px 24px",borderBottom:"1px solid #f1f5f9"}}>
-          <h3 style={{fontSize:17,fontWeight:700,color:"#1e293b",lineHeight:1.3}}>{title}</h3>
-          <button onClick={onClose} style={{background:"none",border:"none",fontSize:22,color:"#94a3b8",lineHeight:1,padding:"0 4px"}}>×</button>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"16px 20px",borderBottom:"1px solid #f1f5f9",position:"sticky",top:0,background:"#fff",zIndex:2,borderRadius:"14px 14px 0 0"}}>
+          <h3 style={{fontSize:16,fontWeight:700,color:"#1e293b",lineHeight:1.3,flex:1,paddingRight:8}}>{title}</h3>
+          <button onClick={onClose} style={{background:"none",border:"none",fontSize:22,color:"#94a3b8",lineHeight:1,padding:"0 4px",flexShrink:0}}>×</button>
         </div>
-        <div style={{padding:"20px 24px",maxHeight:"78vh",overflowY:"auto"}}>{children}</div>
+        <div style={{padding:"18px 20px"}}>{children}</div>
       </div>
     </div>
   );
 }
 
-/* ── FORM ───────────────────────────────────────────────────────────── */
 const EF={title:"",desc:"",reporter:REPORTERS[0],editor:EDITORS[0],desk:DESKS[0],format:FORMATS[0],pub:"Web",pri:"Medium",status:"Idea Proposed",eta:"",pubDate:"",issue:"",seo:"",traffic:"Medium",sponsor:"No",notes:"",refs:""};
 function StoryForm({onSubmit,init,onCancel}){
   const [f,setF]=useState(init||EF);
   const set=k=>e=>setF(p=>({...p,[k]:e.target.value}));
   const I={width:"100%",padding:"8px 11px",borderRadius:7,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:13,color:"#1e293b",outline:"none",fontFamily:"inherit"};
   const L={fontSize:11,fontWeight:700,color:"#64748b",marginBottom:3,display:"block",textTransform:"uppercase",letterSpacing:"0.06em"};
-  const F={marginBottom:14};
+  const F={marginBottom:12};
   return(
     <div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0 20px"}}>
-        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Story Title *</label><input style={{...I,fontSize:15,fontWeight:600}} value={f.title} onChange={set("title")} placeholder="Enter story title..."/></div>
-        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Description / Pitch</label><textarea style={{...I,minHeight:75,resize:"vertical"}} value={f.desc} onChange={set("desc")} placeholder="Story angle, key sources, why it matters now..."/></div>
+      <div className="form-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0 16px"}}>
+        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Story Title *</label><input style={{...I,fontSize:14,fontWeight:600}} value={f.title} onChange={set("title")} placeholder="Enter story title..."/></div>
+        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Description / Pitch</label><textarea style={{...I,minHeight:70,resize:"vertical"}} value={f.desc} onChange={set("desc")} placeholder="Story angle, key sources, why it matters now..."/></div>
         {[["Reporter","reporter",REPORTERS],["Editor","editor",EDITORS]].map(([l,k,o])=>(
           <div key={k} style={F}><label style={L}>{l}</label><select style={I} value={f[k]} onChange={set(k)}>{o.map(x=><option key={x}>{x}</option>)}</select></div>
         ))}
@@ -136,144 +145,222 @@ function StoryForm({onSubmit,init,onCancel}){
         <div style={F}><label style={L}>SEO Keyword</label><input style={I} value={f.seo} onChange={set("seo")} placeholder="Primary keyword..."/></div>
         <div style={F}><label style={L}>Traffic Potential</label><select style={I} value={f.traffic} onChange={set("traffic")}>{["Very High","High","Medium","Low"].map(x=><option key={x}>{x}</option>)}</select></div>
         <div style={F}><label style={L}>Sponsorship</label><select style={I} value={f.sponsor} onChange={set("sponsor")}>{["Yes","No","Under Discussion"].map(x=><option key={x}>{x}</option>)}</select></div>
-        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Notes</label><textarea style={{...I,minHeight:55,resize:"vertical"}} value={f.notes} onChange={set("notes")} placeholder="Additional notes..."/></div>
+        <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Notes</label><textarea style={{...I,minHeight:50,resize:"vertical"}} value={f.notes} onChange={set("notes")} placeholder="Additional notes..."/></div>
         <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Reference Links</label><input style={I} value={f.refs} onChange={set("refs")} placeholder="https://..."/></div>
       </div>
-      <div style={{display:"flex",gap:10,marginTop:6}}>
+      <div style={{display:"flex",gap:10,marginTop:8}}>
         <button onClick={()=>{if(f.title.trim())onSubmit(f);}} style={{flex:1,padding:"10px 0",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13}}>{init?"Update Story":"Submit Story"}</button>
-        <button onClick={onCancel} style={{padding:"10px 22px",background:"#f1f5f9",color:"#64748b",border:"none",borderRadius:8,fontWeight:600,fontSize:13}}>Cancel</button>
+        <button onClick={onCancel} style={{padding:"10px 20px",background:"#f1f5f9",color:"#64748b",border:"none",borderRadius:8,fontWeight:600,fontSize:13}}>Cancel</button>
       </div>
     </div>
   );
 }
 
-/* ── STORY DETAIL ───────────────────────────────────────────────────── */
-function StoryDetail({story,role,onEdit,onDelete,onStatus}){
+/* ── STORY DETAIL with prev/next arrows + comment saving ── */
+function StoryDetail({story,role,onEdit,onDelete,onStatus,onFieldChange,onPrev,onNext,hasPrev,hasNext,onSaveComment}){
   const [c,setC]=useState("");
   const [comments,setComments]=useState(story.comments||[]);
   const ov=isOverdue(story);
   const dl=story.eta?daysLeft(story.eta):null;
-  const addC=()=>{if(!c.trim())return;setComments(p=>[...p,{id:Date.now(),text:c,author:"You",ts:new Date().toISOString()}]);setC("");};
+
+  useEffect(()=>{ setComments(story.comments||[]); },[story.id]);
+
+  const addC=()=>{
+    if(!c.trim())return;
+    const newC={id:Date.now(),text:c,author:"You",ts:new Date().toISOString()};
+    const updated=[...comments,newC];
+    setComments(updated);
+    onSaveComment(story.id,updated);
+    setC("");
+  };
+
+  const IS={padding:"3px 6px",borderRadius:6,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",width:"100%"};
+
   return(
     <div>
-      <div style={{display:"flex",flexWrap:"wrap",gap:6,marginBottom:14}}>
-        <SBadge s={story.status}/><PBadge p={story.pri}/>
-        <Badge label={story.desk} color="#64748b"/>
-        <Badge label={story.pub} color="#0ea5e9"/>
-        {ov&&<Badge label="⚠ OVERDUE" color="#ef4444"/>}
-      </div>
-      <p style={{color:"#475569",fontSize:14,lineHeight:1.7,marginBottom:18}}>{story.desc}</p>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"10px 20px",fontSize:13,marginBottom:18}}>
-        {[["Reporter",story.reporter],["Editor",story.editor],["Format",story.format],["ETA",fmt(story.eta)],["Publish Date",fmt(story.pubDate)],["Issue",story.issue||"—"],["SEO Keyword",story.seo||"—"],["Traffic",story.traffic],["Sponsorship",story.sponsor],["Created",fmt(story.created)]].map(([k,v])=>(
-          <div key={k}><div style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:2}}>{k}</div><div style={{fontWeight:600,color:"#1e293b"}}>{v}</div></div>
-        ))}
-      </div>
-      {story.notes&&<div style={{background:"#fffbeb",border:"1px solid #fde68a",borderRadius:8,padding:"9px 13px",marginBottom:14,fontSize:13,color:"#92400e"}}>📝 {story.notes}</div>}
-      {dl!==null&&!["Published","Hold/Dropped"].includes(story.status)&&(
-        <div style={{background:ov?"#fef2f2":dl<=3?"#fff7ed":"#f0fdf4",border:`1px solid ${ov?"#fecaca":dl<=3?"#fed7aa":"#bbf7d0"}`,borderRadius:8,padding:"9px 13px",marginBottom:14,fontSize:13,color:ov?"#991b1b":dl<=3?"#9a3412":"#166534"}}>
-          {ov?`⚡ Overdue by ${Math.abs(dl)} day${Math.abs(dl)!==1?"s":""}`:`🗓 ${dl} day${dl!==1?"s":""} until deadline`}
+      {/* Prev/Next navigation */}
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14,gap:8}}>
+        <button onClick={onPrev} disabled={!hasPrev} style={{padding:"5px 14px",borderRadius:7,border:"1px solid #e2e8f0",background:hasPrev?"#f8fafc":"#f1f5f9",color:hasPrev?"#475569":"#cbd5e1",fontWeight:700,fontSize:13,cursor:hasPrev?"pointer":"default"}}>← Prev</button>
+        <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center"}}>
+          <SBadge s={story.status}/><PBadge p={story.pri}/>
+          <Badge label={story.desk} color="#64748b" sm/>
+          {ov&&<Badge label="⚠ OVERDUE" color="#ef4444" sm/>}
         </div>
-      )}
+        <button onClick={onNext} disabled={!hasNext} style={{padding:"5px 14px",borderRadius:7,border:"1px solid #e2e8f0",background:hasNext?"#f8fafc":"#f1f5f9",color:hasNext?"#475569":"#cbd5e1",fontWeight:700,fontSize:13,cursor:hasNext?"pointer":"default"}}>Next →</button>
+      </div>
+
+      <p style={{color:"#475569",fontSize:13,lineHeight:1.7,marginBottom:14}}>{story.desc}</p>
+
+      {/* Inline editable fields */}
       {(role==="editor"||role==="admin")&&(
-        <div style={{marginBottom:18}}>
-          <div style={{fontSize:10,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>Move to Status</div>
-          <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
-            {STATUSES.map(s=>(
-              <button key={s} onClick={()=>onStatus(story.id,s)} style={{padding:"3px 11px",borderRadius:20,fontSize:11,border:`1px solid ${SC[s]}44`,background:story.status===s?SC[s]:SC[s]+"15",color:story.status===s?"#fff":SC[s],fontWeight:600,transition:"all 0.15s"}}>{s}</button>
+        <div style={{background:"#f8fafc",borderRadius:10,border:"1px solid #e2e8f0",padding:"12px 14px",marginBottom:14}}>
+          <div style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Quick Edit</div>
+          <div className="detail-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:"8px 12px"}}>
+            {[
+              ["Status","status",STATUSES],
+              ["Reporter","reporter",REPORTERS],
+              ["Priority","pri",PRIS],
+              ["Type","pub",["Web","Magazine","Both"]],
+            ].map(([lbl,key,opts])=>(
+              <div key={key}>
+                <div style={{fontSize:10,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{lbl}</div>
+                <select value={story[key]||""} onChange={e=>onFieldChange(story.id,key,e.target.value)} style={IS}>
+                  {opts.map(o=><option key={o}>{o}</option>)}
+                </select>
+              </div>
             ))}
+            <div>
+              <div style={{fontSize:10,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>ETA</div>
+              <input type="date" value={story.eta||""} onChange={e=>onFieldChange(story.id,"eta",e.target.value)} style={IS}/>
+            </div>
           </div>
         </div>
       )}
-      <div style={{borderTop:"1px solid #f1f5f9",paddingTop:14,marginBottom:14}}>
-        <div style={{fontSize:10,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Comments ({comments.length})</div>
+
+      {dl!==null&&!["Published","Hold/Dropped"].includes(story.status)&&(
+        <div style={{background:ov?"#fef2f2":dl<=3?"#fff7ed":"#f0fdf4",border:`1px solid ${ov?"#fecaca":dl<=3?"#fed7aa":"#bbf7d0"}`,borderRadius:8,padding:"8px 12px",marginBottom:12,fontSize:12,color:ov?"#991b1b":dl<=3?"#9a3412":"#166534"}}>
+          {ov?`⚡ Overdue by ${Math.abs(dl)} day${Math.abs(dl)!==1?"s":""}`:`🗓 ${dl} day${dl!==1?"s":""} until deadline`}
+        </div>
+      )}
+
+      <div className="detail-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"8px 16px",fontSize:12,marginBottom:14}}>
+        {[["Editor",story.editor],["Format",story.format],["Publish Date",fmt(story.pubDate)],["Issue",story.issue||"—"],["SEO Keyword",story.seo||"—"],["Traffic",story.traffic],["Sponsorship",story.sponsor],["Created",fmt(story.created)]].map(([k,v])=>(
+          <div key={k}><div style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:1}}>{k}</div><div style={{fontWeight:600,color:"#1e293b"}}>{v}</div></div>
+        ))}
+      </div>
+
+      {story.notes&&<div style={{background:"#fffbeb",border:"1px solid #fde68a",borderRadius:8,padding:"8px 12px",marginBottom:12,fontSize:12,color:"#92400e"}}>📝 {story.notes}</div>}
+
+      {/* Comments — saved to Sheets */}
+      <div style={{borderTop:"1px solid #f1f5f9",paddingTop:12,marginBottom:12}}>
+        <div style={{fontSize:10,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>Comments ({comments.length})</div>
         {comments.map(x=>(
-          <div key={x.id} style={{background:"#f8fafc",borderRadius:8,padding:"9px 12px",marginBottom:6,fontSize:13}}>
-            <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:3}}>
+          <div key={x.id} style={{background:"#f8fafc",borderRadius:7,padding:"8px 10px",marginBottom:5,fontSize:12}}>
+            <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:2}}>
               <span style={{fontWeight:700,color:"#1e293b"}}>{x.author}</span>
-              <span style={{color:"#94a3b8",fontSize:11}}>{new Date(x.ts).toLocaleString("en-IN")}</span>
+              <span style={{color:"#94a3b8",fontSize:10}}>{new Date(x.ts).toLocaleString("en-IN")}</span>
             </div>
             <p style={{margin:0,color:"#475569",lineHeight:1.6}}>{x.text}</p>
           </div>
         ))}
-        <div style={{display:"flex",gap:8,marginTop:8}}>
-          <input value={c} onChange={e=>setC(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addC()} placeholder="Add a comment..." style={{flex:1,padding:"7px 11px",borderRadius:7,border:"1px solid #e2e8f0",fontSize:13,outline:"none",fontFamily:"inherit"}}/>
-          <button onClick={addC} style={{padding:"7px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:600,fontSize:13}}>Post</button>
+        <div style={{display:"flex",gap:7,marginTop:6}}>
+          <input value={c} onChange={e=>setC(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addC()} placeholder="Add a comment and press Enter…" style={{flex:1,padding:"7px 10px",borderRadius:7,border:"1px solid #e2e8f0",fontSize:12,outline:"none",fontFamily:"inherit"}}/>
+          <button onClick={addC} style={{padding:"7px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:600,fontSize:12}}>Post</button>
         </div>
       </div>
+
       {(role==="editor"||role==="admin")&&(
-        <div style={{display:"flex",gap:8,borderTop:"1px solid #f1f5f9",paddingTop:14}}>
-          <button onClick={()=>onEdit(story)} style={{flex:1,padding:"8px 0",background:"#1e293b",color:"#fff",border:"none",borderRadius:8,fontSize:13,fontWeight:700}}>Edit Story</button>
-          <button onClick={()=>onDelete(story.id)} style={{padding:"8px 18px",background:"#fef2f2",color:"#dc2626",border:"1px solid #fecaca",borderRadius:8,fontSize:13,fontWeight:600}}>Delete</button>
+        <div style={{display:"flex",gap:8,borderTop:"1px solid #f1f5f9",paddingTop:12}}>
+          <button onClick={()=>onEdit(story)} style={{flex:1,padding:"8px 0",background:"#1e293b",color:"#fff",border:"none",borderRadius:8,fontSize:12,fontWeight:700}}>✎ Full Edit</button>
+          {role==="admin"&&<button onClick={()=>onDelete(story.id)} style={{padding:"8px 16px",background:"#fef2f2",color:"#dc2626",border:"1px solid #fecaca",borderRadius:8,fontSize:12,fontWeight:600}}>Delete</button>}
         </div>
       )}
     </div>
   );
 }
 
-/* ── TABLE VIEW ─────────────────────────────────────────────────────── */
-function TableView({stories,onRow,sk,setSk,sd,setSd}){
-  const COLS=[{k:"title",l:"Title",w:"30%"},{k:"reporter",l:"Reporter",w:"12%"},{k:"desk",l:"Desk",w:"10%"},{k:"status",l:"Status",w:"14%"},{k:"pri",l:"Priority",w:"10%"},{k:"pub",l:"Type",w:"8%"},{k:"eta",l:"ETA",w:"10%"}];
-  const sort=k=>{if(sk===k)setSd(d=>d==="asc"?"desc":"asc");else{setSk(k);setSd("asc");}};
+/* ── TABLE VIEW with inline editing ── */
+function TableView({stories,onRow,sk,setSk,sd,setSd,role,onFieldChange,onDelete,meetingIds,toggleMeeting}){
+  const COLS=[{k:"title",l:"Title",w:"22%"},{k:"reporter",l:"Reporter",w:"10%"},{k:"desk",l:"Desk",w:"9%"},{k:"status",l:"Status",w:"12%"},{k:"pri",l:"Priority",w:"9%"},{k:"pub",l:"Type",w:"7%"},{k:"eta",l:"ETA",w:"9%"},{k:"_actions",l:"",w:"14%"}];
+  const sort=k=>{if(k==="_actions")return;if(sk===k)setSd(d=>d==="asc"?"desc":"asc");else{setSk(k);setSd("asc");}};
+  const canEdit=role==="editor"||role==="admin";
+  const IS={padding:"2px 5px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:10,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
   return(
-    <div style={{overflowX:"auto"}}>
-      <table style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
+    <div className="story-table-wrap" style={{overflowX:"auto"}}>
+      <table className="story-table" style={{width:"100%",borderCollapse:"collapse",fontSize:12}}>
         <thead><tr style={{background:"#f8fafc"}}>
+          <th style={{width:32,padding:"8px 8px",borderBottom:"2px solid #e2e8f0"}}>
+            <span title="Add to Meeting" style={{fontSize:10,color:"#94a3b8",fontWeight:700}}>MTG</span>
+          </th>
           {COLS.map(c=>(
-            <th key={c.k} onClick={()=>sort(c.k)} style={{width:c.w,padding:"10px 14px",textAlign:"left",fontSize:10,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.06em",cursor:"pointer",borderBottom:"2px solid #e2e8f0",whiteSpace:"nowrap",userSelect:"none"}}>
-              {c.l} {sk===c.k?(sd==="asc"?"↑":"↓"):<span style={{color:"#cbd5e1"}}>↕</span>}
+            <th key={c.k} onClick={()=>sort(c.k)} style={{width:c.w,padding:"8px 10px",textAlign:"left",fontSize:10,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.05em",cursor:c.k!=="_actions"?"pointer":"default",borderBottom:"2px solid #e2e8f0",whiteSpace:"nowrap",userSelect:"none"}}>
+              {c.l}{sk===c.k?(sd==="asc"?" ↑":" ↓"):""}
             </th>
           ))}
         </tr></thead>
         <tbody>
           {stories.map((s,i)=>{
             const ov=isOverdue(s);
+            const inMtg=meetingIds.has(s.id);
             return(
-              <tr key={s.id} className="hover-row" onClick={()=>onRow(s)} style={{background:ov?"#fff5f5":i%2?"#fafafa":"#fff",cursor:"pointer",borderBottom:"1px solid #f1f5f9",transition:"background 0.1s"}}>
-                <td style={{padding:"11px 14px"}}><div style={{fontWeight:700,color:"#1e293b",marginBottom:1}}>{s.title}</div>{ov&&<span style={{fontSize:10,color:RED,fontWeight:700}}>⚠ OVERDUE</span>}</td>
-                <td style={{padding:"11px 14px",color:"#64748b"}}>{s.reporter.split(" ")[0]}</td>
-                <td style={{padding:"11px 14px"}}><Badge label={s.desk} color="#6366f1" sm/></td>
-                <td style={{padding:"11px 14px"}}><SBadge s={s.status} sm/></td>
-                <td style={{padding:"11px 14px"}}><PBadge p={s.pri} sm/></td>
-                <td style={{padding:"11px 14px"}}><Badge label={s.pub} color="#0ea5e9" sm/></td>
-                <td style={{padding:"11px 14px",color:ov?RED:"#64748b",fontWeight:ov?700:400}}>{fmt(s.eta)}</td>
+              <tr key={s.id} className="hover-row" style={{background:ov?"#fff5f5":i%2?"#fafafa":"#fff",borderBottom:"1px solid #f1f5f9"}}>
+                <td style={{padding:"8px 8px",textAlign:"center"}}>
+                  <input type="checkbox" checked={inMtg} onChange={()=>toggleMeeting(s.id)}
+                    style={{width:14,height:14,accentColor:RED,cursor:"pointer"}}/>
+                </td>
+                <td style={{padding:"8px 10px",cursor:"pointer"}} onClick={()=>onRow(s)}>
+                  <div style={{fontWeight:700,color:"#1e293b",fontSize:12,lineHeight:1.3}}>{s.title}</div>
+                  {ov&&<span style={{fontSize:9,color:RED,fontWeight:700}}>⚠ OVERDUE</span>}
+                </td>
+                <td style={{padding:"8px 10px"}}>
+                  {canEdit
+                    ?<select value={s.reporter} onChange={e=>onFieldChange(s.id,"reporter",e.target.value)} style={IS}>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
+                    :<span style={{color:"#64748b"}}>{s.reporter.split(" ")[0]}</span>}
+                </td>
+                <td style={{padding:"8px 10px"}}><Badge label={s.desk} color="#6366f1" sm/></td>
+                <td style={{padding:"8px 10px"}}>
+                  {canEdit
+                    ?<select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
+                    :<SBadge s={s.status} sm/>}
+                </td>
+                <td style={{padding:"8px 10px"}}>
+                  {canEdit
+                    ?<select value={s.pri} onChange={e=>onFieldChange(s.id,"pri",e.target.value)} style={{...IS,color:PC[s.pri]}}>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+                    :<PBadge p={s.pri} sm/>}
+                </td>
+                <td style={{padding:"8px 10px"}}>
+                  {canEdit
+                    ?<select value={s.pub} onChange={e=>onFieldChange(s.id,"pub",e.target.value)} style={IS}>{["Web","Magazine","Both"].map(o=><option key={o}>{o}</option>)}</select>
+                    :<Badge label={s.pub} color="#0ea5e9" sm/>}
+                </td>
+                <td style={{padding:"8px 10px"}}>
+                  {canEdit
+                    ?<input type="date" value={s.eta||""} onChange={e=>onFieldChange(s.id,"eta",e.target.value)} style={{...IS,width:110}}/>
+                    :<span style={{color:ov?RED:"#64748b",fontWeight:ov?700:400,fontSize:11}}>{fmt(s.eta)}</span>}
+                </td>
+                <td style={{padding:"8px 10px"}}>
+                  <div style={{display:"flex",gap:4",alignItems:"center"}}>
+                    <button onClick={()=>onRow(s)} style={{padding:"3px 8px",background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:5,fontSize:10,color:"#475569"}}>View</button>
+                    {role==="admin"&&<button onClick={()=>onDelete(s.id)} style={{padding:"3px 8px",background:"#fef2f2",border:"1px solid #fecaca",borderRadius:5,fontSize:10,color:"#dc2626"}}>Del</button>}
+                  </div>
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      {!stories.length&&<div style={{textAlign:"center",padding:"60px 0",color:"#94a3b8"}}><div style={{fontSize:36,marginBottom:10}}>📭</div><div style={{fontWeight:600}}>No stories match your filters</div></div>}
+      {!stories.length&&<div style={{textAlign:"center",padding:"50px 0",color:"#94a3b8"}}><div style={{fontSize:32,marginBottom:8}}>📭</div><div style={{fontWeight:600}}>No stories match your filters</div></div>}
     </div>
   );
 }
 
-/* ── KANBAN VIEW ────────────────────────────────────────────────────── */
 function KanbanView({stories,onCard}){
   const COLS=["Idea Proposed","Approved","Assigned","Researching","Writing","Editing","Fact Check","SEO Review","Scheduled","Published"];
   return(
     <div style={{overflowX:"auto",paddingBottom:8}}>
-      <div style={{display:"flex",gap:10,minWidth:COLS.length*200+COLS.length*10}}>
+      <div style={{display:"flex",gap:10,minWidth:COLS.length*190+COLS.length*10}}>
         {COLS.map(col=>{
           const cs=stories.filter(s=>s.status===col);
           return(
-            <div key={col} style={{width:195,flexShrink:0}}>
-              <div style={{display:"flex",alignItems:"center",gap:6,marginBottom:8,padding:"5px 9px",borderRadius:7,background:SC[col]+"15",border:`1px solid ${SC[col]}30`}}>
-                <div style={{width:7,height:7,borderRadius:"50%",background:SC[col],flexShrink:0}}></div>
-                <span style={{fontSize:11,fontWeight:700,color:SC[col],flex:1,lineHeight:1.3}}>{col}</span>
-                <span style={{fontSize:11,background:SC[col]+"30",color:SC[col],borderRadius:10,padding:"1px 6px",fontWeight:700}}>{cs.length}</span>
+            <div key={col} style={{width:185,flexShrink:0}}>
+              <div style={{display:"flex",alignItems:"center",gap:5,marginBottom:7,padding:"5px 8px",borderRadius:7,background:SC[col]+"15",border:`1px solid ${SC[col]}30`}}>
+                <div style={{width:6,height:6,borderRadius:"50%",background:SC[col],flexShrink:0}}></div>
+                <span style={{fontSize:10,fontWeight:700,color:SC[col],flex:1}}>{col}</span>
+                <span style={{fontSize:10,background:SC[col]+"30",color:SC[col],borderRadius:10,padding:"1px 6px",fontWeight:700}}>{cs.length}</span>
               </div>
-              <div style={{display:"flex",flexDirection:"column",gap:7,minHeight:180}}>
+              <div style={{display:"flex",flexDirection:"column",gap:6,minHeight:160}}>
                 {cs.map(s=>{
                   const ov=isOverdue(s);
                   return(
-                    <div key={s.id} className="kanban-card" onClick={()=>onCard(s)} style={{background:"#fff",borderRadius:9,border:`1px solid ${ov?"#fecaca":"#e8edf3"}`,padding:"11px",cursor:"pointer",transition:"all 0.15s"}}>
-                      <div style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:5}}>{s.desk}</div>
-                      <div style={{fontSize:12,fontWeight:700,color:"#1e293b",lineHeight:1.45,marginBottom:7}}>{s.title}</div>
-                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:6}}>
+                    <div key={s.id} className="kanban-card" onClick={()=>onCard(s)} style={{background:"#fff",borderRadius:8,border:`1px solid ${ov?"#fecaca":"#e8edf3"}`,padding:"10px",cursor:"pointer",transition:"all 0.15s"}}>
+                      <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:4}}>{s.desk}</div>
+                      <div style={{fontSize:11,fontWeight:700,color:"#1e293b",lineHeight:1.4,marginBottom:6}}>{s.title}</div>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:5}}>
                         <PBadge p={s.pri} sm/><Badge label={s.pub} color="#0ea5e9" sm/>
                       </div>
                       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-                        <span style={{fontSize:10,color:"#94a3b8"}}>👤 {s.reporter.split(" ")[0]}</span>
-                        {s.eta&&<span style={{fontSize:10,color:ov?RED:"#94a3b8",fontWeight:ov?700:400}}>📅 {fmt(s.eta)}</span>}
+                        <span style={{fontSize:9,color:"#94a3b8"}}>👤 {s.reporter.split(" ")[0]}</span>
+                        {s.eta&&<span style={{fontSize:9,color:ov?RED:"#94a3b8",fontWeight:ov?700:400}}>📅 {fmt(s.eta)}</span>}
                       </div>
                     </div>
                   );
@@ -287,47 +374,43 @@ function KanbanView({stories,onCard}){
   );
 }
 
-/* ── CALENDAR VIEW ──────────────────────────────────────────────────── */
 function CalendarView({stories,onStory}){
   const t=new Date();
   const [mo,setMo]=useState(t.getMonth());
   const [yr,setYr]=useState(t.getFullYear());
   const MN=["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const fd=new Date(yr,mo,1).getDay();
-  const dm=new Date(yr,mo+1,0).getDate();
+  const fd=new Date(yr,mo,1).getDay(),dm=new Date(yr,mo+1,0).getDate();
   const byDay={};
   stories.forEach(s=>{
-    const d=s.pubDate||s.eta; if(!d)return;
+    const d=s.pubDate||s.eta;if(!d)return;
     const dt=new Date(d);
     if(dt.getMonth()===mo&&dt.getFullYear()===yr){const k=dt.getDate();byDay[k]=byDay[k]||[];byDay[k].push(s);}
   });
   const cells=[];
   for(let i=0;i<fd;i++)cells.push(null);
   for(let d=1;d<=dm;d++)cells.push(d);
-  const prev=()=>{if(mo===0){setMo(11);setYr(y=>y-1);}else setMo(m=>m-1);};
-  const next=()=>{if(mo===11){setMo(0);setYr(y=>y+1);}else setMo(m=>m+1);};
   return(
     <div>
-      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:18}}>
-        <button onClick={prev} style={{padding:"5px 14px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontSize:16,fontWeight:600}}>‹</button>
-        <h3 style={{fontSize:17,fontWeight:700,color:"#1e293b"}}>{MN[mo]} {yr}</h3>
-        <button onClick={next} style={{padding:"5px 14px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontSize:16,fontWeight:600}}>›</button>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:14}}>
+        <button onClick={()=>{if(mo===0){setMo(11);setYr(y=>y-1);}else setMo(m=>m-1);}} style={{padding:"4px 14px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontSize:16,fontWeight:600}}>‹</button>
+        <h3 style={{fontSize:16,fontWeight:700,color:"#1e293b"}}>{MN[mo]} {yr}</h3>
+        <button onClick={()=>{if(mo===11){setMo(0);setYr(y=>y+1);}else setMo(m=>m+1);}} style={{padding:"4px 14px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontSize:16,fontWeight:600}}>›</button>
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3,marginBottom:3}}>
-        {["Sun","Mon","Tue","Wed","Thu","Fri","Sat"].map(d=><div key={d} style={{textAlign:"center",fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",padding:"5px 0"}}>{d}</div>)}
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:2,marginBottom:2}}>
+        {["Su","Mo","Tu","We","Th","Fr","Sa"].map(d=><div key={d} style={{textAlign:"center",fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",padding:"4px 0"}}>{d}</div>)}
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:3}}>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(7,1fr)",gap:2}}>
         {cells.map((day,i)=>{
           const isTd=day===t.getDate()&&mo===t.getMonth()&&yr===t.getFullYear();
           const ds=day?(byDay[day]||[]):[];
           return(
-            <div key={i} style={{minHeight:85,background:day?"#fff":"transparent",borderRadius:7,border:day?`1px solid ${isTd?RED:"#e8edf3"}`:"none",padding:day?"6px 5px":0}}>
+            <div key={i} style={{minHeight:70,background:day?"#fff":"transparent",borderRadius:6,border:day?`1px solid ${isTd?RED:"#e8edf3"}`:"none",padding:day?"5px 4px":0}}>
               {day&&<>
-                <div style={{width:22,height:22,borderRadius:"50%",background:isTd?RED:"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:isTd?800:500,color:isTd?"#fff":"#1e293b",marginBottom:3}}>{day}</div>
+                <div style={{width:20,height:20,borderRadius:"50%",background:isTd?RED:"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:isTd?800:500,color:isTd?"#fff":"#1e293b",marginBottom:2}}>{day}</div>
                 {ds.slice(0,2).map(s=>(
-                  <div key={s.id} onClick={()=>onStory(s)} style={{background:SC[s.status]+"20",color:SC[s.status],fontSize:9,padding:"2px 4px",borderRadius:3,marginBottom:2,cursor:"pointer",fontWeight:700,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div>
+                  <div key={s.id} onClick={()=>onStory(s)} style={{background:SC[s.status]+"20",color:SC[s.status],fontSize:8,padding:"1px 3px",borderRadius:3,marginBottom:1,cursor:"pointer",fontWeight:700,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div>
                 ))}
-                {ds.length>2&&<div style={{fontSize:9,color:"#94a3b8"}}>+{ds.length-2} more</div>}
+                {ds.length>2&&<div style={{fontSize:8,color:"#94a3b8"}}>+{ds.length-2}</div>}
               </>}
             </div>
           );
@@ -337,163 +420,214 @@ function CalendarView({stories,onStory}){
   );
 }
 
-/* ── ANALYTICS ──────────────────────────────────────────────────────── */
 function Analytics({stories}){
-  const total=stories.length;
+  const total=stories.length||1;
   const pub=stories.filter(s=>s.status==="Published").length;
   const ov=stories.filter(isOverdue).length;
   const crit=stories.filter(s=>s.pri==="Critical").length;
   const spon=stories.filter(s=>s.sponsor==="Yes").length;
-
   const statData={labels:STATUSES.filter(s=>stories.some(x=>x.status===s)),datasets:[{data:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>stories.filter(x=>x.status===s).length),backgroundColor:STATUSES.filter(s=>stories.some(x=>x.status===s)).map(s=>SC[s]),borderRadius:4}]};
   const deskData={labels:DESKS.filter(d=>stories.some(x=>x.desk===d)),datasets:[{data:DESKS.filter(d=>stories.some(x=>x.desk===d)).map(d=>stories.filter(x=>x.desk===d).length),backgroundColor:"#6366f1",borderRadius:4}]};
   const repData={labels:REPORTERS.map(r=>r.split(" ")[0]),datasets:[{data:REPORTERS.map(r=>stories.filter(x=>x.reporter===r).length),backgroundColor:RED,borderRadius:4}]};
-  const weekLabels=["Apr W3","Apr W4","May W1","May W2","May W3","May W4"];
-  const trendData={labels:weekLabels,datasets:[{label:"Web",data:[3,4,3,6,5,2],borderColor:"#0ea5e9",backgroundColor:"#0ea5e920",fill:true,tension:0.4,pointRadius:3},{label:"Magazine",data:[1,2,2,2,2,1],borderColor:RED,backgroundColor:RED+"20",fill:true,tension:0.4,pointRadius:3}]};
+  const trendData={labels:["Apr W3","Apr W4","May W1","May W2","May W3","May W4"],datasets:[{label:"Web",data:[3,4,3,6,5,2],borderColor:"#0ea5e9",backgroundColor:"#0ea5e920",fill:true,tension:0.4,pointRadius:3},{label:"Magazine",data:[1,2,2,2,2,1],borderColor:RED,backgroundColor:RED+"20",fill:true,tension:0.4,pointRadius:3}]};
   const priData={labels:PRIS,datasets:[{data:PRIS.map(p=>stories.filter(x=>x.pri===p).length),backgroundColor:PRIS.map(p=>PC[p]),borderWidth:0}]};
   const pubData={labels:["Web","Magazine","Both"],datasets:[{data:[stories.filter(s=>s.pub==="Web").length,stories.filter(s=>s.pub==="Magazine").length,stories.filter(s=>s.pub==="Both").length],backgroundColor:["#0ea5e9",RED,"#6366f1"],borderWidth:0}]};
-
-  const KPIs=[["Total Stories",total,"#1e293b","📰"],["Published",pub,"#22c55e","✅"],["Overdue",ov,"#ef4444","⚠️"],["Critical",crit,RED,"🔥"],["Sponsored",spon,"#f97316","💰"]];
-  const card={background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",padding:"16px 18px"};
+  const KPIs=[["📰 Total",total,"#1e293b"],["✅ Published",pub,"#22c55e"],["⚠️ Overdue",ov,"#ef4444"],["🔥 Critical",crit,RED],["💰 Sponsored",spon,"#f97316"]];
+  const card={background:"#fff",borderRadius:12,border:"1px solid #e2e8f0",padding:"14px 16px"};
   const deadlines=stories.filter(s=>s.eta&&!["Published","Hold/Dropped"].includes(s.status)&&daysLeft(s.eta)<=7).sort((a,b)=>new Date(a.eta)-new Date(b.eta));
-
   return(
     <div>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:20}}>
-        {KPIs.map(([l,v,c,icon])=>(
+      <div className="kpi-grid" style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:8,marginBottom:16}}>
+        {KPIs.map(([l,v,c])=>(
           <div key={l} style={card}>
-            <div style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:8}}>{icon} {l}</div>
-            <div style={{fontSize:28,fontWeight:800,color:c,lineHeight:1}}>{v}</div>
-            <div style={{fontSize:11,color:"#94a3b8",marginTop:5}}>{l==="Total Stories"?"In pipeline":l==="Published"?`${Math.round(v/total*100)}% completion`:l==="Overdue"?"Needs attention":l==="Critical"?"Urgent priority":"Revenue stories"}</div>
+            <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6}}>{l}</div>
+            <div style={{fontSize:26,fontWeight:800,color:c,lineHeight:1}}>{v}</div>
           </div>
         ))}
       </div>
-      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+      <div className="chart-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14}}>
+        <div style={card}><div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>Stories by Status</div><ChartBox type="bar" data={statData} height={200} options={{scales:{x:{ticks:{font:{size:8},maxRotation:35}},y:{ticks:{font:{size:9}}}},plugins:{legend:{display:false}}}}/></div>
+        <div style={card}><div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>Weekly Trend</div><ChartBox type="line" data={trendData} height={200} options={{scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9}},beginAtZero:true}},plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:8,font:{size:9}}}}}}/></div>
+        <div style={card}><div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>Stories by Desk</div><ChartBox type="bar" data={deskData} height={200} options={{indexAxis:"y",scales:{x:{ticks:{font:{size:9}}},y:{ticks:{font:{size:9}}}},plugins:{legend:{display:false}}}}/></div>
         <div style={card}>
-          <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>Stories by Status</div>
-          <ChartBox id="st" type="bar" data={statData} height={220} options={{scales:{x:{ticks:{font:{size:9},maxRotation:35}},y:{ticks:{font:{size:10}}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>`${ctx.raw} stories`}}}}}/>
-        </div>
-        <div style={card}>
-          <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>Weekly Publishing Trend</div>
-          <ChartBox id="tr" type="line" data={trendData} height={220} options={{scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},beginAtZero:true}},plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:10,font:{size:10}}}}}}/>
-        </div>
-        <div style={card}>
-          <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>Stories by Desk</div>
-          <ChartBox id="dk" type="bar" data={deskData} height={220} options={{indexAxis:"y",scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:10}}}},plugins:{legend:{display:false}}}}/>
-        </div>
-        <div style={card}>
-          <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>Publication Mix & Priority</div>
+          <div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>Mix & Priority</div>
           <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
-            <div>
-              <div style={{fontSize:11,color:"#94a3b8",fontWeight:600,marginBottom:4}}>By Type</div>
-              <ChartBox id="pt" type="doughnut" data={pubData} height={140} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>
-              {["Web","Magazine","Both"].map((l,i)=><div key={l} style={{display:"flex",alignItems:"center",gap:5,fontSize:10,marginTop:3}}><div style={{width:8,height:8,borderRadius:2,background:["#0ea5e9",RED,"#6366f1"][i],flexShrink:0}}></div><span style={{color:"#64748b"}}>{l}: <b>{pubData.datasets[0].data[i]}</b></span></div>)}
-            </div>
-            <div>
-              <div style={{fontSize:11,color:"#94a3b8",fontWeight:600,marginBottom:4}}>By Priority</div>
-              <ChartBox id="pr" type="doughnut" data={priData} height={140} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>
-              {PRIS.map(p=><div key={p} style={{display:"flex",alignItems:"center",gap:5,fontSize:10,marginTop:3}}><div style={{width:8,height:8,borderRadius:2,background:PC[p],flexShrink:0}}></div><span style={{color:"#64748b"}}>{p}: <b>{stories.filter(x=>x.pri===p).length}</b></span></div>)}
-            </div>
+            <div><div style={{fontSize:10,color:"#94a3b8",fontWeight:600,marginBottom:3}}>By Type</div><ChartBox type="doughnut" data={pubData} height={120} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>{["Web","Magazine","Both"].map((l,i)=><div key={l} style={{display:"flex",alignItems:"center",gap:4,fontSize:9,marginTop:2}}><div style={{width:7,height:7,borderRadius:2,background:["#0ea5e9",RED,"#6366f1"][i]}}></div><span style={{color:"#64748b"}}>{l}: <b>{pubData.datasets[0].data[i]}</b></span></div>)}</div>
+            <div><div style={{fontSize:10,color:"#94a3b8",fontWeight:600,marginBottom:3}}>By Priority</div><ChartBox type="doughnut" data={priData} height={120} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>{PRIS.map(p=><div key={p} style={{display:"flex",alignItems:"center",gap:4,fontSize:9,marginTop:2}}><div style={{width:7,height:7,borderRadius:2,background:PC[p]}}></div><span style={{color:"#64748b"}}>{p}: <b>{stories.filter(x=>x.pri===p).length}</b></span></div>)}</div>
           </div>
         </div>
-        <div style={{...card,gridColumn:"1/-1"}}>
-          <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>Reporter Workload</div>
-          <ChartBox id="rp" type="bar" data={repData} height={160} options={{scales:{x:{ticks:{font:{size:11}}},y:{ticks:{font:{size:10}},beginAtZero:true}},plugins:{legend:{display:false}}}}/>
-        </div>
+        <div style={{...card,gridColumn:"1/-1"}}><div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>Reporter Workload</div><ChartBox type="bar" data={repData} height={140} options={{scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:9}},beginAtZero:true}},plugins:{legend:{display:false}}}}/></div>
       </div>
       <div style={card}>
-        <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:12}}>⚡ Upcoming Deadlines — Next 7 Days</div>
-        <div style={{display:"flex",flexDirection:"column",gap:7}}>
-          {deadlines.map(s=>{
-            const d=daysLeft(s.eta);
-            return(
-              <div key={s.id} style={{display:"flex",alignItems:"center",gap:10,padding:"9px 12px",background:d<=0?"#fef2f2":d<=2?"#fff7ed":"#f8fafc",borderRadius:8,border:`1px solid ${d<=0?"#fecaca":d<=2?"#fed7aa":"#e2e8f0"}`}}>
-                <div style={{width:38,height:38,borderRadius:7,background:d<=0?"#ef4444":d<=2?"#f97316":"#6366f1",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,fontWeight:800,flexShrink:0}}>{d<=0?"!":d}d</div>
-                <div style={{flex:1,minWidth:0}}><div style={{fontWeight:700,fontSize:13,color:"#1e293b",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div><div style={{fontSize:11,color:"#94a3b8"}}>{s.reporter} · {s.desk}</div></div>
-                <SBadge s={s.status} sm/><PBadge p={s.pri} sm/>
-              </div>
-            );
-          })}
-          {!deadlines.length&&<div style={{color:"#94a3b8",textAlign:"center",padding:"16px 0",fontSize:13}}>🎉 No deadlines in the next 7 days</div>}
-        </div>
+        <div style={{fontSize:12,fontWeight:700,color:"#1e293b",marginBottom:10}}>⚡ Deadlines — Next 7 Days</div>
+        {deadlines.map(s=>{const d=daysLeft(s.eta);return(
+          <div key={s.id} style={{display:"flex",alignItems:"center",gap:8,padding:"8px 10px",background:d<=0?"#fef2f2":d<=2?"#fff7ed":"#f8fafc",borderRadius:7,border:`1px solid ${d<=0?"#fecaca":d<=2?"#fed7aa":"#e2e8f0"}`,marginBottom:5}}>
+            <div style={{width:34,height:34,borderRadius:6,background:d<=0?"#ef4444":d<=2?"#f97316":"#6366f1",color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,fontWeight:800,flexShrink:0}}>{d<=0?"!":d}d</div>
+            <div style={{flex:1,minWidth:0}}><div style={{fontWeight:700,fontSize:12,color:"#1e293b",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{s.title}</div><div style={{fontSize:10,color:"#94a3b8"}}>{s.reporter} · {s.desk}</div></div>
+            <SBadge s={s.status} sm/><PBadge p={s.pri} sm/>
+          </div>
+        );})}
+        {!deadlines.length&&<div style={{color:"#94a3b8",textAlign:"center",padding:"12px 0",fontSize:12}}>🎉 No deadlines in the next 7 days</div>}
       </div>
     </div>
   );
 }
 
-/* ── MEETING MODE ───────────────────────────────────────────────────── */
-function MeetingMode({stories,onClose,onStatus}){
+/* ── MEETING MODE with full editing ── */
+function MeetingMode({stories,onClose,onStatus,onFieldChange,onSaveComment}){
   const [idx,setIdx]=useState(0);
-  const Q=stories.filter(s=>["Idea Proposed","Approved","Assigned"].includes(s.status));
+  const [c,setC]=useState("");
+  const Q=stories;
   const s=Q[idx];
+  const IS={padding:"5px 8px",borderRadius:7,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",width:"100%"};
+
+  const addC=()=>{
+    if(!c.trim()||!s)return;
+    const updated=[...(s.comments||[]),{id:Date.now(),text:c,author:"You",ts:new Date().toISOString()}];
+    onSaveComment(s.id,updated);
+    setC("");
+  };
+
   if(!s)return(
-    <div style={{textAlign:"center",padding:"50px 0"}}>
+    <div style={{textAlign:"center",padding:"40px 0"}}>
       <div style={{fontSize:44,marginBottom:12}}>✅</div>
-      <h3 style={{color:"#1e293b",marginBottom:16}}>All stories reviewed!</h3>
-      <button onClick={onClose} style={{padding:"10px 28px",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13}}>Exit Meeting Mode</button>
+      <h3 style={{color:"#1e293b",marginBottom:14}}>All stories reviewed!</h3>
+      <button onClick={onClose} style={{padding:"9px 24px",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13}}>Exit Meeting Mode</button>
     </div>
   );
   return(
     <div>
-      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
-        <span style={{fontSize:12,color:"#94a3b8"}}>Story {idx+1} of {Q.length}</span>
-        <div style={{flex:1,height:4,background:"#f1f5f9",borderRadius:4,margin:"0 16px"}}><div style={{height:"100%",background:RED,borderRadius:4,width:`${((idx+1)/Q.length)*100}%`,transition:"width 0.3s"}}></div></div>
-        <button onClick={onClose} style={{padding:"5px 12px",background:"#f1f5f9",border:"none",borderRadius:7,fontSize:12,color:"#64748b"}}>Exit</button>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16}}>
+        <span style={{fontSize:11,color:"#94a3b8"}}>Story {idx+1} of {Q.length}</span>
+        <div style={{flex:1,height:4,background:"#f1f5f9",borderRadius:4,margin:"0 12px"}}><div style={{height:"100%",background:RED,borderRadius:4,width:`${((idx+1)/Q.length)*100}%`,transition:"width 0.3s"}}></div></div>
+        <button onClick={onClose} style={{padding:"4px 12px",background:"#f1f5f9",border:"none",borderRadius:7,fontSize:11,color:"#64748b"}}>Exit</button>
       </div>
-      <div style={{background:"#f8fafc",borderRadius:12,border:"1px solid #e2e8f0",padding:"22px",marginBottom:16}}>
-        <div style={{display:"flex",gap:8,marginBottom:10}}><Badge label={s.desk} color="#6366f1"/><Badge label={s.pub} color="#0ea5e9"/><PBadge p={s.pri}/></div>
-        <h2 style={{fontSize:20,fontWeight:800,color:"#1e293b",marginBottom:10,lineHeight:1.3}}>{s.title}</h2>
-        <p style={{color:"#475569",fontSize:14,lineHeight:1.7,marginBottom:16}}>{s.desc}</p>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12}}>
-          {[["Reporter",s.reporter],["Editor",s.editor],["Format",s.format],["ETA",fmt(s.eta)]].map(([k,v])=>(
-            <div key={k}><div style={{fontSize:10,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:3}}>{k}</div><div style={{fontSize:13,fontWeight:600,color:"#1e293b"}}>{v}</div></div>
+
+      <div style={{background:"#f8fafc",borderRadius:10,border:"1px solid #e2e8f0",padding:"16px",marginBottom:12}}>
+        <div style={{display:"flex",gap:6,marginBottom:8,flexWrap:"wrap"}}><Badge label={s.desk} color="#6366f1"/><Badge label={s.pub} color="#0ea5e9"/><PBadge p={s.pri}/><SBadge s={s.status}/></div>
+        <h2 style={{fontSize:17,fontWeight:800,color:"#1e293b",marginBottom:6,lineHeight:1.3}}>{s.title}</h2>
+        <p style={{color:"#475569",fontSize:13,lineHeight:1.6,marginBottom:12}}>{s.desc}</p>
+
+        {/* Editable fields in meeting mode */}
+        <div className="meeting-meta" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:"8px 10px",marginBottom:12}}>
+          {[["Status","status",STATUSES],["Reporter","reporter",REPORTERS],["Priority","pri",PRIS],["Type","pub",["Web","Magazine","Both"]]].map(([lbl,key,opts])=>(
+            <div key={key}>
+              <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{lbl}</div>
+              <select value={s[key]||""} onChange={e=>onFieldChange(s.id,key,e.target.value)} style={IS}>
+                {opts.map(o=><option key={o}>{o}</option>)}
+              </select>
+            </div>
           ))}
+          <div>
+            <div style={{fontSize:9,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>ETA</div>
+            <input type="date" value={s.eta||""} onChange={e=>onFieldChange(s.id,"eta",e.target.value)} style={IS}/>
+          </div>
         </div>
-        {s.notes&&<div style={{marginTop:14,background:"#fffbeb",borderRadius:7,padding:"9px 12px",fontSize:13,color:"#92400e"}}>📝 {s.notes}</div>}
+
+        {s.notes&&<div style={{background:"#fffbeb",borderRadius:7,padding:"7px 10px",fontSize:12,color:"#92400e",marginBottom:10}}>📝 {s.notes}</div>}
+
+        {/* Comments in meeting mode */}
+        <div style={{borderTop:"1px solid #e2e8f0",paddingTop:10}}>
+          <div style={{fontSize:9,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:6}}>Comments ({(s.comments||[]).length})</div>
+          {(s.comments||[]).slice(-2).map(x=>(
+            <div key={x.id} style={{background:"#fff",borderRadius:6,padding:"6px 9px",marginBottom:4,fontSize:11}}>
+              <span style={{fontWeight:700,color:"#1e293b"}}>{x.author}</span>
+              <span style={{color:"#94a3b8",marginLeft:6,fontSize:10}}>{new Date(x.ts).toLocaleString("en-IN")}</span>
+              <p style={{margin:"2px 0 0",color:"#475569"}}>{x.text}</p>
+            </div>
+          ))}
+          <div style={{display:"flex",gap:6,marginTop:6}}>
+            <input value={c} onChange={e=>setC(e.target.value)} onKeyDown={e=>e.key==="Enter"&&addC()} placeholder="Add comment…" style={{flex:1,padding:"6px 9px",borderRadius:6,border:"1px solid #e2e8f0",fontSize:12,outline:"none",fontFamily:"inherit"}}/>
+            <button onClick={addC} style={{padding:"6px 12px",background:RED,color:"#fff",border:"none",borderRadius:6,fontWeight:600,fontSize:11}}>Post</button>
+          </div>
+        </div>
       </div>
-      <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+
+      <div style={{display:"flex",gap:7,flexWrap:"wrap",marginBottom:8}}>
         {["Approved","Assigned","Hold/Dropped"].map(a=>(
-          <button key={a} onClick={()=>{onStatus(s.id,a);setIdx(i=>Math.min(i,Q.length-2));}} style={{flex:1,minWidth:100,padding:"11px 0",border:"none",borderRadius:9,fontWeight:700,fontSize:13,background:a==="Approved"?"#22c55e":a==="Assigned"?"#0ea5e9":"#f1f5f9",color:a==="Hold/Dropped"?"#94a3b8":"#fff"}}>
+          <button key={a} onClick={()=>{onStatus(s.id,a);}} style={{flex:1,minWidth:90,padding:"10px 0",border:"none",borderRadius:8,fontWeight:700,fontSize:12,background:a==="Approved"?"#22c55e":a==="Assigned"?"#0ea5e9":"#f1f5f9",color:a==="Hold/Dropped"?"#94a3b8":"#fff"}}>
             {a==="Approved"?"✓ Approve":a==="Assigned"?"→ Assign":"✕ Hold"}
           </button>
         ))}
-        <button onClick={()=>setIdx(i=>Math.min(i+1,Q.length-1))} style={{padding:"11px 18px",background:"#fff",border:"1px solid #e2e8f0",borderRadius:9,fontWeight:600,fontSize:13,color:"#64748b"}}>Skip →</button>
+      </div>
+      <div style={{display:"flex",gap:7}}>
+        <button onClick={()=>setIdx(i=>Math.max(i-1,0))} disabled={idx===0} style={{flex:1,padding:"8px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontWeight:600,fontSize:12,color:idx===0?"#cbd5e1":"#475569",cursor:idx===0?"default":"pointer"}}>← Prev</button>
+        <button onClick={()=>setIdx(i=>Math.min(i+1,Q.length-1))} disabled={idx===Q.length-1} style={{flex:1,padding:"8px",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:7,fontWeight:600,fontSize:12,color:idx===Q.length-1?"#cbd5e1":"#475569",cursor:idx===Q.length-1?"default":"pointer"}}>Next →</button>
       </div>
     </div>
   );
 }
 
-/* ── APP ────────────────────────────────────────────────────────────── */
+/* ── ROLE INFO MODAL ── */
+function RoleInfoModal({onClose}){
+  const info=[
+    {role:"Admin",color:"#c8102e",desc:"Full access: add, edit, delete stories, change any field, manage all statuses."},
+    {role:"Editor",color:"#0ea5e9",desc:"Add and edit stories, change status/reporter/priority/ETA. Cannot delete."},
+    {role:"Reporter",color:"#22c55e",desc:"Read-only view. Can add comments. Cannot edit or delete stories."},
+  ];
+  return(
+    <Modal title="Role Permissions" onClose={onClose}>
+      <div style={{marginBottom:16,padding:"10px 14px",background:"#f8fafc",borderRadius:8,fontSize:12,color:"#64748b",lineHeight:1.6}}>
+        Roles control what each user can do in the dashboard. To assign a role to a real user, add login/auth to the backend. For now, use the <b>Role</b> selector in the sidebar to simulate different access levels.
+      </div>
+      {info.map(({role,color,desc})=>(
+        <div key={role} style={{display:"flex",gap:12,alignItems:"flex-start",padding:"12px 14px",background:"#fff",border:`1px solid ${color}30`,borderRadius:9,marginBottom:8}}>
+          <div style={{width:36,height:36,borderRadius:8,background:color+"18",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            <span style={{fontSize:16}}>{role==="Admin"?"🔑":role==="Editor"?"✏️":"📝"}</span>
+          </div>
+          <div>
+            <div style={{fontWeight:700,fontSize:13,color,marginBottom:3}}>{role}</div>
+            <div style={{fontSize:12,color:"#64748b",lineHeight:1.5}}>{desc}</div>
+          </div>
+        </div>
+      ))}
+    </Modal>
+  );
+}
+
+/* ── APP ── */
 function App(){
-  /* ── ALL HOOKS FIRST — never place hooks after a conditional return ── */
   const [stories,setStories]=useState([]);
   const [loading,setLoading]=useState(true);
   const [error,setError]=useState(null);
   const [view,setView]=useState("table");
   const [showForm,setShowForm]=useState(false);
   const [editing,setEditing]=useState(null);
-  const [selected,setSelected]=useState(null);
+  const [selectedIdx,setSelectedIdx]=useState(null);
   const [search,setSearch]=useState("");
   const [fDesk,setFDesk]=useState("All");
   const [fStatus,setFStatus]=useState("All");
   const [fPri,setFPri]=useState("All");
+  const [fReporter,setFReporter]=useState("All");
   const [sk,setSk]=useState("eta");
   const [sd,setSd]=useState("asc");
   const [role,setRole]=useState("admin");
   const [dark,setDark]=useState(false);
   const [meeting,setMeeting]=useState(false);
   const [sync,setSync]=useState("synced");
-  const [sideOpen,setSideOpen]=useState(true);
+  const [sideOpen,setSideOpen]=useState(false);
+  const [meetingIds,setMeetingIds]=useState(new Set());
+  const [showRoleInfo,setShowRoleInfo]=useState(false);
+  const [isMobile,setIsMobile]=useState(window.innerWidth<=768);
+
+  useEffect(()=>{
+    const h=()=>setIsMobile(window.innerWidth<=768);
+    window.addEventListener("resize",h);return()=>window.removeEventListener("resize",h);
+  },[]);
+
+  useEffect(()=>{
+    if(isMobile)setSideOpen(false);else setSideOpen(true);
+  },[isMobile]);
 
   useEffect(()=>{
     sheetsApi("getAll")
       .then(res=>{
-        if(res.error){ setError(res.error); }
-        else if(res.stories){ setStories(res.stories); }
-        else { setError("Unexpected response: "+JSON.stringify(res)); }
+        if(res.error)setError(res.error);
+        else if(res.stories)setStories(res.stories);
+        else setError("Unexpected: "+JSON.stringify(res));
         setLoading(false);
       })
-      .catch(err=>{ setError(err.message); setLoading(false); });
+      .catch(err=>{setError(err.message);setLoading(false);});
   },[]);
 
   const handleSubmit=useCallback(async form=>{
@@ -501,7 +635,7 @@ function App(){
     if(editing){
       const res=await sheetsApi("update",{id:editing.id,story:form});
       if(res.success)setStories(s=>s.map(x=>x.id===editing.id?res.story:x));
-    } else {
+    }else{
       const res=await sheetsApi("create",{story:form});
       if(res.story)setStories(s=>[...s,res.story]);
     }
@@ -509,19 +643,36 @@ function App(){
   },[editing]);
 
   const handleDel=useCallback(async id=>{
+    if(!window.confirm("Delete this story?"))return;
     setSync("saving");
     await sheetsApi("delete",{id});
     setStories(s=>s.filter(x=>x.id!==id));
-    setSelected(null);setSync("synced");
+    setSelectedIdx(null);setSync("synced");
   },[]);
 
-  const handleStatus=useCallback(async(id,status)=>{
+  // Unified field change — saves to Sheets immediately
+  const handleFieldChange=useCallback(async(id,key,val)=>{
+    setStories(s=>s.map(x=>x.id===id?{...x,[key]:val}:x));
     setSync("saving");
-    await sheetsApi("updateStatus",{id,status});
-    setStories(s=>s.map(x=>x.id===id?{...x,status}:x));
-    if(selected?.id===id)setSelected(p=>({...p,status}));
+    await sheetsApi("update",{id,story:{[key]:val}});
     setSync("synced");
-  },[selected]);
+  },[]);
+
+  // Save comments to Sheets
+  const handleSaveComment=useCallback(async(id,comments)=>{
+    setStories(s=>s.map(x=>x.id===id?{...x,comments}:x));
+    setSync("saving");
+    await sheetsApi("update",{id,story:{comments}});
+    setSync("synced");
+  },[]);
+
+  const toggleMeeting=useCallback(id=>{
+    setMeetingIds(prev=>{
+      const n=new Set(prev);
+      if(n.has(id))n.delete(id);else n.add(id);
+      return n;
+    });
+  },[]);
 
   const filtered=useMemo(()=>{
     let s=[...stories];
@@ -529,127 +680,208 @@ function App(){
     if(fDesk!=="All")s=s.filter(x=>x.desk===fDesk);
     if(fStatus!=="All")s=s.filter(x=>x.status===fStatus);
     if(fPri!=="All")s=s.filter(x=>x.pri===fPri);
+    if(fReporter!=="All")s=s.filter(x=>x.reporter===fReporter);
     s.sort((a,b)=>{
       let va=a[sk]||"",vb=b[sk]||"";
       if(sk==="pri"){const o={Critical:0,High:1,Medium:2,Low:3};va=o[va];vb=o[vb];}
       return sd==="asc"?(va<vb?-1:1):(va>vb?-1:1);
     });
     return s;
-  },[stories,search,fDesk,fStatus,fPri,sk,sd]);
+  },[stories,search,fDesk,fStatus,fPri,fReporter,sk,sd]);
 
+  const meetingStories=useMemo(()=>
+    meetingIds.size>0
+      ? stories.filter(s=>meetingIds.has(s.id))
+      : stories.filter(s=>["Idea Proposed","Approved","Assigned"].includes(s.status))
+  ,[stories,meetingIds]);
+
+  const selectedStory=selectedIdx!==null?filtered[selectedIdx]:null;
   const ovCount=stories.filter(isOverdue).length;
   const BG=dark?"#0f172a":"#f1f5f9";
   const CARD=dark?"#1e293b":"#fff";
   const TP=dark?"#f1f5f9":"#1e293b";
   const TS=dark?"#94a3b8":"#64748b";
   const BC=dark?"#334155":"#e2e8f0";
-  const VIEWS=[{id:"analytics",l:"Dashboard",i:"📊"},{id:"table",l:"Table View",i:"📋"},{id:"kanban",l:"Kanban Board",i:"🗂"},{id:"calendar",l:"Calendar",i:"📅"}];
-  const selStyle={padding:"5px 8px",borderRadius:7,border:`1px solid ${BC}`,background:dark?"#1e293b":"#f8fafc",color:TS,fontSize:11,fontFamily:"inherit"};
+  const VIEWS=[{id:"analytics",l:"Dashboard",i:"📊"},{id:"table",l:"Table",i:"📋"},{id:"kanban",l:"Kanban",i:"🗂"},{id:"calendar",l:"Calendar",i:"📅"}];
+  const selStyle={padding:"5px 7px",borderRadius:7,border:`1px solid ${BC}`,background:dark?"#1e293b":"#f8fafc",color:TS,fontSize:11,fontFamily:"inherit"};
 
   const LOADING_SCREEN=(
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:16,background:"#111827"}}>
-      <div style={{width:44,height:44,background:"#c8102e",borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:14,background:"#111827"}}>
+      <div style={{width:44,height:44,background:RED,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
         <span style={{color:"#fff",fontWeight:900,fontSize:20}}>F</span>
       </div>
-      <div style={{color:"#94a3b8",fontSize:14,fontWeight:500}}>Loading from Google Sheets…</div>
+      <div style={{color:"#94a3b8",fontSize:13}}>Loading from Google Sheets…</div>
     </div>
   );
 
   const ERROR_SCREEN=(
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:16,background:"#111827",padding:32}}>
-      <div style={{fontSize:40}}>⚠️</div>
-      <div style={{color:"#f87171",fontSize:16,fontWeight:700}}>Could not connect to Google Sheets</div>
-      <div style={{color:"#64748b",fontSize:13,maxWidth:500,textAlign:"center",lineHeight:1.7}}>Error: {error}</div>
-      <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:10,padding:"16px 20px",maxWidth:500,width:"100%"}}>
-        <div style={{color:"#94a3b8",fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Checklist</div>
-        {["Apps Script URL must NOT contain /u/1/ — remove it","In Apps Script: Deploy → Who has access → set to Anyone","Re-deploy after every script change (New version, not same version)","Open the /exec URL directly in browser — it should return JSON","Run getAllStories() manually in Apps Script to authorize it"].map((t,i)=>(
-          <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",marginBottom:7,fontSize:12,color:"#94a3b8"}}>
-            <span style={{color:"#f97316",fontWeight:700,flexShrink:0,minWidth:16}}>{i+1}.</span><span>{t}</span>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:14,background:"#111827",padding:24}}>
+      <div style={{fontSize:36}}>⚠️</div>
+      <div style={{color:"#f87171",fontSize:15,fontWeight:700}}>Could not connect to Google Sheets</div>
+      <div style={{color:"#64748b",fontSize:12,maxWidth:440,textAlign:"center",lineHeight:1.6}}>Error: {error}</div>
+      <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:10,padding:"14px 18px",maxWidth:440,width:"100%"}}>
+        {["URL must NOT have /u/1/ in it","Deploy → Who has access → set to Anyone","Re-deploy after every script change","Open /exec URL in browser — should show JSON","Run getAllStories() in Apps Script to authorize"].map((t,i)=>(
+          <div key={i} style={{display:"flex",gap:7,marginBottom:5,fontSize:11,color:"#94a3b8"}}>
+            <span style={{color:"#f97316",fontWeight:700,flexShrink:0}}>{i+1}.</span><span>{t}</span>
           </div>
         ))}
       </div>
-      <button onClick={()=>{setError(null);setLoading(true);sheetsApi("getAll").then(res=>{if(res.stories){setStories(res.stories);}else{setError(res.error||"No stories field in response");}setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});}} style={{padding:"10px 28px",background:"#c8102e",color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13,cursor:"pointer"}}>↺ Retry</button>
+      <button onClick={()=>{setError(null);setLoading(true);sheetsApi("getAll").then(res=>{if(res.stories)setStories(res.stories);else setError(res.error||"Failed");setLoading(false);}).catch(e=>{setError(e.message);setLoading(false);});}} style={{padding:"9px 22px",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:13,cursor:"pointer"}}>↺ Retry</button>
     </div>
   );
 
-  if(loading) return LOADING_SCREEN;
-  if(error) return ERROR_SCREEN;
+  if(loading)return LOADING_SCREEN;
+  if(error)return ERROR_SCREEN;
+
+  const canEdit=role==="editor"||role==="admin";
 
   return(
     <div style={{display:"flex",minHeight:"100vh",background:BG,color:TP}}>
-      <div style={{width:sideOpen?230:54,background:dark?"#060d1f":"#111827",transition:"width 0.22s ease",flexShrink:0,display:"flex",flexDirection:"column",position:"sticky",top:0,height:"100vh",overflowY:"auto",overflowX:"hidden",zIndex:50}}>
-        <div style={{padding:"16px 12px",borderBottom:"1px solid rgba(255,255,255,0.07)",minHeight:60,display:"flex",alignItems:"center"}}>
-          <div style={{width:32,height:32,background:RED,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <span style={{color:"#fff",fontWeight:900,fontSize:14}}>F</span>
+
+      {/* Mobile overlay */}
+      {isMobile&&sideOpen&&<div className="sidebar-overlay" onClick={()=>setSideOpen(false)}/>}
+
+      {/* ── SIDEBAR ── */}
+      <div style={{width:sideOpen?220:0,minWidth:sideOpen?220:0,background:dark?"#060d1f":"#111827",transition:"width 0.22s ease,min-width 0.22s ease",flexShrink:0,display:"flex",flexDirection:"column",position:isMobile?"fixed":"sticky",top:0,left:0,height:"100vh",overflowY:"auto",overflowX:"hidden",zIndex:50}}>
+        <div style={{padding:"14px 12px",borderBottom:"1px solid rgba(255,255,255,0.07)",display:"flex",alignItems:"center",minHeight:56}}>
+          <div style={{width:30,height:30,background:RED,borderRadius:7,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            <span style={{color:"#fff",fontWeight:900,fontSize:13}}>F</span>
           </div>
-          {sideOpen&&<div style={{marginLeft:10}}>
-            <div style={{color:"#fff",fontWeight:800,fontSize:13,lineHeight:1.2}}>Forbes India</div>
-            <div style={{color:"#4b5563",fontSize:10,marginTop:1}}>Editorial Workflow</div>
-          </div>}
+          <div style={{marginLeft:9,opacity:sideOpen?1:0,transition:"opacity 0.15s"}}>
+            <div style={{color:"#fff",fontWeight:800,fontSize:12,lineHeight:1.2}}>Forbes India</div>
+            <div style={{color:"#4b5563",fontSize:9,marginTop:1}}>Editorial Workflow</div>
+          </div>
         </div>
-        <nav style={{padding:"12px 6px",flex:1}}>
+
+        <nav style={{padding:"10px 6px",flex:1}}>
           {VIEWS.map(v=>(
-            <button key={v.id} className="nav-btn" onClick={()=>setView(v.id)} style={{width:"100%",display:"flex",alignItems:"center",gap:9,padding:"9px 10px",borderRadius:7,border:"none",cursor:"pointer",marginBottom:1,background:view===v.id?"rgba(200,16,46,0.18)":"transparent",color:view===v.id?"#f87171":"#6b7280",textAlign:"left",fontSize:13,fontWeight:view===v.id?700:400,transition:"background 0.15s"}}>
-              <span style={{fontSize:15,flexShrink:0}}>{v.i}</span>
-              {sideOpen&&<span>{v.l}</span>}
+            <button key={v.id} className="nav-btn" onClick={()=>{setView(v.id);if(isMobile)setSideOpen(false);}} style={{width:"100%",display:"flex",alignItems:"center",gap:8,padding:"8px 9px",borderRadius:7,border:"none",cursor:"pointer",marginBottom:1,background:view===v.id?"rgba(200,16,46,0.18)":"transparent",color:view===v.id?"#f87171":"#6b7280",textAlign:"left",fontSize:12,fontWeight:view===v.id?700:400}}>
+              <span style={{fontSize:14,flexShrink:0}}>{v.i}</span>
+              <span>{v.l}</span>
             </button>
           ))}
-          {sideOpen&&<div style={{marginTop:18,paddingLeft:4}}>
-            <div style={{fontSize:9,color:"#374151",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:6}}>Quick Filters</div>
-            {DESKS.slice(0,6).map(d=>(
-              <button key={d} onClick={()=>setFDesk(fDesk===d?"All":d)} style={{width:"100%",textAlign:"left",padding:"5px 8px",borderRadius:5,border:"none",cursor:"pointer",background:fDesk===d?"rgba(99,102,241,0.15)":"transparent",color:fDesk===d?"#818cf8":"#6b7280",fontSize:12,marginBottom:1,fontFamily:"inherit"}}>{d}</button>
+
+          {/* Reporter quick filters */}
+          <div style={{marginTop:16,paddingLeft:2}}>
+            <div style={{fontSize:9,color:"#374151",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.08em",marginBottom:5}}>Reporters</div>
+            <button onClick={()=>setFReporter("All")} style={{width:"100%",textAlign:"left",padding:"4px 8px",borderRadius:5,border:"none",cursor:"pointer",background:fReporter==="All"?"rgba(99,102,241,0.15)":"transparent",color:fReporter==="All"?"#818cf8":"#6b7280",fontSize:11,marginBottom:1,fontFamily:"inherit"}}>All Reporters</button>
+            {REPORTERS.map(r=>(
+              <button key={r} onClick={()=>{setFReporter(fReporter===r?"All":r);if(isMobile)setSideOpen(false);}} style={{width:"100%",textAlign:"left",padding:"4px 8px",borderRadius:5,border:"none",cursor:"pointer",background:fReporter===r?"rgba(99,102,241,0.15)":"transparent",color:fReporter===r?"#818cf8":"#6b7280",fontSize:11,marginBottom:1,fontFamily:"inherit"}}>
+                {r}
+              </button>
             ))}
-          </div>}
+          </div>
         </nav>
-        <div style={{padding:"10px 6px",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
-          {sideOpen&&<div style={{padding:"8px 10px",background:"rgba(255,255,255,0.04)",borderRadius:7,marginBottom:8}}>
-            <div style={{fontSize:9,color:"#4b5563",fontWeight:700,textTransform:"uppercase",marginBottom:5}}>Role</div>
-            <select value={role} onChange={e=>setRole(e.target.value)} style={{width:"100%",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:5,color:"#9ca3af",padding:"3px 6px",fontSize:12,fontFamily:"inherit"}}>
+
+        <div style={{padding:"8px 6px",borderTop:"1px solid rgba(255,255,255,0.05)"}}>
+          <div style={{padding:"7px 9px",background:"rgba(255,255,255,0.04)",borderRadius:7,marginBottom:6}}>
+            <div style={{fontSize:9,color:"#4b5563",fontWeight:700,textTransform:"uppercase",marginBottom:4,display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+              Role
+              <button onClick={()=>setShowRoleInfo(true)} style={{background:"none",border:"none",color:"#4b5563",fontSize:10,cursor:"pointer",padding:0}}>?</button>
+            </div>
+            <select value={role} onChange={e=>setRole(e.target.value)} style={{width:"100%",background:"transparent",border:"1px solid rgba(255,255,255,0.08)",borderRadius:5,color:"#9ca3af",padding:"3px 6px",fontSize:11,fontFamily:"inherit"}}>
               {ROLES.map(r=><option key={r} value={r} style={{background:"#111827"}}>{r.charAt(0).toUpperCase()+r.slice(1)}</option>)}
             </select>
-          </div>}
-          <button onClick={()=>setSideOpen(o=>!o)} style={{width:"100%",padding:"6px",background:"transparent",border:"none",color:"#4b5563",cursor:"pointer",fontSize:14,textAlign:"center"}}>{sideOpen?"← Collapse":"→"}</button>
+          </div>
         </div>
       </div>
+
+      {/* ── MAIN ── */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
-        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"11px 20px",display:"flex",alignItems:"center",gap:8,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:8}}>
-          <div style={{flex:"1 1 160px"}}>
-            <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
-            <div style={{fontSize:11,color:TS,marginTop:2}}>{filtered.length} stories{ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}</div>
+
+        {/* Top bar */}
+        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"10px 14px",display:"flex",alignItems:"center",gap:8,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:6}}>
+          <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"6px 8px",background:"transparent",border:"none",borderRadius:7,fontSize:18,color:TS,cursor:"pointer",flexShrink:0}}>☰</button>
+          <div style={{flex:"1 1 120px"}}>
+            <h1 className="mobile-topbar-title" style={{fontSize:16,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
+            <div style={{fontSize:10,color:TS,marginTop:1}}>{filtered.length} stories{ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}{fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}</div>
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:6,background:dark?"#0f172a":"#f1f5f9",borderRadius:7,padding:"5px 10px",flex:"0 1 180px"}}>
-            <span style={{color:TS,fontSize:13}}>🔍</span>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories..." style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:"100%",fontFamily:"inherit"}}/>
+
+          <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:5,background:dark?"#0f172a":"#f1f5f9",borderRadius:7,padding:"5px 9px"}}>
+            <span style={{color:TS,fontSize:12}}>🔍</span>
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{border:"none",background:"transparent",outline:"none",fontSize:11,color:TP,width:140,fontFamily:"inherit"}}/>
           </div>
-          <select value={fDesk} onChange={e=>setFDesk(e.target.value)} style={selStyle}><option value="All">All Desks</option>{DESKS.map(o=><option key={o}>{o}</option>)}</select>
-          <select value={fStatus} onChange={e=>setFStatus(e.target.value)} style={selStyle}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
-          <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
-          <button onClick={()=>setDark(d=>!d)} style={{padding:"5px 9px",background:dark?"#334155":"#f1f5f9",border:"none",borderRadius:7,fontSize:13,cursor:"pointer"}}>{dark?"☀️":"🌙"}</button>
-          <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600}}>{sync==="saving"?"⏳ Saving…":"✓ Sheets Synced"}</div>
-          {(role==="editor"||role==="admin")&&<>
-            <button onClick={()=>setMeeting(true)} style={{padding:"6px 12px",background:"#1e293b",color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>🎙 Meeting</button>
-            <button onClick={()=>{setEditing(null);setShowForm(true);}} style={{padding:"6px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontSize:12,fontWeight:700,whiteSpace:"nowrap"}}>+ Add Story</button>
+
+          <div className="topbar-filters desktop-only" style={{display:"flex",gap:5}}>
+            <select value={fDesk} onChange={e=>setFDesk(e.target.value)} style={selStyle}><option value="All">All Desks</option>{DESKS.map(o=><option key={o}>{o}</option>)}</select>
+            <select value={fStatus} onChange={e=>setFStatus(e.target.value)} style={selStyle}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
+            <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+            <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
+          </div>
+
+          <button onClick={()=>setDark(d=>!d)} style={{padding:"5px 8px",background:dark?"#334155":"#f1f5f9",border:"none",borderRadius:7,fontSize:12,cursor:"pointer",flexShrink:0}}>{dark?"☀️":"🌙"}</button>
+          <div style={{padding:"4px 9px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:10,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳":"✓"}</div>
+
+          {canEdit&&<>
+            <button onClick={()=>{if(meetingIds.size===0&&meetingStories.length===0){alert("No stories with Idea Proposed/Approved/Assigned status.");return;}setMeeting(true);}} style={{padding:"6px 10px",background:"#1e293b",color:"#fff",border:"none",borderRadius:7,fontSize:11,fontWeight:700,whiteSpace:"nowrap",flexShrink:0}}>
+              🎙 {meetingIds.size>0?`Meeting (${meetingIds.size})`:"Meeting"}
+            </button>
+            <button onClick={()=>{setEditing(null);setShowForm(true);}} style={{padding:"6px 12px",background:RED,color:"#fff",border:"none",borderRadius:7,fontSize:11,fontWeight:700,whiteSpace:"nowrap",flexShrink:0}}>+ Add</button>
           </>}
         </div>
-        <div style={{flex:1,padding:"18px 20px",overflowY:"auto"}}>
+
+        {/* Mobile filter row */}
+        <div className="mobile-filter-row">
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{padding:"5px 9px",borderRadius:7,border:"1px solid #e2e8f0",fontSize:11,outline:"none",fontFamily:"inherit",minWidth:100}}/>
+          <select value={fDesk} onChange={e=>setFDesk(e.target.value)}><option value="All">All Desks</option>{DESKS.map(o=><option key={o}>{o}</option>)}</select>
+          <select value={fStatus} onChange={e=>setFStatus(e.target.value)}><option value="All">All Statuses</option>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
+          <select value={fPri} onChange={e=>setFPri(e.target.value)}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+        </div>
+
+        {/* Content */}
+        <div style={{flex:1,padding:"14px 16px",overflowY:"auto"}}>
           {view==="analytics"&&<Analytics stories={stories}/>}
-          {view==="table"&&<div style={{background:CARD,borderRadius:12,border:`1px solid ${BC}`,overflow:"hidden"}}><TableView stories={filtered} onRow={setSelected} sk={sk} setSk={setSk} sd={sd} setSd={setSd}/></div>}
-          {view==="kanban"&&<KanbanView stories={filtered} onCard={setSelected}/>}
-          {view==="calendar"&&<div style={{background:CARD,borderRadius:12,border:`1px solid ${BC}`,padding:18}}><CalendarView stories={stories} onStory={setSelected}/></div>}
+          {view==="table"&&(
+            <div style={{background:CARD,borderRadius:10,border:`1px solid ${BC}`,overflow:"hidden"}}>
+              {meetingIds.size>0&&<div style={{padding:"7px 14px",background:"#fff7ed",borderBottom:"1px solid #fed7aa",fontSize:11,color:"#92400e",fontWeight:600}}>
+                📌 {meetingIds.size} {meetingIds.size===1?"story":"stories"} selected for Meeting Mode
+              </div>}
+              <TableView stories={filtered} onRow={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}} sk={sk} setSk={setSk} sd={sd} setSd={setSd} role={role} onFieldChange={handleFieldChange} onDelete={handleDel} meetingIds={meetingIds} toggleMeeting={toggleMeeting}/>
+            </div>
+          )}
+          {view==="kanban"&&<KanbanView stories={filtered} onCard={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}}/>}
+          {view==="calendar"&&<div style={{background:CARD,borderRadius:10,border:`1px solid ${BC}`,padding:16}}><CalendarView stories={stories} onStory={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i>=0?i:null);}}/></div>}
         </div>
       </div>
-      {(showForm||editing)&&<Modal title={editing?"Edit Story":"Submit New Story"} onClose={()=>{setShowForm(false);setEditing(null);}} wide>
-        <StoryForm onSubmit={handleSubmit} init={editing} onCancel={()=>{setShowForm(false);setEditing(null);}}/>
-      </Modal>}
-      {selected&&!editing&&<Modal title={selected.title} onClose={()=>setSelected(null)} wide>
-        <StoryDetail story={selected} role={role}
-          onEdit={s=>{setEditing(s);setSelected(null);}}
-          onDelete={id=>{handleDel(id);setSelected(null);}}
-          onStatus={handleStatus}/>
-      </Modal>}
-      {meeting&&<Modal title="🎙 Editorial Meeting Mode" onClose={()=>setMeeting(false)} wide>
-        <MeetingMode stories={filtered} onClose={()=>setMeeting(false)} onStatus={handleStatus}/>
-      </Modal>}
+
+      {/* ── MODALS ── */}
+      {(showForm||editing)&&(
+        <Modal title={editing?"Edit Story":"Submit New Story"} onClose={()=>{setShowForm(false);setEditing(null);}} wide>
+          <StoryForm onSubmit={handleSubmit} init={editing} onCancel={()=>{setShowForm(false);setEditing(null);}}/>
+        </Modal>
+      )}
+
+      {selectedStory&&!editing&&(
+        <Modal title={selectedStory.title} onClose={()=>setSelectedIdx(null)} wide>
+          <StoryDetail
+            story={selectedStory}
+            role={role}
+            onEdit={s=>{setEditing(s);setSelectedIdx(null);}}
+            onDelete={id=>{handleDel(id);setSelectedIdx(null);}}
+            onStatus={(id,status)=>handleFieldChange(id,"status",status)}
+            onFieldChange={handleFieldChange}
+            onSaveComment={handleSaveComment}
+            onPrev={()=>setSelectedIdx(i=>Math.max(i-1,0))}
+            onNext={()=>setSelectedIdx(i=>Math.min(i+1,filtered.length-1))}
+            hasPrev={selectedIdx>0}
+            hasNext={selectedIdx<filtered.length-1}
+          />
+        </Modal>
+      )}
+
+      {meeting&&(
+        <Modal title={`🎙 Meeting Mode${meetingIds.size>0?" ("+meetingIds.size+" selected)":""}`} onClose={()=>setMeeting(false)} wide>
+          <MeetingMode
+            stories={meetingStories}
+            onClose={()=>setMeeting(false)}
+            onStatus={(id,status)=>handleFieldChange(id,"status",status)}
+            onFieldChange={handleFieldChange}
+            onSaveComment={handleSaveComment}
+          />
+        </Modal>
+      )}
+
+      {showRoleInfo&&<RoleInfoModal onClose={()=>setShowRoleInfo(false)}/>}
     </div>
   );
 }
