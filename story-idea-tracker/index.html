@@ -45,20 +45,39 @@ const REPORTERS=["Priya Nair","Arjun Mehta","Sneha Kapoor","Rahul Sharma","Deepa
 const EDITORS=["Anand Menon","Shalini Roy","Rajesh Kumar","Meera Pillai"];
 const ROLES=["reporter","editor","admin"];
 
-const STORIES=[
-  {id:1,title:"India's EV Revolution: The Road Ahead",desc:"Deep dive into EV adoption, policy shifts and top players reshaping India's auto industry.",reporter:"Arjun Mehta",editor:"Anand Menon",desk:"Tech",format:"Long-form Feature",pub:"Magazine",pri:"Critical",status:"Editing",eta:"2026-06-05",pubDate:"2026-06-15",issue:"June 2026",seo:"EV adoption India 2026",traffic:"High",sponsor:"Yes",notes:"Awaiting interview with Ather CEO",refs:"",comments:[],created:"2026-05-10"},
-  {id:2,title:"30 Under 30 2026: Healthcare Heroes",desc:"Young innovators disrupting India's healthcare sector.",reporter:"Priya Nair",editor:"Shalini Roy",desk:"Startups",format:"Listicle",pub:"Both",pri:"Critical",status:"Fact Check",eta:"2026-05-30",pubDate:"2026-06-01",issue:"June 2026",seo:"30 under 30 healthcare India",traffic:"Very High",sponsor:"Yes",notes:"Need final headshots",refs:"",comments:[],created:"2026-04-20"},
-  {id:3,title:"Zepto's Billion Dollar Bet",desc:"How Zepto plans to dominate quick commerce with aggressive expansion.",reporter:"Sneha Kapoor",editor:"Rajesh Kumar",desk:"Startups",format:"Profile",pub:"Web",pri:"High",status:"Writing",eta:"2026-06-02",pubDate:"2026-06-10",issue:"",seo:"Zepto quick commerce expansion",traffic:"High",sponsor:"No",notes:"",refs:"",comments:[],created:"2026-05-15"},
-  {id:4,title:"Budget 2026 Impact on MSMEs",desc:"Analysis of union budget provisions for micro, small and medium enterprises.",reporter:"Rahul Sharma",editor:"Anand Menon",desk:"Business",format:"Data Story",pub:"Web",pri:"High",status:"Published",eta:"2026-02-02",pubDate:"2026-02-03",issue:"",seo:"budget 2026 MSME impact",traffic:"Very High",sponsor:"No",notes:"Live with 12 charts",refs:"",comments:[],created:"2026-01-28"},
-  {id:5,title:"The Mental Health Crisis in Corporate India",desc:"Rising burnout rates among young professionals and what companies are doing about it.",reporter:"Deepa Iyer",editor:"Meera Pillai",desk:"Lifestyle",format:"Long-form Feature",pub:"Both",pri:"Medium",status:"Researching",eta:"2026-06-20",pubDate:"2026-07-01",issue:"July 2026",seo:"corporate mental health India",traffic:"Medium",sponsor:"No",notes:"3 interviews lined up",refs:"",comments:[],created:"2026-05-18"},
-  {id:6,title:"Mukesh Ambani @ 70: Reshaping India Inc.",desc:"Cover story profiling Reliance's evolution under MA's leadership.",reporter:"Vikram Bose",editor:"Shalini Roy",desk:"Cover Story",format:"Long-form Feature",pub:"Magazine",pri:"Critical",status:"Design",eta:"2026-06-10",pubDate:"2026-06-20",issue:"June 2026",seo:"Mukesh Ambani Reliance 2026",traffic:"Very High",sponsor:"Yes",notes:"Cover ready, awaiting final design approval",refs:"",comments:[],created:"2026-05-01"},
-  {id:7,title:"Green Finance: ESG Bonds in India",desc:"The rise of green bonds and ESG-linked financing in Indian capital markets.",reporter:"Priya Nair",editor:"Rajesh Kumar",desk:"ESG",format:"News Report",pub:"Web",pri:"Medium",status:"Idea Proposed",eta:"2026-07-05",pubDate:"2026-07-10",issue:"",seo:"ESG bonds India green finance",traffic:"Medium",sponsor:"No",notes:"",refs:"",comments:[],created:"2026-05-22"},
-  {id:8,title:"AI in Indian Banks: Risk or Revolution?",desc:"How top private banks are deploying generative AI in operations and customer service.",reporter:"Arjun Mehta",editor:"Anand Menon",desk:"Tech",format:"Long-form Feature",pub:"Both",pri:"High",status:"Interview Scheduled",eta:"2026-06-08",pubDate:"2026-06-18",issue:"June 2026",seo:"AI Indian banks generative AI",traffic:"High",sponsor:"Yes",notes:"HDFC Bank interview June 3",refs:"",comments:[],created:"2026-05-12"},
-  {id:9,title:"The Rise of Tier-2 Startup Hubs",desc:"Jaipur, Kochi, Indore — why investors are betting on India's next startup cities.",reporter:"Sneha Kapoor",editor:"Meera Pillai",desk:"Startups",format:"Data Story",pub:"Web",pri:"Low",status:"Approved",eta:"2026-06-25",pubDate:"2026-07-02",issue:"",seo:"tier 2 startup ecosystem India",traffic:"Medium",sponsor:"No",notes:"",refs:"",comments:[],created:"2026-05-20"},
-  {id:10,title:"Women in Boardrooms 2026",desc:"Annual W-Power tracking of female representation on India Inc. boards.",reporter:"Deepa Iyer",editor:"Shalini Roy",desk:"Leadership",format:"Listicle",pub:"Both",pri:"High",status:"SEO Review",eta:"2026-06-01",pubDate:"2026-06-08",issue:"June 2026",seo:"women boardrooms India 2026",traffic:"Very High",sponsor:"Yes",notes:"SEO pass needed",refs:"",comments:[],created:"2026-04-25"},
-  {id:11,title:"India's Semiconductor Dream",desc:"Can India build a credible chip manufacturing ecosystem by 2030?",reporter:"Rahul Sharma",editor:"Rajesh Kumar",desk:"Tech",format:"Long-form Feature",pub:"Magazine",pri:"High",status:"Hold/Dropped",eta:"2026-05-20",pubDate:"",issue:"",seo:"India semiconductor manufacturing 2030",traffic:"High",sponsor:"No",notes:"Held — waiting for policy announcement",refs:"",comments:[],created:"2026-04-10"},
-  {id:12,title:"Fintech 50: India's Most Innovative Fintechs",desc:"Annual ranking of India's top fintech companies driving financial inclusion.",reporter:"Vikram Bose",editor:"Anand Menon",desk:"Markets",format:"Listicle",pub:"Both",pri:"Critical",status:"Scheduled",eta:"2026-05-28",pubDate:"2026-06-05",issue:"June 2026",seo:"India top fintech 2026",traffic:"Very High",sponsor:"Yes",notes:"Scheduled for June 5 web drop",refs:"",comments:[],created:"2026-04-15"},
-];
+// ── GOOGLE SHEETS CONFIG ──────────────────────────────────────────────
+const SHEETS_API = "https://script.google.com/macros/u/1/s/AKfycbyY55bnq6mXy94HfEUQQofUsnIdF2rfCMotMDOVYdcLHjweQBC9NcdLEqvJWMNT8xSV/exec";
+
+// Google Sheet ID
+const SHEET_ID = "1lhTMduCFEATA5Q8IRDvgahQI3H-En_o39OxxNdr_va8";
+
+// Helper to call the API
+async function api(action, payload = {}) {
+try {
+const res = await fetch(SHEETS_API, {
+method: "POST",
+headers: {
+"Content-Type": "application/json",
+},
+body: JSON.stringify({
+action,
+...payload
+}),
+});
+
+```
+return await res.json();
+```
+
+} catch (err) {
+console.error("API error:", err);
+return { error: err.message };
+}
+}
+
+// Empty initial stories array
+const STORIES = [];
+
 
 /* ── HELPERS ────────────────────────────────────────────────────────── */
 const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
@@ -458,7 +477,18 @@ function MeetingMode({stories,onClose,onStatus}){
 
 /* ── APP ────────────────────────────────────────────────────────────── */
 function App(){
-  const [stories,setStories]=useState(STORIES);
+const [stories,setStories]=useState([]);
+const [loading,setLoading]=useState(true);
+
+useEffect(() => {
+api("getAll").then(res => {
+if (res.stories) {
+setStories(res.stories);
+}
+setLoading(false);
+});
+}, []);
+
   const [view,setView]=useState("table");
   const [showForm,setShowForm]=useState(false);
   const [editing,setEditing]=useState(null);
@@ -475,6 +505,127 @@ function App(){
   const [sync,setSync]=useState("synced");
   const [sideOpen,setSideOpen]=useState(true);
 
+  if (loading) {
+return (
+<div style={{
+display:"flex",
+alignItems:"center",
+justifyContent:"center",
+height:"100vh",
+flexDirection:"column",
+gap:16,
+background:"#111827"
+}}>
+<div style={{
+width:42,
+height:42,
+background:"#c8102e",
+borderRadius:10,
+display:"flex",
+alignItems:"center",
+justifyContent:"center"
+}}>
+<span style={{
+color:"#fff",
+fontWeight:900,
+fontSize:18
+}}>F</span> </div>
+
+```
+  <div style={{
+    color:"#94a3b8",
+    fontSize:14
+  }}>
+    Loading stories from Google Sheets...
+  </div>
+</div>
+```
+
+);
+}
+
+// Save state indicator
+const save = () => {
+setSync("saving");
+setTimeout(() => setSync("synced"), 1200);
+};
+
+// Submit/Create/Update
+const handleSubmit = useCallback(async (form) => {
+setSync("saving");
+
+if (editing) {
+const res = await api("update", {
+id: editing.id,
+story: form
+});
+
+```
+if (res.success) {
+  setStories(s =>
+    s.map(x => x.id === editing.id ? res.story : x)
+  );
+}
+```
+
+} else {
+
+```
+const res = await api("create", {
+  story: form
+});
+
+if (res.story) {
+  setStories(s => [...s, res.story]);
+}
+```
+
+}
+
+setShowForm(false);
+setEditing(null);
+setSync("synced");
+
+}, [editing]);
+
+// Delete Story
+const handleDel = useCallback(async (id) => {
+setSync("saving");
+
+await api("delete", { id });
+
+setStories(s => s.filter(x => x.id !== id));
+
+setSelected(null);
+
+setSync("synced");
+
+}, []);
+
+// Update Status
+const handleStatus = useCallback(async (id, status) => {
+setSync("saving");
+
+await api("updateStatus", {
+id,
+status
+});
+
+setStories(s =>
+s.map(x =>
+x.id === id ? { ...x, status } : x
+)
+);
+
+if (selected?.id === id) {
+setSelected(p => ({ ...p, status }));
+}
+
+setSync("synced");
+
+}, [selected]);
+
+
   const filtered=useMemo(()=>{
     let s=[...stories];
     if(search)s=s.filter(x=>x.title.toLowerCase().includes(search.toLowerCase())||x.reporter.toLowerCase().includes(search.toLowerCase())||x.desk.toLowerCase().includes(search.toLowerCase()));
@@ -488,19 +639,6 @@ function App(){
     });
     return s;
   },[stories,search,fDesk,fStatus,fPri,sk,sd]);
-
-  const save=()=>{setSync("saving");setTimeout(()=>setSync("synced"),1100);};
-  const handleSubmit=useCallback(form=>{
-    if(editing)setStories(s=>s.map(x=>x.id===editing.id?{...x,...form}:x));
-    else setStories(s=>[...s,{...form,id:Date.now(),comments:[],created:new Date().toISOString().split("T")[0]}]);
-    setShowForm(false);setEditing(null);save();
-  },[editing]);
-  const handleDel=useCallback(id=>{setStories(s=>s.filter(x=>x.id!==id));setSelected(null);save();},[]);
-  const handleStatus=useCallback((id,status)=>{
-    setStories(s=>s.map(x=>x.id===id?{...x,status}:x));
-    if(selected?.id===id)setSelected(p=>({...p,status}));
-    save();
-  },[selected]);
 
   const ovCount=stories.filter(isOverdue).length;
   const BG=dark?"#0f172a":"#f1f5f9";
