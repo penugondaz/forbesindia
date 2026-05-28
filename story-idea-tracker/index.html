@@ -319,7 +319,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,role,onFieldChange,onDelete,
                     :<span style={{color:ov?RED:"#64748b",fontWeight:ov?700:400,fontSize:11}}>{fmt(s.eta)}</span>}
                 </td>
                 <td style={{padding:"8px 10px"}}>
-                  <div style={{display:"flex",gap:4",alignItems:"center"}}>
+                  <div style={{display:"flex",gap:4,alignItems:"center"}}>
                     <button onClick={()=>onRow(s)} style={{padding:"3px 8px",background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:5,fontSize:10,color:"#475569"}}>View</button>
                     {role==="admin"&&<button onClick={()=>onDelete(s.id)} style={{padding:"3px 8px",background:"#fef2f2",border:"1px solid #fecaca",borderRadius:5,fontSize:10,color:"#dc2626"}}>Del</button>}
                   </div>
