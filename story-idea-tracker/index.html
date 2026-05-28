@@ -473,7 +473,6 @@ function Analytics({stories}){
       </div>
       <div className="chart-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:14}}>
         <div style={card}><div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>Stories by Status</div><ChartBox type="bar" data={statData} height={210} options={{scales:{x:{ticks:{font:{size:9},maxRotation:35}},y:{ticks:{font:{size:10}}}},plugins:{legend:{display:false}}}}/></div>
-        <div style={card}><div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>Weekly Publishing Trend</div><ChartBox type="line" data={trendData} height={210} options={{scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:10}},beginAtZero:true}},plugins:{legend:{display:true,position:"bottom",labels:{boxWidth:9,font:{size:10}}}}}}/></div>
         <div style={card}><div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>Stories by Category</div><ChartBox type="bar" data={catData} height={210} options={{indexAxis:"y",scales:{x:{ticks:{font:{size:10}}},y:{ticks:{font:{size:10}}}},plugins:{legend:{display:false}}}}/></div>
         <div style={card}>
           <div style={{fontSize:13,fontWeight:700,color:"#1e293b",marginBottom:10}}>Publication Mix & Priority</div>
