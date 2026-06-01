@@ -729,14 +729,14 @@ function App(){
       <div style={{width:46,height:46,background:RED,borderRadius:10,display:"flex",alignItems:"center",justifyContent:"center"}}>
         <span style={{color:"#fff",fontWeight:900,fontSize:22}}>F</span>
       </div>
-      <div style={{color:"#94a3b8",fontSize:14}}>Dashboard is loading…</div>
+      <div style={{color:"#94a3b8",fontSize:14}}>⏳ Preparing dashboard…</div>
     </div>
   );
 
   const ERROR_SCREEN=(
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",flexDirection:"column",gap:14,background:"#111827",padding:24}}>
       <div style={{fontSize:38}}>⚠️</div>
-      <div style={{color:"#f87171",fontSize:16,fontWeight:700}}>Could not connect to Google Sheets</div>
+      <div style={{color:"#f87171",fontSize:16,fontWeight:700}}>Could not connect to the database</div>
       <div style={{color:"#64748b",fontSize:13,maxWidth:440,textAlign:"center",lineHeight:1.6}}>Error: {error}</div>
       <div style={{background:"#1e293b",border:"1px solid #334155",borderRadius:10,padding:"14px 18px",maxWidth:440,width:"100%"}}>
         {["URL must NOT contain /u/1/","Deploy → Who has access → Anyone","Re-deploy after any script change","Open /exec URL in browser — should return JSON","Run getAllStories() in Apps Script to authorize"].map((t,i)=>(
