@@ -91,8 +91,11 @@ async function sheetsApi(action,payload={}){
   }catch(err){console.error("API error:",err);return{error:err.message};}
 }
 
-const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
-const daysLeft=eta=>Math.ceil((new Date(eta)-new Date())/86400000);
+const isOverdue=s=>{
+  if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;
+  const eta=new Date(s.eta);eta.setHours(23,59,59,999);
+  return eta<new Date();
+};
 
 // FIX: Format date without timezone shifting — parse yyyy-mm-dd as LOCAL date
 const fmt=d=>{
