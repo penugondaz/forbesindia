@@ -44,7 +44,14 @@ button{font-family:inherit;cursor:pointer}
   .topbar-filters{display:none!important}
   .mobile-filter-row{display:flex!important}
   .story-table-wrap{overflow-x:auto}
+  /* MOBILE FIX 1: Hide Reporter(2) & Status(3) & Published(6) cols, widen Title */
   .story-table td,.story-table th{padding:8px 10px!important;font-size:12px!important}
+  .story-table th:nth-child(2),.story-table td:nth-child(2){display:none!important}
+  .story-table th:nth-child(3),.story-table td:nth-child(3){display:none!important}
+  .story-table th:nth-child(6),.story-table td:nth-child(6){display:none!important}
+  .story-table th:nth-child(1),.story-table td:nth-child(1){width:55%!important}
+  .story-table th:nth-child(4),.story-table td:nth-child(4){width:22%!important}
+  .story-table th:nth-child(5),.story-table td:nth-child(5){width:23%!important}
   .kpi-grid{grid-template-columns:repeat(2,1fr)!important}
   .chart-grid{grid-template-columns:1fr!important}
   .modal-overlay{padding:8px 4px!important;align-items:flex-end}
@@ -73,7 +80,7 @@ const SC={
   "Ready to Publish":"#06b6d4","Scheduled":"#a855f7",
   "Published":"#22c55e","Hold/Dropped":"#94a3b8"
 };
-const CATS=["News","Deep Dive","Explainer","AI Tracker""Take One","Leadership","Innovation","Startups","Billionaires","30 Under 30","W-Power","Rich List","Ai List","Magazine","Life","Slideshow","Graphic of the day","Others"];
+const CATS=["News","Deep Dive","Explainer","Take One","AI Tracker","Leadership","Innovation","Startups","Billionaires","30 Under 30","W-Power","Rich List","Ai List","Magazine","Life","Slideshow","Graphic of the day","Others"];
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
 const PRIS=["Critical","High","Medium","Low"];
 const PC={"Critical":"#ef4444","High":"#f97316","Medium":"#f59e0b","Low":"#6366f1"};
@@ -95,6 +102,13 @@ const isOverdue=s=>{
   if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;
   const eta=new Date(s.eta);eta.setHours(23,59,59,999);
   return eta<new Date();
+};
+  const daysLeft=d=>{
+  if(!d)return null;
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d.trim());
+  const eta=m?new Date(+m[1],+m[2]-1,+m[3]):new Date(d);
+  eta.setHours(23,59,59,999);
+  return Math.round((eta-new Date())/(1000*60*60*24));
 };
 
 // FIX: Format date without timezone shifting — parse yyyy-mm-dd as LOCAL date
@@ -938,32 +952,46 @@ function App(){
               <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
             </div>
 
-            {/* Synced */}
-            <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
+            {/* Synced — hidden on mobile to save space */}
+            <div className="desktop-only" style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
+
+            {/* Synced — compact dot on mobile */}
+            {isMobile&&<div style={{width:8,height:8,borderRadius:"50%",background:sync==="saving"?"#f59e0b":"#22c55e",flexShrink:0,marginLeft:2}}/>}
           </div>
 
-          {/* ROW 2: story count (left) | + Add Story (right) */}
-          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 16px 8px",borderTop:"1px solid #f1f5f9"}}>
-            <div style={{fontSize:12,color:TS,lineHeight:1}}>
+          {/* ROW 2: story count (left) | + button (right) — MOBILE FIX 3 & 4 */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 16px 8px",borderTop:"1px solid #f1f5f9",gap:6}}>
+            <div style={{fontSize:isMobile?11:12,color:TS,lineHeight:1.2,flex:1,minWidth:0,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>
               <span style={{fontWeight:700,color:TP}}>{filtered.length} stories</span>
-              {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
+              {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}>{isMobile?` · ⚠${ovCount}`:` · ⚠ ${ovCount} overdue`}</span>}
               {fReporter!=="All"&&<span style={{color:"#818cf8",fontWeight:600}}> · {fReporter.split(" ")[0]}</span>}
-              {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
+              {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}>{isMobile?` · ${fStatuses.length}st`:` · ${fStatuses.length} status${fStatuses.length>1?"es":""} active`}</span>}
             </div>
+            {/* MOBILE FIX 3: compact "+" button on mobile */}
             <button onClick={()=>{setEditing(null);setShowForm(true);}}
-              style={{padding:"6px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:13,lineHeight:1}}>
-              + Add Story
+              style={{
+                padding:isMobile?"0":"6px 16px",
+                width:isMobile?36:undefined,
+                height:isMobile?36:undefined,
+                background:RED,color:"#fff",border:"none",
+                borderRadius:isMobile?"50%":7,
+                fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",
+                fontSize:isMobile?22:13,lineHeight:1,
+                display:"flex",alignItems:"center",justifyContent:"center"
+              }}>
+              {isMobile?"＋":"+ Add Story"}
             </button>
           </div>
 
         </div>
 
-        {/* Mobile filter row */}
+        {/* MOBILE FIX 2: Mobile filter row — now includes Writers/Reporter dropdown */}
         <div className="mobile-filter-row">
-          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{minWidth:110}}/>
-          <select value={fMedia} onChange={e=>setFMedia(e.target.value)}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{minWidth:100}}/>
+          <select value={fReporter} onChange={e=>setFReporter(e.target.value)}><option value="All">All Writers</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
           <select value={fCat} onChange={e=>setFCat(e.target.value)}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
           <select value={fPri} onChange={e=>setFPri(e.target.value)}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+          <select value={fMedia} onChange={e=>setFMedia(e.target.value)}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
         </div>
 
         {/* Content */}
