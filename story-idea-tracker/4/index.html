@@ -53,12 +53,14 @@ button{font-family:inherit;cursor:pointer}
 const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
 const RED="#c8102e";
-const STATUSES=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped"];
+const STATUSES=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped","Video sent for Editing","Ready to Pub","Sent for content cut","Sent for subs"];
 const SC={
   "Idea Proposed":"#6366f1","Approved":"#0ea5e9","Researching":"#f59e0b",
   "Interview Scheduled":"#10b981","Writing":"#3b82f6","Editing":"#f97316",
   "Fact Check":"#ec4899","Design":"#14b8a6","Scheduled":"#a855f7",
-  "Published":"#22c55e","Hold/Dropped":"#94a3b8"
+  "Published":"#22c55e","Hold/Dropped":"#94a3b8",
+  "Video sent for Editing":"#8b5cf6","Ready to Pub":"#06b6d4",
+  "Sent for content cut":"#f43f5e","Sent for subs":"#d97706"
 };
 const CATS=["News","Deep Dive","Explainer","Take One","Leadership","Innovation","Startups","Billionaires","30 Under 30","W-Power","Rich List","Ai List","Magazine","Life","Slideshow","Graphic of the day","Others"];
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
@@ -216,21 +218,6 @@ function StoryDetail({story,onEdit,onFieldChange,onPrev,onNext,hasPrev,hasNext,o
             <input type="date" value={story.eta||""} onChange={e=>onFieldChange(story.id,"eta",e.target.value)} style={IS}/>
           </div>
         </div>
-        {/* Photos & Design status */}
-        <div style={{borderTop:"1px solid #e8edf3",marginTop:12,paddingTop:12,display:"grid",gridTemplateColumns:"1fr 1fr",gap:"9px 13px"}}>
-          {[["📷 Photos Status","photosStatus"],["🎨 Design Status","designStatus"]].map(([lbl,key])=>{
-            const v=story[key]||"NA";
-            const col=v==="Done"?"#22c55e":v==="WIP"?"#f97316":"#94a3b8";
-            return(
-              <div key={key}>
-                <div style={{fontSize:11,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{lbl}</div>
-                <select value={v} onChange={e=>onFieldChange(story.id,key,e.target.value)} style={{...IS,color:col,fontWeight:700,width:"100%"}}>
-                  {["NA","WIP","Done"].map(o=><option key={o}>{o}</option>)}
-                </select>
-              </div>
-            );
-          })}
-        </div>
       </div>
 
       {dl!==null&&!["Published","Hold/Dropped"].includes(story.status)&&(
@@ -280,15 +267,13 @@ function StoryDetail({story,onEdit,onFieldChange,onPrev,onNext,hasPrev,hasNext,o
 }
 
 function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
-  const COLS=[{k:"title",l:"Title",w:"20%"},{k:"reporter",l:"Reporter",w:"11%"},{k:"status",l:"Status",w:"12%"},{k:"pri",l:"Priority",w:"9%"},{k:"eta",l:"ETA",w:"10%"},{k:"pubDate",l:"Published",w:"10%"},{k:"photosStatus",l:"Photos",w:"9%"},{k:"designStatus",l:"Design",w:"9%"}];
+  const COLS=[{k:"title",l:"Title",w:"26%"},{k:"reporter",l:"Reporter",w:"13%"},{k:"status",l:"Status",w:"15%"},{k:"pri",l:"Priority",w:"11%"},{k:"eta",l:"ETA",w:"13%"},{k:"pubDate",l:"Published",w:"13%"}];
   const sort=k=>{
     if(sk===k)setSd(d=>d==="asc"?"desc":"asc");
     else{setSk(k);setSd("asc");}
     if(onSort)setTimeout(onSort,0);
   };
   const IS={padding:"3px 6px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
-  const WIP_OPTS=["NA","WIP","Done"];
-  const wipColor=v=>v==="Done"?"#22c55e":v==="WIP"?"#f97316":"#94a3b8";
   return(
     <div className="story-table-wrap">
       <table className="story-table" style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
@@ -313,7 +298,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
                   <select value={s.reporter} onChange={e=>onFieldChange(s.id,"reporter",e.target.value)} style={IS}>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
                 <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
-                  <select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
+                  <select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]||"#475569"}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
                 <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
                   <select value={s.pri} onChange={e=>onFieldChange(s.id,"pri",e.target.value)} style={{...IS,color:PC[s.pri]}}>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
@@ -326,12 +311,6 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
                   {s.pubDate
                     ?<span style={{fontSize:12,color:"#22c55e",fontWeight:600}}>{fmt(normaliseDate(s.pubDate))}</span>
                     :<span style={{fontSize:11,color:"#cbd5e1"}}>—</span>}
-                </td>
-                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
-                  <select value={s.photosStatus||"NA"} onChange={e=>onFieldChange(s.id,"photosStatus",e.target.value)} style={{...IS,color:wipColor(s.photosStatus||"NA"),fontWeight:600}}>{WIP_OPTS.map(o=><option key={o}>{o}</option>)}</select>
-                </td>
-                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
-                  <select value={s.designStatus||"NA"} onChange={e=>onFieldChange(s.id,"designStatus",e.target.value)} style={{...IS,color:wipColor(s.designStatus||"NA"),fontWeight:600}}>{WIP_OPTS.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
               </tr>
             );
@@ -615,7 +594,6 @@ function App(){
   const [fPri,setFPri]=useState("All");
   const [fReporter,setFReporter]=useState("All");
   const [fMedia,setFMedia]=useState("All");
-  const [fPubDate,setFPubDate]=useState("All");
   const [sk,setSk]=useState("eta");
   const [sd,setSd]=useState("asc");
   /* Stable order: array of story IDs in sorted order.
@@ -693,22 +671,8 @@ function App(){
     if(fPri!=="All")s=s.filter(x=>x.pri===fPri);
     if(fReporter!=="All")s=s.filter(x=>x.reporter===fReporter);
     if(fMedia!=="All")s=s.filter(x=>(x.media||"Text")===fMedia);
-    if(fPubDate!=="All"){
-      const now=new Date(); now.setHours(0,0,0,0);
-      const weekAgo=new Date(now);weekAgo.setDate(now.getDate()-7);
-      const monthStart=new Date(now.getFullYear(),now.getMonth(),1);
-      s=s.filter(x=>{
-        if(fPubDate==="unpublished")return !x.pubDate||!normaliseDate(x.pubDate);
-        const d=x.pubDate?new Date(normaliseDate(x.pubDate)):null;
-        if(!d||isNaN(d))return false;
-        if(fPubDate==="today"){const t=new Date(d);t.setHours(0,0,0,0);return t.getTime()===now.getTime();}
-        if(fPubDate==="week")return d>=weekAgo;
-        if(fPubDate==="month")return d>=monthStart;
-        return true;
-      });
-    }
     return s;
-  },[stories,search,fCat,fStatuses,fPri,fReporter,fMedia,fPubDate]);
+  },[stories,search,fCat,fStatuses,fPri,fReporter,fMedia]);
 
   /* Helper: compute a sorted copy of any array using current sk/sd */
   const applySortOrder=useCallback((arr)=>{
@@ -724,7 +688,7 @@ function App(){
   /* When filters/search change → rebuild stable order from freshly filtered list */
   useEffect(()=>{
     setStableOrder(applySortOrder(liveFiltered));
-  },[search,fCat,fStatuses,fPri,fReporter,fMedia,fPubDate,sk,sd]);
+  },[search,fCat,fStatuses,fPri,fReporter,fMedia,sk,sd]);
 
   /* On first load (stableOrder is null) also set it */
   useEffect(()=>{
@@ -841,13 +805,8 @@ function App(){
           <div className="topbar-filters desktop-only" style={{display:"flex",gap:6}}>
             <select value={fMedia} onChange={e=>setFMedia(e.target.value)} style={selStyle}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
-            <select value={fPubDate} onChange={e=>setFPubDate(e.target.value)} style={selStyle}>
-              <option value="All">All Dates</option>
-              <option value="today">Published Today</option>
-              <option value="week">This Week</option>
-              <option value="month">This Month</option>
-              <option value="unpublished">Not Yet Published</option>
-            </select>
+            <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+            <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
           </div>
 
           <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
@@ -870,13 +829,7 @@ function App(){
           <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search…" style={{minWidth:110}}/>
           <select value={fMedia} onChange={e=>setFMedia(e.target.value)}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
           <select value={fCat} onChange={e=>setFCat(e.target.value)}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
-          <select value={fPubDate} onChange={e=>setFPubDate(e.target.value)}>
-            <option value="All">All Dates</option>
-            <option value="today">Published Today</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="unpublished">Not Yet Published</option>
-          </select>
+          <select value={fPri} onChange={e=>setFPri(e.target.value)}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
         </div>
 
         {/* Content */}
