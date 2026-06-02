@@ -26,6 +26,8 @@ body{background:#f1f5f9;color:#1e293b}
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.65);z-index:999;display:flex;align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto}
 .modal-box{background:#fff;border-radius:14px;width:100%;max-width:880px;box-shadow:0 32px 80px rgba(0,0,0,0.22);animation:slideUp 0.18s ease}
 @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes popIn{0%{transform:scale(0.7);opacity:0}60%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
 input,select,textarea{font-family:inherit}
 button{font-family:inherit;cursor:pointer}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
@@ -158,7 +160,16 @@ function Modal({title,children,onClose,wide}){
 const EF={title:"",desc:"",reporter:REPORTERS[0],desk:CATS[0],format:FORMATS[0],pub:"Web",pri:"Medium",status:"Idea Proposed",eta:"",pubDate:"",issue:"",notes:"",refs:"",media:"Text"};
 function StoryForm({onSubmit,init,onCancel}){
   const [f,setF]=useState(init?normaliseStory(init):EF);
+  const [btnState,setBtnState]=useState("idle"); // idle | saving | done
   const set=k=>e=>setF(p=>({...p,[k]:e.target.value}));
+
+  const handleSubmit=async()=>{
+    if(!f.title.trim())return;
+    setBtnState("saving");
+    await onSubmit(f);
+    setBtnState("done");
+    setTimeout(()=>setBtnState("idle"),1800);
+  };
   const I={width:"100%",padding:"9px 12px",borderRadius:7,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:14,color:"#1e293b",outline:"none",fontFamily:"inherit"};
   const L={fontSize:12,fontWeight:700,color:"#64748b",marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.06em"};
   const F={marginBottom:14};
@@ -181,7 +192,25 @@ function StoryForm({onSubmit,init,onCancel}){
         <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Reference Links</label><input style={I} value={f.refs} onChange={set("refs")} placeholder="https://..."/></div>
       </div>
       <div style={{display:"flex",gap:10,marginTop:8}}>
-        <button onClick={()=>{if(f.title.trim())onSubmit(f);}} style={{flex:1,padding:"11px 0",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14}}>{init?"Update Story":"Submit Story"}</button>
+        <button
+          onClick={handleSubmit}
+          disabled={btnState!=="idle"}
+          style={{
+            flex:1,padding:"11px 0",
+            background:btnState==="done"?"#16a34a":RED,
+            color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14,
+            transition:"background 0.3s",cursor:btnState!=="idle"?"default":"pointer",
+            display:"flex",alignItems:"center",justifyContent:"center",gap:8,
+            opacity:btnState==="saving"?0.85:1
+          }}>
+          {btnState==="saving"&&(
+            <span style={{width:15,height:15,border:"2px solid rgba(255,255,255,0.35)",borderTopColor:"#fff",borderRadius:"50%",display:"inline-block",animation:"spin 0.7s linear infinite"}}/>
+          )}
+          {btnState==="done"&&(
+            <span style={{animation:"popIn 0.3s ease",display:"inline-block"}}>✓</span>
+          )}
+          {btnState==="saving"?"Saving…":btnState==="done"?"Saved!":init?"Update Story":"Submit Story"}
+        </button>
         <button onClick={onCancel} style={{padding:"11px 22px",background:"#f1f5f9",color:"#64748b",border:"none",borderRadius:8,fontWeight:600,fontSize:14}}>Cancel</button>
       </div>
     </div>
@@ -302,7 +331,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete,onSor
   };
   const IS={padding:"3px 6px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
   return(
-    <div className="story-table-wrap" style={{maxHeight:"calc(100vh - 200px)",overflowY:"auto"}}>
+    <div className="story-table-wrap" style={{maxHeight:"calc(100vh - 136px)",overflowY:"auto"}}>
       <table className="story-table" style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
         <thead><tr style={{background:"#f8fafc"}}>
           {COLS.map(c=>(
@@ -710,7 +739,10 @@ function App(){
       const res=await sheetsApi("create",{story:normForm});
       if(res.story)setStories(s=>[...s,normaliseStory(res.story)]);
     }
-    setShowForm(false);setEditing(null);setSync("synced");
+    setSync("synced");
+    // Delay close by 1.6s so the "Saved!" animation is visible
+    await new Promise(r=>setTimeout(r,1600));
+    setShowForm(false);setEditing(null);
   },[editing]);
 
   const handleDel=useCallback(async id=>{
@@ -851,41 +883,55 @@ function App(){
       {/* MAIN */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
 
-        {/* Top bar */}
-        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"10px 16px",display:"flex",alignItems:"center",gap:9,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:7}}>
-          <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"6px 9px",background:"transparent",border:"none",borderRadius:7,fontSize:19,color:TS,cursor:"pointer",flexShrink:0}}>☰</button>
-          <div style={{flex:"1 1 100px"}}>
-            <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
-            <div style={{fontSize:11,color:TS,marginTop:2}}>
-              {filtered.length} stories
-              {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
-              {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}
-              {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
+        {/* Top bar — 2 rows:
+             Row 1: ☰ | title+subtitle (left) | search + filters + synced + Add Story (right)
+             The subtitle line sits just below the title, left-aligned
+        */}
+        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"9px 16px 8px",position:"sticky",top:0,zIndex:40}}>
+          {/* Row 1: hamburger + view title + filters row */}
+          <div style={{display:"flex",alignItems:"center",gap:8}}>
+            <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"5px 8px",background:"transparent",border:"none",borderRadius:7,fontSize:19,color:TS,cursor:"pointer",flexShrink:0,lineHeight:1}}>☰</button>
+
+            {/* Title block */}
+            <div style={{flexShrink:0}}>
+              <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
+              <div style={{fontSize:11,color:TS,marginTop:3,lineHeight:1}}>
+                <span style={{fontWeight:600}}>{filtered.length} stories</span>
+                {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
+                {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}
+                {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
+              </div>
             </div>
+
+            {/* Spacer */}
+            <div style={{flex:1}}/>
+
+            {/* Search — desktop */}
+            <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:6,background:"#f1f5f9",borderRadius:7,padding:"6px 11px",flexShrink:0}}>
+              <span style={{color:TS,fontSize:13}}>🔍</span>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories…" style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:140,fontFamily:"inherit"}}/>
+            </div>
+
+            {/* Status filter */}
+            <StatusFilterDropdown selected={fStatuses} onChange={setFStatuses}/>
+
+            {/* Other filters */}
+            <div className="topbar-filters desktop-only" style={{display:"flex",gap:6,flexShrink:0}}>
+              <select value={fMedia} onChange={e=>setFMedia(e.target.value)} style={selStyle}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
+              <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
+              <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
+              <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
+            </div>
+
+            {/* Synced indicator */}
+            <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
+
+            {/* + Add Story — right-most */}
+            <button onClick={()=>{setEditing(null);setShowForm(true);}}
+              style={{padding:"7px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:isMobile?18:13,lineHeight:1}}>
+              {isMobile?"+":"+ Add Story"}
+            </button>
           </div>
-
-          {/* Search — desktop */}
-          <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:6,background:"#f1f5f9",borderRadius:7,padding:"6px 11px"}}>
-            <span style={{color:TS,fontSize:13}}>🔍</span>
-            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories…" style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:150,fontFamily:"inherit"}}/>
-          </div>
-
-          {/* Status filter dropdown — compact, fits nicely next to other filters */}
-          <StatusFilterDropdown selected={fStatuses} onChange={setFStatuses}/>
-
-          <div className="topbar-filters desktop-only" style={{display:"flex",gap:6}}>
-            <select value={fMedia} onChange={e=>setFMedia(e.target.value)} style={selStyle}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
-            <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
-            <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
-            <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
-          </div>
-
-          <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
-
-          <button onClick={()=>{setEditing(null);setShowForm(true);}}
-            style={{padding:"7px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:isMobile?18:13,lineHeight:1}}>
-            {isMobile?"+":"+ Add Story"}
-          </button>
         </div>
 
         {/* Mobile filter row */}
