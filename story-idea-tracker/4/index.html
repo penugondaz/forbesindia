@@ -17,18 +17,25 @@ body{background:#f1f5f9;color:#1e293b}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}
 ::-webkit-scrollbar-track{background:transparent}
+/* Sticky thead for table */
+.story-table thead{position:sticky;top:0;z-index:10}
+.story-table thead tr th{background:#f8fafc}
 .hover-row:hover td{background:#f0f9ff}
 .kanban-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.10)!important}
 .nav-btn:hover{background:rgba(255,255,255,0.07)!important}
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,0.65);z-index:999;display:flex;align-items:flex-start;justify-content:center;padding:20px 12px;overflow-y:auto}
 .modal-box{background:#fff;border-radius:14px;width:100%;max-width:880px;box-shadow:0 32px 80px rgba(0,0,0,0.22);animation:slideUp 0.18s ease}
 @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeInScale{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
 input,select,textarea{font-family:inherit}
 button{font-family:inherit;cursor:pointer}
 .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:49}
-.status-chip-scroll::-webkit-scrollbar{display:none}
+/* Status filter dropdown */
+.status-filter-dropdown{position:absolute;top:100%;left:0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:100;min-width:260px;padding:10px;margin-top:4px;animation:slideUp 0.14s ease}
+.status-filter-item{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12.5px;font-weight:500;color:#334155;transition:background 0.1s}
+.status-filter-item:hover{background:#f1f5f9}
+.status-filter-item.active{background:#f8fafc}
+.status-filter-item input[type=checkbox]{width:14px;height:14px;accent-color:#c8102e;cursor:pointer;flex-shrink:0}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 @media(max-width:768px){
   .sidebar-overlay{display:block}
   .desktop-only{display:none!important}
@@ -42,7 +49,6 @@ button{font-family:inherit;cursor:pointer}
   .modal-box{border-radius:14px 14px 0 0!important;max-height:92vh;overflow-y:auto}
   .form-grid{grid-template-columns:1fr!important}
   .detail-grid{grid-template-columns:1fr 1fr!important}
-  .status-filter-bar{flex-wrap:wrap!important;gap:5px!important}
 }
 .mobile-filter-row{display:none;gap:6px;overflow-x:auto;padding:8px 14px;background:#fff;border-bottom:1px solid #e2e8f0}
 .mobile-filter-row select,.mobile-filter-row input{flex-shrink:0;padding:5px 8px;border-radius:7px;border:1px solid #e2e8f0;background:#f8fafc;font-size:12px;color:#475569;font-family:inherit}
@@ -55,20 +61,21 @@ button{font-family:inherit;cursor:pointer}
 const {useState,useEffect,useRef,useMemo,useCallback} = React;
 
 const RED="#c8102e";
-const STATUSES=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped","Video sent for Editing","Ready to Pub","Sent for content cut","Sent for subs"];
+// UPDATED: added 4 new statuses
+const STATUSES=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Video sent for editing","Sent for content cut","Sent for subs","Fact Check","Ready to Publish","Scheduled","Published","Hold/Dropped"];
 const SC={
   "Idea Proposed":"#6366f1","Approved":"#0ea5e9","Researching":"#f59e0b",
   "Interview Scheduled":"#10b981","Writing":"#3b82f6","Editing":"#f97316",
-  "Fact Check":"#ec4899","Design":"#14b8a6","Scheduled":"#a855f7",
-  "Published":"#22c55e","Hold/Dropped":"#94a3b8",
-  "Video sent for Editing":"#8b5cf6","Ready to Pub":"#06b6d4",
-  "Sent for content cut":"#f43f5e","Sent for subs":"#d97706"
+  "Video sent for editing":"#e879f9","Sent for content cut":"#fb7185",
+  "Sent for subs":"#34d399","Fact Check":"#ec4899",
+  "Ready to Publish":"#06b6d4","Scheduled":"#a855f7",
+  "Published":"#22c55e","Hold/Dropped":"#94a3b8"
 };
 const CATS=["News","Deep Dive","Explainer","Take One","Leadership","Innovation","Startups","Billionaires","30 Under 30","W-Power","Rich List","Ai List","Magazine","Life","Slideshow","Graphic of the day","Others"];
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
 const PRIS=["Critical","High","Medium","Low"];
 const PC={"Critical":"#ef4444","High":"#f97316","Medium":"#f59e0b","Low":"#6366f1"};
-const REPORTERS=["Samreen Wani","Naini Thaker","Suveen Sinha","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury","Other"];
+const REPORTERS=["Samreen Wani","Naini Thaker","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury"];
 
 const MEDIA_TYPES=["Text","Multimedia"];
 
@@ -84,24 +91,32 @@ async function sheetsApi(action,payload={}){
 
 const isOverdue=s=>{if(!s.eta||["Published","Hold/Dropped"].includes(s.status))return false;return new Date(s.eta)<new Date();};
 const daysLeft=eta=>Math.ceil((new Date(eta)-new Date())/86400000);
-const fmt=d=>d?new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"}):"—";
 
-/* FIX 1: normaliseEta — Google Sheets sometimes returns dates as "dd/mm/yyyy"
-   or locale strings. We normalise everything to "yyyy-mm-dd" so the date input
-   displays correctly and fmt() shows the right value after refresh. */
+// FIX: Format date without timezone shifting — parse yyyy-mm-dd as LOCAL date
+const fmt=d=>{
+  if(!d)return"—";
+  // Parse yyyy-mm-dd as local time (not UTC) to avoid day-shift
+  const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d.trim());
+  if(m){
+    const dt=new Date(+m[1],+m[2]-1,+m[3]);
+    return dt.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+  }
+  return new Date(d).toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+};
+
 function normaliseDate(val){
   if(!val||typeof val!=="string")return val||"";
-  // Already ISO yyyy-mm-dd
   if(/^\d{4}-\d{2}-\d{2}$/.test(val.trim()))return val.trim();
-  // dd/mm/yyyy
   const dmy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(val.trim());
   if(dmy)return `${dmy[3]}-${dmy[2].padStart(2,"0")}-${dmy[1].padStart(2,"0")}`;
-  // mm/dd/yyyy
-  const mdy=/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(val.trim());
-  if(mdy)return `${mdy[3]}-${mdy[1].padStart(2,"0")}-${mdy[2].padStart(2,"0")}`;
-  // Try native parse as fallback
+  // FIX: avoid using toISOString() (UTC) — use local date parts instead
   const d=new Date(val);
-  if(!isNaN(d))return d.toISOString().split("T")[0];
+  if(!isNaN(d)){
+    const yr=d.getFullYear();
+    const mo=String(d.getMonth()+1).padStart(2,"0");
+    const dy=String(d.getDate()).padStart(2,"0");
+    return `${yr}-${mo}-${dy}`;
+  }
   return val;
 }
 
@@ -143,41 +158,10 @@ function Modal({title,children,onClose,wide}){
 const EF={title:"",desc:"",reporter:REPORTERS[0],desk:CATS[0],format:FORMATS[0],pub:"Web",pri:"Medium",status:"Idea Proposed",eta:"",pubDate:"",issue:"",notes:"",refs:"",media:"Text"};
 function StoryForm({onSubmit,init,onCancel}){
   const [f,setF]=useState(init?normaliseStory(init):EF);
-  const [saveState,setSaveState]=useState("idle"); // idle | saving | done
   const set=k=>e=>setF(p=>({...p,[k]:e.target.value}));
   const I={width:"100%",padding:"9px 12px",borderRadius:7,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:14,color:"#1e293b",outline:"none",fontFamily:"inherit"};
   const L={fontSize:12,fontWeight:700,color:"#64748b",marginBottom:4,display:"block",textTransform:"uppercase",letterSpacing:"0.06em"};
   const F={marginBottom:14};
-
-  const handleClick=async()=>{
-    if(!f.title.trim())return;
-    if(init){
-      setSaveState("saving");
-      await onSubmit(f);
-      setSaveState("done");
-      setTimeout(()=>setSaveState("idle"),2000);
-    } else {
-      onSubmit(f);
-    }
-  };
-
-  const btnLabel=()=>{
-    if(!init)return "Submit Story";
-    if(saveState==="saving")return(
-      <span style={{display:"inline-flex",alignItems:"center",gap:7}}>
-        <span style={{width:14,height:14,border:"2px solid rgba(255,255,255,0.4)",borderTopColor:"#fff",borderRadius:"50%",display:"inline-block",animation:"spin 0.7s linear infinite"}}/>
-        Updating…
-      </span>
-    );
-    if(saveState==="done")return(
-      <span style={{display:"inline-flex",alignItems:"center",gap:6,animation:"fadeInScale 0.25s ease"}}>
-        <span style={{fontSize:16}}>✓</span> Done!
-      </span>
-    );
-    return "Update Story";
-  };
-
-  const btnBg=saveState==="done"?"#22c55e":RED;
   return(
     <div>
       <div className="form-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"0 18px"}}>
@@ -197,14 +181,14 @@ function StoryForm({onSubmit,init,onCancel}){
         <div style={{...F,gridColumn:"1/-1"}}><label style={L}>Reference Links</label><input style={I} value={f.refs} onChange={set("refs")} placeholder="https://..."/></div>
       </div>
       <div style={{display:"flex",gap:10,marginTop:8}}>
-        <button onClick={handleClick} disabled={saveState==="saving"} style={{flex:1,padding:"11px 0",background:btnBg,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14,transition:"background 0.3s",cursor:saveState==="saving"?"not-allowed":"pointer"}}>{btnLabel()}</button>
+        <button onClick={()=>{if(f.title.trim())onSubmit(f);}} style={{flex:1,padding:"11px 0",background:RED,color:"#fff",border:"none",borderRadius:8,fontWeight:700,fontSize:14}}>{init?"Update Story":"Submit Story"}</button>
         <button onClick={onCancel} style={{padding:"11px 22px",background:"#f1f5f9",color:"#64748b",border:"none",borderRadius:8,fontWeight:600,fontSize:14}}>Cancel</button>
       </div>
     </div>
   );
 }
 
-function StoryDetail({story,onEdit,onFieldChange,onPrev,onNext,hasPrev,hasNext,onSaveComment}){
+function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,hasNext,onSaveComment}){
   const [c,setC]=useState("");
   const [commenter,setCommenter]=useState("");
   const [comments,setComments]=useState(story.comments||[]);
@@ -292,28 +276,37 @@ function StoryDetail({story,onEdit,onFieldChange,onPrev,onNext,hasPrev,hasNext,o
         </div>
       </div>
 
-      <div style={{borderTop:"1px solid #f1f5f9",paddingTop:13}}>
-        <button onClick={()=>onEdit(story)} style={{width:"100%",padding:"9px 0",background:"#1e293b",color:"#fff",border:"none",borderRadius:8,fontSize:13,fontWeight:700}}>✎ Full Edit</button>
+      <div style={{display:"flex",gap:8,borderTop:"1px solid #f1f5f9",paddingTop:13}}>
+        <button onClick={()=>onEdit(story)} style={{flex:1,padding:"9px 0",background:"#1e293b",color:"#fff",border:"none",borderRadius:8,fontSize:13,fontWeight:700}}>✎ Full Edit</button>
+        <button onClick={()=>onDelete(story.id)} style={{padding:"9px 18px",background:"#fef2f2",color:"#dc2626",border:"1px solid #fecaca",borderRadius:8,fontSize:13,fontWeight:600}}>Delete</button>
       </div>
     </div>
   );
 }
 
-function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
-  const COLS=[{k:"title",l:"Title",w:"26%"},{k:"reporter",l:"Reporter",w:"13%"},{k:"status",l:"Status",w:"15%"},{k:"pri",l:"Priority",w:"11%"},{k:"eta",l:"ETA",w:"13%"},{k:"pubDate",l:"Published",w:"13%"}];
+// UPDATED TableView: removed View/Delete columns, wider Title, sticky thead
+function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onDelete,onSort}){
+  // Removed _act column — View/Delete gone
+  const COLS=[
+    {k:"title",l:"Title",w:"32%"},
+    {k:"reporter",l:"Reporter",w:"16%"},
+    {k:"status",l:"Status",w:"18%"},
+    {k:"pri",l:"Priority",w:"12%"},
+    {k:"eta",l:"ETA",w:"11%"},
+    {k:"pubDate",l:"Published",w:"11%"}
+  ];
   const sort=k=>{
     if(sk===k)setSd(d=>d==="asc"?"desc":"asc");
     else{setSk(k);setSd("asc");}
     if(onSort)setTimeout(onSort,0);
   };
   const IS={padding:"3px 6px",borderRadius:5,border:"1px solid #e2e8f0",background:"#f8fafc",fontSize:12,color:"#475569",fontFamily:"inherit",maxWidth:"100%"};
-  const CP="8px 12px"; // cell padding — tighter to fit more rows
   return(
-    <div className="story-table-wrap">
+    <div className="story-table-wrap" style={{maxHeight:"calc(100vh - 200px)",overflowY:"auto"}}>
       <table className="story-table" style={{width:"100%",borderCollapse:"collapse",fontSize:13}}>
         <thead><tr style={{background:"#f8fafc"}}>
           {COLS.map(c=>(
-            <th key={c.k} onClick={()=>sort(c.k)} style={{width:c.w,padding:CP,textAlign:"left",fontSize:11,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.05em",cursor:"pointer",borderBottom:"2px solid #e2e8f0",whiteSpace:"nowrap",userSelect:"none"}}>
+            <th key={c.k} onClick={()=>sort(c.k)} style={{width:c.w,padding:"10px 12px",textAlign:"left",fontSize:11,fontWeight:700,color:"#64748b",textTransform:"uppercase",letterSpacing:"0.05em",cursor:"pointer",borderBottom:"2px solid #e2e8f0",whiteSpace:"nowrap",userSelect:"none"}}>
               {c.l}{sk===c.k?(sd==="asc"?" ↑":" ↓"):""}
             </th>
           ))}
@@ -323,25 +316,27 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
             const ov=isOverdue(s);
             const etaVal=normaliseDate(s.eta);
             return(
-              <tr key={s.id} className="hover-row" style={{background:ov?"#fff5f5":i%2?"#fafafa":"#fff",borderBottom:"1px solid #f1f5f9",cursor:"pointer"}}>
-                <td style={{padding:CP}} onClick={()=>onRow(s)}>
+              // Clicking anywhere on the row opens the detail modal
+              <tr key={s.id} className="hover-row" onClick={()=>onRow(s)} style={{background:ov?"#fff5f5":i%2?"#fafafa":"#fff",borderBottom:"1px solid #f1f5f9",cursor:"pointer"}}>
+                <td style={{padding:"10px 12px"}}>
                   <div style={{fontWeight:700,color:"#1e293b",fontSize:13,lineHeight:1.3}}>{s.title}</div>
+                  <div style={{fontSize:11,color:"#94a3b8",marginTop:2}}>{s.desk} · {s.format}</div>
                   {ov&&<span style={{fontSize:10,color:RED,fontWeight:700}}>⚠ OVERDUE</span>}
                 </td>
-                <td style={{padding:CP}} onClick={e=>e.stopPropagation()}>
+                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
                   <select value={s.reporter} onChange={e=>onFieldChange(s.id,"reporter",e.target.value)} style={IS}>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
-                <td style={{padding:CP}} onClick={e=>e.stopPropagation()}>
-                  <select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]||"#475569"}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
+                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
+                  <select value={s.status} onChange={e=>onFieldChange(s.id,"status",e.target.value)} style={{...IS,color:SC[s.status]}}>{STATUSES.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
-                <td style={{padding:CP}} onClick={e=>e.stopPropagation()}>
+                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
                   <select value={s.pri} onChange={e=>onFieldChange(s.id,"pri",e.target.value)} style={{...IS,color:PC[s.pri]}}>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
                 </td>
-                <td style={{padding:CP}} onClick={e=>e.stopPropagation()}>
+                <td style={{padding:"10px 12px"}} onClick={e=>e.stopPropagation()}>
                   <input type="date" value={etaVal} onChange={e=>onFieldChange(s.id,"eta",e.target.value)} style={{...IS,width:116}}/>
                   {etaVal&&<div style={{fontSize:10,color:ov?RED:"#94a3b8",marginTop:2,fontWeight:ov?700:400}}>{fmt(etaVal)}</div>}
                 </td>
-                <td style={{padding:CP}} onClick={()=>onRow(s)}>
+                <td style={{padding:"10px 12px"}}>
                   {s.pubDate
                     ?<span style={{fontSize:12,color:"#22c55e",fontWeight:600}}>{fmt(normaliseDate(s.pubDate))}</span>
                     :<span style={{fontSize:11,color:"#cbd5e1"}}>—</span>}
@@ -357,7 +352,7 @@ function TableView({stories,onRow,sk,setSk,sd,setSd,onFieldChange,onSort}){
 }
 
 function KanbanView({stories,onCard}){
-  const COLS=["Idea Proposed","Approved","Researching","Interview Scheduled","Writing","Editing","Scheduled","Published","Hold/Dropped"];
+  const COLS=STATUSES;
   return(
     <div style={{overflowX:"auto",paddingBottom:8}}>
       <div style={{display:"flex",gap:10,minWidth:COLS.length*200+COLS.length*10}}>
@@ -405,7 +400,10 @@ function CalendarView({stories,onStory}){
   const byDay={};
   stories.forEach(s=>{
     const d=normaliseDate(s.pubDate)||normaliseDate(s.eta);if(!d)return;
-    const dt=new Date(d);
+    // FIX: parse local to avoid day-shift
+    const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(d);
+    if(!m)return;
+    const dt=new Date(+m[1],+m[2]-1,+m[3]);
     if(dt.getMonth()===mo&&dt.getFullYear()===yr){const k=dt.getDate();byDay[k]=byDay[k]||[];byDay[k].push(s);}
   });
   const cells=[];
@@ -442,14 +440,12 @@ function CalendarView({stories,onStory}){
   );
 }
 
-/* FIX 2: Reporter Workload excludes Published stories */
 function Analytics({stories}){
   const total=stories.length||1;
   const pub=stories.filter(s=>s.status==="Published").length;
   const ov=stories.filter(isOverdue).length;
   const crit=stories.filter(s=>s.pri==="Critical").length;
 
-  /* Stories by Status — all stories */
   const statData={
     labels:STATUSES.filter(s=>stories.some(x=>x.status===s)),
     datasets:[{
@@ -464,7 +460,6 @@ function Analytics({stories}){
     datasets:[{data:CATS.filter(d=>stories.some(x=>x.desk===d)).map(d=>stories.filter(x=>x.desk===d).length),backgroundColor:"#6366f1",borderRadius:4}]
   };
 
-  /* FIX 2: Workload excludes Published */
   const activeStories=stories.filter(s=>s.status!=="Published");
   const repData={
     labels:REPORTERS.map(r=>r.split(" ")[0]),
@@ -474,14 +469,10 @@ function Analytics({stories}){
     }]
   };
 
-  /* Weekly Publishing Trend — built from live Published stories.
-     Groups by ISO week (Mon-Sun). Shows last 8 weeks. */
   const trendData=(()=>{
     const published=stories.filter(s=>s.status==="Published"&&(s.pubDate||s.eta));
-    // Get the Monday of a given date
     const getMonday=d=>{const dt=new Date(d);const day=dt.getDay();const diff=dt.getDate()-(day===0?6:day-1);dt.setDate(diff);dt.setHours(0,0,0,0);return dt;};
     const fmtWeek=d=>{const mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];return `${mo[d.getMonth()]} ${d.getDate()}`;};
-    // Build last 8 weeks ending this week
     const now=new Date();const thisMonday=getMonday(now);
     const weeks=[];
     for(let i=7;i>=0;i--){
@@ -491,7 +482,10 @@ function Analytics({stories}){
     }
     published.forEach(s=>{
       const raw=normaliseDate(s.pubDate||s.eta);if(!raw)return;
-      const dt=new Date(raw);if(isNaN(dt))return;
+      // FIX: parse local
+      const mm=/^(\d{4})-(\d{2})-(\d{2})$/.exec(raw);
+      const dt=mm?new Date(+mm[1],+mm[2]-1,+mm[3]):new Date(raw);
+      if(isNaN(dt))return;
       for(const w of weeks){
         if(dt>=w.start&&dt<w.end){
           if(s.pub==="Magazine")w.mag++;else w.web++;
@@ -499,7 +493,6 @@ function Analytics({stories}){
         }
       }
     });
-    // Drop leading empty weeks for a cleaner chart
     let first=0;
     for(let i=0;i<weeks.length;i++){if(weeks[i].web>0||weeks[i].mag>0){first=i;break;}}
     const display=weeks.length>2?weeks.slice(Math.min(first,weeks.length-4)):weeks;
@@ -540,7 +533,6 @@ function Analytics({stories}){
             <div><div style={{fontSize:11,color:"#94a3b8",fontWeight:600,marginBottom:4}}>By Priority</div><ChartBox type="doughnut" data={priData} height={130} options={{cutout:"55%",plugins:{legend:{display:false}}}}/>{PRIS.map(p=><div key={p} style={{display:"flex",alignItems:"center",gap:4,fontSize:10,marginTop:3}}><div style={{width:8,height:8,borderRadius:2,background:PC[p]}}></div><span style={{color:"#64748b"}}>{p}: <b>{stories.filter(x=>x.pri===p).length}</b></span></div>)}</div>
           </div>
         </div>
-        {/* FIX 2: note in chart title */}
         <div style={{...card,gridColumn:"1/-1"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:10}}>
             <div style={{fontSize:13,fontWeight:700,color:"#1e293b"}}>Reporter Workload</div>
@@ -564,50 +556,105 @@ function Analytics({stories}){
   );
 }
 
-/* Status filter bar — horizontal scrollable on mobile, wrapping on desktop */
-function StatusFilterBar({selected,onChange}){
-  const clearAll=()=>onChange([]);
-  const activeCount=selected.length;
-  const bg="#fff";
-  const border="#e2e8f0";
+// REDESIGNED: Status filter as a compact dropdown popover with multi-select + clear
+// Groups statuses into logical buckets for easy scanning
+const STATUS_GROUPS=[
+  {label:"Origination",items:["Idea Proposed","Approved"]},
+  {label:"Reporting",items:["Researching","Interview Scheduled"]},
+  {label:"Production",items:["Writing","Editing","Video sent for editing","Sent for content cut","Sent for subs","Fact Check"]},
+  {label:"Final",items:["Ready to Publish","Scheduled"]},
+  {label:"Done",items:["Published","Hold/Dropped"]},
+];
+
+function StatusFilterDropdown({selected,onChange}){
+  const [open,setOpen]=useState(false);
+  const ref=useRef(null);
+  const count=selected.length;
+
+  useEffect(()=>{
+    const handler=e=>{if(ref.current&&!ref.current.contains(e.target))setOpen(false);};
+    document.addEventListener("mousedown",handler);
+    return()=>document.removeEventListener("mousedown",handler);
+  },[]);
+
+  const toggle=s=>{
+    const cur=new Set(selected);
+    if(cur.has(s))cur.delete(s);else cur.add(s);
+    onChange([...cur]);
+  };
+  const toggleGroup=items=>{
+    const allOn=items.every(s=>selected.includes(s));
+    const cur=new Set(selected);
+    if(allOn)items.forEach(s=>cur.delete(s));
+    else items.forEach(s=>cur.add(s));
+    onChange([...cur]);
+  };
+
+  const btnLabel=count===0?"All Statuses":count===1?selected[0]:`${count} Statuses`;
 
   return(
-    <div style={{background:bg,borderBottom:`1px solid ${border}`,position:"sticky",top:56,zIndex:39}}>
-      {/* Row 1: STATUS label + chips (horizontally scrollable on mobile) */}
-      <div style={{display:"flex",alignItems:"center",gap:0,overflowX:"auto",padding:"7px 14px",WebkitOverflowScrolling:"touch",scrollbarWidth:"none"}}>
-        <span style={{fontSize:11,fontWeight:700,color:"#94a3b8",whiteSpace:"nowrap",textTransform:"uppercase",letterSpacing:"0.06em",marginRight:10,flexShrink:0}}>Status</span>
-        <div style={{display:"flex",gap:5,flexShrink:0}}>
-          {STATUSES.map(s=>{
-            const on=selected.includes(s);
-            return(
-              <button key={s}
-                onClick={()=>{
-                  const cur=new Set(selected);
-                  if(cur.has(s))cur.delete(s);else cur.add(s);
-                  onChange([...cur]);
-                }}
-                style={{
-                  display:"inline-flex",alignItems:"center",
-                  padding:"4px 11px",borderRadius:20,
-                  fontSize:12,fontWeight:600,cursor:"pointer",
-                  whiteSpace:"nowrap",flexShrink:0,
-                  border:`1.5px solid ${on?SC[s]||"#888":(SC[s]||"#888")+"55"}`,
-                  background:on?SC[s]||"#888":"transparent",
-                  color:on?"#fff":SC[s]||"#888",
-                  transition:"all 0.15s",
-                }}>
-                {s}
-              </button>
-            );
-          })}
-          {activeCount>0&&(
-            <button onClick={clearAll} style={{display:"inline-flex",alignItems:"center",padding:"4px 10px",borderRadius:20,border:"1px solid #e2e8f0",background:"#f1f5f9",fontSize:12,color:"#64748b",fontWeight:600,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer"}}>
-              ✕ Clear ({activeCount})
-            </button>
-          )}
+    <div ref={ref} style={{position:"relative",flexShrink:0}}>
+      <button onClick={()=>setOpen(o=>!o)}
+        style={{
+          display:"inline-flex",alignItems:"center",gap:6,
+          padding:"6px 12px",borderRadius:7,
+          border:`1.5px solid ${count>0?RED:"#e2e8f0"}`,
+          background:count>0?"#fff5f5":"#f8fafc",
+          color:count>0?RED:"#475569",
+          fontSize:12,fontWeight:count>0?700:500,
+          whiteSpace:"nowrap",cursor:"pointer",fontFamily:"inherit",
+          transition:"all 0.15s"
+        }}>
+        <span style={{fontSize:14,lineHeight:1}}>⊞</span>
+        {btnLabel}
+        {count>0&&(
+          <span
+            onClick={e=>{e.stopPropagation();onChange([]);}}
+            style={{display:"inline-flex",alignItems:"center",justifyContent:"center",width:16,height:16,borderRadius:"50%",background:RED,color:"#fff",fontSize:9,fontWeight:800,cursor:"pointer",flexShrink:0}}>
+            ✕
+          </span>
+        )}
+        <span style={{fontSize:10,color:"#94a3b8",marginLeft:2}}>{open?"▲":"▼"}</span>
+      </button>
+
+      {open&&(
+        <div className="status-filter-dropdown" style={{width:280}}>
+          {/* Header row */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:8,paddingBottom:8,borderBottom:"1px solid #f1f5f9"}}>
+            <span style={{fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em"}}>Filter by Status</span>
+            {count>0&&<button onClick={()=>onChange([])} style={{fontSize:11,color:RED,fontWeight:700,background:"none",border:"none",cursor:"pointer",padding:0}}>Clear all ({count})</button>}
+          </div>
+          {/* Groups */}
+          {STATUS_GROUPS.map(group=>(
+            <div key={group.label} style={{marginBottom:8}}>
+              <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:3}}>
+                <span style={{fontSize:10,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em"}}>{group.label}</span>
+                <button
+                  onClick={()=>toggleGroup(group.items)}
+                  style={{fontSize:10,color:"#6366f1",fontWeight:600,background:"none",border:"none",cursor:"pointer",padding:"0 2px"}}>
+                  {group.items.every(s=>selected.includes(s))?"Deselect all":"Select all"}
+                </button>
+              </div>
+              {group.items.map(s=>{
+                const on=selected.includes(s);
+                return(
+                  <label key={s} className={`status-filter-item${on?" active":""}`} style={{cursor:"pointer"}}>
+                    <input type="checkbox" checked={on} onChange={()=>toggle(s)}/>
+                    <span className="status-dot" style={{background:SC[s]||"#888"}}></span>
+                    <span style={{flex:1,color:on?"#1e293b":"#475569",fontWeight:on?600:400}}>{s}</span>
+                    {on&&<span style={{width:6,height:6,borderRadius:"50%",background:SC[s]||"#888",flexShrink:0}}></span>}
+                  </label>
+                );
+              })}
+            </div>
+          ))}
+          {/* Footer: select/deselect all */}
+          <div style={{borderTop:"1px solid #f1f5f9",paddingTop:8,display:"flex",gap:6,marginTop:2}}>
+            <button onClick={()=>onChange([...STATUSES])} style={{flex:1,padding:"6px 0",background:"#f8fafc",border:"1px solid #e2e8f0",borderRadius:6,fontSize:11,fontWeight:600,color:"#475569",cursor:"pointer"}}>Select All</button>
+            <button onClick={()=>{onChange([]);setOpen(false);}} style={{flex:1,padding:"6px 0",background:"#f1f5f9",border:"1px solid #e2e8f0",borderRadius:6,fontSize:11,fontWeight:600,color:"#64748b",cursor:"pointer"}}>Clear & Close</button>
+          </div>
         </div>
-        {/* Add Story — inline, scrolls with chips on mobile */}
-      </div>
+      )}
     </div>
   );
 }
@@ -623,16 +670,12 @@ function App(){
   const [selectedIdx,setSelectedIdx]=useState(null);
   const [search,setSearch]=useState("");
   const [fCat,setFCat]=useState("All");
-  /* FIX 3: multi-status filter — array of selected statuses (empty = all) */
   const [fStatuses,setFStatuses]=useState([]);
   const [fPri,setFPri]=useState("All");
   const [fReporter,setFReporter]=useState("All");
   const [fMedia,setFMedia]=useState("All");
   const [sk,setSk]=useState("eta");
   const [sd,setSd]=useState("asc");
-  /* Stable order: array of story IDs in sorted order.
-     Updated ONLY when: filters/search change, column header clicked, or page loads.
-     NOT updated when a field value changes mid-edit (e.g. typing in date picker). */
   const [stableOrder,setStableOrder]=useState(null);
   const [sync,setSync]=useState("synced");
   const [sideOpen,setSideOpen]=useState(false);
@@ -650,7 +693,6 @@ function App(){
     sheetsApi("getAll")
       .then(res=>{
         if(res.error)setError(res.error);
-        /* FIX 1: normalise all stories on load */
         else if(res.stories)setStories(res.stories.map(normaliseStory));
         else setError("Unexpected: "+JSON.stringify(res));
         setLoading(false);
@@ -664,14 +706,11 @@ function App(){
     if(editing){
       const res=await sheetsApi("update",{id:editing.id,story:normForm});
       if(res.success)setStories(s=>s.map(x=>x.id===editing.id?normaliseStory(res.story):x));
-      setSync("synced");
-      // For edit: don't close immediately — let the form show "Done!" for 2s, then close
-      setTimeout(()=>{setShowForm(false);setEditing(null);},2100);
     }else{
       const res=await sheetsApi("create",{story:normForm});
       if(res.story)setStories(s=>[...s,normaliseStory(res.story)]);
-      setShowForm(false);setEditing(null);setSync("synced");
     }
+    setShowForm(false);setEditing(null);setSync("synced");
   },[editing]);
 
   const handleDel=useCallback(async id=>{
@@ -683,7 +722,6 @@ function App(){
   },[]);
 
   const handleFieldChange=useCallback(async(id,key,val)=>{
-    /* FIX 1: normalise date fields when saving inline */
     const normVal=(key==="eta"||key==="pubDate")?normaliseDate(val):val;
     setStories(s=>s.map(x=>x.id===id?{...x,[key]:normVal}:x));
     setSync("saving");
@@ -698,8 +736,6 @@ function App(){
     setSync("synced");
   },[]);
 
-  /* Stage 1: apply filters only (no sort). Updates whenever stories data changes
-     so inline edits (status, reporter, etc.) reflect immediately in the rows. */
   const liveFiltered=useMemo(()=>{
     let s=[...stories];
     if(search)s=s.filter(x=>x.title.toLowerCase().includes(search.toLowerCase())||x.reporter.toLowerCase().includes(search.toLowerCase())||x.desk.toLowerCase().includes(search.toLowerCase()));
@@ -711,7 +747,6 @@ function App(){
     return s;
   },[stories,search,fCat,fStatuses,fPri,fReporter,fMedia]);
 
-  /* Helper: compute a sorted copy of any array using current sk/sd */
   const applySortOrder=useCallback((arr)=>{
     const copy=[...arr];
     copy.sort((a,b)=>{
@@ -722,20 +757,16 @@ function App(){
     return copy.map(x=>x.id);
   },[sk,sd]);
 
-  /* When filters/search change → rebuild stable order from freshly filtered list */
   useEffect(()=>{
     setStableOrder(applySortOrder(liveFiltered));
   },[search,fCat,fStatuses,fPri,fReporter,fMedia,sk,sd]);
 
-  /* On first load (stableOrder is null) also set it */
   useEffect(()=>{
     if(stableOrder===null&&liveFiltered.length>0){
       setStableOrder(applySortOrder(liveFiltered));
     }
   },[liveFiltered.length]);
 
-  /* Stage 2: arrange liveFiltered rows in stableOrder.
-     New/unordered rows (e.g. just added) go to the end. */
   const filtered=useMemo(()=>{
     if(!stableOrder||stableOrder.length===0)return liveFiltered;
     const orderMap=new Map(stableOrder.map((id,i)=>[id,i]));
@@ -823,51 +854,39 @@ function App(){
         {/* Top bar */}
         <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"10px 16px",display:"flex",alignItems:"center",gap:9,position:"sticky",top:0,zIndex:40,flexWrap:"wrap",rowGap:7}}>
           <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"6px 9px",background:"transparent",border:"none",borderRadius:7,fontSize:19,color:TS,cursor:"pointer",flexShrink:0}}>☰</button>
-
-          {/* Title only — no subtitle here */}
-          <div style={{flexShrink:0}}>
+          <div style={{flex:"1 1 100px"}}>
             <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
+            <div style={{fontSize:11,color:TS,marginTop:2}}>
+              {filtered.length} stories
+              {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
+              {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}
+              {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
+            </div>
           </div>
 
-          {/* Search + filters — grow to fill space */}
+          {/* Search — desktop */}
           <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:6,background:"#f1f5f9",borderRadius:7,padding:"6px 11px"}}>
             <span style={{color:TS,fontSize:13}}>🔍</span>
             <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories…" style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:150,fontFamily:"inherit"}}/>
           </div>
 
-          <div className="topbar-filters desktop-only" style={{display:"flex",gap:6,flex:1}}>
+          {/* Status filter dropdown — compact, fits nicely next to other filters */}
+          <StatusFilterDropdown selected={fStatuses} onChange={setFStatuses}/>
+
+          <div className="topbar-filters desktop-only" style={{display:"flex",gap:6}}>
             <select value={fMedia} onChange={e=>setFMedia(e.target.value)} style={selStyle}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
             <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
           </div>
 
-          {/* Right side: Synced pill + Add Story stacked */}
-          <div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:5,flexShrink:0,marginLeft:"auto"}}>
-            <div style={{padding:"4px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
-            <button onClick={()=>{setEditing(null);setShowForm(true);}}
-              style={{padding:"6px 14px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",cursor:"pointer",fontSize:isMobile?20:12,lineHeight:1}}>
-              {isMobile?"+":"+ Add Story"}
-            </button>
-          </div>
-        </div>
+          <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
 
-        {/* Subtitle bar: story count + overdue — sits just below topbar */}
-        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"5px 16px 6px 16px",display:"flex",alignItems:"center",gap:10}}>
-          <div style={{width:9}}></div>{/* spacer to align with title */}
-          <span style={{fontSize:11,color:TS}}>
-            {filtered.length} stories
-            {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
-            {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}
-            {fStatuses.length>0&&<span style={{color:"#a855f7"}}> · {fStatuses.length} status filtered</span>}
-          </span>
+          <button onClick={()=>{setEditing(null);setShowForm(true);}}
+            style={{padding:"7px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:isMobile?18:13,lineHeight:1}}>
+            {isMobile?"+":"+ Add Story"}
+          </button>
         </div>
-
-        {/* FIX 3: Status filter bar with Add Story */}
-        <StatusFilterBar
-          selected={fStatuses}
-          onChange={setFStatuses}
-        />
 
         {/* Mobile filter row */}
         <div className="mobile-filter-row">
@@ -878,11 +897,11 @@ function App(){
         </div>
 
         {/* Content */}
-        <div style={{flex:1,padding:"10px 16px",overflowY:"auto"}}>
+        <div style={{flex:1,padding:"16px 18px",overflowY:"auto"}}>
           {view==="analytics"&&<Analytics stories={stories}/>}
           {view==="table"&&(
             <div style={{background:CARD,borderRadius:10,border:`1px solid ${BC}`,overflow:"hidden"}}>
-              <TableView stories={filtered} onRow={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}} sk={sk} setSk={setSk} sd={sd} setSd={setSd} onFieldChange={handleFieldChange} onSort={()=>setStableOrder(applySortOrder(liveFiltered))}/>
+              <TableView stories={filtered} onRow={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}} sk={sk} setSk={setSk} sd={sd} setSd={setSd} onFieldChange={handleFieldChange} onDelete={handleDel} onSort={()=>setStableOrder(applySortOrder(liveFiltered))}/>
             </div>
           )}
           {view==="kanban"&&<KanbanView stories={filtered} onCard={s=>{const i=filtered.findIndex(x=>x.id===s.id);setSelectedIdx(i);}}/>}
@@ -902,6 +921,7 @@ function App(){
           <StoryDetail
             story={selectedStory}
             onEdit={s=>{setEditing(s);setSelectedIdx(null);}}
+            onDelete={id=>{handleDel(id);setSelectedIdx(null);}}
             onFieldChange={handleFieldChange}
             onSaveComment={handleSaveComment}
             onPrev={()=>setSelectedIdx(i=>Math.max(i-1,0))}
