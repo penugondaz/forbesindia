@@ -77,7 +77,7 @@ const CATS=["News","Deep Dive","Explainer","Take One","Leadership","Innovation",
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
 const PRIS=["Critical","High","Medium","Low"];
 const PC={"Critical":"#ef4444","High":"#f97316","Medium":"#f59e0b","Low":"#6366f1"};
-const REPORTERS=["Samreen Wani","Naini Thaker","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury"];
+const REPORTERS=["Samreen Wani","Naini Thaker","Suveen Sinha","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury","Other"];
 
 const MEDIA_TYPES=["Text","Multimedia"];
 
@@ -883,55 +883,52 @@ function App(){
       {/* MAIN */}
       <div style={{flex:1,display:"flex",flexDirection:"column",minWidth:0}}>
 
-        {/* Top bar — 2 rows:
-             Row 1: ☰ | title+subtitle (left) | search + filters + synced + Add Story (right)
-             The subtitle line sits just below the title, left-aligned
-        */}
-        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,padding:"9px 16px 8px",position:"sticky",top:0,zIndex:40}}>
-          {/* Row 1: hamburger + view title + filters row */}
-          <div style={{display:"flex",alignItems:"center",gap:8}}>
+        {/* Top bar — 2 rows */}
+        <div style={{background:CARD,borderBottom:`1px solid ${BC}`,position:"sticky",top:0,zIndex:40}}>
+
+          {/* ROW 1: ☰ | Title | Search | Filters | Synced */}
+          <div style={{display:"flex",alignItems:"center",gap:8,padding:"9px 16px 7px",flexWrap:"nowrap",overflow:"hidden"}}>
             <button onClick={()=>setSideOpen(o=>!o)} style={{padding:"5px 8px",background:"transparent",border:"none",borderRadius:7,fontSize:19,color:TS,cursor:"pointer",flexShrink:0,lineHeight:1}}>☰</button>
 
-            {/* Title block */}
-            <div style={{flexShrink:0}}>
-              <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
-              <div style={{fontSize:11,color:TS,marginTop:3,lineHeight:1}}>
-                <span style={{fontWeight:600}}>{filtered.length} stories</span>
-                {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
-                {fReporter!=="All"&&<span style={{color:"#818cf8"}}> · {fReporter.split(" ")[0]}</span>}
-                {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
-              </div>
-            </div>
+            <h1 style={{fontSize:17,fontWeight:800,color:TP,lineHeight:1,flexShrink:0,marginRight:4}}>{VIEWS.find(v=>v.id===view)?.l}</h1>
 
-            {/* Spacer */}
             <div style={{flex:1}}/>
 
-            {/* Search — desktop */}
-            <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:6,background:"#f1f5f9",borderRadius:7,padding:"6px 11px",flexShrink:0}}>
+            {/* Search */}
+            <div className="desktop-only" style={{display:"flex",alignItems:"center",gap:6,background:"#f1f5f9",borderRadius:7,padding:"5px 10px",flexShrink:0}}>
               <span style={{color:TS,fontSize:13}}>🔍</span>
-              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories…" style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:140,fontFamily:"inherit"}}/>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search stories…" style={{border:"none",background:"transparent",outline:"none",fontSize:12,color:TP,width:130,fontFamily:"inherit"}}/>
             </div>
 
             {/* Status filter */}
             <StatusFilterDropdown selected={fStatuses} onChange={setFStatuses}/>
 
             {/* Other filters */}
-            <div className="topbar-filters desktop-only" style={{display:"flex",gap:6,flexShrink:0}}>
+            <div className="topbar-filters desktop-only" style={{display:"flex",gap:5,flexShrink:0}}>
               <select value={fMedia} onChange={e=>setFMedia(e.target.value)} style={selStyle}><option value="All">All Media</option>{MEDIA_TYPES.map(o=><option key={o}>{o}</option>)}</select>
               <select value={fCat} onChange={e=>setFCat(e.target.value)} style={selStyle}><option value="All">All Categories</option>{CATS.map(o=><option key={o}>{o}</option>)}</select>
               <select value={fPri} onChange={e=>setFPri(e.target.value)} style={selStyle}><option value="All">All Priorities</option>{PRIS.map(o=><option key={o}>{o}</option>)}</select>
               <select value={fReporter} onChange={e=>setFReporter(e.target.value)} style={selStyle}><option value="All">All Reporters</option>{REPORTERS.map(o=><option key={o}>{o}</option>)}</select>
             </div>
 
-            {/* Synced indicator */}
+            {/* Synced */}
             <div style={{padding:"5px 10px",background:sync==="saving"?"#fffbeb":"#f0fdf4",borderRadius:7,fontSize:11,color:sync==="saving"?"#92400e":"#166534",whiteSpace:"nowrap",fontWeight:600,flexShrink:0}}>{sync==="saving"?"⏳ Saving…":"✓ Synced"}</div>
+          </div>
 
-            {/* + Add Story — right-most */}
+          {/* ROW 2: story count (left) | + Add Story (right) */}
+          <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"0 16px 8px",borderTop:"1px solid #f1f5f9"}}>
+            <div style={{fontSize:12,color:TS,lineHeight:1}}>
+              <span style={{fontWeight:700,color:TP}}>{filtered.length} stories</span>
+              {ovCount>0&&<span style={{color:"#ef4444",fontWeight:700}}> · ⚠ {ovCount} overdue</span>}
+              {fReporter!=="All"&&<span style={{color:"#818cf8",fontWeight:600}}> · {fReporter.split(" ")[0]}</span>}
+              {fStatuses.length>0&&<span style={{color:RED,fontWeight:600}}> · {fStatuses.length} status{fStatuses.length>1?"es":""} active</span>}
+            </div>
             <button onClick={()=>{setEditing(null);setShowForm(true);}}
-              style={{padding:"7px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:isMobile?18:13,lineHeight:1}}>
-              {isMobile?"+":"+ Add Story"}
+              style={{padding:"6px 16px",background:RED,color:"#fff",border:"none",borderRadius:7,fontWeight:700,whiteSpace:"nowrap",flexShrink:0,cursor:"pointer",fontSize:13,lineHeight:1}}>
+              + Add Story
             </button>
           </div>
+
         </div>
 
         {/* Mobile filter row */}
