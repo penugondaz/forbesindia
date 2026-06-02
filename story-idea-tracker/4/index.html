@@ -77,7 +77,7 @@ const CATS=["News","Deep Dive","Explainer","Take One","Leadership","Innovation",
 const FORMATS=["Long-form Feature","News Report","Interview","Opinion/Column","Listicle","Profile","Data Story","Photo Essay","Video","Podcast"];
 const PRIS=["Critical","High","Medium","Low"];
 const PC={"Critical":"#ef4444","High":"#f97316","Medium":"#f59e0b","Low":"#6366f1"};
-const REPORTERS=["Samreen Wani","Naini Thaker","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury"];
+const REPORTERS=["Samreen Wani","Naini Thaker","Suveen Sinha","Payal Ganguly","Himani Kothari","Samidha Jain","Kathakali Chanda","Vasudha Mukherjee","Samar Srivastava","Benu Joshi Routh","Kunal Purandare","Nasrin Sultana","Jasodhara Banerjee","Neha Bothra","Monica Bathija","Siddhant Konduskar","Pankti Mehta Kadakia","Sarthak Choudhury","Other"];
 
 const MEDIA_TYPES=["Text","Multimedia"];
 
@@ -243,6 +243,7 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
         <div style={{display:"flex",flexWrap:"wrap",gap:5,justifyContent:"center"}}>
           <SBadge s={story.status}/><PBadge p={story.pri}/>
           <Badge label={story.desk} color="#64748b" sm/>
+          <Badge label={(story.media||"Text")==="Multimedia"?"🎬 Multimedia":"📝 Text"} color={(story.media||"Text")==="Multimedia"?"#7c3aed":"#0369a1"} sm/>
           {ov&&<Badge label="⚠ OVERDUE" color="#ef4444" sm/>}
         </div>
         <button onClick={onNext} disabled={!hasNext} style={{padding:"6px 16px",borderRadius:7,border:"1px solid #e2e8f0",background:hasNext?"#f8fafc":"#f1f5f9",color:hasNext?"#475569":"#cbd5e1",fontWeight:700,fontSize:13,cursor:hasNext?"pointer":"default"}}>Next →</button>
@@ -253,7 +254,7 @@ function StoryDetail({story,onEdit,onDelete,onFieldChange,onPrev,onNext,hasPrev,
       <div style={{background:"#f8fafc",borderRadius:10,border:"1px solid #e2e8f0",padding:"13px 15px",marginBottom:14}}>
         <div style={{fontSize:11,fontWeight:700,color:"#94a3b8",textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>Quick Edit</div>
         <div className="detail-grid" style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:"9px 13px"}}>
-          {[["Status","status",STATUSES],["Reporter","reporter",REPORTERS],["Priority","pri",PRIS],["Type","pub",["Web","Magazine","Both"]],["Category","desk",CATS]].map(([lbl,key,opts])=>(
+          {[["Status","status",STATUSES],["Reporter","reporter",REPORTERS],["Priority","pri",PRIS],["Type","pub",["Web","Magazine","Both"]],["Category","desk",CATS],["Media","media",MEDIA_TYPES]].map(([lbl,key,opts])=>(
             <div key={key}>
               <div style={{fontSize:11,color:"#94a3b8",fontWeight:700,textTransform:"uppercase",letterSpacing:"0.05em",marginBottom:3}}>{lbl}</div>
               <select value={story[key]||""} onChange={e=>onFieldChange(story.id,key,e.target.value)} style={IS}>{opts.map(o=><option key={o}>{o}</option>)}</select>
