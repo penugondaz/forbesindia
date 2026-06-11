@@ -15,66 +15,77 @@ TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
 IST = timezone(timedelta(hours=5, minutes=30))
 today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
-# ForexFactory uses format like "jun11.2026"
-ff_date    = today.strftime("%b%d.%Y").lower()
+date_param = today.strftime("%Y-%m-%d")
 
-URL = f"https://www.forexfactory.com/calendar?day={ff_date}"
-
-IMPACT_MAP = {"High": "⭐⭐⭐", "Medium": "⭐⭐", "Low": "⭐"}
+MC_URL = (
+    f"https://www.moneycontrol.com/economic-widget"
+    f"?duration=&startDate={date_param}&endDate={date_param}"
+    f"&impact=&country=India&deviceType=web&classic=true"
+)
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Referer": "https://www.moneycontrol.com/economic-calendar",
         "Accept-Language": "en-US,en;q=0.9",
     }
     try:
-        resp = requests.get(URL, headers=headers, timeout=15)
+        resp = requests.get(MC_URL, headers=headers, timeout=15)
         resp.raise_for_status()
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
 
     soup = BeautifulSoup(resp.text, "lxml")
-    rows = soup.select("tr.calendar__row")
 
+    # Find all table rows with event data
+    rows = soup.select("table tr")
     if not rows:
-        return [], None
+        # Try alternate selector
+        rows = soup.select("tr")
 
     events = []
-    current_time = "–"
-
     for row in rows:
-        # ForexFactory reuses the time cell — carry forward if empty
-        time_el = row.select_one("td.calendar__time")
-        if time_el and time_el.text.strip():
-            current_time = time_el.text.strip()
-
-        # Filter India / INR events
-        currency_el = row.select_one("td.calendar__currency")
-        if not currency_el or currency_el.text.strip() != "INR":
+        cols = row.find_all("td")
+        if len(cols) < 4:
             continue
 
-        event_el    = row.select_one("td.calendar__event span.calendar__event-title")
-        impact_el   = row.select_one("td.calendar__impact span")
-        actual_el   = row.select_one("td.calendar__actual")
-        forecast_el = row.select_one("td.calendar__forecast")
-        previous_el = row.select_one("td.calendar__previous")
+        # Skip header rows
+        time_text = cols[0].get_text(strip=True)
+        if not time_text or time_text.lower() == "time":
+            continue
 
-        # Impact from class name
-        impact_str = "–"
+        # Event name — usually in a link
+        event_el = cols[2].find("a") or cols[2]
+        event_name = event_el.get_text(strip=True) if event_el else "–"
+
+        # Impact — look for image alt or text
+        impact_el = cols[3] if len(cols) > 3 else None
+        impact_text = "–"
         if impact_el:
-            cls = " ".join(impact_el.get("class", []))
-            if "high" in cls:   impact_str = "⭐⭐⭐"
-            elif "medium" in cls: impact_str = "⭐⭐"
-            elif "low" in cls:  impact_str = "⭐"
+            img = impact_el.find("img")
+            if img:
+                alt = img.get("alt", "").lower()
+                if "high" in alt:   impact_text = "⭐⭐⭐"
+                elif "medium" in alt: impact_text = "⭐⭐"
+                elif "low" in alt:  impact_text = "⭐"
+            else:
+                raw = impact_el.get_text(strip=True).lower()
+                if "high" in raw:   impact_text = "⭐⭐⭐"
+                elif "medium" in raw: impact_text = "⭐⭐"
+                elif "low" in raw:  impact_text = "⭐"
+
+        actual    = cols[4].get_text(strip=True) if len(cols) > 4 else "–"
+        previous  = cols[5].get_text(strip=True) if len(cols) > 5 else "–"
+        consensus = cols[6].get_text(strip=True) if len(cols) > 6 else "–"
 
         events.append({
-            "time":      current_time,
-            "event":     event_el.text.strip()     if event_el    else "–",
-            "impact":    impact_str,
-            "actual":    actual_el.text.strip()    if actual_el   else "–",
-            "consensus": forecast_el.text.strip()  if forecast_el else "–",
-            "previous":  previous_el.text.strip()  if previous_el else "–",
+            "time":      time_text or "–",
+            "event":     event_name or "–",
+            "impact":    impact_text,
+            "actual":    actual    or "–",
+            "previous":  previous  or "–",
+            "consensus": consensus or "–",
         })
 
     return events, None
@@ -86,7 +97,7 @@ def build_html(events, error=None):
     if error:
         rows_html = f'<tr><td colspan="6" style="color:red;padding:12px">{error}</td></tr>'
     elif not events:
-        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India (INR) events scheduled for today.</td></tr>'
+        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India events scheduled for today.</td></tr>'
     else:
         for e in events:
             rows_html += f"""
@@ -120,7 +131,8 @@ def build_html(events, error=None):
         <tbody>{rows_html}</tbody>
       </table>
       <p style="font-size:11px;color:#aaa;margin-top:12px;text-align:center">
-        Source: <a href="{URL}" style="color:#aaa">ForexFactory Economic Calendar</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
+        Source: <a href="https://www.moneycontrol.com/economic-calendar" style="color:#aaa">Moneycontrol Economic Calendar</a>
+        &nbsp;|&nbsp; Sent at 9:30 AM IST
       </p>
     </body></html>
     """
