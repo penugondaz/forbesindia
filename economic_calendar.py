@@ -1,6 +1,7 @@
 import os
 import smtplib
 import requests
+from bs4 import BeautifulSoup
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timezone, timedelta
@@ -14,63 +15,68 @@ TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
 IST = timezone(timedelta(hours=5, minutes=30))
 today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
-date_param = today.strftime("%Y-%m-%d")
+# ForexFactory uses format like "jun11.2026"
+ff_date    = today.strftime("%b%d.%Y").lower()
 
-URL = "https://tradingeconomics.com/india/calendar"
+URL = f"https://www.forexfactory.com/calendar?day={ff_date}"
 
-IMPACT_MAP = {"low": "⭐", "medium": "⭐⭐", "high": "⭐⭐⭐"}
+IMPACT_MAP = {"High": "⭐⭐⭐", "Medium": "⭐⭐", "Low": "⭐"}
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-    api_url = (
-        f"https://api.tradingeconomics.com/calendar/country/india"
-        f"/{date_param}/{date_param}"
-        f"?c=guest:guest&f=json"
-    )
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "en-US,en;q=0.9",
+    }
     try:
-        resp = requests.get(api_url, timeout=15)
+        resp = requests.get(URL, headers=headers, timeout=15)
         resp.raise_for_status()
-        items = resp.json()
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
 
-    if not items or not isinstance(items, list):
+    soup = BeautifulSoup(resp.text, "lxml")
+    rows = soup.select("tr.calendar__row")
+
+    if not rows:
         return [], None
 
     events = []
-    for item in items:
-        # Convert UTC date to IST time
-        event_time = "–"
-        raw_date = item.get("Date", "")
-        if raw_date:
-            try:
-                dt_utc = datetime.strptime(raw_date[:19], "%Y-%m-%dT%H:%M:%S")
-                dt_ist = dt_utc.replace(tzinfo=timezone.utc).astimezone(IST)
-                event_time = dt_ist.strftime("%H:%M")
-            except Exception:
-                event_time = raw_date[11:16] if len(raw_date) > 10 else "–"
+    current_time = "–"
 
-        importance = str(item.get("Importance", "")).lower()
-        impact_map = {1: "⭐", 2: "⭐⭐", 3: "⭐⭐⭐"}
-        try:
-            impact_str = impact_map.get(int(importance), "–")
-        except Exception:
-            impact_str = IMPACT_MAP.get(importance, "–")
+    for row in rows:
+        # ForexFactory reuses the time cell — carry forward if empty
+        time_el = row.select_one("td.calendar__time")
+        if time_el and time_el.text.strip():
+            current_time = time_el.text.strip()
 
-        actual   = item.get("Actual")
-        previous = item.get("Previous")
-        forecast = item.get("Forecast")
+        # Filter India / INR events
+        currency_el = row.select_one("td.calendar__currency")
+        if not currency_el or currency_el.text.strip() != "INR":
+            continue
+
+        event_el    = row.select_one("td.calendar__event span.calendar__event-title")
+        impact_el   = row.select_one("td.calendar__impact span")
+        actual_el   = row.select_one("td.calendar__actual")
+        forecast_el = row.select_one("td.calendar__forecast")
+        previous_el = row.select_one("td.calendar__previous")
+
+        # Impact from class name
+        impact_str = "–"
+        if impact_el:
+            cls = " ".join(impact_el.get("class", []))
+            if "high" in cls:   impact_str = "⭐⭐⭐"
+            elif "medium" in cls: impact_str = "⭐⭐"
+            elif "low" in cls:  impact_str = "⭐"
 
         events.append({
-            "time":      event_time,
-            "event":     item.get("Category", "–"),
+            "time":      current_time,
+            "event":     event_el.text.strip()     if event_el    else "–",
             "impact":    impact_str,
-            "actual":    str(actual)   if actual   not in (None, "") else "–",
-            "previous":  str(previous) if previous not in (None, "") else "–",
-            "consensus": str(forecast) if forecast not in (None, "") else "–",
+            "actual":    actual_el.text.strip()    if actual_el   else "–",
+            "consensus": forecast_el.text.strip()  if forecast_el else "–",
+            "previous":  previous_el.text.strip()  if previous_el else "–",
         })
 
-    events.sort(key=lambda x: x["time"])
     return events, None
 
 # ── Build Email ───────────────────────────────────────────────────────────────
@@ -80,7 +86,7 @@ def build_html(events, error=None):
     if error:
         rows_html = f'<tr><td colspan="6" style="color:red;padding:12px">{error}</td></tr>'
     elif not events:
-        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India events scheduled for today.</td></tr>'
+        rows_html = '<tr><td colspan="6" style="padding:12px;color:#666">No India (INR) events scheduled for today.</td></tr>'
     else:
         for e in events:
             rows_html += f"""
@@ -114,7 +120,7 @@ def build_html(events, error=None):
         <tbody>{rows_html}</tbody>
       </table>
       <p style="font-size:11px;color:#aaa;margin-top:12px;text-align:center">
-        Source: <a href="{URL}" style="color:#aaa">Trading Economics</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
+        Source: <a href="{URL}" style="color:#aaa">ForexFactory Economic Calendar</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
       </p>
     </body></html>
     """
