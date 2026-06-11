@@ -17,14 +17,13 @@ today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
 date_param = today.strftime("%Y-%m-%d")
 
-URL = "https://financialmodelingprep.com/financial-calendars/economic-calendar"
-
+URL = "https://site.financialmodelingprep.com/developer/docs/stable/economics-calendar"
 IMPACT_MAP = {"Low": "⭐", "Medium": "⭐⭐", "High": "⭐⭐⭐"}
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-    api_url = (
-        f"https://financialmodelingprep.com/api/v3/economic_calendar"
+api_url = (
+        f"https://financialmodelingprep.com/stable/economic-calendar"
         f"?from={date_param}&to={date_param}&apikey={FMP_TOKEN}"
     )
     try:
