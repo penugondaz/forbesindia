@@ -14,11 +14,10 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: pip install requests
+        run: pip install requests beautifulsoup4 lxml
       - name: Run calendar script
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
-          FMP_TOKEN: ${{ secrets.FMP_TOKEN }}
         run: python economic_calendar.py
