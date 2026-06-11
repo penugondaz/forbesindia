@@ -18,11 +18,12 @@ date_str   = today.strftime("%A, %d %B %Y")
 date_param = today.strftime("%Y-%m-%d")
 
 URL = "https://site.financialmodelingprep.com/developer/docs/stable/economics-calendar"
+
 IMPACT_MAP = {"Low": "⭐", "Medium": "⭐⭐", "High": "⭐⭐⭐"}
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-api_url = (
+    api_url = (
         f"https://financialmodelingprep.com/stable/economic-calendar"
         f"?from={date_param}&to={date_param}&apikey={FMP_TOKEN}"
     )
@@ -42,7 +43,6 @@ api_url = (
         if country.upper() != "IN":
             continue
 
-        # Convert UTC time to IST
         event_time = "–"
         raw_time = item.get("date", "")
         if raw_time:
