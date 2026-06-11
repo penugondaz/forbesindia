@@ -1,6 +1,7 @@
 import os
 import smtplib
 import requests
+from bs4 import BeautifulSoup
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime, timezone, timedelta
@@ -9,65 +10,70 @@ from datetime import datetime, timezone, timedelta
 GMAIL_USER         = os.environ["GMAIL_USER"].strip()
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"].strip()
 TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
-FINNHUB_TOKEN      = os.environ["FINNHUB_TOKEN"].strip()
 
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
-today = datetime.now(IST)
+today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
-date_param = today.strftime("%Y-%m-%d")   # e.g. 2026-04-15
+date_param = today.strftime("%Y-%m-%d")
 
-URL = "https://www.moneycontrol.com/economic-calendar/"
+URL = "https://www.investing.com/economic-calendar/"
 
-IMPACT_MAP = {"low": "⭐", "medium": "⭐⭐", "high": "⭐⭐⭐",
-              "1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
+IMPACT_MAP = {0: "–", 1: "⭐", 2: "⭐⭐", 3: "⭐⭐⭐"}
 
+# ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-    api_url = (
-        f"https://finnhub.io/api/v1/calendar/economic"
-        f"?from={date_param}&to={date_param}&token={FINNHUB_TOKEN}"
-    )
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "X-Requested-With": "XMLHttpRequest",
+        "Referer": "https://www.investing.com/economic-calendar/",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    api_url = "https://www.investing.com/economic-calendar/Service/getCalendarFilteredData"
+    payload = {
+        "country[]": "14",
+        "dateFrom": date_param,
+        "dateTo": date_param,
+        "timeZone": "20",
+        "timeFilter": "timeRemain",
+        "currentTab": "custom",
+        "submitFilters": "1",
+        "limit_from": "0",
+    }
     try:
-        resp = requests.get(api_url, timeout=15)
+        resp = requests.post(api_url, data=payload, headers=headers, timeout=15)
         resp.raise_for_status()
         data = resp.json()
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
 
-    items = data.get("economicCalendar", [])
-    if not items:
+    soup = BeautifulSoup(data.get("data", ""), "lxml")
+    rows = soup.select("tr.js-event-item")
+
+    if not rows:
         return [], None
 
-    # Filter India events
     events = []
-    for item in items:
-        country = item.get("country", "")
-        if country.upper() not in ("IN", "IND", "INDIA"):
-            continue
+    for row in rows:
+        time_el     = row.select_one("td.time")
+        event_el    = row.select_one("td.event a")
+        impact_el   = row.select_one("td.sentiment")
+        actual_el   = row.select_one("td.actual")
+        prev_el     = row.select_one("td.prev")
+        forecast_el = row.select_one("td.forecast")
 
-        # Format time from UTC to IST
-        event_time = "–"
-        raw_time = item.get("time", "")
-        if raw_time:
-            try:
-                dt_utc = datetime.strptime(f"{date_param} {raw_time}", "%Y-%m-%d %H:%M:%S")
-                dt_ist = dt_utc.replace(tzinfo=timezone.utc).astimezone(IST)
-                event_time = dt_ist.strftime("%H:%M")
-            except Exception:
-                event_time = raw_time
+        bull_count = len(impact_el.select("i.grayFullBullishIcon")) if impact_el else 0
+        impact_str = IMPACT_MAP.get(bull_count, "–")
 
-        impact_raw = str(item.get("impact", "")).lower()
         events.append({
-            "time":      event_time,
-            "event":     item.get("event", "–"),
-            "impact":    IMPACT_MAP.get(impact_raw, "–"),
-            "actual":    str(item.get("actual", "–")) if item.get("actual") is not None else "–",
-            "previous":  str(item.get("prev",   "–")) if item.get("prev")   is not None else "–",
-            "consensus": str(item.get("estimate","–")) if item.get("estimate") is not None else "–",
+            "time":      time_el.text.strip()      if time_el     else "–",
+            "event":     event_el.text.strip()     if event_el    else "–",
+            "impact":    impact_str,
+            "actual":    actual_el.text.strip()    if actual_el   else "–",
+            "previous":  prev_el.text.strip()      if prev_el     else "–",
+            "consensus": forecast_el.text.strip()  if forecast_el else "–",
         })
 
-    # Sort by time
-    events.sort(key=lambda x: x["time"])
     return events, None
 
 # ── Build Email ───────────────────────────────────────────────────────────────
@@ -111,7 +117,7 @@ def build_html(events, error=None):
         <tbody>{rows_html}</tbody>
       </table>
       <p style="font-size:11px;color:#aaa;margin-top:12px;text-align:center">
-        Source: <a href="{URL}" style="color:#aaa">Moneycontrol Economic Calendar</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
+        Source: <a href="{URL}" style="color:#aaa">Investing.com Economic Calendar</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
       </p>
     </body></html>
     """
