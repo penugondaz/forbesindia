@@ -9,7 +9,6 @@ from datetime import datetime, timezone, timedelta
 GMAIL_USER         = os.environ["GMAIL_USER"].strip()
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"].strip()
 TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
-FMP_TOKEN          = os.environ["FMP_TOKEN"].strip()
 
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -17,15 +16,16 @@ today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
 date_param = today.strftime("%Y-%m-%d")
 
-URL = "https://site.financialmodelingprep.com/developer/docs/stable/economics-calendar"
+URL = "https://tradingeconomics.com/india/calendar"
 
-IMPACT_MAP = {"Low": "⭐", "Medium": "⭐⭐", "High": "⭐⭐⭐"}
+IMPACT_MAP = {"low": "⭐", "medium": "⭐⭐", "high": "⭐⭐⭐"}
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
     api_url = (
-        f"https://financialmodelingprep.com/stable/economic-calendar"
-        f"?from={date_param}&to={date_param}&apikey={FMP_TOKEN}"
+        f"https://api.tradingeconomics.com/calendar/country/india"
+        f"/{date_param}/{date_param}"
+        f"?c=guest:guest&f=json"
     )
     try:
         resp = requests.get(api_url, timeout=15)
@@ -34,36 +34,40 @@ def fetch_india_events():
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
 
-    if not items or isinstance(items, dict):
-        return [], items.get("Error Message") if isinstance(items, dict) else None
+    if not items or not isinstance(items, list):
+        return [], None
 
     events = []
     for item in items:
-        country = item.get("country", "")
-        if country.upper() != "IN":
-            continue
-
+        # Convert UTC date to IST time
         event_time = "–"
-        raw_time = item.get("date", "")
-        if raw_time:
+        raw_date = item.get("Date", "")
+        if raw_date:
             try:
-                dt_utc = datetime.strptime(raw_time, "%Y-%m-%d %H:%M:%S")
+                dt_utc = datetime.strptime(raw_date[:19], "%Y-%m-%dT%H:%M:%S")
                 dt_ist = dt_utc.replace(tzinfo=timezone.utc).astimezone(IST)
                 event_time = dt_ist.strftime("%H:%M")
             except Exception:
-                event_time = raw_time[:16]
+                event_time = raw_date[11:16] if len(raw_date) > 10 else "–"
 
-        actual   = item.get("actual")
-        previous = item.get("previous")
-        estimate = item.get("estimate")
+        importance = str(item.get("Importance", "")).lower()
+        impact_map = {1: "⭐", 2: "⭐⭐", 3: "⭐⭐⭐"}
+        try:
+            impact_str = impact_map.get(int(importance), "–")
+        except Exception:
+            impact_str = IMPACT_MAP.get(importance, "–")
+
+        actual   = item.get("Actual")
+        previous = item.get("Previous")
+        forecast = item.get("Forecast")
 
         events.append({
             "time":      event_time,
-            "event":     item.get("event", "–"),
-            "impact":    IMPACT_MAP.get(item.get("impact", ""), "–"),
-            "actual":    str(actual)   if actual   is not None else "–",
-            "previous":  str(previous) if previous is not None else "–",
-            "consensus": str(estimate) if estimate is not None else "–",
+            "event":     item.get("Category", "–"),
+            "impact":    impact_str,
+            "actual":    str(actual)   if actual   not in (None, "") else "–",
+            "previous":  str(previous) if previous not in (None, "") else "–",
+            "consensus": str(forecast) if forecast not in (None, "") else "–",
         })
 
     events.sort(key=lambda x: x["time"])
@@ -110,7 +114,7 @@ def build_html(events, error=None):
         <tbody>{rows_html}</tbody>
       </table>
       <p style="font-size:11px;color:#aaa;margin-top:12px;text-align:center">
-        Source: <a href="{URL}" style="color:#aaa">Financial Modeling Prep</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
+        Source: <a href="{URL}" style="color:#aaa">Trading Economics</a> &nbsp;|&nbsp; Sent at 9:30 AM IST
       </p>
     </body></html>
     """
