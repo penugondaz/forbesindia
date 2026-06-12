@@ -38,6 +38,19 @@ def fetch_india_events():
 
     soup = BeautifulSoup(resp.text, "lxml")
     rows = soup.find_all("tr")
+    soup = BeautifulSoup(resp.text, "lxml")
+    rows = soup.find_all("tr")
+
+    print(f"DEBUG: response length = {len(resp.text)} chars")
+    print(f"DEBUG: total <tr> rows found = {len(rows)}")
+    if rows:
+        print("DEBUG: sample row HTML (first row with <a> tag):")
+        for r in rows:
+            if r.find("a"):
+                print(str(r)[:800])
+                break
+
+    events = []
 
     events = []
     for row in rows:
