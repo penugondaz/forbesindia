@@ -38,55 +38,42 @@ def fetch_india_events():
 
     soup = BeautifulSoup(resp.text, "lxml")
     rows = soup.find_all("tr")
-    soup = BeautifulSoup(resp.text, "lxml")
-    rows = soup.find_all("tr")
 
-    print(f"DEBUG: response length = {len(resp.text)} chars")
-    print(f"DEBUG: total <tr> rows found = {len(rows)}")
-    if rows:
-        print("DEBUG: sample row HTML (first row with <a> tag):")
-        for r in rows:
-            if r.find("a"):
-                print(str(r)[:800])
-                break
-
-    events = []
+    IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
 
     events = []
     for row in rows:
+        # Only rows with the tableData class are actual event rows
+        if "tableData" not in (row.get("class") or []):
+            continue
+
         cols = row.find_all("td")
         if len(cols) < 5:
             continue
 
-        time_text = cols[0].get_text(strip=True)
+        # Column order: [0]=checkbox, [1]=time, [2]=country, [3]=eventName, [4]=impact(?), then actual/previous/consensus
+        time_text = cols[1].get_text(strip=True)
         if not time_text or ":" not in time_text:
             continue
 
-        link = row.find("a")
+        link = row.find("a", class_="evt_alink")
+        if not link:
+            link = row.find("a")
         event_name = link.get_text(strip=True) if link else None
         if not event_name:
             continue
 
-        impact_str = "–"
-        for img in row.find_all("img"):
-            alt = (img.get("alt") or "").lower()
-            src = (img.get("src") or "").lower()
-            combined = alt + src
-            if "high" in combined:
-                impact_str = "⭐⭐⭐"
-                break
-            elif "medium" in combined:
-                impact_str = "⭐⭐"
-                break
-            elif "low" in combined:
-                impact_str = "⭐"
-                break
+        # Impact from data-impact attribute on the <tr>
+        impact_val = row.get("data-impact", "")
+        impact_str = IMPACT_MAP.get(str(impact_val), "–")
 
-        numeric_cols = [c.get_text(strip=True) for c in cols[-3:]]
-        while len(numeric_cols) < 3:
-            numeric_cols.insert(0, "–")
-
-        actual, previous, consensus = numeric_cols[-3], numeric_cols[-2], numeric_cols[-1]
+        # Remaining numeric columns after eventName col (index 3): impact icon, actual, previous, consensus
+        rest_cols = [c.get_text(strip=True) for c in cols[4:]]
+        # Filter out empty placeholders, keep last up to 3 as actual/previous/consensus
+        rest_cols = [c for c in rest_cols if c != ""] or rest_cols
+        while len(rest_cols) < 3:
+            rest_cols.append("–")
+        actual, previous, consensus = rest_cols[-3], rest_cols[-2], rest_cols[-1]
 
         events.append({
             "time":      time_text,
