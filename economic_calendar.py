@@ -37,55 +37,53 @@ def fetch_india_events():
         return [], f"Failed to fetch data: {e}"
 
     soup = BeautifulSoup(resp.text, "lxml")
-
-    # Find all table rows with event data
-    rows = soup.select("table tr")
-    if not rows:
-        # Try alternate selector
-        rows = soup.select("tr")
+    rows = soup.find_all("tr")
 
     events = []
     for row in rows:
         cols = row.find_all("td")
-        if len(cols) < 4:
+        if len(cols) < 5:
             continue
 
-        # Skip header rows
         time_text = cols[0].get_text(strip=True)
-        if not time_text or time_text.lower() == "time":
+        # Skip header / non-data rows (time must look like HH:MM)
+        if not time_text or ":" not in time_text:
             continue
 
-        # Event name — usually in a link
-        event_el = cols[2].find("a") or cols[2]
-        event_name = event_el.get_text(strip=True) if event_el else "–"
+        # Event name — find the <a> link anywhere in the row
+        link = row.find("a")
+        event_name = link.get_text(strip=True) if link else None
+        if not event_name:
+            continue
 
-        # Impact — look for image alt or text
-        impact_el = cols[3] if len(cols) > 3 else None
-        impact_text = "–"
-        if impact_el:
-            img = impact_el.find("img")
-            if img:
-                alt = img.get("alt", "").lower()
-                if "high" in alt:   impact_text = "⭐⭐⭐"
-                elif "medium" in alt: impact_text = "⭐⭐"
-                elif "low" in alt:  impact_text = "⭐"
-            else:
-                raw = impact_el.get_text(strip=True).lower()
-                if "high" in raw:   impact_text = "⭐⭐⭐"
-                elif "medium" in raw: impact_text = "⭐⭐"
-                elif "low" in raw:  impact_text = "⭐"
+        # Impact — look for an <img> with alt text anywhere in the row
+        impact_str = "–"
+        for img in row.find_all("img"):
+            alt = (img.get("alt") or "").lower()
+            src = (img.get("src") or "").lower()
+            combined = alt + src
+            if "high" in combined:
+                impact_str = "⭐⭐⭐"; break
+            elif "medium" in combined:
+                impact_str = "⭐⭐"; break
+            elif "low" in combined:
+                impact_str = "⭐"; break
 
-        actual    = cols[4].get_text(strip=True) if len(cols) > 4 else "–"
-        previous  = cols[5].get_text(strip=True) if len(cols) > 5 else "–"
-        consensus = cols[6].get_text(strip=True) if len(cols) > 6 else "–"
+        # Numeric columns: last 3 <td> are typically Actual, Previous, Consensus
+        # but Consensus may not exist — grab from the end backwards
+        numeric_cols = [c.get_text(strip=True) for c in cols[-3:]]
+        while len(numeric_cols) < 3:
+            numeric_cols.insert(0, "–")
+
+        actual, previous, consensus = numeric_cols[-3], numeric_cols[-2], numeric_cols[-1]
 
         events.append({
-            "time":      time_text or "–",
-            "event":     event_name or "–",
-            "impact":    impact_text,
-            "actual":    actual    or "–",
-            "previous":  previous  or "–",
-            "consensus": consensus or "–",
+            "time":      time_text,
+            "event":     event_name,
+            "impact":    impact_str,
+            "actual":    actual    if actual    else "–",
+            "previous":  previous  if previous  else "–",
+            "consensus": consensus if consensus else "–",
         })
 
     return events, None
@@ -153,11 +151,4 @@ def send_email(subject, html_body):
 # ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print(f"Fetching India economic calendar for {date_str}...")
-    events, error = fetch_india_events()
-    print(f"Found {len(events)} India event(s)." if not error else f"Error: {error}")
-
-    count   = len(events)
-    subject = f"🇮🇳 India Economic Calendar – {date_str} ({count} event{'s' if count != 1 else ''})"
-    html    = build_html(events, error)
-
-    send_email(subject, html)
+    events
