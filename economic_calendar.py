@@ -46,31 +46,29 @@ def fetch_india_events():
             continue
 
         time_text = cols[0].get_text(strip=True)
-        # Skip header / non-data rows (time must look like HH:MM)
         if not time_text or ":" not in time_text:
             continue
 
-        # Event name — find the <a> link anywhere in the row
         link = row.find("a")
         event_name = link.get_text(strip=True) if link else None
         if not event_name:
             continue
 
-        # Impact — look for an <img> with alt text anywhere in the row
         impact_str = "–"
         for img in row.find_all("img"):
             alt = (img.get("alt") or "").lower()
             src = (img.get("src") or "").lower()
             combined = alt + src
             if "high" in combined:
-                impact_str = "⭐⭐⭐"; break
+                impact_str = "⭐⭐⭐"
+                break
             elif "medium" in combined:
-                impact_str = "⭐⭐"; break
+                impact_str = "⭐⭐"
+                break
             elif "low" in combined:
-                impact_str = "⭐"; break
+                impact_str = "⭐"
+                break
 
-        # Numeric columns: last 3 <td> are typically Actual, Previous, Consensus
-        # but Consensus may not exist — grab from the end backwards
         numeric_cols = [c.get_text(strip=True) for c in cols[-3:]]
         while len(numeric_cols) < 3:
             numeric_cols.insert(0, "–")
@@ -81,8 +79,8 @@ def fetch_india_events():
             "time":      time_text,
             "event":     event_name,
             "impact":    impact_str,
-            "actual":    actual    if actual    else "–",
-            "previous":  previous  if previous  else "–",
+            "actual":    actual if actual else "–",
+            "previous":  previous if previous else "–",
             "consensus": consensus if consensus else "–",
         })
 
@@ -151,4 +149,11 @@ def send_email(subject, html_body):
 # ── Main ──────────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     print(f"Fetching India economic calendar for {date_str}...")
-    events
+    events, error = fetch_india_events()
+    print(f"Found {len(events)} India event(s)." if not error else f"Error: {error}")
+
+    count   = len(events)
+    subject = f"🇮🇳 India Economic Calendar – {date_str} ({count} event{'s' if count != 1 else ''})"
+    html    = build_html(events, error)
+
+    send_email(subject, html)
