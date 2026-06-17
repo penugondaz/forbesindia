@@ -1,20 +1,24 @@
 name: Daily Economic Calendar Email
+
 on:
-  schedule:
-    - cron: '0 4 * * 1-5'   # 9:30 AM IST = 04:00 UTC, Mon–Fri
   workflow_dispatch:
+
 jobs:
   send-calendar:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - name: Install dependencies
         run: pip install requests beautifulsoup4 lxml
+
       - name: Run calendar script
         env:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
