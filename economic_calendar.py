@@ -29,6 +29,15 @@ def fetch_india_events():
 
     soup = BeautifulSoup(resp.text, "lxml")
     rows = soup.find_all("tr")
+    soup = BeautifulSoup(resp.text, "lxml")
+    rows = soup.find_all("tr")
+
+    print(f"DEBUG: response length = {len(resp.text)} chars")
+    print(f"DEBUG: total <tr> = {len(rows)}")
+    print(f"DEBUG: tableData rows = {len([r for r in rows if 'tableData' in (r.get('class') or [])])}")
+    print(f"DEBUG: first 500 chars = {resp.text[:500]}")
+
+    IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
 
     IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
 
