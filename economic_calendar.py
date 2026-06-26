@@ -10,6 +10,7 @@ from datetime import datetime, timezone, timedelta
 GMAIL_USER         = os.environ["GMAIL_USER"].strip()
 GMAIL_APP_PASSWORD = os.environ["GMAIL_APP_PASSWORD"].strip()
 TO_EMAILS          = [e.strip() for e in os.environ["TO_EMAIL"].split(",")]
+GAS_PROXY_URL      = os.environ["GAS_PROXY_URL"].strip()
 
 # ── Date in IST ──────────────────────────────────────────────────────────────
 IST = timezone(timedelta(hours=5, minutes=30))
@@ -17,21 +18,11 @@ today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
 date_param = today.strftime("%Y-%m-%d")
 
-MC_URL = (
-    f"https://www.moneycontrol.com/economic-widget"
-    f"?duration=&startDate={date_param}&endDate={date_param}"
-    f"&impact=&country=India&deviceType=web&classic=true"
-)
-
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-        "Referer": "https://www.moneycontrol.com/economic-calendar",
-        "Accept-Language": "en-US,en;q=0.9",
-    }
+    proxy_url = f"{GAS_PROXY_URL}?startDate={date_param}&endDate={date_param}"
     try:
-        resp = requests.get(MC_URL, headers=headers, timeout=15)
+        resp = requests.get(proxy_url, timeout=30)
         resp.raise_for_status()
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
@@ -43,7 +34,6 @@ def fetch_india_events():
 
     events = []
     for row in rows:
-        # Only rows with the tableData class are actual event rows
         if "tableData" not in (row.get("class") or []):
             continue
 
@@ -51,7 +41,6 @@ def fetch_india_events():
         if len(cols) < 5:
             continue
 
-        # Column order: [0]=checkbox, [1]=time, [2]=country, [3]=eventName, [4]=impact(?), then actual/previous/consensus
         time_text = cols[1].get_text(strip=True)
         if not time_text or ":" not in time_text:
             continue
@@ -63,13 +52,10 @@ def fetch_india_events():
         if not event_name:
             continue
 
-        # Impact from data-impact attribute on the <tr>
         impact_val = row.get("data-impact", "")
         impact_str = IMPACT_MAP.get(str(impact_val), "–")
 
-        # Remaining numeric columns after eventName col (index 3): impact icon, actual, previous, consensus
         rest_cols = [c.get_text(strip=True) for c in cols[4:]]
-        # Filter out empty placeholders, keep last up to 3 as actual/previous/consensus
         rest_cols = [c for c in rest_cols if c != ""] or rest_cols
         while len(rest_cols) < 3:
             rest_cols.append("–")
@@ -79,8 +65,8 @@ def fetch_india_events():
             "time":      time_text,
             "event":     event_name,
             "impact":    impact_str,
-            "actual":    actual if actual else "–",
-            "previous":  previous if previous else "–",
+            "actual":    actual    if actual    else "–",
+            "previous":  previous  if previous  else "–",
             "consensus": consensus if consensus else "–",
         })
 
