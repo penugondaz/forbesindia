@@ -16,75 +16,110 @@ GAS_PROXY_URL      = os.environ["GAS_PROXY_URL"].strip()
 IST = timezone(timedelta(hours=5, minutes=30))
 today      = datetime.now(IST)
 date_str   = today.strftime("%A, %d %B %Y")
-date_param = today.strftime("%Y-%m-%d")
 
 # ── Fetch Events ──────────────────────────────────────────────────────────────
 def fetch_india_events():
-    proxy_url = f"{GAS_PROXY_URL}?startDate={date_param}&endDate={date_param}"
     try:
-        resp = requests.get(proxy_url, timeout=30)
+        resp = requests.get(GAS_PROXY_URL, timeout=30)
         resp.raise_for_status()
     except Exception as e:
         return [], f"Failed to fetch data: {e}"
 
-    soup = BeautifulSoup(resp.text, "lxml")
-    rows = soup.find_all("tr")
-    soup = BeautifulSoup(resp.text, "lxml")
-    rows = soup.find_all("tr")
+    print(f"DEBUG: response length = {len(resp.text)}")
+    print(f"DEBUG: first 300 chars = {resp.text[:300]}")
 
-    print(f"DEBUG: response length = {len(resp.text)} chars")
-    print(f"DEBUG: total <tr> = {len(rows)}")
-    print(f"DEBUG: tableData rows = {len([r for r in rows if 'tableData' in (r.get('class') or [])])}")
-    print(f"DEBUG: first 500 chars = {resp.text[:500]}")
-
-    IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
+    soup = BeautifulSoup(resp.text, "lxml")
 
     IMPACT_MAP = {"1": "⭐", "2": "⭐⭐", "3": "⭐⭐⭐"}
 
     events = []
-    for row in rows:
-        if "tableData" not in (row.get("class") or []):
-            continue
 
-        cols = row.find_all("td")
-        if len(cols) < 5:
-            continue
+    # New endpoint returns li items or div blocks — try multiple selectors
+    # Try <tr class="tableData"> first
+    rows = soup.find_all("tr", class_="tableData")
+    print(f"DEBUG: tableData rows = {len(rows)}")
 
-        time_text = cols[1].get_text(strip=True)
-        if not time_text or ":" not in time_text:
-            continue
+    if rows:
+        for row in rows:
+            cols = row.find_all("td")
+            if len(cols) < 5:
+                continue
+            time_text = cols[1].get_text(strip=True)
+            if not time_text or ":" not in time_text:
+                continue
+            link = row.find("a", class_="evt_alink") or row.find("a")
+            event_name = link.get_text(strip=True) if link else None
+            if not event_name:
+                continue
+            impact_val = row.get("data-impact", "")
+            impact_str = IMPACT_MAP.get(str(impact_val), "–")
+            rest = [c.get_text(strip=True) for c in cols[4:]]
+            rest = [c for c in rest if c] or rest
+            while len(rest) < 3:
+                rest.append("–")
+            actual, previous, consensus = rest[-3], rest[-2], rest[-1]
+            events.append({
+                "time": time_text, "event": event_name, "impact": impact_str,
+                "actual": actual or "–", "previous": previous or "–", "consensus": consensus or "–",
+            })
+    else:
+        # New endpoint — parse the pagination HTML structure
+        # Each event block contains country, event name, time, values
+        all_links = soup.find_all("a")
+        print(f"DEBUG: total links = {len(all_links)}")
 
-        link = row.find("a", class_="evt_alink")
-        if not link:
-            link = row.find("a")
-        event_name = link.get_text(strip=True) if link else None
-        if not event_name:
-            continue
+        # Find all event containers — look for divs/li with event data
+        # Based on screenshot: "IND EventName - 12.2% - 17:00"
+        # Try to find parent containers of event links
+        event_links = [a for a in all_links if a.get("href", "").startswith("https://www.moneycontrol.com/markets/")]
+        if not event_links:
+            event_links = [a for a in all_links if len(a.get_text(strip=True)) > 5]
 
-        impact_val = row.get("data-impact", "")
-        impact_str = IMPACT_MAP.get(str(impact_val), "–")
+        print(f"DEBUG: event links = {len(event_links)}")
 
-        rest_cols = [c.get_text(strip=True) for c in cols[4:]]
-        rest_cols = [c for c in rest_cols if c != ""] or rest_cols
-        while len(rest_cols) < 3:
-            rest_cols.append("–")
-        actual, previous, consensus = rest_cols[-3], rest_cols[-2], rest_cols[-1]
+        for link in event_links:
+            event_name = link.get_text(strip=True)
+            if not event_name:
+                continue
 
-        events.append({
-            "time":      time_text,
-            "event":     event_name,
-            "impact":    impact_str,
-            "actual":    actual    if actual    else "–",
-            "previous":  previous  if previous  else "–",
-            "consensus": consensus if consensus else "–",
-        })
+            # Get parent container text for time and values
+            parent = link.parent
+            for _ in range(4):
+                if parent is None:
+                    break
+                parent_text = parent.get_text(" ", strip=True)
+                # Look for time pattern HH:MM
+                import re
+                time_match = re.search(r'\b(\d{1,2}:\d{2})\b', parent_text)
+                if time_match:
+                    break
+                parent = parent.parent
+
+            if not parent:
+                continue
+
+            parent_text = parent.get_text(" ", strip=True)
+            import re
+            time_match  = re.search(r'\b(\d{1,2}:\d{2})\b', parent_text)
+            # Extract numbers/values (percentages, currency amounts)
+            vals = re.findall(r'[\$₹]?[\d,]+\.?\d*[%BMK]?|\-', parent_text)
+            vals = [v for v in vals if v != "–"]
+
+            time_text  = time_match.group(1) if time_match else "–"
+            actual     = vals[0] if len(vals) > 0 else "–"
+            previous   = vals[1] if len(vals) > 1 else "–"
+            consensus  = vals[2] if len(vals) > 2 else "–"
+
+            events.append({
+                "time": time_text, "event": event_name, "impact": "–",
+                "actual": actual, "previous": previous, "consensus": consensus,
+            })
 
     return events, None
 
 # ── Build Email ───────────────────────────────────────────────────────────────
 def build_html(events, error=None):
     rows_html = ""
-
     if error:
         rows_html = f'<tr><td colspan="6" style="color:red;padding:12px">{error}</td></tr>'
     elif not events:
@@ -135,7 +170,6 @@ def send_email(subject, html_body):
     msg["From"]    = GMAIL_USER
     msg["To"]      = ", ".join(TO_EMAILS)
     msg.attach(MIMEText(html_body, "html"))
-
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
         server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
         server.sendmail(GMAIL_USER, TO_EMAILS, msg.as_string())
@@ -146,9 +180,7 @@ if __name__ == "__main__":
     print(f"Fetching India economic calendar for {date_str}...")
     events, error = fetch_india_events()
     print(f"Found {len(events)} India event(s)." if not error else f"Error: {error}")
-
     count   = len(events)
     subject = f"🇮🇳 India Economic Calendar – {date_str} ({count} event{'s' if count != 1 else ''})"
     html    = build_html(events, error)
-
     send_email(subject, html)
